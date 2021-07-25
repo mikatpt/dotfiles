@@ -5,10 +5,11 @@ yes | curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh |
 fish -c "yes | omf install nvm"
 fish -c "nvm install node"
 
+npm install -g neovim
+
 # Install go
 curl -L https://golang.org/dl/go1.16.6.linux-amd64.tar.gz --output ~/go1.16.6.tar.gz
 
-# IF UPGRADING, RUN rm -rf /usr/local/go
 tar -C /usr/local -xzf ~/go1.16.6.tar.gz
 sudo rm ~/go1.16.6.tar.gz
 

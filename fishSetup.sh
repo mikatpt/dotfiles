@@ -5,7 +5,6 @@ yes | sudo apt-add-repository ppa:fish-shell/release-3
 yes | sudo apt-get update
 yes | sudo apt-get install fish
 
-
 # Install fontconfig and Source Code Pro font
 
 yes | sudo apt install fontconfig
@@ -17,7 +16,6 @@ sudo fc-cache -f -v
 # Install starship
 
 sh -c "$(curl -fsSL https://starship.rs/install.sh)"
-y
 
 # Install OMF and bass
 cd /usr/local

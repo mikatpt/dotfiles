@@ -1,4 +1,4 @@
-if has('nvim') && has_key(g:plugs, 'telescope.nvim')
+if has('nvim')
 lua << EOF
     require('telescope').setup{
       defaults = {
