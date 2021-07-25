@@ -16,7 +16,7 @@ sudo fc-cache -f -v
 
 # Install starship
 
-yes | sh -c "$(curl -fsSL https://starship.rs/install.sh) -y"
+yes | curl -fsSL https://starship.rs/install.sh -y
 
 echo -e '\neval "$(starship init bash)"' >> ~/.bashrc
 
@@ -24,7 +24,6 @@ echo -e '\nstarship init fish | source' >> ~/.config/fish/config.fish
 
 # Install bass
 curl -L https://get.oh-my.fish | fish
-fish
 yes | omf install bass
 
 mkdir -p ~/.config/fish/conf.d
