@@ -3,7 +3,7 @@
 # Install nvm
 yes | curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 fish -c "yes | omf install nvm"
-nvm install node
+fish -c "nvm install node"
 
 # Install go
 curl -L https://golang.org/dl/go1.16.6.linux-amd64.tar.gz --output ~/go1.16.6.tar.gz

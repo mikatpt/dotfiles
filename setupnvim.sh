@@ -12,10 +12,6 @@ mkdir -p ~/.vim/after/plugin
 
 cp ~/config/nvim/init.vim ~/.config/nvim/init.vim
 cp ~/config/nvim/lucid.vim ~/.vim/colors
-
-nvim -c 'source % | quit'
-
 cp ~/config/nvim/telescope.nvim.vim ~/.vim/after/plugin/telescope.nvim.vim
 
-nvim -c 'source % | quit'
 

@@ -35,4 +35,3 @@ echo -e '\neval "$(starship init bash)"' >> ~/.bashrc
 
 echo -e '\nstarship init fish | source' >> ~/.config/fish/config.fish
 
-source ~/.config/fish/config.fish

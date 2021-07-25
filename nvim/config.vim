@@ -34,8 +34,10 @@ nmap <silent> gr <Plug>(coc-references)
 nmap <leader>r <Plug>(coc-rename)
 
 " Find files (Telescope)
-nnoremap <C-p> <cmd>Telescope find_files<CR>
-nnoremap <leader>p <cmd>Telescope buffers<cr>
+if has_key(g:plugs, 'telescope.nvim')
+    nnoremap <C-p> <cmd>Telescope find_files<CR>
+    nnoremap <leader>p <cmd>Telescope buffers<cr>
+endif
 
 " Basic Editor Settings
 set noerrorbells
