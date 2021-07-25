@@ -18,6 +18,7 @@ function s; git status $argv; end
 
 function st; git stash $argv; end
 function sd; git stash drop $argv; end
+function sp; git stash pop $argv; end
 function sa; git stash apply $argv; end
 function sl; git stash list $argv; end
 

@@ -2,8 +2,8 @@
 
 # Order is important here! Setup fish before dev.
 
-bash fishSetup.sh
-bash devSetup.sh
-bash nvimSetup.sh
+bash setup/fish.sh
+bash setup/dev.sh
+bash setup/nvim.sh
 
 sudo chsh -s `which fish`

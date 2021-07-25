@@ -11,4 +11,3 @@ yes | sudo apt remove fish
 rm -Rf /etc/fish /usr/share/fish ~/.config/fish
 cd /usr/local/bin
 rm -f fish fish_indent fish_key_reader
-
