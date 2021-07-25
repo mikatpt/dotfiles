@@ -34,10 +34,8 @@ nmap <silent> gr <Plug>(coc-references)
 nmap <leader>r <Plug>(coc-rename)
 
 " Find files (Telescope)
-if has_key(g:plugs, 'telescope.nvim')
-    nnoremap <C-p> <cmd>Telescope find_files<CR>
-    nnoremap <leader>p <cmd>Telescope buffers<cr>
-endif
+nnoremap <C-p> <cmd>Telescope find_files<CR>
+nnoremap <leader>p <cmd>Telescope buffers<cr>
 
 " Basic Editor Settings
 set noerrorbells
@@ -67,7 +65,6 @@ set nu
 set scrolloff=8
 set signcolumn=yes
 
-
 " File tree things
 set noswapfile
 set nobackup
@@ -78,7 +75,6 @@ set incsearch
 set splitright
 set smartcase
 set ignorecase
-
 
 " Plugins
 execute "source " . fnamemodify(home, ":p:H") . "config/nvim/plugins.vim"

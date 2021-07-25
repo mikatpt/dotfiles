@@ -1,8 +1,5 @@
 " Plugins
 
-" Initialize Plugin manager.
-execute "source " . fnamemodify(home, ":p:H") . "config/nvim/initPlug.vim"
-
 " Plug uses the below shorthand to clone from github.
 call plug#begin('~/.vim/plugged')
 
