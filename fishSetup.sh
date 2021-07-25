@@ -15,7 +15,7 @@ sudo fc-cache -f -v
 
 # Install starship
 
-sh -c "$(curl -fsSL https://starship.rs/install.sh)"
+curl -fsSL https://starship.rs/install.sh | bash -s -- --yes
 
 # Install OMF and bass
 cd /usr/local

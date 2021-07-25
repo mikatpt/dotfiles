@@ -4,10 +4,9 @@ sudo rm /usr/local/bin/starship
 sed -i '/eval "$(starship init bash)"/d' ~/.bashrc
 sed -i '/starship init fish | source/d' ~/.config/fish/config.fish
 
-fish -c "omf destroy"
-bash
+sudo rm -rf /root/.local/share/omf /usr/local/oh-my-fish
 chsh -s /bin/bash
-sudo apt remove fish
+yes | sudo apt remove fish
 
 rm -Rf /etc/fish /usr/share/fish ~/.config/fish
 cd /usr/local/bin
