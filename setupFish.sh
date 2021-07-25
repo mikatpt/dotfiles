@@ -16,19 +16,23 @@ sudo fc-cache -f -v
 
 # Install starship
 
-yes | curl -fsSL https://starship.rs/install.sh -y
+sh -c "$(curl -fsSL https://starship.rs/install.sh)"
+y
+
+# Install OMF and bass
+cd /usr/local
+sudo git clone https://github.com/oh-my-fish/oh-my-fish
+cd oh-my-fish
+bin/install --offline --noninteractive
+
+yes | fish -c "omf install bass"
+
+mkdir -p ~/.config/fish/conf.d
+cp ~/config/fish/config.fish ~/.config/fish
+cp ~/config/fish/myFunctions.fish ~/.config/fish/conf.d/myFunctions.fish
 
 echo -e '\neval "$(starship init bash)"' >> ~/.bashrc
 
 echo -e '\nstarship init fish | source' >> ~/.config/fish/config.fish
 
-# Install bass
-curl -L https://get.oh-my.fish | fish
-yes | omf install bass
-
-mkdir -p ~/.config/fish/conf.d
-cp ~/config/fish/config.fish ~/.config/fish
-cp ~/config/fish/myFunctions.fish ~/.config/conf.d/myFunctions.fish
-
 source ~/.config/fish/config.fish
-exit
