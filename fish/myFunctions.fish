@@ -4,12 +4,14 @@ function cs; cd $argv; ls -A; end
 function sc; cd ..; ls -A; end
 function csa; cd $argv; ls -Ahl; end
 function sca; cd ..; ls -Ahl; end
+function la; ls -A; end
 
 function ..; cd ..; end
 function ...; cd ../..; end
 function ....; cd ../../..; end
 
 function ffs; eval sudo $history[1]; end
+function :q; exit; end
 
 # Git
 

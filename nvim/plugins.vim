@@ -16,6 +16,7 @@ Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'rstacruz/vim-closer'
 Plug 'tpope/vim-markdown'
+Plug 'tpope/vim-commentary'
 
 call plug#end()
 

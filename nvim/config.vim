@@ -1,4 +1,4 @@
-" Install Plug and 
+" Global variables
 let mapleader = " "
 let g:netrw_browse_split=2
 let g:netrw_liststyle = 3
@@ -7,10 +7,14 @@ let g:netrw_winsize = 75
 
 " Remappings
 inoremap jk <esc>
+nmap <silent>; :
 
 " Fix ctrl backspace behavior
 noremap! <C-BS> <C-w>
 noremap! <C-h> <C-w>
+
+" Fix vim Y behavior
+nnoremap Y y$
 
 " Use space J or K to open new splits, and Ctrl J K to move between them.
 nnoremap <leader>j :topleft vsp<CR>
@@ -20,15 +24,18 @@ nnoremap <leader><S-K> :vsp<CR>
 nnoremap <C-J> <C-W><S-W>
 nnoremap <C-K> <C-W>w
 
-" Use J and K to move lines up and down.
-nnoremap <S-J> :m+<CR>
-nnoremap <S-K> :m-2<CR>
+" Use J and K to move lines up and down. 
+nnoremap <S-J> :m .+1<CR>==
+nnoremap <S-K> :m .-2<CR>==
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
 
 " Jump to definition (coc.nvim)
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+" Vim Commentary - use gc to comment out lines. (no extra remap necessary)
 
 " Rename variables (coc.nvim)
 nmap <leader>r <Plug>(coc-rename)

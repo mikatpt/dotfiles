@@ -7,6 +7,8 @@ if exists(':vscode')
     omap gc <Plug>VSCodeCommentary
     nmap gcc <Plug>VSCodeCommentary
     set clipboard=unnamedplus
+
+    " Other keybindings.
     :nnoremap <Space> :noh<CR>
 else
     " ordinary neovim
