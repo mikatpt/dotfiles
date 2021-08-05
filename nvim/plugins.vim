@@ -15,7 +15,8 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'rstacruz/vim-closer'
-Plug 'tpope/vim-markdown'
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
 Plug 'tpope/vim-commentary'
 
 call plug#end()
