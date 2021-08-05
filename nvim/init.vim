@@ -1,6 +1,6 @@
 let g:home = "~"
 
-if exists(':vscode')
+if exists('g:vscode')
     " VSCode extension
     xmap gc <Plug>VSCodeCommentary
     nmap gc <Plug>VSCodeCommentary
@@ -10,6 +10,7 @@ if exists(':vscode')
 
     " Other keybindings.
     :nnoremap <Space> :noh<CR>
+    execute "source " . fnamemodify(home, ":p:H") . "config/nvim/vscode.vim"
 else
     " ordinary neovim
 	set runtimepath^=~/.vim runtimepath+=~/.vim/after
