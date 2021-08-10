@@ -45,6 +45,7 @@ nmap <leader>r <Plug>(coc-rename)
 " Find files (Telescope)
 nnoremap <C-p> <cmd>Telescope find_files<CR>
 nnoremap <leader>p <cmd>Telescope buffers<cr>
+nnoremap <leader>f <cmd>Telescope grep_string<CR> 
 
 " Basic Editor Settings
 set noerrorbells
