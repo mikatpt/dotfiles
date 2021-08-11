@@ -1,9 +1,8 @@
 #!/usr/bin/bash
 
 # Install neovim
-yes | sudo add-apt-repository ppa:neovim-ppa/unstable
-yes | sudo apt-get update
-yes | sudo apt-get install neovim
+brew install --HEAD luajit
+brew install --HEAD neovim
 
 # Setup neovim
 mkdir -p ~/.config/nvim
@@ -19,3 +18,5 @@ cp ~/config/nvim/lucid.vim ~/.vim/colors
 cp ~/config/nvim/telescope.nvim.vim ~/.vim/after/plugin/telescope.nvim.vim
 
 nvim +PlugInstall +qall
+
+
