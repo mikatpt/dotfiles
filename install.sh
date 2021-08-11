@@ -12,5 +12,3 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
 else
     echo "Sorry! This script only works on linux or macOS."
 fi
-
-sudo chsh -s `which fish`

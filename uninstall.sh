@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     sudo chsh -s `which bash`
     bash cleanup/nvim.sh
