@@ -19,7 +19,7 @@ This repository sets up:
 - nvm/nodeJS
 
 
-Currently, the script isn't 100% idempotent and is optimized for linux. If you're running on MacOS, you'll have to substitute most things with brew installs.
+Currently, the script isn't 100% idempotent and is optimized for linux. If you're running on MacOS, no guarantees on perfection!
 
 ## Feature Highlights
 
@@ -36,7 +36,7 @@ Currently, the script isn't 100% idempotent and is optimized for linux. If you'r
     - `nvim/language/keybindings.vim`
 
 ## Neovim setup
-* After running the install scripts, run these commands:
+* If you would like syntax highlighting, autocomplete, and formatting, run below commands for the relevant languages.
 ```
 npm i -g typescript typescript-language-server pyright graphql-language-service-cli
 # In nvim
