@@ -32,11 +32,6 @@ nnoremap <S-K> :m .-2<CR>==
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
-" Jump to definition (coc.nvim)
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
 " Vim Commentary - use gc to comment out lines. (no extra remap necessary)
 
 " Rename variables (coc.nvim)
@@ -87,5 +82,8 @@ set smartcase
 set ignorecase
 
 " Plugins
+set completeopt=menuone,noselect
 execute "source " . fnamemodify(home, ":p:H") . "config/nvim/plugins.vim"
+execute "source " . fnamemodify(home, ":p:H") . "config/nvim/language/init.vim"
+execute "source " . fnamemodify(home, ":p:H") . "config/nvim/language/keybindings.vim"
 
