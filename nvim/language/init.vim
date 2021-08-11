@@ -9,6 +9,8 @@ require'lspconfig'.rust_analyzer.setup{}
 require'lspconfig'.tsserver.setup{}
 require'lspconfig'.graphql.setup{}
 require'lspconfig'.gopls.setup{}
+require'lspconfig'.dockerls.setup{}
+require'lspconfig'.jsonls.setup{}
 
 -- Autopairs
 require('nvim-autopairs').setup{}
