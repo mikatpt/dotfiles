@@ -1,6 +1,6 @@
 " Global variables
 let mapleader = " "
-let g:netrw_browse_split=2
+let g:netrw_browse_split=0
 let g:netrw_liststyle = 3
 let g:netrw_banner = 0
 let g:netrw_winsize = 75
@@ -32,15 +32,24 @@ nnoremap <S-K> :m .-2<CR>==
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
-" Vim Commentary - use gc to comment out lines. (no extra remap necessary)
+" From vim-commentary:
+" gc to comment out lines
 
-" Rename variables (coc.nvim)
-nmap <leader>r <Plug>(coc-rename)
+" From nvim-treesitter and lsp:
+" <leader>s to format
+" <leader>rn to rename a variable
+" m to show hover definition
+" gd to go to definition
+" gD go to declaration
+" gi go to implementation
 
 " Find files (Telescope)
-nnoremap <C-p> <cmd>Telescope find_files<CR>
-nnoremap <leader>p <cmd>Telescope buffers<cr>
-nnoremap <leader>f <cmd>Telescope grep_string<CR> 
+nnoremap <C-p> <cmd>Telescope git_files<CR>
+nnoremap <leader>p <cmd>Telescope find_files<cr>
+nnoremap <leader>b <cmd>Telescope buffers<cr>
+nnoremap <leader>f :lua require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})<CR>
+" Grep current word under cursor
+nnoremap <leader>w :lua require('telescope.builtin').grep_string { search = vim.fn.expand("<cword>") }<CR>
 
 " Basic Editor Settings
 set noerrorbells
