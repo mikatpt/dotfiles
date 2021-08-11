@@ -34,7 +34,17 @@ require'nvim-treesitter.configs'.setup{
     -- Instead of true it can also be a list of languages
     additional_vim_regex_highlighting = false,
   },
+  refactor = {
+      highlight_definitions = { enable = true},
+      smart_rename = {
+          enable = true,
+          keymaps = {
+              smart_rename = "<leader>rn",
+          },
+      },
+  },
 }
+
 
 
 -- compe config
