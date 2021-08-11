@@ -2,11 +2,21 @@
 
 ## Installation
 
-`sudo bash install.sh`
+```
+sudo bash install.sh
+```
+
+If you would like to use fish as your default shell, after setup run the following command:
+
+```
+sudo chsh -s `which fish`
+```
 
 ## Teardown
 
-`sudo bash uninstall.sh`
+```
+sudo bash uninstall.sh
+```
 
 ## Informational
 
