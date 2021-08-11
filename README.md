@@ -48,8 +48,8 @@ Currently, the script isn't 100% idempotent and is optimized for linux. If you'r
 ## Neovim setup
 * If you would like syntax highlighting, autocomplete, and formatting, run below commands for the relevant languages.
 ```
-npm i -g typescript typescript-language-server pyright graphql-language-service-cli
+npm i -g typescript typescript-language-server pyright graphql-language-service-cli vscode-langservers-extracted dockerfile-language-server-nodejs
 # In nvim
-:TSInstall go python javascript graphql typescript rust bash
+:TSInstall go python javascript graphql typescript rust bash dockerfile json jsonc
 ```
 
