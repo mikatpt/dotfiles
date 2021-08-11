@@ -33,7 +33,6 @@ yes | fish -c "omf install bass"
 
 mkdir -p ~/.config/fish/conf.d
 cp ~/config/fish/config.fish ~/.config/fish
-cp ~/config/fish/myFunctions.fish ~/.config/fish/conf.d/myFunctions.fish
 
 echo -e '\neval "$(starship init bash)"' >> ~/.bashrc
 
