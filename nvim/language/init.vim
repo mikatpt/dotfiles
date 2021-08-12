@@ -4,6 +4,9 @@ lua << EOF
 -- :TSInstall go python javascript graphql typescript rust bash
 
 -- lsp configs.
+
+-- IMPORTANT: if you add more servers here, make sure to also add at the end of keybindings.vim
+require'lspconfig'.bashls.setup{}
 require'lspconfig'.pyright.setup{}
 require'lspconfig'.rust_analyzer.setup{}
 require'lspconfig'.tsserver.setup{}
@@ -29,13 +32,14 @@ require'nvim-treesitter.configs'.setup{
   ignore_install = { "javascript" },
   highlight = {
     enable = true,              -- false will disable the whole extension
-    disable = { "c", },  -- list of language that will be disabled
+    disable = { },  -- list of language that will be disabled
     -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
     -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
     -- Using this option may slow down your editor, and you may see some duplicate highlights.
     -- Instead of true it can also be a list of languages
     additional_vim_regex_highlighting = false,
   },
+  -- From treesitter-refactor plugin
   refactor = {
       highlight_definitions = { enable = true},
       smart_rename = {
