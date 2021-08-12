@@ -18,6 +18,12 @@ noremap! <C-h> <C-w>
 " Fix vim Y behavior
 nnoremap Y y$
 
+" In visual mode, yank/paste won't override the buffer.
+vnoremap p "0p
+vnoremap P "0P
+vnoremap y "0y
+vnoremap d "0d
+
 " Use space J or K to open new splits, and Ctrl J K to move between them.
 nnoremap <leader>j :topleft vsp<CR>
 nnoremap <leader>k :vsp<CR>
