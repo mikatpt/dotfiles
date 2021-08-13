@@ -1,4 +1,9 @@
-nnoremap <silent> <F5> :lua require'dap'.continue()<CR>:lua require'dap'.repl.open()<CR>
+if &filetype == 'go'
+    nnoremap <silent> <F5> :lua require'dap'.continue()<CR>:lua require'dap'.repl.open()<CR>
+else
+    nnoremap <silent> <F5> :lua require'dap'.continue()<CR>
+endif
+
 nnoremap <silent> <F10> :lua require'dap'.step_over()<CR>
 nnoremap <silent> <F11> :lua require'dap'.step_into()<CR>
 nnoremap <silent> <F12> :lua require'dap'.step_out()<CR>
@@ -33,10 +38,10 @@ dap.configurations.javascript = {
   {
     type = 'node2',
     request = 'launch',
-    program = '${file}',
+    program = '${workspaceFolder}/${file}',
+    protocol = 'inspector',
     cwd = vim.fn.getcwd(),
     sourceMaps = true,
-    protocol = 'inspector',
     console = 'integratedTerminal',
   },
 }
