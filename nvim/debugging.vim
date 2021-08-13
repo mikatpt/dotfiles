@@ -3,6 +3,7 @@ nnoremap <silent> <F10> :lua require'dap'.step_over()<CR>
 nnoremap <silent> <F11> :lua require'dap'.step_into()<CR>
 nnoremap <silent> <F12> :lua require'dap'.step_out()<CR>
 nnoremap <silent> <C-B> :lua require'dap'.toggle_breakpoint()<CR>
+nnoremap <silent> <leader>h :lua require'dap.ui.widgets'.hover()<CR>
 
 lua <<EOF
 require('dap').adapters.go = {
@@ -22,3 +23,4 @@ require('dap').configurations.go = {
 }
 
 EOF
+
