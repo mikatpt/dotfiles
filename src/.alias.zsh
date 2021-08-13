@@ -1,9 +1,20 @@
-export EDITOR='code'
+export EDITOR='nvim'
 
-cs() { cd "$1" && ls -A; }
-sc() { cd .. && ls -A; }
-csa() { cd "$1" && ls -Ahl; }
-sca() { cd  .. && ls -Ahl; }
+# use nvim for everything
+alias vi='nvim'
+alias vim='nvim'
+alias v='nvim'
+
+# Shortcuts to config editing
+alias ez='$EDITOR ~/.zshrc'
+alias ea='$EDITOR ~/.alias.zsh'
+alias el='$EDITOR ~/.local.zsh'
+alias sz='exec zsh'
+
+cs() { cd "$1" && ls -AG; }
+sc() { cd .. && ls -AG; }
+csa() { cd "$1" && ls -AGhl; }
+sca() { cd  .. && ls -AGhl; }
 
 # cd to selected directory using fzf
 fda() {
@@ -26,9 +37,11 @@ fdr() {
     cd "$DIR"
 }
 
-alias la='ls -A'
-alias lah='ls -Ahl'
+alias ls='ls -G'
+alias la='ls -AG'
+alias lah='ls -AGhl'
 alias notes='nvim ~/notes'
+alias rm='rm -i'
 
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -52,5 +65,8 @@ alias fsm='fuzzyhub sync-master'     # sync local, origin and upstream master
 alias fpr='fuzzyhub view-pr'         # view pull request(s) on github
 alias fm='fuzzyhub view-master'      # view master on github. ctrl-t to specify file(s)
 alias fl='fuzzyhub view-local'       # view local branch on github. ctrl-t to specify file(s)
+
+alias pingg='ping www.google.com'    # See network speed against google.com
+alias myip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'"
 
 
