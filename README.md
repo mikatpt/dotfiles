@@ -19,11 +19,18 @@ sudo chsh -s `which fish`
 
 ```
 sudo bash uninstall.sh
+
 ```
 
 ## Configure without installing
 This repository uses GNU stow to manage dotfiles:
 all folders and files in the `src` directory will be symlinked to your home directory.
+```
+sudo bash configure.sh
+
+# To uninstall:
+sudo bash unconfigure.sh
+```
 
 ## Informational
 
