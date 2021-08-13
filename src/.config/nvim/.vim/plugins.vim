@@ -1,7 +1,7 @@
 " Plugins
 
 " Plug uses the below shorthand to clone from github.
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/.vim/plugged')
 
 " Navigation
 Plug 'vim-utils/vim-man'
