@@ -49,7 +49,7 @@ vnoremap K :m '<-2<CR>gv=gv
 " F11 to step into
 " F12 to step out
 " ctrl B to set breakpoint
-" leader h to show info under cursor while debugging
+" leader h to show current frame information
 
 " Find files (Telescope)
 nnoremap <C-p> <cmd>Telescope git_files<CR>
