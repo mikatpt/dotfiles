@@ -1,5 +1,8 @@
 set clipboard=unnamedplus
-:nnoremap <Space> :noh<CR>
+set incsearch
+set smartcase
+set ignorecase
+nnoremap <Space> :noh<CR>
 
 nnoremap m <Cmd>call VSCodeNotify('editor.action.showHover')<CR>
 xmap gc <Plug>VSCodeCommentary
