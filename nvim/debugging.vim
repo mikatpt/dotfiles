@@ -27,7 +27,7 @@ dap.configurations.go = {
 dap.adapters.node2 = {
   type = 'executable',
   command = 'node',
-  args = {os.getenv('HOME') .. '/.debug/microsoft/vscode-node-debug2/out/src/nodeDebug.js'},
+  args = {os.getenv('HOME') .. '/.debug/vscode-node-debug2/out/src/nodeDebug.js'},
 }
 dap.configurations.javascript = {
   {

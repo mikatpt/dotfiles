@@ -31,6 +31,7 @@ npm run compile
 # JavaScript debugging
 cd ~/.debug
 git clone https://github.com/microsoft/vscode-node-debug2.git
+cd ~/.debug/vscode-node-debug2
 npm i
 npm run build
 
