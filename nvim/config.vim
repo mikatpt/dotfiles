@@ -73,6 +73,7 @@ set shortmess+=c
 set timeoutlen=200
 set wildmenu
 set wildmode=longest:full,full
+set shell=/bin/bash
 
 " Tabs
 set tabstop=4
