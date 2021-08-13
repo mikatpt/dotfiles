@@ -1,0 +1,20 @@
+[core]
+	editor = nvim
+
+[user]
+	name = mikatpt
+	email = mikatpt@gmail.com
+
+[alias]
+	hist = log --graph --date=short --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+	co = checkout
+	s = status
+	st = stash
+	sl = stash list
+	sa = stash apply
+	sp = stash pop
+	sd = stash drop
+
+[credential]
+	helper = store --file ~/.git-credentials
+
