@@ -19,3 +19,18 @@ cp ~/config/nvim/lucid.vim ~/.vim/colors/lucid.vim
 cp ~/config/nvim/telescope.nvim.vim ~/.vim/after/plugin/telescope.nvim.vim
 
 nvim +PlugInstall +qall
+
+# Go debugging
+mkdir -p ~/.debug
+cd ~/.debug
+git clone https://github.com/golang/vscode-go 
+cd ~/.debug/vscode-go
+npm i
+npm run compile
+
+# JavaScript debugging
+cd ~/.debug
+git clone https://github.com/microsoft/vscode-node-debug2.git
+npm i
+npm run build
+
