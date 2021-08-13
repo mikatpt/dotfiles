@@ -1,9 +1,13 @@
-if &filetype == 'go'
-    nnoremap <silent> <F5> :lua require'dap'.continue()<CR>:lua require'dap'.repl.open()<CR>
-else
-    nnoremap <silent> <F5> :lua require'dap'.continue()<CR>
-endif
+function! Debug()
+    if &filetype == 'go'
+        :lua require'dap'.continue()
+        :lua require'dap'.repl.open()
+    else
+        :lua require'dap'.continue()
+    endif
+endfunction
 
+nnoremap <silent> <F5> :call Debug()<CR>
 nnoremap <silent> <F10> :lua require'dap'.step_over()<CR>
 nnoremap <silent> <F11> :lua require'dap'.step_into()<CR>
 nnoremap <silent> <F12> :lua require'dap'.step_out()<CR>
