@@ -6,12 +6,14 @@ nnoremap <silent> <C-B> :lua require'dap'.toggle_breakpoint()<CR>
 nnoremap <silent> <leader>h :lua local widgets=require'dap.ui.widgets';widgets.centered_float(widgets.scopes)<CR>
 
 lua <<EOF
-require('dap').adapters.go = {
+local dap=require('dap')
+
+dap.adapters.go = {
   type = 'executable';
   command = 'node';
-  args = {os.getenv('HOME') .. '/go/vscode-go/dist/debugAdapter.js'};
+  args = {os.getenv('HOME') .. '/.debug/vscode-go/dist/debugAdapter.js'};
 }
-require('dap').configurations.go = {
+dap.configurations.go = {
   {
     type = 'go';
     name = 'Debug';
@@ -22,5 +24,21 @@ require('dap').configurations.go = {
   },
 }
 
+dap.adapters.node2 = {
+  type = 'executable',
+  command = 'node',
+  args = {os.getenv('HOME') .. '/.debug/microsoft/vscode-node-debug2/out/src/nodeDebug.js'},
+}
+dap.configurations.javascript = {
+  {
+    type = 'node2',
+    request = 'launch',
+    program = '${file}',
+    cwd = vim.fn.getcwd(),
+    sourceMaps = true,
+    protocol = 'inspector',
+    console = 'integratedTerminal',
+  },
+}
 EOF
 
