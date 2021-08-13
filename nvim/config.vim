@@ -105,4 +105,5 @@ execute "source " . fnamemodify(home, ":p:H") . "config/nvim/plugins.vim"
 execute "source " . fnamemodify(home, ":p:H") . "config/nvim/language/init.vim"
 execute "source " . fnamemodify(home, ":p:H") . "config/nvim/language/keybindings.vim"
 execute "source " . fnamemodify(home, ":p:H") . "config/nvim/debugging.vim"
+execute "source " . fnamemodify(home, ":p:H") . "config/nvim/changeWorkingDirectory.vim"
 
