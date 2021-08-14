@@ -5,10 +5,7 @@ brew install --HEAD luajit
 brew install --HEAD neovim
 
 # Setup neovim
-curl -fLo ~/.config/nvim/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-nvim +PlugInstall +qall
+nvim +PackerInstall +qall
 
 # Go debugging
 mkdir -p ~/.debug
