@@ -1,2 +1,4 @@
-src/.config/nvim/.vim/plugged/
-src/.config/nvim/.vim/autoload
+.vim/plugged/
+.vim/autoload
+
+*.pem

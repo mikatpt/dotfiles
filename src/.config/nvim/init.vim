@@ -1,8 +1,8 @@
-set runtimepath^=~/.config/nvim/.vim,~/.config/nvim/config runtimepath+=~/.config/nvim/.vim/after
-let &packpath = &runtimepath
+set runtimepath^=~/.config/nvim/config
+set runtimepath+=~/.config/nvim/after
+set packpath^=~/.local/share/nvim/site
 let g:home = "~"
 
 " Source all config files
-runtime plugins.vim
-lua require('core')
+lua require('config')
 runtime! config/**/*.vim
