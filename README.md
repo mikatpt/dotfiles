@@ -19,7 +19,6 @@ sudo chsh -s `which fish`
 
 ```
 sudo bash uninstall.sh
-
 ```
 
 ## Configure without installing
@@ -56,13 +55,11 @@ Currently, the script isn't 100% idempotent and is optimized for linux. If you'r
 #### Neovim
 - See various vim config files for various other keybindings. Files to check out:
     - `src/.config/nvim/config/keybindings.vim`
-    - `src/.config/nvim/lua/core/keybindings.vim`
+    - `src/.config/nvim/lua/modules/lspconfig/on-attach.lua`
 
 ## Neovim setup
 * If you would like syntax highlighting, autocomplete, and formatting, run below commands for the relevant languages.
 ```
-npm i -g typescript typescript-language-server pyright graphql-language-service-cli vscode-langservers-extracted dockerfile-language-server-nodejs
 # In nvim
-:TSInstall go python javascript graphql typescript rust bash dockerfile json jsonc
+:LspInstall [language]
 ```
-
