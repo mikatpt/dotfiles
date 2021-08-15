@@ -25,6 +25,10 @@ nnoremap <C-K> <C-W>w
 nnoremap <C-H> <C-W>h
 nnoremap <C-L> <C-W>l
 
+" File Tree
+nnoremap <C-N> :NvimTreeToggle<CR>
+nnoremap <leader>n :NvimTreeFindFile<CR>
+
 " Use J and K to move lines up and down.
 nnoremap <S-J> :m .+1<CR>==
 nnoremap <S-K> :m .-2<CR>==
