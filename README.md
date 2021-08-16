@@ -56,6 +56,7 @@ Currently, the script isn't 100% idempotent and is optimized for linux. If you'r
 - See various vim config files for various other keybindings. Files to check out:
     - `src/.config/nvim/config/keybindings.vim`
     - `src/.config/nvim/lua/modules/lspconfig/on-attach.lua`
+    - You can also run `:map` within nvim to see a list of all active keybindings.
 - Language servers are pre-configured for bash, vim, and lua for convenience.
 
 ## Neovim setup
