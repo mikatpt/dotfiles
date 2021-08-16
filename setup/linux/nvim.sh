@@ -7,7 +7,7 @@ yes | sudo apt-get install neovim
 
 # Setup neovim
 nvim --headless +PackerInstall +qall
-nvim --headless +"LspInstall bash" +"LspInstall lua" +"LspInstall vim" +"LspInstall yaml" +qall
+nvim --headless +"LspInstall bash" +"LspInstall lua" +"LspInstall vim" +qall
 
 # Go debugging
 mkdir -p ~/.debug

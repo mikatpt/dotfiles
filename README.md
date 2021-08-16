@@ -56,7 +56,7 @@ Currently, the script isn't 100% idempotent and is optimized for linux. If you'r
 - See various vim config files for various other keybindings. Files to check out:
     - `src/.config/nvim/config/keybindings.vim`
     - `src/.config/nvim/lua/modules/lspconfig/on-attach.lua`
-- Language servers are pre-configured for bash, yaml, vim, and lua for convenience.
+- Language servers are pre-configured for bash, vim, and lua for convenience.
 
 ## Neovim setup
 * If you would like syntax highlighting, autocomplete, and formatting, run below commands for the relevant languages.
