@@ -2,7 +2,6 @@ return function()
     local lspconfig = require('lspconfig')
     local lspinstall = require('lspinstall')
     local on_attach = require('modules.lspconfig.on-attach')
-    local format_config = require('modules.lspconfig.format')
 
     require('modules.lspconfig.ui').symbols_override()
     require('modules.lspconfig.ui').disable_virtual_text()
@@ -19,12 +18,25 @@ return function()
         }
     )
 
+    vim.lsp.handlers["textDocument/formatting"] = function(err, _, result, _, bufnr)
+        if err ~= nil or result == nil then
+            return
+        end
+        if not vim.api.nvim_buf_get_option(bufnr, "modified") then
+            local view = vim.fn.winsaveview()
+            vim.lsp.util.apply_text_edits(result, bufnr)
+            vim.fn.winrestview(view)
+            if bufnr == vim.api.nvim_get_current_buf() then
+                vim.api.nvim_command("noautocmd :update")
+            end
+        end
+    end
+
     local servers = {
         efm = {
             init_options = { documentFormatting = true, codeAction = true },
             root_dir = lspconfig.util.root_pattern({ '.git/', '.' }),
-            filetypes = vim.tbl_keys(format_config),
-            settings = { rootMarkers = '.git/', languages = format_config },
+            -- efm config is found in ~/.config/efm-langserver/config.yaml
         },
         lua = {
             settings = {

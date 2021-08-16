@@ -1,12 +1,38 @@
 version: 2
 # log-file: /home/mikatpt/.cache/nvim/efm.log
+# log-file: /Users/m.chen@coinbase.com/.cache/nvim/efm.log
 # log-level: 1
 root-markers:
   - .git/
-lint-debounce: 1s
+lint-debounce: 0.5s
 tools:
   gofmt: &gofmt
     format-command: 'gofmt'
+  eslint: &eslint
+    lint-command: 'eslint_d -f visualstudio --stdin --stdin-filename ${INPUT}'
+    format-command: 'eslint_d --fix-to-stdout --stdin --stdin-filename ${INPUT}'
+    lint-ignore-exit-code: true
+    lint-stdin: true
+    format-stdin: true
+    lint-formats:
+      - '%f(%l,%c): %tarning %m'
+      - '%f(%l,%c): %rror %m'
+  prettier: &prettier
+    format-command: 'prettier --stdin-filepath ${INPUT}'
+    formatStdin: true
 languages:
   go:
     - <<: *gofmt
+  javascript:
+    - <<: *eslint
+    - <<: *prettier
+  typescript:
+    - <<: *eslint
+    - <<: *prettier
+  javascriptreact:
+    - <<: *eslint
+    - <<: *prettier
+  typescriptreact:
+    - <<: *eslint
+    - <<: *prettier
+
