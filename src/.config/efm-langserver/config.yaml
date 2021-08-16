@@ -1,6 +1,6 @@
 version: 2
-log-file: /home/mikatpt/.cache/nvim/efm.log
-log-level: 1
+# log-file: /home/mikatpt/.cache/nvim/efm.log
+# log-level: 1
 root-markers:
   - .git/
 lint-debounce: 1s

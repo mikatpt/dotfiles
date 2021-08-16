@@ -16,6 +16,10 @@ nnoremap <S-K> :m .-2<CR>==
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
+" Indenting won't throw you out of visual mode
+vnoremap <lt> <lt>gv
+vnoremap > >gv
+
 " Fix vim Y behavior
 nnoremap Y y$
 
