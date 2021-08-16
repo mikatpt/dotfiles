@@ -29,6 +29,7 @@ nnoremap <C-L> <C-W>l
 " File Tree
 nnoremap <C-N> :NvimTreeToggle<CR>
 nnoremap <leader>n :NvimTreeFindFile<CR>
+nnoremap <leader>l :NvimTreeRefresh<CR>
 
 " Use lspsaga's handy ui for code actions and reference previewing.
 nnoremap <silent> gp <cmd>lua require'lspsaga.provider'.preview_definition()<CR>

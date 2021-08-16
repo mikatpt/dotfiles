@@ -17,7 +17,7 @@ return function ()
             provider = function()
                 -- auto change color according the vim mode
                 local mode_color = {n = colors.red, i = colors.green,v=colors.blue,
-                    V=colors.blue,
+                    V=colors.blue,["\22"] = 'gray',
                     c = colors.magenta,no = colors.red,s = colors.orange,
                     S=colors.orange,[''] = colors.orange,
                     ic = colors.yellow,R = colors.violet,Rv = colors.violet,

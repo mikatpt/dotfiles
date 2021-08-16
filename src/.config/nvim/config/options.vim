@@ -46,3 +46,9 @@ set splitright
 set smartcase
 set ignorecase
 set completeopt=menuone,noselect
+
+" Indent preferences
+autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
+autocmd FileType typescript setlocal shiftwidth=2 tabstop=2
+autocmd FileType javascriptreact setlocal shiftwidth=2 tabstop=2
+autocmd FileType typescriptreact setlocal shiftwidth=2 tabstop=2
