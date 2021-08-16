@@ -1,0 +1,12 @@
+version: 2
+log-file: /home/mikatpt/.cache/nvim/efm.log
+log-level: 1
+root-markers:
+  - .git/
+lint-debounce: 1s
+tools:
+  gofmt: &gofmt
+    format-command: 'gofmt'
+languages:
+  go:
+    - <<: *gofmt

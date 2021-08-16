@@ -2,7 +2,8 @@ return function()
     local lspconfig = require('lspconfig')
     local lspinstall = require('lspinstall')
     local on_attach = require('modules.lspconfig.on-attach')
-    -- local format_config = require('modules.lspconfig.format')
+    local format_config = require('modules.lspconfig.format')
+
     require('modules.lspconfig.ui').symbols_override()
     require('modules.lspconfig.ui').disable_virtual_text()
 
@@ -19,13 +20,12 @@ return function()
     )
 
     local servers = {
-        -- FORMATTING
-        -- efm = {
-        --     init_options = { documentFormatting = true, codeAction = true },
-        --     root_dir = lspconfig.util.root_pattern({ '.git/', '.' }),
-        --     filetypes = vim.tbl_keys(format_config),
-        --     settings = { languages = format_config },
-        -- },
+        efm = {
+            init_options = { documentFormatting = true, codeAction = true },
+            root_dir = lspconfig.util.root_pattern({ '.git/', '.' }),
+            filetypes = vim.tbl_keys(format_config),
+            settings = { rootMarkers = '.git/', languages = format_config },
+        },
         lua = {
             settings = {
                 Lua = {
