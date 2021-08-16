@@ -1,4 +1,5 @@
 " Keybindings
+" In any given buffer, run :map to see a list of all active keybindings.
 
 let mapleader = " "
 inoremap jk <esc>
@@ -54,7 +55,12 @@ vnoremap > >gv
 " gc to comment out lines
 
 " Find files (Telescope)
-nnoremap <C-p> <cmd>Telescope git_files<CR>
+silent! !git rev-parse --is-inside-work-tree
+if v:shell_error == 0
+    nnoremap <C-P> <cmd>Telescope git_files<CR>
+else
+    nnoremap <C-P> <cmd>Telescope find_files<CR>
+endif
 nnoremap <leader>p <cmd>Telescope find_files<CR>
 nnoremap <leader>o <cmd>Telescope oldfiles<CR>
 nnoremap <leader>z :lua require"telescope.builtin".git_files({cwd = "$HOME/.config/nvim" })<CR>
