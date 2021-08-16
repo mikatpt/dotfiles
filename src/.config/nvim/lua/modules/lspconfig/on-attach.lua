@@ -21,7 +21,7 @@ return function(client, bufnr)
     -- buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 
     buf_set_keymap('n', 'm', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    buf_set_keymap('n', '<leader>s', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+    buf_set_keymap('n', '<leader>s', '<cmd>lua vim.lsp.buf.formatting_sync(nil, 1000)<CR>', opts)
     --  rename is mapped to '<leader>rn', from nvim-treesitter-refactor
     buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
     buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
@@ -44,8 +44,8 @@ return function(client, bufnr)
     if client.resolved_capabilities.document_formatting then
         vim.cmd([[
             augroup Format
-              au! * <buffer>
-              au BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 1000)
+                autocmd!
+                autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 1000)
             augroup END
         ]])
     end

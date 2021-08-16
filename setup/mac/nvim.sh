@@ -6,7 +6,7 @@ brew install --HEAD neovim
 
 # Setup neovim
 nvim --headless +PackerInstall +qall
-nvim --headless +"LspInstall bash" +"LspInstall lua" +"LspInstall vim" +qall
+nvim --headless +"LspInstall bash" +"LspInstall lua" +"LspInstall vim" +"LspInstall efm" +qall
 
 # Go debugging
 mkdir -p ~/.debug
