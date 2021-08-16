@@ -69,6 +69,9 @@ endif
 
 set background=dark
 highlight clear
+highlight GitSignsAdd guifg=DarkGreen
+highlight GitSignsChange guifg=DarkYellow
+highlight GitSignsDelete guifg=DarkRed
 
 if exists("syntax_on")
   syntax reset

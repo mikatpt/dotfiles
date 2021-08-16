@@ -110,11 +110,25 @@ return packer.startup(function(use)
         event = 'BufEnter',
     })
 
+    -- Dashboard
     use({
         'glepnir/dashboard-nvim',
-        branch = 'main',
         config = require('modules.dashboard'),
         event = 'VimEnter',
+    })
+
+    -- Status line
+    use({
+        'glepnir/galaxyline.nvim',
+        config = require('modules.galaxyline'),
+        event = 'VimEnter'
+    })
+
+    -- Git status in gutter
+    use({
+        'lewis6991/gitsigns.nvim',
+        config = require('modules.gitsigns'),
+        after = 'plenary.nvim'
     })
 
     packer.install()

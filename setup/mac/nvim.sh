@@ -5,7 +5,8 @@ brew install --HEAD luajit
 brew install --HEAD neovim
 
 # Setup neovim
-nvim +PackerInstall +qall
+nvim --headless +PackerInstall +qall
+nvim --headless +"LspInstall bash" +"LspInstall lua" +"LspInstall vim" +qall
 
 # Go debugging
 mkdir -p ~/.debug
