@@ -29,6 +29,17 @@ nnoremap <C-L> <C-W>l
 nnoremap <C-N> :NvimTreeToggle<CR>
 nnoremap <leader>n :NvimTreeFindFile<CR>
 
+" Use lspsaga's handy ui for code actions and reference previewing.
+nnoremap <silent> gp <cmd>lua require'lspsaga.provider'.preview_definition()<CR>
+nnoremap <silent> gr <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
+nnoremap <silent><leader>ca <cmd>lua require('lspsaga.codeaction').code_action()<CR>
+vnoremap <silent><leader>ca :<C-U>lua require('lspsaga.codeaction').range_code_action()<CR>
+" scroll down hover doc or scroll in definition preview
+nnoremap <silent> <C-f> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>
+" scroll up hover doc
+nnoremap <silent> <C-e> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>
+
+
 " Use J and K to move lines up and down.
 nnoremap <S-J> :m .+1<CR>==
 nnoremap <S-K> :m .-2<CR>==
@@ -44,8 +55,10 @@ vnoremap > >gv
 
 " Find files (Telescope)
 nnoremap <C-p> <cmd>Telescope git_files<CR>
-nnoremap <leader>p <cmd>Telescope find_files<cr>
-nnoremap <leader>b <cmd>Telescope buffers<cr>
+nnoremap <leader>p <cmd>Telescope find_files<CR>
+nnoremap <leader>o <cmd>Telescope oldfiles<CR>
+nnoremap <leader>z :lua require"telescope.builtin".git_files({cwd = "$HOME/.config/nvim" })<CR>
+nnoremap <leader>b <cmd>Telescope buffers<CR>
 nnoremap <leader>f :lua require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})<CR>
 " Grep current word under cursor
 nnoremap <leader>w :lua require('telescope.builtin').grep_string { search = vim.fn.expand("<cword>") }<CR>

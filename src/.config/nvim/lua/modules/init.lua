@@ -94,7 +94,6 @@ return packer.startup(function(use)
         after = 'nvim-compe',
     })
 
-
     -- Fuzzy finding / Ctrl + p
     use({
         'nvim-telescope/telescope.nvim',
@@ -109,6 +108,13 @@ return packer.startup(function(use)
         'mfussenegger/nvim-dap',
         config = require('modules.dap'),
         event = 'BufEnter',
+    })
+
+    use({
+        'glepnir/dashboard-nvim',
+        branch = 'main',
+        config = require('modules.dashboard'),
+        event = 'VimEnter',
     })
 
     packer.install()
