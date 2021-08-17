@@ -8,7 +8,7 @@ return function ()
     gls.left[1] = {
         RainbowRed = {
             provider = function() return '▊ ' end,
-            highlight = {colors.blue,colors.bg}
+            highlight = {colors.cyan,colors.bg}
         },
     }
     gls.left[2] = {
@@ -16,8 +16,8 @@ return function ()
         ViMode = {
             provider = function()
                 -- auto change color according the vim mode
-                local mode_color = {n = colors.red, i = colors.green,v=colors.blue,
-                    V=colors.blue,["\22"] = 'gray',
+                local mode_color = {n = colors.cyan, i = colors.green,v=colors.yellow,
+                    V=colors.yellow,["\22"]=colors.yellow,
                     c = colors.magenta,no = colors.red,s = colors.orange,
                     S=colors.orange,[''] = colors.orange,
                     ic = colors.yellow,R = colors.violet,Rv = colors.violet,
@@ -31,21 +31,39 @@ return function ()
         },
     }
     gls.left[3] = {
+        GitIcon = {
+            provider = function() return '  ' end,
+            condition = condition.check_git_workspace,
+            highlight = {colors.red,colors.bg,'bold'},
+        }
+    }
+
+    gls.left[4] = {
+        GitBranch = {
+            provider = 'GitBranch',
+            separator = '  ',
+            separator_highlight = {'NONE',colors.bg},
+            condition = condition.check_git_workspace,
+            highlight = {colors.red,colors.bg,'bold'},
+        }
+    }
+    gls.left[5] = {
         FileSize = {
             provider = 'FileSize',
+            separator = ' ',
+            separator_highlight = {'NONE',colors.bg},
             condition = condition.buffer_not_empty,
             highlight = {colors.fg,colors.bg}
         }
     }
-    gls.left[4] ={
+    gls.left[6] ={
         FileIcon = {
             provider = 'FileIcon',
             condition = condition.buffer_not_empty,
             highlight = {require('galaxyline.provider_fileinfo').get_file_icon_color,colors.bg},
         },
     }
-
-    gls.left[5] = {
+    gls.left[7] = {
         FileName = {
             provider = 'FileName',
             condition = condition.buffer_not_empty,
@@ -53,16 +71,16 @@ return function ()
         }
     }
 
-    gls.left[6] = {
-        LineInfo = {
-            provider = 'LineColumn',
-            separator = ' ',
-            separator_highlight = {'NONE',colors.bg},
-            highlight = {colors.fg,colors.bg},
-        },
-    }
+    -- gls.left[6] = {
+    --     LineInfo = {
+    --         provider = 'LineColumn',
+    --         separator = ' ',
+    --         separator_highlight = {'NONE',colors.bg},
+    --         highlight = {colors.fg,colors.bg},
+    --     },
+    -- }
 
-    gls.left[7] = {
+    gls.left[8] = {
         PerCent = {
             provider = 'LinePercent',
             separator = ' ',
@@ -71,14 +89,14 @@ return function ()
         }
     }
 
-    gls.left[8] = {
+    gls.left[9] = {
         DiagnosticError = {
             provider = 'DiagnosticError',
             icon = '  ',
             highlight = {colors.red,colors.bg}
         }
     }
-    gls.left[9] = {
+    gls.left[10] = {
         DiagnosticWarn = {
             provider = 'DiagnosticWarn',
             icon = '  ',
@@ -86,7 +104,7 @@ return function ()
         }
     }
 
-    gls.left[10] = {
+    gls.left[11] = {
         DiagnosticHint = {
             provider = 'DiagnosticHint',
             icon = '  ',
@@ -94,7 +112,7 @@ return function ()
         }
     }
 
-    gls.left[11] = {
+    gls.left[12] = {
         DiagnosticInfo = {
             provider = 'DiagnosticInfo',
             icon = '  ',
@@ -121,9 +139,9 @@ return function ()
         FileEncode = {
             provider = 'FileEncode',
             condition = condition.hide_in_width,
-            separator = ' ',
+            -- separator = ' ',
             separator_highlight = {'NONE',colors.bg},
-            highlight = {colors.green,colors.bg,'bold'}
+            highlight = {colors.cyan,colors.bg,'bold'}
         }
     }
 
@@ -133,37 +151,20 @@ return function ()
             condition = condition.hide_in_width,
             separator = ' ',
             separator_highlight = {'NONE',colors.bg},
-            highlight = {colors.green,colors.bg,'bold'}
+            highlight = {colors.cyan,colors.bg,'bold'}
         }
     }
 
     gls.right[3] = {
-        GitIcon = {
-            provider = function() return '  ' end,
-            condition = condition.check_git_workspace,
-            separator = ' ',
-            separator_highlight = {'NONE',colors.bg},
-            highlight = {colors.violet,colors.bg,'bold'},
-        }
-    }
-
-    gls.right[4] = {
-        GitBranch = {
-            provider = 'GitBranch',
-            condition = condition.check_git_workspace,
-            highlight = {colors.violet,colors.bg,'bold'},
-        }
-    }
-
-    gls.right[5] = {
         DiffAdd = {
             provider = 'DiffAdd',
+            separator = ' ',
             condition = condition.hide_in_width,
             icon = '  ',
             highlight = {colors.green,colors.bg},
         }
     }
-    gls.right[6] = {
+    gls.right[4] = {
         DiffModified = {
             provider = 'DiffModified',
             condition = condition.hide_in_width,
@@ -171,20 +172,13 @@ return function ()
             highlight = {colors.orange,colors.bg},
         }
     }
-    gls.right[7] = {
+    gls.right[5] = {
         DiffRemove = {
             provider = 'DiffRemove',
             condition = condition.hide_in_width,
             icon = '  ',
             highlight = {colors.red,colors.bg},
         }
-    }
-
-    gls.right[8] = {
-        RainbowBlue = {
-            provider = function() return ' ▊' end,
-            highlight = {colors.blue,colors.bg}
-        },
     }
 
     gls.short_line_left[1] = {
