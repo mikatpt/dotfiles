@@ -32,10 +32,18 @@ return function()
         end
     end
 
+    local format_config = require('modules.lspconfig.format')
     local servers = {
         efm = {
             init_options = { documentFormatting = true, codeAction = true },
             root_dir = lspconfig.util.root_pattern({ '.git/', '.' }),
+            filetypes = vim.tbl_keys(format_config),
+            settings = {
+                languages = format_config,
+                logFile = '/Users/m.chen@coinbase.com/.cache/nvim/efm.log',
+                -- logFile = '/home/mikatpt/.cache/nvim/efm.log',
+                logLevel = 1,
+            }
             -- efm config is found in ~/.config/efm-langserver/config.yaml
         },
         lua = {
