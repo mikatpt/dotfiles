@@ -121,7 +121,7 @@ return packer.startup(function(use)
     use({
         'glepnir/galaxyline.nvim',
         config = require('modules.galaxyline'),
-        event = 'VimEnter'
+        event = 'BufEnter'
     })
 
     -- Git status in gutter
