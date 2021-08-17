@@ -58,6 +58,7 @@ Currently, the script isn't 100% idempotent and is optimized for linux. If you'r
     - `src/.config/nvim/lua/modules/lspconfig/on-attach.lua`
     - You can also run `:map` within nvim to see a list of all active keybindings.
 - Language servers are pre-configured for bash, vim, and lua for convenience.
+- Formatting is configured for javascript/typescript and go, provided you LspInstall them.
 
 ## Neovim setup
 * If you would like syntax highlighting, autocomplete, and formatting, run below commands for the relevant languages.
