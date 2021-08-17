@@ -5,6 +5,7 @@ let g:netrw_banner = 0
 let g:netrw_winsize = 75
 let g:vim_markdown_fenced_languages = ['html', 'python', 'go', 'bash=sh', 'javascript', 'typescript']
 let g:vim_markdown_folding_disabled = 1
+let g:fugitive_github_domains = ['github.com', 'github.cbhq.net']
 
 " Basic Editor Settings
 set noerrorbells

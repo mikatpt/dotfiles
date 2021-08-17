@@ -29,6 +29,7 @@ return packer.startup(function(use)
     use({ 'tpope/vim-commentary', event = 'BufEnter' })
     use({ 'tpope/vim-surround', event = 'BufEnter' })
     use({ 'tpope/vim-fugitive', event = 'BufEnter' })
+    use({ 'tpope/vim-rhubarb', event = 'BufEnter' })
     use({ 'mbbill/undotree', event = 'BufEnter' })
     use({ 'leafgarland/typescript-vim', event = 'BufEnter' })
 
