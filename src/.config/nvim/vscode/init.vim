@@ -2,6 +2,7 @@ set clipboard=unnamedplus
 set incsearch
 set smartcase
 set ignorecase
+set formatoptions-=cro
 nnoremap <Space> :noh<CR>
 
 nnoremap m <Cmd>call VSCodeNotify('editor.action.showHover')<CR>

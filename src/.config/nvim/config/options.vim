@@ -15,13 +15,14 @@ set termguicolors
 syntax on
 colo lucid
 set background=dark
-set cmdheight=2
+set cmdheight=1
 set updatetime=300
 set shortmess+=c
 set timeoutlen=200
 set wildmenu
 set wildmode=longest:full,full
 set shell=/bin/bash
+set formatoptions-=cro
 
 " Tabs
 set tabstop=4
