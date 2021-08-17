@@ -8,6 +8,9 @@ brew install --HEAD neovim
 nvim --headless +PackerInstall +qall
 nvim --headless +"LspInstall bash" +"LspInstall lua" +"LspInstall vim" +"LspInstall efm" +qall
 
+# Language formatters
+npm i -g eslint_d prettier
+
 # Go debugging
 mkdir -p ~/.debug
 cd ~/.debug
