@@ -7,7 +7,7 @@ alias v='nvim'
 
 # Shortcuts to config editing
 alias ez='$EDITOR ~/.zshrc'
-alias ea='$EDITOR ~/.alias.zsh'
+alias ea='$EDITOR ~/config/src/.alias.zsh'
 alias el='$EDITOR ~/.local.zsh'
 alias sz='exec zsh'
 
@@ -51,6 +51,7 @@ alias ffs='sudo !!'
 alias :q='exit'
 
 alias gcm='git commit -m'
+alias b='git branch'
 alias co='git checkout'
 alias s='git status'
 alias st='git stash'
