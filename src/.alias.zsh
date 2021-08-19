@@ -51,6 +51,8 @@ alias ffs='sudo !!'
 alias :q='exit'
 
 alias gcm='git commit -m'
+alias ga='git add'
+alias gr='git reset'
 alias b='git branch'
 alias co='git checkout'
 alias s='git status'

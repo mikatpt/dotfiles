@@ -1,0 +1,57 @@
+" Basic Editor Settings
+set noerrorbells
+set visualbell
+set nohlsearch
+set hidden
+set termguicolors
+set updatetime=300
+set shortmess+=c
+set timeoutlen=200
+set wildmenu
+set wildmode=longest:full,full
+set shell=/bin/bash
+set formatoptions-=cro
+
+set expandtab
+set smartindent
+
+" Line Numbers and Error Column
+set relativenumber
+set nu
+set scrolloff=8
+
+" File tree things
+set incsearch
+set splitright
+set smartcase
+set ignorecase
+
+" Keybindings
+" In any given buffer, run :map to see a list of all active keybindings.
+
+let mapleader = " "
+inoremap jk <esc>
+nmap <silent>; :
+
+" Fix ctrl backspace behavior
+noremap! <C-BS> <C-w>
+noremap! <C-h> <C-w>
+
+" Fix vim Y behavior
+nnoremap Y y$
+
+" Insert
+inoremap <C-J> <Esc>o
+inoremap <S-CR> <Esc>O
+
+" Use J and K to move lines up and down.
+nnoremap <S-J> :m .+1<CR>==
+nnoremap <S-K> :m .-2<CR>==
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
+map m :action QuickImplementations<CR>
+
+" Indenting won't throw you out of visual mode
+vnoremap <lt> <lt>gv
+vnoremap > >gv
