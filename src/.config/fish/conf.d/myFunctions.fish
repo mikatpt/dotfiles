@@ -1,6 +1,6 @@
 # Edit config
-function ez; nvim "~/config/src/"; end
-function ea; nvim "~/config/src/.config/fish/conf.d/myFunctions.fish"; end
+function ez; nvim ~/config/src/ +"PackerLoad dashboard-nvim" +Dashboard +NvimTreeOpen; end
+function ea; nvim ~/config/src/.config/fish/conf.d/myFunctions.fish; end
 function sz; exec fish; end
 
 function notes; nvim "~/notes"; end
