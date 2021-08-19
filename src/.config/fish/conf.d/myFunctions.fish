@@ -19,6 +19,8 @@ function ffs; eval sudo $history[1]; end
 function :q; exit; end
 
 # Git
+function ga; git add $argv; end
+function gr; git reset $argv; end
 function gcm; git commit -m; end
 function b; git branch; end
 function co; git checkout $argv; end

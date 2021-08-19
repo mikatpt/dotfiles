@@ -1,4 +1,5 @@
 let g:nvim_tree_side = 'left'
+let g:nvim_tree_width = 45
 let g:nvim_tree_ignore = [ '.git', 'node_modules', '.cache' ]
 let g:nvim_tree_auto_open = 1
 let g:nvim_tree_auto_ignore_ft = [ 'dashboard' ]
