@@ -6,12 +6,12 @@ return function()
     vim.g.dashboard_default_executive = 'telescope'
     vim.g.dashboard_custom_section = {
         a = {
-            description = { '  Recently opened                      SPC o' },
-            command = 'lua require"telescope.builtin".oldfiles()',
-        },
-        b = {
             description = { '" Open Tree                            CTL n' },
             command = ':NvimTreeToggle'
+        },
+        b = {
+            description = { '  Recently opened                      SPC o' },
+            command = 'lua require"telescope.builtin".oldfiles()',
         },
         c = {
             description = { '  Git files                            CTL p' },
