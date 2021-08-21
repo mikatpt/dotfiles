@@ -23,6 +23,7 @@ set wildmenu
 set wildmode=longest:full,full
 set shell=/bin/bash
 set formatoptions-=cro
+set conceallevel=2
 
 " Tabs
 set tabstop=4
