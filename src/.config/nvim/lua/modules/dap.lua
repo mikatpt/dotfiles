@@ -13,6 +13,7 @@ return function ()
             request = 'launch';
             showLog = false;
             program = "${file}";
+            -- program = "${workspaceFolder}";
             dlvToolPath = vim.fn.exepath('dlv')  -- Adjust to where delve is installed
         },
     }

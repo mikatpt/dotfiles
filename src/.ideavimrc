@@ -50,7 +50,7 @@ nnoremap <S-K> :m .-2<CR>==
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
-map m :action QuickImplementations<CR>
+map m :action QuickJavaDoc<CR>
 
 " Indenting won't throw you out of visual mode
 vnoremap <lt> <lt>gv
