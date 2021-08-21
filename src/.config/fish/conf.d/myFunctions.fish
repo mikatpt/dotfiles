@@ -3,7 +3,7 @@ function ez; nvim ~/config/src/ +"PackerLoad dashboard-nvim" +Dashboard +NvimTre
 function ea; nvim ~/config/src/.config/fish/conf.d/myFunctions.fish; end
 function sz; exec fish; end
 
-function notes; nvim "~/notes"; end
+function notes; nvim ~/notes +"PackerLoad dashboard-nvim" +Dashboard +NvimTreeOpen; end
 
 # Navigation
 function cs; cd $argv; ls -A; end
@@ -12,6 +12,7 @@ function csa; cd $argv; ls -Ahl; end
 function sca; cd ..; ls -Ahl; end
 function la; ls -A $argv; end
 function lah; ls -Ahl $argv; end
+
 function ..; cd ..; end
 function ...; cd ../..; end
 function ....; cd ../../..; end
@@ -20,8 +21,9 @@ function :q; exit; end
 
 # Git
 function ga; git add $argv; end
+function gp; git push $argv; end
 function gr; git reset $argv; end
-function gcm; git commit -m; end
+function cm; git commit -m; end
 function b; git branch; end
 function co; git checkout $argv; end
 function s; git status $argv; end
