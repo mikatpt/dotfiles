@@ -1,6 +1,10 @@
 " Keybindings
 " In any given buffer, run :map to see a list of all active keybindings.
 
+""" Useful default keybindings:
+" q/ opens up editable buffer for search
+" q: opens up editable buffer for vim command line
+
 let mapleader = " "
 inoremap jk <esc>
 nmap <silent>; :
@@ -11,6 +15,9 @@ noremap! <C-h> <C-w>
 
 " Fix vim Y behavior
 nnoremap Y y$
+
+" Remove the most toxic vim mode to exist and remap it to repeat the last macro.
+nnoremap Q @@
 
 " Insert
 inoremap <C-J> <Esc>o
@@ -30,6 +37,9 @@ nnoremap <C-L> <C-W>l
 nnoremap <C-N> :NvimTreeToggle<CR>
 nnoremap <leader>n :NvimTreeFindFile<CR>
 nnoremap <leader>l :NvimTreeRefresh<CR>
+
+" set current working directory to current file
+nnoremap <leader>cd :cd %:p:h<CR>
 
 " Use lspsaga's handy ui for code actions and reference previewing.
 nnoremap <silent> gp <cmd>lua require'lspsaga.provider'.preview_definition()<CR>
