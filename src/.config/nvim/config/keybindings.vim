@@ -35,11 +35,15 @@ nnoremap <C-L> <C-W>l
 
 " File Tree
 nnoremap <C-N> :NvimTreeToggle<CR>
-nnoremap <leader>n :NvimTreeFindFile<CR>
-nnoremap <leader>l :NvimTreeRefresh<CR>
+" Open current file in tree
+nnoremap <leader>nf :NvimTreeFindFile<CR>
+nnoremap <leader>nr :NvimTreeRefresh<CR>
 
 " set current working directory to current file
 nnoremap <leader>cd :cd %:p:h<CR>
+
+" Toggle relative/absolute line numbers
+nnoremap <leader>l :set rnu!<CR>
 
 " Use lspsaga's handy ui for code actions and reference previewing.
 nnoremap <silent> gp <cmd>lua require'lspsaga.provider'.preview_definition()<CR>
@@ -50,7 +54,6 @@ vnoremap <silent><leader>ca :<C-U>lua require('lspsaga.codeaction').range_code_a
 nnoremap <silent> <C-f> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>
 " scroll up hover doc
 nnoremap <silent> <C-e> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>
-
 
 " Use J and K to move lines up and down.
 nnoremap <S-J> :m .+1<CR>==
