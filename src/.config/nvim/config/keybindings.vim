@@ -10,8 +10,8 @@ inoremap jk <esc>
 nmap <silent>; :
 
 " Fix ctrl backspace behavior
-noremap! <C-BS> <C-w>
-noremap! <C-h> <C-w>
+noremap! <C-BS> <C-W>
+noremap! <C-H> <C-W>
 
 " Fix vim Y behavior
 nnoremap Y y$
@@ -45,15 +45,18 @@ nnoremap <leader>cd :cd %:p:h<CR>
 " Toggle relative/absolute line numbers
 nnoremap <leader>l :set rnu!<CR>
 
+" Open in Github
+nnoremap <silent> <leader>go <CMD>GBrowse<CR>
+
 " Use lspsaga's handy ui for code actions and reference previewing.
-nnoremap <silent> gp <cmd>lua require'lspsaga.provider'.preview_definition()<CR>
-nnoremap <silent> gr <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
-nnoremap <silent><leader>ca <cmd>lua require('lspsaga.codeaction').code_action()<CR>
+nnoremap <silent> gp <CMD>lua require'lspsaga.provider'.preview_definition()<CR>
+nnoremap <silent> gr <CMD>lua require'lspsaga.provider'.lsp_finder()<CR>
+nnoremap <silent><leader>ca <CMD>lua require('lspsaga.codeaction').code_action()<CR>
 vnoremap <silent><leader>ca :<C-U>lua require('lspsaga.codeaction').range_code_action()<CR>
 " scroll down hover doc or scroll in definition preview
-nnoremap <silent> <C-f> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>
+nnoremap <silent> <C-f> <CMD>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>
 " scroll up hover doc
-nnoremap <silent> <C-e> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>
+nnoremap <silent> <C-e> <CMD>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>
 
 " Use J and K to move lines up and down.
 nnoremap <S-J> :m .+1<CR>==
@@ -62,7 +65,7 @@ vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
 " Indenting won't throw you out of visual mode
-vnoremap <lt> <lt>gv
+vnoremap <LT> <LT>gv
 vnoremap > >gv
 
 " From vim-commentary:
@@ -71,14 +74,14 @@ vnoremap > >gv
 " Find files (Telescope)
 silent! !git rev-parse --is-inside-work-tree
 if v:shell_error == 0
-    nnoremap <C-P> <cmd>Telescope git_files<CR>
+    nnoremap <C-P> <CMD>Telescope git_files<CR>
 else
-    nnoremap <C-P> <cmd>Telescope find_files<CR>
+    nnoremap <C-P> <CMD>Telescope find_files<CR>
 endif
-nnoremap <leader>p <cmd>Telescope find_files<CR>
-nnoremap <leader>o <cmd>Telescope oldfiles<CR>
+nnoremap <leader>p <CMD>Telescope find_files<CR>
+nnoremap <leader>o <CMD>Telescope oldfiles<CR>
 nnoremap <leader>z :lua require"telescope.builtin".git_files({cwd = "$HOME/.config/nvim" })<CR>
-nnoremap <leader>b <cmd>Telescope buffers<CR>
+nnoremap <leader>b <CMD>Telescope buffers<CR>
 nnoremap <leader>f :lua require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})<CR>
 " Grep current word under cursor
 nnoremap <leader>w :lua require('telescope.builtin').grep_string { search = vim.fn.expand("<cword>") }<CR>

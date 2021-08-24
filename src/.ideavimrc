@@ -27,10 +27,8 @@ set smartcase
 set ignorecase
 
 " Keybindings
-" In any given buffer, run :map to see a list of all active keybindings.
-
 let mapleader = " "
-inoremap jk <esc>
+inoremap jk <ESC>
 nmap <silent>; :
 
 " Fix ctrl backspace behavior
@@ -51,7 +49,13 @@ vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
 map m :action QuickJavaDoc<CR>
+map <leader>e :action ShowErrorDescription<CR>
+map gD :action GotoImplementation<CR>
+map <leader>go :action Github.Open.In.Browser<CR>
+
+" Toggle relative/absolute line numbers
+nnoremap <leader>l :set rnu!<CR>
 
 " Indenting won't throw you out of visual mode
-vnoremap <lt> <lt>gv
+vnoremap <LT> <LT>gv
 vnoremap > >gv
