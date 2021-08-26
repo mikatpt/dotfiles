@@ -20,6 +20,7 @@ function ffs; eval sudo $history[1]; end
 function :q; exit; end
 
 # Git
+function cm; git commit; end
 function ga; git add $argv; end
 function gp; git push $argv; end
 function gr; git reset $argv; end
