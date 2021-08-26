@@ -43,15 +43,17 @@ inoremap <C-J> <Esc>o
 inoremap <S-CR> <Esc>O
 
 " Use J and K to move lines up and down.
-nnoremap <S-J> :m .+1<CR>==
-nnoremap <S-K> :m .-2<CR>==
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
+nnoremap <S-J> :action MoveStatementDown<CR>
+nnoremap <S-K> :action MoveStatementUp<CR>
+vnoremap J :action MoveStatementDown<CR>
+vnoremap K :action MoveStatementUp<CR>
 
 map m :action QuickJavaDoc<CR>
 map <leader>e :action ShowErrorDescription<CR>
-map gD :action GotoImplementation<CR>
+map gi :action GotoImplementation<CR>
 map <leader>go :action Github.Open.In.Browser<CR>
+map <leader>gp :action Github.Create.Pull.Request<CR>
+map gc :action CommentByLineComment<CR>
 
 " Toggle relative/absolute line numbers
 nnoremap <leader>l :set rnu!<CR>
