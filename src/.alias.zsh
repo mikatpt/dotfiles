@@ -50,7 +50,7 @@ alias ....='cd ../../..'
 alias ffs='sudo !!'
 alias :q='exit'
 
-alias cm='git commit -m'
+alias cm='git commit'
 alias ga='git add'
 alias gp='git push'
 alias pullup='git pull upstream master --rebase'
@@ -73,5 +73,3 @@ alias fl='fuzzyhub view-local'       # view local branch on github. ctrl-t to sp
 
 alias pingg='ping www.google.com'    # See network speed against google.com
 alias myip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'"
-
-
