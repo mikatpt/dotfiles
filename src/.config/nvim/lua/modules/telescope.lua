@@ -1,4 +1,11 @@
 return function()
+    local utils = require'core.utils'
+    -- this is not in keybindings.vim because it delays startup by half a second
+    -- so we just lazy load it once vim has started.
+    if utils.os.is_git_dir() == 0 then
+        vim.api.nvim_set_keymap('n', '<C-P>', '<cmd>lua require"telescope.builtin".find_files()<CR>', {})
+    end
+
     require('telescope').setup{
         defaults = {
             vimgrep_arguments = {

@@ -42,7 +42,7 @@ set signcolumn=yes
 set noswapfile
 set nobackup
 set nowritebackup
-set undodir=~/.vim/undodir
+set undodir=~/.local/share/nvim/undodir
 set undofile
 set incsearch
 set splitright

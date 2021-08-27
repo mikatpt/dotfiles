@@ -72,12 +72,7 @@ vnoremap > >gv
 " gc to comment out lines
 
 " Find files (Telescope)
-silent! !git rev-parse --is-inside-work-tree
-if v:shell_error == 0
-    nnoremap <C-P> <CMD>Telescope git_files<CR>
-else
-    nnoremap <C-P> <CMD>Telescope find_files<CR>
-endif
+nnoremap <C-P> <CMD>Telescope git_files<CR>
 nnoremap <leader>p <CMD>Telescope find_files<CR>
 nnoremap <leader>o <CMD>Telescope oldfiles<CR>
 nnoremap <leader>z :lua require"telescope.builtin".git_files({cwd = "$HOME/.config/nvim" })<CR>
