@@ -6,6 +6,7 @@ let g:netrw_winsize = 75
 let g:vim_markdown_fenced_languages = ['html', 'python', 'go', 'bash=sh', 'javascript', 'typescript']
 let g:vim_markdown_folding_disabled = 1
 let g:fugitive_github_domains = ['github.com', 'github.cbhq.net']
+let g:vsnip_snippet_dir = "~/config/src/.config/nvim/snippets"
 
 " Basic Editor Settings
 set noerrorbells
