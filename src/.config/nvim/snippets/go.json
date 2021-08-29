@@ -1,0 +1,27 @@
+{
+    "fmt.Println": {
+        "prefix": "fpf",
+        "body": "fmt.Println(\"$1\")",
+        "description": "fmt.Println()"
+    },
+    "fmt.Printf": {
+        "prefix": "fpl",
+        "body": "fmt.Printf(\"$1\", ${2:var})",
+        "description": "fmt.Printf()"
+    },
+    "fmt.Sprintf": {
+        "prefix": "fps",
+        "body": "fmt.Sprintf(\"$1\", ${2:var})",
+        "description": "fmt.Sprintf()"
+    },
+    "error block": {
+        "prefix": "iferr",
+        "body": "if err != nil {\n\t$0\n}",
+        "description": "Error block"
+    },
+    "if ok": {
+        "prefix": "ifok",
+        "body": "if value, ok := $1; ok {\n\t $2\n}",
+        "description": "If ok"
+    }
+}
