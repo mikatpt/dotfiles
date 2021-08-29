@@ -5,19 +5,31 @@
 " q/ opens up editable buffer for search
 " q: opens up editable buffer for vim command line
 
+""" VIM DEFAULT OVERRIDES
 let mapleader = " "
 inoremap jk <esc>
 nmap <silent>; :
-
-" Fix ctrl backspace behavior
-noremap! <C-BS> <C-W>
-noremap! <C-H> <C-W>
 
 " Fix vim Y behavior
 nnoremap Y y$
 
 " Remove the most toxic vim mode to exist and remap it to repeat the last macro.
 nnoremap Q @@
+
+" Merge lines
+nnoremap <S-M> <S-J>
+
+" Use J and K to move lines up and down.
+nnoremap <S-K> :m .-2<CR>==
+nnoremap <S-J> :m .+1<CR>==
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
+""" END VIM DEFAULT OVERRIDES
+
+" Fix ctrl backspace behavior
+noremap! <C-BS> <C-W>
+noremap! <C-H> <C-W>
 
 " Insert
 inoremap <C-J> <Esc>o
@@ -58,11 +70,6 @@ nnoremap <silent> <C-f> <CMD>lua require('lspsaga.action').smart_scroll_with_sag
 " scroll up hover doc
 nnoremap <silent> <C-e> <CMD>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>
 
-" Use J and K to move lines up and down.
-nnoremap <S-J> :m .+1<CR>==
-nnoremap <S-K> :m .-2<CR>==
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
 
 " Indenting won't throw you out of visual mode
 vnoremap <LT> <LT>gv
