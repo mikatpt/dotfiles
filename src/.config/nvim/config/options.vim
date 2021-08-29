@@ -7,6 +7,10 @@ let g:vim_markdown_fenced_languages = ['html', 'python', 'go', 'bash=sh', 'javas
 let g:vim_markdown_folding_disabled = 1
 let g:fugitive_github_domains = ['github.com', 'github.cbhq.net']
 let g:vsnip_snippet_dir = "~/config/src/.config/nvim/snippets"
+let g:vsnip_filetypes = {}
+let g:vsnip_filetypes.javascriptreact = ['javascript']
+let g:vsnip_filetypes.typescriptreact = ['javascript']
+let g:vsnip_filetypes.typescript = ['javascript']
 
 " Basic Editor Settings
 set noerrorbells
