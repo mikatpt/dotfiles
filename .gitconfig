@@ -1,0 +1,30 @@
+# Import this file in global config using:
+# [include]
+#     path= ~/config/.gitconfig
+[core]
+	editor = nvim
+
+[alias]
+	hist = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+	co = checkout
+    b = branch
+	s = status
+	st = stash
+	sl = stash list
+	sa = stash apply
+	sp = stash pop
+	sd = stash drop
+[credential]
+	helper = store --file ~/.git-credentials
+[difftool]
+    prompt = true
+[diff]
+    tool = nvimdiff
+[difftool "nvimdiff"]
+    cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
+[merge]
+    tool = nvim
+[mergetool]
+    prompt = true
+[mergetool "nvim"]
+    cmd = nvim -f -c \"Gdiffsplit!\" \"$MERGED\"
