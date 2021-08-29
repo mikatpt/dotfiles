@@ -80,18 +80,24 @@ return packer.startup(function(use)
     })
 
     -- Text completion
+
     use({
-        'hrsh7th/nvim-compe',
-        config = require('modules.compe'),
-        event = 'InsertEnter',
+        'ms-jpq/coq_nvim',
+        branch = 'coq',
+        event = 'BufEnter',
     })
-    use({ 'hrsh7th/vim-vsnip', after = 'nvim-compe' })
+
+    use({
+        'ms-jpq/coq.artifacts',
+        branch = 'artifacts',
+        event = 'BufEnter',
+    })
 
     -- Autopairs
     use({
         'windwp/nvim-autopairs',
         config = require('modules.autopairs'),
-        after = 'nvim-compe',
+        after = 'coq_nvim',
     })
 
     -- Fuzzy finding / Ctrl + p
