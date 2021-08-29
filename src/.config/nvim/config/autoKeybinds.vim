@@ -15,4 +15,3 @@ augroup nhooyr_fugitive
     autocmd!
     autocmd FileType fugitive call s:ftplugin_fugitive()
 augroup END
-

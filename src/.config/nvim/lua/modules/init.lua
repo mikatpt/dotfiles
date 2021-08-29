@@ -27,7 +27,7 @@ return packer.startup(function(use)
     use({ 'jremmen/vim-ripgrep', event = 'BufEnter' })
 
     use({ 'tpope/vim-commentary', event = 'BufEnter' })
-    use({ 'tpope/vim-surround', event = 'BufEnter' })
+    use({ 'machakann/vim-sandwich', event = 'BufEnter' })
     use({ 'tpope/vim-fugitive', event = 'BufEnter' })
     use({ 'tpope/vim-rhubarb', event = 'BufEnter' })
     use({ 'mbbill/undotree', event = 'BufEnter' })
