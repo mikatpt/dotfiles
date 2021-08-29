@@ -44,7 +44,6 @@ return function()
                 -- logFile = '/home/mikatpt/.cache/nvim/efm.log',
                 logLevel = 1,
             }
-            -- efm config is found in ~/.config/efm-langserver/config.yaml
         },
         lua = {
             settings = {
