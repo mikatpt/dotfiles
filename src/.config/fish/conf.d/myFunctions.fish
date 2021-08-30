@@ -24,7 +24,6 @@ function cm; git commit; end
 function ga; git add $argv; end
 function gp; git push $argv; end
 function gr; git reset $argv; end
-function cm; git commit -m; end
 function b; git branch; end
 function co; git checkout $argv; end
 function s; git status $argv; end
@@ -33,4 +32,3 @@ function sd; git stash drop $argv; end
 function sp; git stash pop $argv; end
 function sa; git stash apply $argv; end
 function sl; git stash list $argv; end
-
