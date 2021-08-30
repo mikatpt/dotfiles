@@ -1,11 +1,11 @@
 {
     "fmt.Println": {
-        "prefix": "fpf",
+        "prefix": "fpl",
         "body": "fmt.Println(\"$1\")",
         "description": "fmt.Println()"
     },
     "fmt.Printf": {
-        "prefix": "fpl",
+        "prefix": "fpf",
         "body": "fmt.Printf(\"$1\", ${2:var})",
         "description": "fmt.Printf()"
     },
