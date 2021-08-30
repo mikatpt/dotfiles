@@ -50,6 +50,7 @@ alias ....='cd ../../..'
 alias ffs='sudo !!'
 alias :q='exit'
 
+alias bazeltest='bazel test --test_verbose_timeout_warnings --test_output errors --test_summary detailed ...:all'
 alias cm='git commit'
 alias ga='git add'
 alias gp='git push'
