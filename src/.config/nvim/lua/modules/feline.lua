@@ -180,15 +180,20 @@ return function()
                 return { str = icon, hl = { fg = colo, bg = colors.light_grey2 } }
             end,
             provider = function()
-                local filename = vim.fn.expand '%:t'
-                local extension = vim.fn.expand '%:e'
-                local icon = require('nvim-web-devicons').get_icon(filename, extension)
+                local filename = vim.fn.expand "%:t"
+                local filetype = vim.bo.filetype
+                local extension = vim.fn.expand "%:e"
+                local icon = require("nvim-web-devicons").get_icon(filename, extension)
 
                 if filename == 'NvimTree' then
                     icon = ' '
-                elseif vim.bo.filetype == 'dashboard' then
+                elseif filetype == 'dashboard' then
                     icon = ''
                     filename = 'Dashboard'
+                elseif filetype == 'proto' then
+                    icon = ''
+                elseif filetype == 'Trouble' then
+                    icon = ''
                 end
 
                 if icon == nil then
@@ -444,6 +449,7 @@ return function()
                 filetypes = {
                     'NvimTree',
                     'dashboard',
+                    'Trouble',
                     'dbui',
                     'packer',
                     'startify',

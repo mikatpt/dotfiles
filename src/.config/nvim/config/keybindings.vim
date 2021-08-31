@@ -8,10 +8,10 @@
 """ VIM DEFAULT OVERRIDES
 let mapleader = " "
 inoremap jk <esc>
+tnoremap <Esc> <C-\><C-N>
+tnoremap jk <C-\><C-N>
 
-" Fix vim Y behavior
-nnoremap Y y$
-
+" Fix vim Y behavioronnnnoremap Y y$
 " Remove the most toxic vim mode to exist and remap it to repeat the last macro.
 nnoremap Q @@
 
@@ -23,6 +23,8 @@ nnoremap <S-K> :m .-2<CR>==
 nnoremap <S-J> :m .+1<CR>==
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
+
+" additionally, m is rebound to lsp hover actions. I don't use marks \(-_-)/
 
 """ END VIM DEFAULT OVERRIDES
 
@@ -59,16 +61,11 @@ nnoremap <leader>l :set rnu!<CR>
 " Open in Github
 nnoremap <silent> <leader>go <CMD>GBrowse<CR>
 
-" Use lspsaga's handy ui for code actions and reference previewing.
-nnoremap <silent> gp <CMD>lua require'lspsaga.provider'.preview_definition()<CR>
-nnoremap <silent> gr <CMD>lua require'lspsaga.provider'.lsp_finder()<CR>
+" LspSaga
 nnoremap <silent><leader>ca <CMD>lua require('lspsaga.codeaction').code_action()<CR>
 vnoremap <silent><leader>ca :<C-U>lua require('lspsaga.codeaction').range_code_action()<CR>
-" scroll down hover doc or scroll in definition preview
 nnoremap <silent> <C-f> <CMD>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>
-" scroll up hover doc
 nnoremap <silent> <C-e> <CMD>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>
-
 
 " Indenting won't throw you out of visual mode
 vnoremap <LT> <LT>gv
@@ -102,4 +99,4 @@ nnoremap <silent> <F10> :lua require'dap'.step_over()<CR>
 nnoremap <silent> <F11> :lua require'dap'.step_into()<CR>
 nnoremap <silent> <F12> :lua require'dap'.step_out()<CR>
 nnoremap <silent> <C-B> :lua require'dap'.toggle_breakpoint()<CR>
-nnoremap <silent> <leader>h :lua local widgets=require'dap.ui.widgets';widgets.centered_float(widgets.scopes)<CR>
+nnoremap <silent> <leader>d :lua local widgets=require'dap.ui.widgets';widgets.centered_float(widgets.scopes)<CR>
