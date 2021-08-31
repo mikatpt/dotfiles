@@ -119,8 +119,8 @@ return packer.startup(function(use)
 
     -- Status line
     use({
-        'glepnir/galaxyline.nvim',
-        config = require('modules.galaxyline'),
+        'famiu/feline.nvim',
+        config = require('modules.feline'),
         event = 'BufEnter'
     })
 
