@@ -8,7 +8,6 @@
 """ VIM DEFAULT OVERRIDES
 let mapleader = " "
 inoremap jk <esc>
-nmap <silent>; :
 
 " Fix vim Y behavior
 nnoremap Y y$
@@ -46,9 +45,9 @@ nnoremap <C-H> <C-W>h
 nnoremap <C-L> <C-W>l
 
 " File Tree
-nnoremap <C-N> :NvimTreeToggle<CR>
+nnoremap <silent><C-N> :NvimTreeToggle<CR>
 " Open current file in tree
-nnoremap <leader>nf :NvimTreeFindFile<CR>
+nnoremap <silent><leader>nf :NvimTreeFindFile<CR>
 nnoremap <leader>nr :NvimTreeRefresh<CR>
 
 " set current working directory to current file
