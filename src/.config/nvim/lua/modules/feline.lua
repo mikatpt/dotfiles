@@ -1,107 +1,106 @@
 return function()
-    local lsp = require "feline.providers.lsp"
+    local lsp = require 'feline.providers.lsp'
 
     local colors = {
-        white = "#c0caf5",
-        darker_black = "#151621",
-        black = "#1A1B26",
-        black2 = "#20212c",
-        one_bg = "#242530",
-        one_bg2 = "#292a35",
-        one_bg3 = "#353b45",
+        white = '#c0caf5',
+        darker_black = '#151621',
+        black = '#1A1B26',
+        black2 = '#20212c',
+        one_bg = '#242530',
+        one_bg2 = '#292a35',
+        one_bg3 = '#353b45',
         light_grey2 = '#1d1e29',
-        grey = "#40486a",
-        grey_fg = "#4a5274",
-        grey_fg2 = "#4f5779",
-        light_grey = "#545c7e",
-        red = "#f7768e",
-        baby_pink = "#DE8C92",
-        pink = "#ff75a0",
-        line = "#242530",
-        green = "#9ece6a",
-        vibrant_green = "#73daca",
-        nord_blue = "#80a8fd",
-        blue = "#7aa2f7",
+        grey = '#40486a',
+        grey_fg = '#4a5274',
+        grey_fg2 = '#4f5779',
+        light_grey = '#545c7e',
+        red = '#f7768e',
+        baby_pink = '#DE8C92',
+        pink = '#ff75a0',
+        line = '#242530',
+        green = '#9ece6a',
+        vibrant_green = '#73daca',
+        nord_blue = '#80a8fd',
+        blue = '#7aa2f7',
         dark_blue = '#000A12',
-        yellow = "#e7c787",
-        sun = "#EBCB8B",
-        purple = "#bb9af7",
-        dark_purple = "#9d7cd8",
-        teal = "#0db9d7",
-        orange = "#ff9e64",
-        cyan = "#7dcfff",
-        statusline_bg = "#12131A",
-        lightbg = "#2B2B39",
-        lightbg2 = "#22232e",
-        pmenu_bg = "#7aa2f7",
-        folder_bg = "#7aa2f7",
+        yellow = '#e7c787',
+        sun = '#EBCB8B',
+        purple = '#bb9af7',
+        dark_purple = '#9d7cd8',
+        teal = '#0db9d7',
+        orange = '#ff9e64',
+        cyan = '#7dcfff',
+        statusline_bg = '#12131A',
+        lightbg = '#2B2B39',
+        lightbg2 = '#22232e',
+        pmenu_bg = '#7aa2f7',
+        folder_bg = '#7aa2f7',
     }
 
     local mode_colors = {
-        ["n"] = { "NORMAL", colors.nord_blue },
-        ["no"] = { "N-PENDING", colors.nord_blue },
-        ["i"] = { "INSERT", colors.dark_purple },
-        ["ic"] = { "INSERT", colors.dark_purple },
-        ["t"] = { "TERMINAL", colors.green },
-        ["v"] = { "VISUAL", colors.sun },
-        ["V"] = { "V-LINE", colors.sun },
-        ["\22"] = { "V-BLOCK", colors.sun },
-        ["R"] = { "REPLACE", colors.orange },
-        ["Rv"] = { "V-REPLACE", colors.orange },
-        ["s"] = { "SELECT", colors.nord_blue },
-        ["S"] = { "S-LINE", colors.nord_blue },
-        [""] = { "S-BLOCK", colors.nord_blue },
-        ["c"] = { "COMMAND", colors.pink },
-        ["cv"] = { "COMMAND", colors.pink },
-        ["ce"] = { "COMMAND", colors.pink },
-        ["r"] = { "PROMPT", colors.teal },
-        ["rm"] = { "MORE", colors.teal },
-        ["r?"] = { "CONFIRM", colors.teal },
-        ["!"] = { "SHELL", colors.green },
+        ['n'] = { 'NORMAL', colors.nord_blue },
+        ['no'] = { 'N-PENDING', colors.nord_blue },
+        ['i'] = { 'INSERT', colors.dark_purple },
+        ['ic'] = { 'INSERT', colors.dark_purple },
+        ['t'] = { 'TERMINAL', colors.green },
+        ['v'] = { 'VISUAL', colors.sun },
+        ['V'] = { 'V-LINE', colors.sun },
+        ['\22'] = { 'V-BLOCK', colors.sun },
+        ['R'] = { 'REPLACE', colors.orange },
+        ['Rv'] = { 'V-REPLACE', colors.orange },
+        ['s'] = { 'SELECT', colors.nord_blue },
+        ['S'] = { 'S-LINE', colors.nord_blue },
+        [''] = { 'S-BLOCK', colors.nord_blue },
+        ['c'] = { 'COMMAND', colors.pink },
+        ['cv'] = { 'COMMAND', colors.pink },
+        ['ce'] = { 'COMMAND', colors.pink },
+        ['r'] = { 'PROMPT', colors.teal },
+        ['rm'] = { 'MORE', colors.teal },
+        ['r?'] = { 'CONFIRM', colors.teal },
+        ['!'] = { 'SHELL', colors.green },
     }
 
     local icon_styles = {
         default = {
-            left = "",
-            right = " ",
-            main_icon = "  ",
-            vi_mode_icon = " ",
-            position_icon = " ",
+            left = '',
+            right = ' ',
+            main_icon = '  ',
+            vi_mode_icon = ' ',
+            position_icon = ' ',
         },
         arrow = {
-            left = "",
-            right = "",
-            main_icon = "  ",
-            vi_mode_icon = " ",
-            position_icon = " ",
+            left = '',
+            right = '',
+            main_icon = '  ',
+            vi_mode_icon = ' ',
+            position_icon = ' ',
         },
 
         block = {
-            left = " ",
-            right = " ",
-            main_icon = "   ",
-            vi_mode_icon = "  ",
-            position_icon = "  ",
+            left = ' ',
+            right = ' ',
+            main_icon = '   ',
+            vi_mode_icon = '  ',
+            position_icon = '  ',
         },
 
         round = {
-            left = "",
-            right = "",
-            main_icon = "  ",
-            vi_mode_icon = " ",
-            position_icon = " ",
+            left = '',
+            right = '',
+            main_icon = '  ',
+            vi_mode_icon = ' ',
+            position_icon = ' ',
         },
-
         slant = {
-            left = " ",
-            right = " ",
-            main_icon = "  ",
-            vi_mode_icon = " ",
-            position_icon = " ",
+            left = ' ',
+            right = ' ',
+            main_icon = '  ',
+            vi_mode_icon = ' ',
+            position_icon = ' ',
         },
     }
 
-    local statusline_style = icon_styles["default"]
+    local statusline_style = icon_styles['default']
 
     -- Initialize components
     local components = {
@@ -110,58 +109,80 @@ return function()
         right = { active = {}, inactive = {} },
     }
 
+    --[[
+        Component format:
+            - provider: Displayed icon or string
+            - hl: The provider's color (fg) and background color (bg)
+            - left_sep/right_sep: Optional divider
+
+        Note: See below for functional examples. These are necessary for any stateful changes,
+              like checking buffer names or git branches.
+    --]]
+
     -- Logo
     components.left.active[1] = {
         provider = statusline_style.main_icon,
-
         hl = function()
             return {
                 fg = colors.statusline_bg,
                 bg = mode_colors[vim.fn.mode()][2],
             }
         end,
-
-        right_sep = { str = statusline_style.right, hl = function()
+        right_sep = function()
+            local background = colors.light_grey2
+            if vim.b.gitsigns_status_dict then background = colors.statusline_bg end
             return {
-                fg = mode_colors[vim.fn.mode()][2],
-                bg = colors.statusline_bg,
+                str = statusline_style.right,
+                hl = function()
+                    return { fg = mode_colors[vim.fn.mode()][2], bg = background }
+                end
             }
-        end},
+        end,
     }
 
     -- Git Branch
     components.left.active[2] = {
         provider = function()
-            local git_branch = ""
+            local git_branch = ''
 
             -- Use gitsigns to check branch name.
             local gs_dict = vim.b.gitsigns_status_dict
             if gs_dict then
                 git_branch = (gs_dict.head and #gs_dict.head > 0 and gs_dict.head) or git_branch
             end
-            return (git_branch ~= "" and "   " .. git_branch) or git_branch
+            return (git_branch ~= '' and '   ' .. git_branch) or git_branch
         end,
-        hl = {
-            fg = colors.dark_purple,
-            bg = colors.statusline_bg,
-        },
-        right_sep = { str = '  ', hl = { fg = colors.statusline_bg, bg = colors.statusline_bg } },
-    }
-
-    -- Padding
-    components.left.active[3] = {
-        provider = statusline_style.right .. ' ',
-        hl = { fg = colors.statusline_bg, bg = colors.light_grey2 }
+        hl = { gf = colors.dark_purple, bg = colors.statusline_bg },
+        right_sep = function()
+            local s = ''
+            if vim.b.gitsigns_status_dict then s = '  ' end
+            return { str = s, hl = { fg = colors.statusline_bg, bg = colors.statusline_bg }}
+        end,
     }
 
     local function filename_component(status)
         local background = colors.statusline_bg
         if status == 'active' then background = colors.light_grey2 end
         return {
+            left_sep = function()
+                local filename = vim.fn.expand '%:t'
+                local extension = vim.fn.expand '%:e'
+                if require('nvim-web-devicons').get_icon(filename, extension) == nil or status ~= 'active' then
+                    return { str = '', hl = { fg = colors.statusline_bg, bg = colors.statusline_bg }}
+                end
+
+                local icon = statusline_style.right .. ' '
+                if not vim.b.gitsigns_status_dict then icon = ' ' end
+
+                local colo = colors.statusline_bg
+                if not vim.b.gitsigns_status_dict then colo = colors.light_grey2 end
+
+                return { str = icon, hl = { fg = colo, bg = colors.light_grey2 } }
+            end,
             provider = function()
-                local filename = vim.fn.expand "%:t"
-                local extension = vim.fn.expand "%:e"
-                local icon = require("nvim-web-devicons").get_icon(filename, extension)
+                local filename = vim.fn.expand '%:t'
+                local extension = vim.fn.expand '%:e'
+                local icon = require('nvim-web-devicons').get_icon(filename, extension)
 
                 if filename == 'NvimTree' then
                     icon = ' '
@@ -171,7 +192,7 @@ return function()
                 end
 
                 if icon == nil then
-                    icon = ""
+                    icon = ''
                     return icon
                 end
 
@@ -182,7 +203,7 @@ return function()
                     info_icon = ' '
                 end
 
-                return icon .. " " .. filename .. " " .. info_icon
+                return icon .. ' ' .. filename .. ' ' .. info_icon
             end,
             hl = {
                 fg = colors.white,
@@ -192,49 +213,49 @@ return function()
     end
 
     -- File icon, name, edited status
-    components.left.active[4] = filename_component('active')
+    components.left.active[3] = filename_component('active')
 
     -- Padding
-    components.left.active[5] = {
+    components.left.active[4] = {
         provider = statusline_style.right,
         hl = { fg = colors.light_grey2, bg = colors.statusline_bg },
     }
 
     -- Diagnostics
-    components.left.active[6] = {
-        provider = "diagnostic_errors",
+    components.left.active[5] = {
+        provider = 'diagnostic_errors',
         enabled = function()
-            return lsp.diagnostics_exist "Error"
+            return lsp.diagnostics_exist 'Error'
         end,
         hl = { fg = colors.red },
-        icon = "  ",
+        icon = '  ',
+    }
+
+    components.left.active[6] = {
+        provider = 'diagnostic_warnings',
+        enabled = function()
+            return lsp.diagnostics_exist 'Warning'
+        end,
+        hl = { fg = colors.yellow },
+        icon = '  ',
     }
 
     components.left.active[7] = {
-        provider = "diagnostic_warnings",
+        provider = 'diagnostic_hints',
         enabled = function()
-            return lsp.diagnostics_exist "Warning"
+            return lsp.diagnostics_exist 'Hint'
         end,
-        hl = { fg = colors.yellow },
-        icon = "  ",
+        hl = { fg = colors.grey_fg2 },
+        icon = '  ',
     }
 
     components.left.active[8] = {
-        provider = "diagnostic_hints",
+        provider = 'diagnostic_info',
         enabled = function()
-            return lsp.diagnostics_exist "Hint"
-        end,
-        hl = { fg = colors.grey_fg2 },
-        icon = "  ",
-    }
-
-    components.left.active[9] = {
-        provider = "diagnostic_info",
-        enabled = function()
-            return lsp.diagnostics_exist "Information"
+            return lsp.diagnostics_exist 'Information'
         end,
         hl = { fg = colors.green },
-        icon = "  ",
+        icon = '  ',
     }
 
     -- LSP info
@@ -242,74 +263,57 @@ return function()
         provider = function()
             local Lsp = vim.lsp.util.get_progress_messages()[1]
             if Lsp then
-                local msg = Lsp.message or ""
+                local msg = Lsp.message or ''
                 local percentage = Lsp.percentage or 0
-                local title = Lsp.title or ""
-                local spinners = {
-                    "",
-                    "",
-                    "",
-                }
+                local title = Lsp.title or ''
+                local spinners = { '', '', '' }
 
-                local success_icon = {
-                    "",
-                    "",
-                    "",
-                }
+                local success_icon = { '', '', '' }
 
                 local ms = vim.loop.hrtime() / 1000000
                 local frame = math.floor(ms / 120) % #spinners
 
                 if percentage >= 70 then
-                    return string.format(" %%<%s %s %s (%s%%%%) ", success_icon[frame + 1], title, msg, percentage)
+                    return string.format(' %%<%s %s %s (%s%%%%) ', success_icon[frame + 1], title, msg, percentage)
                 else
-                    return string.format(" %%<%s %s %s (%s%%%%) ", spinners[frame + 1], title, msg, percentage)
+                    return string.format(' %%<%s %s %s (%s%%%%) ', spinners[frame + 1], title, msg, percentage)
                 end
             end
-            return ""
+            return ''
         end,
         hl = { fg = colors.green },
     }
 
     -- Diffs
     components.right.active[1] = {
-        provider = "git_diff_added",
+        provider = 'git_diff_added',
         hl = {
             fg = colors.green,
             bg = colors.statusline_bg,
         },
-        icon = " ",
+        icon = ' ',
     }
 
     components.right.active[2] = {
-        provider = "git_diff_changed",
+        provider = 'git_diff_changed',
         hl = {
             fg = colors.yellow,
             bg = colors.statusline_bg,
         },
-        icon = "   ",
+        icon = '   ',
     }
 
     components.right.active[3] = {
-        provider = "git_diff_removed",
+        provider = 'git_diff_removed',
         hl = {
             fg = colors.red,
             bg = colors.statusline_bg,
         },
-        icon = "  ",
-    }
-
-    -- Padding
-    components.right.active[4] = {
-        provider = statusline_style.left,
-        hl = {
-            fg = colors.statusline_bg,
-            bg = colors.statusline_bg,
-        }
+        icon = '   ',
     }
 
     -- LSP client name
-    components.right.active[5] = {
+    components.right.active[4] = {
         provider = function()
             if next(vim.lsp.buf_get_clients()) ~= nil then
                 local clients = vim.lsp.get_active_clients()
@@ -328,25 +332,17 @@ return function()
                     ::continue::
                 end
 
-                return "  " .. name
+                return '    ' .. name
             else
-                return ""
+                return ''
             end
         end,
         hl = { fg = colors.purple, bg = colors.statusline_bg },
     }
 
     -- Padding
-    components.right.active[6] = {
-        provider = " " .. statusline_style.left,
-        hl = {
-            fg = colors.statusline_bg,
-            bg = colors.statusline_bg,
-        },
-    }
-
-    components.right.active[7] = {
-        provider = statusline_style.left,
+    components.right.active[5] = {
+        provider = '  ' .. statusline_style.left,
         hl = function()
             return {
                 fg = mode_colors[vim.fn.mode()][2],
@@ -356,7 +352,7 @@ return function()
     }
 
     -- Vim mode
-    components.right.active[8] = {
+    components.right.active[6] = {
         provider = statusline_style.vi_mode_icon,
         hl = function()
             return {
@@ -366,9 +362,9 @@ return function()
         end,
     }
 
-    components.right.active[9] = {
+    components.right.active[7] = {
         provider = function()
-            return " " .. mode_colors[vim.fn.mode()][1] .. " "
+            return ' ' .. mode_colors[vim.fn.mode()][1] .. ' '
         end,
         hl = function()
             return {
@@ -379,16 +375,8 @@ return function()
     }
 
     -- Padding
-    components.right.active[10] = {
-        provider = statusline_style.left,
-        hl = {
-            fg = colors.statusline_bg,
-            bg = colors.statusline_bg,
-        },
-    }
-
-    components.right.active[11] = {
-        provider = statusline_style.left,
+    components.right.active[8] = {
+        provider = ' ' .. statusline_style.left,
         hl = {
             fg = colors.vibrant_green,
             bg = colors.statusline_bg,
@@ -396,7 +384,7 @@ return function()
     }
 
     -- File Line %
-    components.right.active[12] = {
+    components.right.active[9] = {
         provider = statusline_style.position_icon,
         hl = {
             fg = colors.black,
@@ -404,18 +392,18 @@ return function()
         },
     }
 
-    components.right.active[13] = {
+    components.right.active[10] = {
         provider = function()
-            local current_line = vim.fn.line "."
-            local total_line = vim.fn.line "$"
+            local current_line = vim.fn.line '.'
+            local total_line = vim.fn.line '$'
 
             if current_line == 1 then
-                return " TOP "
-            elseif current_line == vim.fn.line "$" then
-                return " BOT "
+                return ' TOP '
+            elseif current_line == vim.fn.line '$' then
+                return ' BOT '
             end
             local result, _ = math.modf((current_line / total_line) * 100)
-            return " " .. result .. "%% "
+            return ' ' .. result .. '%% '
         end,
 
         hl = {
@@ -468,5 +456,5 @@ return function()
         },
     }
 
-    require("feline").setup(config)
+    require('feline').setup(config)
 end
