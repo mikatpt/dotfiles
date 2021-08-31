@@ -63,6 +63,19 @@ return packer.startup(function(use)
         event = 'BufRead'
     }
 
+    -- Quick navigation
+    use({
+        'ThePrimeagen/harpoon',
+        event = 'BufRead',
+    })
+
+    -- Pretty diagnostics
+    use({
+        'folke/trouble.nvim',
+        config = require('modules.trouble'),
+        event = 'BufRead'
+    })
+
     -- Built-in lsp
     use({
         'neovim/nvim-lspconfig',
