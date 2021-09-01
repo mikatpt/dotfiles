@@ -54,6 +54,7 @@ alias bazeltest='bazel test --test_verbose_timeout_warnings --test_output errors
 alias cm='git commit'
 alias ga='git add'
 alias gp='git push'
+alias pull='git pull'
 alias pullup='git pull upstream master --rebase'
 alias gr='git reset'
 alias b='git branch'

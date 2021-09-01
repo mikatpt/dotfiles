@@ -23,6 +23,7 @@ function :q; exit; end
 function cm; git commit $argv; end
 function ga; git add $argv; end
 function gp; git push $argv; end
+function pull; git pull $argv; end
 function gr; git reset $argv; end
 function b; git branch; end
 function co; git checkout $argv; end
