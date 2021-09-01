@@ -40,7 +40,7 @@ return function()
             filetypes = vim.tbl_keys(format_config),
             settings = {
                 languages = format_config,
-                logFile = '/Users/m.chen@coinbase.com/.cache/nvim/efm.log',
+                -- logFile = '/Users/m.chen@coinbase.com/.cache/nvim/efm.log',
                 -- logFile = '/home/mikatpt/.cache/nvim/efm.log',
                 logLevel = 1,
             }
