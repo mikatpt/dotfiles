@@ -11,7 +11,9 @@ inoremap jk <esc>
 tnoremap <Esc> <C-\><C-N>
 tnoremap jk <C-\><C-N>
 
-" Fix vim Y behavioronnnnoremap Y y$
+" Fix vim Y behavior
+nnoremap Y y$
+
 " Remove the most toxic vim mode to exist and remap it to repeat the last macro.
 nnoremap Q @@
 
@@ -44,10 +46,10 @@ inoremap <S-CR> <Esc>O
 " gc to comment out lines
 
 " Resize splits
-nnoremap <silent> = :vert res +5<CR>
-nnoremap <silent> - :vert res -5<CR>
-nnoremap <silent> + :res +5<CR>
-nnoremap <silent> _ :res -5<CR>
+nnoremap <silent> <S-LEFT> :vert res -5<CR>
+nnoremap <silent> <S-RIGHT> :vert res +5<CR>
+nnoremap <silent> <S-UP> :res +5<CR>
+nnoremap <silent> <S-DOWN> :res -5<CR>
 
 " Use space j or k to open new splits, and Ctrl hjkl to move between them.
 nnoremap <leader>j :topleft vsp<CR>
