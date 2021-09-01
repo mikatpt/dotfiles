@@ -28,6 +28,10 @@ vnoremap K :m '<-2<CR>gv=gv
 
 """ END VIM DEFAULT OVERRIDES
 
+" Indenting won't throw you out of visual mode
+vnoremap <LT> <LT>gv
+vnoremap > >gv
+
 " Fix ctrl backspace behavior
 noremap! <C-BS> <C-W>
 noremap! <C-H> <C-W>
@@ -35,6 +39,15 @@ noremap! <C-H> <C-W>
 " Insert
 inoremap <C-J> <Esc>o
 inoremap <S-CR> <Esc>O
+
+" From vim-commentary:
+" gc to comment out lines
+
+" Resize splits
+nnoremap <silent> = :vert res +5<CR>
+nnoremap <silent> - :vert res -5<CR>
+nnoremap <silent> + :res +5<CR>
+nnoremap <silent> _ :res -5<CR>
 
 " Use space j or k to open new splits, and Ctrl hjkl to move between them.
 nnoremap <leader>j :topleft vsp<CR>
@@ -46,9 +59,14 @@ nnoremap <C-K> <C-W>w
 nnoremap <C-H> <C-W>h
 nnoremap <C-L> <C-W>l
 
+tnoremap <C-J> <C-\><C-N><C-W><S-W>
+tnoremap <C-K> <C-\><C-N><C-W>w
+tnoremap <C-H> <C-\><C-N><C-W>h
+tnoremap <C-L> <C-\><C-N><C-W>l
+
 " File Tree
 nnoremap <silent><C-N> :NvimTreeToggle<CR>
-" Open current file in tree
+tnoremap <silent><C-N> <C-\><C-N> :NvimTreeToggle<CR>
 nnoremap <silent><leader>nf :NvimTreeFindFile<CR>
 nnoremap <leader>nr :NvimTreeRefresh<CR>
 
@@ -61,18 +79,21 @@ nnoremap <leader>l :set rnu!<CR>
 " Open in Github
 nnoremap <silent> <leader>go <CMD>GBrowse<CR>
 
+" Open a terminal in vim.
+nnoremap <silent> <leader>t :lua require('harpoon.term').gotoTerminal({ idx = 1, create_with = ':e term://' .. vim.fn.system('echo $SHELL') })<CR>
+
 " LspSaga
 nnoremap <silent><leader>ca <CMD>lua require('lspsaga.codeaction').code_action()<CR>
 vnoremap <silent><leader>ca :<C-U>lua require('lspsaga.codeaction').range_code_action()<CR>
 nnoremap <silent> <C-f> <CMD>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>
 nnoremap <silent> <C-e> <CMD>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>
 
-" Indenting won't throw you out of visual mode
-vnoremap <LT> <LT>gv
-vnoremap > >gv
-
-" From vim-commentary:
-" gc to comment out lines
+" Mark files and access them from 1-9.
+nnoremap <leader>m :lua require("harpoon.mark").add_file()<CR>
+nnoremap <leader><S-M> :lua require("harpoon.ui").toggle_quick_menu()<CR>
+for i in [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    execute 'nnoremap <silent> <leader>' .. i .. ' :lua require("harpoon.ui").nav_file(' .. i .. ')<CR>'
+endfor
 
 " Find files (Telescope)
 nnoremap <C-P> <CMD>Telescope git_files<CR>
@@ -80,8 +101,9 @@ nnoremap <leader>p <CMD>Telescope find_files<CR>
 nnoremap <leader>o <CMD>Telescope oldfiles<CR>
 nnoremap <leader>z :lua require"telescope.builtin".git_files({cwd = "$HOME/.config/nvim" })<CR>
 nnoremap <leader>b <CMD>Telescope buffers<CR>
+
+" Ripgrep for input or current word
 nnoremap <leader>f :lua require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})<CR>
-" Grep current word under cursor
 nnoremap <leader>w :lua require('telescope.builtin').grep_string { search = vim.fn.expand("<cword>") }<CR>
 
 " Debugging
