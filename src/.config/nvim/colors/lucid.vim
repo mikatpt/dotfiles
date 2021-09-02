@@ -28,7 +28,7 @@
 :let _rock        = '#001627'
 " normal grays
 " --------------------------
-:let _rock_medium = '#36323d'
+:let _rock_medium = '#0A121A'
 :let _gray_dark   = '#534d5e'
 :let _gray        = '#847d91'
 :let _gray_medium = '#beb8cc'
@@ -106,8 +106,8 @@ let colorgroup['MatchParen']   = {"GUIFG": _rock_dark, "GUIBG":  _pink}
 let colorgroup['ModeMsg']      = {"GUIFG": _rock_dark, "GUIBG":  _turquoise}
 let colorgroup['Pmenu']        = {"GUIFG": _cloud,     "GUIBG":  _rock_medium}
 let colorgroup['PmenuSel']     = {"GUIFG": _rock_dark, "GUIBG":  _turquoise}
-let colorgroup['PmenuSbar']    = {                     "GUIBG":  _rock_dark}
-let colorgroup['Search']       = {                     "GUIBG":  _gray_dark, "GUI": "underline"}
+let colorgroup['PmenuSbar']    = {                     "GUIBG":  _rock_medium}
+let colorgroup['PmenuThumb']    = {                    "GUIBG":  _gray_dark}
 let colorgroup['SignColumn']   = {                     "GUIBG":  _rock_dark}
 let colorgroup['StatusLine']   = {"GUIFG": _gray,      "GUIBG":  _rock}
 let colorgroup['StatusLineNC'] = {"GUIFG": _gray_dark, "GUIBG":  _rock_dark}
@@ -119,7 +119,6 @@ if &background == "light"
   let colorgroup['Visual']       = {"GUIFG": _cloud,     "GUIBG":  _sap}
 endif
 let colorgroup['WarningMsg']   = {"GUIFG": _rock_dark, "GUIBG":  _steel}
-
 
 " Syntax
 " ----------------------------------------------------------------------
@@ -207,6 +206,7 @@ hi link StartifyPath          Comment
 hi link StartifySlash         Comment
 hi link StartifyFile          StorageClass
 
+highlight! link CmpDocumentation Pmenu
 
 " Language
 " ----------------------------------------------------------------------
