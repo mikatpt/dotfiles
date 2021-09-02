@@ -76,6 +76,9 @@ return packer.startup(function(use)
         event = 'BufRead'
     })
 
+    -- Load this in before lsp for config purposes.
+    use({ 'hrsh7th/cmp-nvim-lsp', event = 'BufEnter' })
+
     -- Built-in lsp
     use({
         'neovim/nvim-lspconfig',
@@ -92,19 +95,25 @@ return packer.startup(function(use)
         },
     })
 
+    use({
+        'onsails/lspkind-nvim',
+        config = require('modules.lspkind'),
+        event = 'BufEnter',
+    })
+
     -- Text completion
     use({
-        'hrsh7th/nvim-compe',
-        config = require('modules.compe'),
+        'hrsh7th/nvim-cmp',
+        config = require('modules.cmp'),
         event = 'InsertEnter',
+        requires = { 'hrsh7th/vim-vsnip', 'hrsh7th/cmp-buffer', 'hrsh7th/cmp-vsnip' },
     })
-    use({ 'hrsh7th/vim-vsnip', after = 'nvim-compe' })
 
     -- Autopairs
     use({
         'windwp/nvim-autopairs',
         config = require('modules.autopairs'),
-        after = 'nvim-compe',
+        after = 'nvim-cmp',
     })
 
     -- Fuzzy finding / Ctrl + p

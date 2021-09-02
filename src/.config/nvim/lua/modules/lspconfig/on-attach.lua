@@ -8,8 +8,11 @@ return function(client, bufnr)
     buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
     -- For function signatures
-    require('lsp_signature').on_attach()
-    require('lspsaga').init_lsp_saga()
+    require('lspsaga').init_lsp_saga({
+        rename_action_keys = { quit = '<ESC>', exec = '<CR>' },
+        rename_prompt_prefix = 'Rename ➤',
+    })
+    require('lsp_signature').on_attach({ doc_lines = 2, use_lspsaga = true })
 
     -- Mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions
@@ -24,22 +27,25 @@ return function(client, bufnr)
     buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
     buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
     buf_set_keymap('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+    -- When glepnir feels better, we can start using these again
+    -- buf_set_keymap('n', 'gr', ':Lspsaga lsp_finder')
+    -- buf_set_keymap('n', 'gp', ':Lspsaga preview_definition')
 
     -- Actions
-    buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+    buf_set_keymap('n', '<leader>rn', ':Lspsaga rename<CR>', opts)
     buf_set_keymap('n', '<leader>s', '<cmd>lua vim.lsp.buf.formatting_sync(nil, 1000)<CR>', opts)
+    buf_set_keymap('n', '<space>ca', ':Lspsaga code_action<CR>', opts)
+    buf_set_keymap('v', '<space>ca', ':<C-U>Lspsaga range_code_action<CR>', opts)
+    buf_set_keymap('n', '<C-F>', '<CMD>lua require("lspsaga.action").smart_scroll_with_saga(1)<CR>', opts)
+    buf_set_keymap('n', '<C-E>', '<CMD>lua require("lspsaga.action").smart_scroll_with_saga(-1)<CR>', opts)
 
     -- Diagnostics
-    buf_set_keymap('n', 'm', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+    buf_set_keymap('n', 'm', ':Lspsaga hover_doc<CR>', opts)
     buf_set_keymap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
     buf_set_keymap('n', '<leader>q', '<cmd>TroubleToggle lsp_document_diagnostics<CR>', opts)
     buf_set_keymap('n', '<leader>Q', '<cmd>TroubleToggle lsp_workspace_diagnostics<CR>', opts)
-    -- buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-    buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-    buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-
-    --  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-    --  buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+    buf_set_keymap('n', '[d', ':Lspsaga diagnostic_jump_prev<CR>', opts)
+    buf_set_keymap('n', ']d', ':Lspsaga diagnostic_jump_next<CR>', opts)
 
     -- So that the only client with format capabilities is efm
     if client.name ~= 'efm' then
