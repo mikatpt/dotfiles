@@ -76,9 +76,6 @@ return packer.startup(function(use)
         event = 'BufRead'
     })
 
-    -- Load this in before lsp for config purposes.
-    use({ 'hrsh7th/cmp-nvim-lsp', event = 'BufEnter' })
-
     -- Built-in lsp
     use({
         'neovim/nvim-lspconfig',
@@ -92,6 +89,7 @@ return packer.startup(function(use)
                 'jose-elias-alvarez/nvim-lsp-ts-utils',
                 module = 'nvim-lsp-ts-utils',
             },
+            { 'hrsh7th/cmp-nvim-lsp', module = 'cmp_nvim_lsp' }
         },
     })
 
