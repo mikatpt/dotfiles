@@ -1,5 +1,6 @@
 return function()
     local cmp = require'cmp'
+    local compare = require'cmp.config.compare'
     local lspkind = require'lspkind'
     local t = function(str)
         return vim.api.nvim_replace_termcodes(str, true, true, true)
@@ -25,6 +26,19 @@ return function()
             expand = function(args)
                 vim.fn['vsnip#anonymous'](args.body)
             end,
+        },
+        preselect = cmp.PreselectMode.None,
+        sorting = {
+            priority_weight = 2,
+            comparators = {
+                compare.offset,
+                compare.exact,
+                compare.score,
+                compare.kind,
+                compare.sort_text,
+                compare.length,
+                compare.order,
+            }
         },
         mapping = {
             ['<Tab>'] = function(fallback)

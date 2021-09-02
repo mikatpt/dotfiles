@@ -208,7 +208,7 @@ return function()
                     info_icon = ' '
                 end
 
-                return icon .. ' ' .. filename .. ' ' .. info_icon
+                return icon .. ' ' .. filename .. ' ' .. info_icon .. ' '
             end,
             hl = {
                 fg = colors.white,
