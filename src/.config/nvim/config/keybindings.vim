@@ -84,12 +84,6 @@ nnoremap <silent> <leader>go <CMD>GBrowse<CR>
 " Open a terminal in vim.
 nnoremap <silent> <leader>t :lua require('harpoon.term').gotoTerminal({ idx = 1, create_with = ':e term://' .. vim.fn.system('echo $SHELL') })<CR>
 
-" LspSaga
-nnoremap <silent><leader>ca <CMD>lua require('lspsaga.codeaction').code_action()<CR>
-vnoremap <silent><leader>ca :<C-U>lua require('lspsaga.codeaction').range_code_action()<CR>
-nnoremap <silent> <C-f> <CMD>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>
-nnoremap <silent> <C-e> <CMD>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>
-
 " Mark files and access them from 1-9.
 nnoremap <leader>m :lua require("harpoon.mark").add_file()<CR>
 nnoremap <leader><S-M> :lua require("harpoon.ui").toggle_quick_menu()<CR>
