@@ -21,19 +21,16 @@ return packer.startup(function(use)
     -----[[-------------]]-----
     ---      ESSENTIALS     ---
     -----]]-------------[[-----
-    use({ 'wbthomason/packer.nvim' })
-    use({ 'nvim-lua/plenary.nvim', module = 'plenary', event = 'BufEnter'  })
-    use({ 'nvim-lua/popup.nvim', module = 'popup', event = 'BufEnter' })
-    use({ 'jremmen/vim-ripgrep', event = 'BufEnter' })
+    use({ 'wbthomason/packer.nvim', event = 'VimEnter' })
+    use({ 'nvim-lua/plenary.nvim', module = 'plenary', event = 'BufRead'  })
 
-    use({ 'tpope/vim-commentary', event = 'BufEnter' })
-    use({ 'machakann/vim-sandwich', event = 'BufEnter' })
-    use({ 'tpope/vim-fugitive', event = 'BufEnter' })
-    use({ 'tpope/vim-rhubarb', event = 'BufEnter' })
-    use({ 'mbbill/undotree', event = 'BufEnter' })
-    use({ 'leafgarland/typescript-vim', event = 'BufEnter' })
+    use({ 'tpope/vim-commentary', event = 'BufRead' })
+    use({ 'machakann/vim-sandwich', event = 'BufRead' })
+    use({ 'tpope/vim-fugitive', event = 'BufRead', requires = { 'tpope/vim-rhubarb'} })
+    use({ 'mbbill/undotree', event = 'BufRead' })
+    use({ 'leafgarland/typescript-vim', event = 'BufRead' })
 
-    use({ 'vim-utils/vim-man', event = 'BufEnter' })
+    use({ 'vim-utils/vim-man', event = 'BufRead' })
     use({ 'godlygeek/tabular', event = 'BufEnter' })
     use({ 'plasticboy/vim-markdown', event = 'BufEnter' })
 
@@ -96,7 +93,7 @@ return packer.startup(function(use)
     use({
         'onsails/lspkind-nvim',
         config = require('modules.lspkind'),
-        event = 'BufEnter',
+        event = 'BufRead',
     })
 
     -- Text completion
@@ -118,7 +115,7 @@ return packer.startup(function(use)
     use({
         'nvim-telescope/telescope.nvim',
         config = require('modules.telescope'),
-        event = 'BufEnter',
+        cmd = "Telescope",
         module = 'telescope',
         requires = { 'nvim-telescope/telescope-fzy-native.nvim' },
     })
@@ -133,15 +130,21 @@ return packer.startup(function(use)
     -- Dashboard
     use({
         'glepnir/dashboard-nvim',
+        cmd = {
+            "Dashboard",
+            "DashboardNewFile",
+            "DashboardJumpMarks",
+            "SessionLoad",
+            "SessionSave"
+        },
         config = require('modules.dashboard'),
-        event = 'VimEnter',
     })
 
     -- Status line
     use({
         'famiu/feline.nvim',
         config = require('modules.feline'),
-        event = 'BufEnter'
+        event = 'BufRead'
     })
 
     -- Git status in gutter
