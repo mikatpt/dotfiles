@@ -23,6 +23,7 @@ return packer.startup(function(use)
     -----]]-------------[[-----
     use({ 'wbthomason/packer.nvim', event = 'VimEnter' })
     use({ 'nvim-lua/plenary.nvim', module = 'plenary', event = 'BufRead'  })
+    use({ 'nvim-lua/popup.nvim', module = 'popup', event = 'BufRead' })
 
     use({ 'tpope/vim-commentary', event = 'BufRead' })
     use({ 'machakann/vim-sandwich', event = 'BufRead' })
@@ -33,6 +34,7 @@ return packer.startup(function(use)
     use({ 'vim-utils/vim-man', event = 'BufRead' })
     use({ 'godlygeek/tabular', event = 'BufEnter' })
     use({ 'plasticboy/vim-markdown', event = 'BufEnter' })
+    use({ 'rktjmp/lush.nvim', event = 'BufRead' })
 
     --[[ Template for adding a plugin
         use ({
