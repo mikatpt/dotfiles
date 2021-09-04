@@ -8,6 +8,14 @@ return function()
 
     cmp.setup {
         completion = { completeopt = 'menu,menuone,noinsert' },
+        confirmation = {
+            -- comma won't commit.
+            get_commit_characters = function(commit_chars)
+                return vim.tbl_filter(function(char)
+                    return char ~= ',' and char ~= '('
+                end, commit_chars)
+            end
+        },
         formatting = {
             format = function(entry, vim_item)
                 vim_item.kind = lspkind.presets.default[vim_item.kind] .. "  " .. vim_item.kind

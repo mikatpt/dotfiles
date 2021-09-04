@@ -18,7 +18,7 @@ set nohlsearch
 set hidden
 set termguicolors
 syntax on
-colo lucid
+colo lucid_nvim
 set background=dark
 set cmdheight=1
 set updatetime=300
