@@ -34,7 +34,8 @@ return packer.startup(function(use)
     use({ 'vim-utils/vim-man', event = 'BufRead' })
     use({ 'godlygeek/tabular', event = 'BufEnter' })
     use({ 'plasticboy/vim-markdown', event = 'BufEnter' })
-    use({ 'rktjmp/lush.nvim', event = 'BufRead' })
+    use({ 'rktjmp/lush.nvim', event = 'VimEnter', module = 'lush' })
+    use({ '~/lucid_nvim', event = 'VimEnter', module = 'lush_theme.lucid_nvim' })
 
     --[[ Template for adding a plugin
         use ({
