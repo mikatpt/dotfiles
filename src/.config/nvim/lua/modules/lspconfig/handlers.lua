@@ -8,7 +8,7 @@ M.implementation = function()
         local ft = vim.api.nvim_buf_get_option(bufnr, 'filetype')
         if ft == 'go' then
             local new_result = vim.tbl_filter(function(v)
-                return not string.find(v.uri, 'mock_')
+                return not string.find(v.uri, 'mocks')
             end, result)
             if #new_result > 0 then
                 result = new_result
