@@ -1,5 +1,6 @@
 local M = {}
 
+-- Do not include implementations from files including 'mocks'
 M.implementation = function()
 
     local params = vim.lsp.util.make_position_params()

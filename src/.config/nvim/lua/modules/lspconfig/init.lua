@@ -2,38 +2,32 @@ return function()
     local lspconfig = require('lspconfig')
     local lspinstall = require('lspinstall')
     local on_attach = require('modules.lspconfig.on-attach')
+    local utils = require('core.utils')
 
     require('modules.lspconfig.ui').symbols_override()
-    require('modules.lspconfig.ui').disable_virtual_text()
 
     local capabilities = vim.lsp.protocol.make_client_capabilities()
+
+    -- Auto-complete options
     capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
     capabilities.textDocument.completion.completionItem.snippetSupport = true
     capabilities.textDocument.completion.completionItem.resolveSupport = {
         properties = { 'documentation', 'detail', 'additionalTextEdits' },
     }
 
+    -- Don't update diagnostics while typing
     vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
         vim.lsp.diagnostic.on_publish_diagnostics, {
+            virtual_text = true,
+            signs = true,
             update_in_insert = false
         }
     )
 
-    vim.lsp.handlers["textDocument/formatting"] = function(err, _, result, _, bufnr)
-        if err ~= nil or result == nil then
-            return
-        end
-        if not vim.api.nvim_buf_get_option(bufnr, "modified") then
-            local view = vim.fn.winsaveview()
-            vim.lsp.util.apply_text_edits(result, bufnr)
-            vim.fn.winrestview(view)
-            if bufnr == vim.api.nvim_get_current_buf() then
-                vim.api.nvim_command("noautocmd :update")
-            end
-        end
-    end
-
     local format_config = require('modules.lspconfig.format')
+
+    local lua_lsp_root = utils.os.cache..'/lspconfig/sumneko_lua/lua-language-server'
+    local lua_lsp_binary = lua_lsp_root.."/bin/"..utils.os.name.."/lua-language-server"
     local servers = {
         efm = {
             init_options = { documentFormatting = true, codeAction = true },
@@ -41,12 +35,12 @@ return function()
             filetypes = vim.tbl_keys(format_config),
             settings = {
                 languages = format_config,
-                -- logFile = '/Users/m.chen@coinbase.com/.cache/nvim/efm.log',
-                -- logFile = '/home/mikatpt/.cache/nvim/efm.log',
-                logLevel = 1,
+                -- logFile = utils.os.cache..'/efm.log',
+                -- logLevel = 1,
             }
         },
         lua = {
+            cmd = { lua_lsp_binary, '-E', lua_lsp_root..'/main.lua' },
             settings = {
                 Lua = {
                     diagnostics = { globals = { 'vim' } },
@@ -56,11 +50,9 @@ return function()
                         path = vim.split(package.path, ';'),
                     },
                     workspace = {
-                        library = vim.list_extend(
-                            { [vim.fn.expand('$VIMRUNTIME/lua')] = true },
-                            {}
-                        ),
+                        library = vim.api.nvim_get_runtime_file("", true)
                     },
+                    telemetry = { enable = false },
                 },
             },
         },

@@ -2,20 +2,19 @@ return function()
     local cmp = require'cmp'
     local compare = require'cmp.config.compare'
     local lspkind = require'lspkind'
-    local t = function(str)
-        return vim.api.nvim_replace_termcodes(str, true, true, true)
-    end
+    local utils = require'core.utils'
 
     cmp.setup {
         completion = { completeopt = 'menu,menuone,noinsert' },
         confirmation = {
-            -- comma won't commit.
+            -- comma and parens won't trigger completion.
             get_commit_characters = function(commit_chars)
                 return vim.tbl_filter(function(char)
                     return char ~= ',' and char ~= '('
                 end, commit_chars)
             end
         },
+        -- Use lspkind icons for completion menu.
         formatting = {
             format = function(entry, vim_item)
                 vim_item.kind = lspkind.presets.default[vim_item.kind] .. "  " .. vim_item.kind
@@ -49,24 +48,8 @@ return function()
             }
         },
         mapping = {
-            ['<Tab>'] = function(fallback)
-                if vim.fn.pumvisible() == 1 then
-                    vim.fn.feedkeys(t('<C-N>'), 'n')
-                elseif vim.fn['vsnip#available']() == 1 then
-                    vim.fn.feedkeys(t('<Plug>(vsnip-expand-or-jump)'), '')
-                else
-                    fallback()
-                end
-            end,
-            ['<S-Tab>'] = function(_, fallback)
-                if vim.fn.pumvisible() == 1 then
-                    vim.fn.feedkeys(t('<C-P>'), 'n')
-                elseif vim.fn['vsnip#available']() == 1 then
-                    vim.fn.feedkeys(t('<Plug>(vsnip-jump-prev)'), '')
-                else
-                    fallback()
-                end
-            end,
+            ['<Tab>'] = utils.fn.cmp_select_next,
+            ['<S-Tab>'] = utils.fn.cmp_select_prev,
             ['<C-p>'] = cmp.mapping.select_prev_item(),
             ['<C-n>'] = cmp.mapping.select_next_item(),
             ['<C-Space>'] = cmp.mapping.complete(),
