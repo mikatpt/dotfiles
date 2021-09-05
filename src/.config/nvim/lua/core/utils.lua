@@ -16,6 +16,22 @@ local t = function(str)
     return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
 
+-- copied from tjdevries
+local function get_lua_runtime()
+    local result = {};
+    for _, path in pairs(vim.api.nvim_list_runtime_paths()) do
+        local lua_path = path .. "/lua/";
+        if vim.fn.isdirectory(lua_path) then
+            result[lua_path] = true
+        end
+    end
+
+    -- This loads the `lua` files from nvim into the runtime.
+    result[vim.fn.expand("$VIMRUNTIME/lua")] = true
+
+    return result;
+end
+
 -- Os
 M.os = {
     home = os.getenv('HOME'),
@@ -46,6 +62,7 @@ M.fn = {
             fallback()
         end
     end,
+    get_lua_runtime = get_lua_runtime,
 }
 
 return M
