@@ -1,8 +1,8 @@
 return function()
     local lspconfig = require('lspconfig')
+    local util = lspconfig.util
     local lspinstall = require('lspinstall')
     local on_attach = require('modules.lspconfig.on-attach')
-    local utils = require('core.utils')
 
     require('modules.lspconfig.ui').symbols_override()
 
@@ -18,6 +18,7 @@ return function()
     -- Don't update diagnostics while typing
     vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
         vim.lsp.diagnostic.on_publish_diagnostics, {
+            underline = false,
             virtual_text = true,
             signs = true,
             update_in_insert = false
@@ -36,7 +37,31 @@ return function()
                 -- logLevel = 1,
             }
         },
-        lua = require('modules.lspconfig.luaconfig'),
+        python = {
+            filetypes = { "python" },
+            root_dir = function(fname)
+                local root_files = {
+                    'pyproject.toml',
+                    'setup.py',
+                    'setup.cfg',
+                    'requirements.txt',
+                    'Pipfile',
+                    'pyrightconfig.json',
+                }
+                return util.root_pattern(unpack(root_files))(fname)
+                    or util.find_git_ancestor(fname) or util.path.dirname(fname)
+            end,
+            settings = {
+                python = {
+                    analysis = {
+                        autoSearchPaths = true,
+                        diagnosticMode = "workspace",
+                        useLibraryCodeForTypes = true
+                    }
+                }
+            },
+        },
+        lua = require('lua-dev').setup()
     }
 
     -- Setup servers

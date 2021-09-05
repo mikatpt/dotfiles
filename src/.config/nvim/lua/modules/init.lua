@@ -87,6 +87,7 @@ return packer.startup(function(use)
         config = require('modules.lspconfig'),
         event = 'BufEnter',
         requires = {
+            { 'folke/lua-dev.nvim', module = 'lua-dev' },
             { 'kabouzeid/nvim-lspinstall', module = 'lspinstall' },
             { 'glepnir/lspsaga.nvim', module = 'lspsaga' },
             { 'ray-x/lsp_signature.nvim', module = 'lsp_signature' },

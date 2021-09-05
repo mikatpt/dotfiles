@@ -442,7 +442,7 @@ return function()
 
     local config = {
         default_bg = colors.statusline_bg,
-        default_fg = colors.fg,
+        default_fg = colors.white,
         components = components,
         properties = {
             force_inactive = {
