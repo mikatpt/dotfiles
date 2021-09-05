@@ -1,10 +1,11 @@
 return function ()
     local dap = require('dap')
+    local utils = require('core.utils')
 
     dap.adapters.go = {
         type = 'executable';
         command = 'node';
-        args = {os.getenv('HOME') .. '/.debug/vscode-go/dist/debugAdapter.js'};
+        args = {utils.os.home .. '/.debug/vscode-go/dist/debugAdapter.js'};
     }
     dap.configurations.go = {
         {
@@ -21,7 +22,7 @@ return function ()
     dap.adapters.node2 = {
         type = 'executable',
         command = 'node',
-        args = {os.getenv('HOME') .. '/.debug/vscode-node-debug2/out/src/nodeDebug.js'},
+        args = {utils.os.home .. '/.debug/vscode-node-debug2/out/src/nodeDebug.js'},
     }
     dap.configurations.javascript = {
         {

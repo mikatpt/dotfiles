@@ -4,14 +4,22 @@ return function(client, bufnr)
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
-    --Enable completion triggered by <c-x><c-o>
+    -- Enable completion triggered by <c-x><c-o>
     buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-    -- For function signatures
+    -- saga gives us nicer hover menus for the builtin lsp functions
     require('lspsaga').init_lsp_saga({
         rename_action_keys = { quit = '<ESC>', exec = '<CR>' },
         rename_prompt_prefix = 'Rename ➤',
+        code_action_prompt = {
+            enable = true,
+            sign = false,
+            sign_priority = 20,
+            virtual_text = false,
+        },
     })
+
+    -- Automatic func signatures
     require('lsp_signature').on_attach({ doc_lines = 2, use_lspsaga = true })
 
     -- Mappings.

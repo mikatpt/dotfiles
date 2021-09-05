@@ -26,7 +26,9 @@ return function()
             Struct = "פּ",
             Event = "",
             Operator = "",
-            TypeParameter = ""
+            TypeParameter = '',
         },
     }
 end
+
+

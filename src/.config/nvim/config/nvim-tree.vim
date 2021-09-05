@@ -43,4 +43,3 @@ let g:nvim_tree_icons = {
     \     'error': "",
     \   }
     \ }
-highlight NvimTreeFolderIcon guibg=blue
