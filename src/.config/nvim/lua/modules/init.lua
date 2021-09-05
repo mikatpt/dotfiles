@@ -35,7 +35,12 @@ return packer.startup(function(use)
     use({ 'godlygeek/tabular', event = 'BufEnter' })
     use({ 'plasticboy/vim-markdown', event = 'BufEnter' })
     use({ 'rktjmp/lush.nvim', event = 'VimEnter', module = 'lush' })
-    use({ '~/lucid_nvim', event = 'VimEnter', module = 'lucid' })
+
+    local lucid = '~/lucid_nvim'
+    if vim.fn.isdirectory(utils.os.home .. '/lucid_nvim') ~= 1 then
+        lucid = 'mikatpt/lucid_nvim'
+    end
+    use({ lucid, event = 'VimEnter', module = 'lucid' })
 
     --[[ Template for adding a plugin
         use ({

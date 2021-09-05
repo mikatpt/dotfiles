@@ -25,9 +25,6 @@ return function()
     )
 
     local format_config = require('modules.lspconfig.format')
-
-    local lua_lsp_root = utils.os.cache..'/lspconfig/sumneko_lua/lua-language-server'
-    local lua_lsp_binary = lua_lsp_root.."/bin/"..utils.os.name.."/lua-language-server"
     local servers = {
         efm = {
             init_options = { documentFormatting = true, codeAction = true },
@@ -39,23 +36,7 @@ return function()
                 -- logLevel = 1,
             }
         },
-        lua = {
-            cmd = { lua_lsp_binary, '-E', lua_lsp_root..'/main.lua' },
-            settings = {
-                Lua = {
-                    diagnostics = { globals = { 'vim' } },
-                    completion = { keywordSnippet = 'Both' },
-                    runtime = {
-                        version = 'LuaJIT',
-                        path = vim.split(package.path, ';'),
-                    },
-                    workspace = {
-                        library = vim.api.nvim_get_runtime_file("", true)
-                    },
-                    telemetry = { enable = false },
-                },
-            },
-        },
+        lua = require('modules.lspconfig.luaconfig'),
     }
 
     -- Setup servers
