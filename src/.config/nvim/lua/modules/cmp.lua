@@ -33,7 +33,7 @@ return function()
             -- comma and parens won't trigger completion.
             get_commit_characters = function(commit_chars)
                 return vim.tbl_filter(function(char)
-                    return char ~= ',' and char ~= '('
+                    return char ~= ',' and char ~= '(' and char ~= '.'
                 end, commit_chars)
             end
         },
