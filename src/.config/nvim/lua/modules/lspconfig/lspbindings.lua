@@ -21,7 +21,7 @@ M.attach_mappings = function(bufnr)
     buf_set_keymap('n', 'gd', '<cmd>Telescope lsp_definitions<CR>', opts)
     buf_set_keymap('n', 'gr', '<cmd>Telescope lsp_references<CR>', opts)
     buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-    buf_set_keymap('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+    buf_set_keymap('n', 'gs', '<cmd>Lspsaga signature_help<CR>', opts)
 
     -- Glepnir is not able to fix this yet - just waiting for when he comes back.
     -- buf_set_keymap('n', 'gp', ':Lspsaga preview_definition')
