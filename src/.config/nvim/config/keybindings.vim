@@ -89,7 +89,7 @@ nnoremap <silent> <leader>t :lua require('harpoon.term').gotoTerminal({ idx = 1,
 
 " Mark files and access them from 1-9.
 nnoremap <leader>m :lua require("harpoon.mark").add_file()<CR>
-nnoremap <leader><S-M> :lua require("harpoon.ui").toggle_quick_menu()<CR>
+nnoremap <silent> <leader><S-M> :lua require("harpoon.ui").toggle_quick_menu()<CR>
 for i in [1, 2, 3, 4, 5, 6, 7, 8, 9]
     execute 'nnoremap <silent> <leader>' .. i .. ' :lua require("harpoon.ui").nav_file(' .. i .. ')<CR>'
 endfor
