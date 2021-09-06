@@ -10,12 +10,8 @@ M.attach_mappings = function(bufnr)
     -- Format without saving
     buf_set_keymap('c', 'wf', 'noautocmd w', { noremap = true })
 
-    -- Custom telescope find_implementation. Ignores mocks and tests.
-    -- local impl = '<cmd>lua require("telescope.builtin").lsp_implementations'
-    -- impl = impl .. '({ layout_strategy = "vertical", file_ignore_patterns = '
-    -- impl = impl .. '{ "*mock*/*", "**/*mock*", "*test*/*", "**/*test*"} })<CR>'
-    local impl = "<CMD>lua require'modules.lspconfig.handlers'.implementation()<CR>"
-    buf_set_keymap('n', 'gi', impl, opts)
+    -- Custom telescope find_implementation. Ignores mocks and tests in go.
+    buf_set_keymap('n', 'gi', "<CMD>lua require'modules.lspconfig.handlers'.implementation()<CR>", opts)
 
     -- Jump to definition
     buf_set_keymap('n', 'gd', '<cmd>Telescope lsp_definitions<CR>', opts)
