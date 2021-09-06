@@ -98,7 +98,7 @@ endfor
 nnoremap <C-P> <CMD>Telescope git_files<CR>
 nnoremap <leader>p <CMD>Telescope find_files<CR>
 nnoremap <leader>o <CMD>Telescope oldfiles<CR>
-nnoremap <leader>z :lua require"telescope.builtin".git_files({ prompt_title = 'Config Files', cwd = "$HOME/.config/nvim" })<CR>
+nnoremap <leader>z <CMD>lua require"telescope.builtin".git_files({ prompt_title = 'Config Files', cwd = "$HOME/.config/nvim" })<CR>
 nnoremap <leader>b <CMD>Telescope buffers<CR>
 nnoremap <leader>s <CMD>lua require'telescope.builtin'.lsp_dynamic_workspace_symbols({ prompt_title = 'Search Symbols', layout_strategy = 'vertical'  })<CR>
 
