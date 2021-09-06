@@ -28,11 +28,3 @@ endfunction
 autocmd BufRead *
   \ call FollowSymlink() |
   \ call SetProjectRoot()
-
-" netrw: follow symlink and set working directory
-autocmd CursorMoved silent *
-  " short circuit for non-netrw files
-  \ if &filetype == 'netrw' |
-  \   call FollowSymlink() |
-  \   call SetProjectRoot() |
-  \ endif
