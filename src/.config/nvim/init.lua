@@ -1,4 +1,6 @@
+-- Source all config files
 require('modules')
+vim.cmd('runtime! config/**/*.vim')
 
 local empty_buffer = vim.api.nvim_buf_get_name(0):len() == 0
 

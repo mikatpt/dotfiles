@@ -1,61 +1,51 @@
+require'modules.packerInit'.setup()
 local utils = require('core.utils')
-local packer_url = 'https://github.com/wbthomason/packer.nvim'
-local packer_path = utils.os.data .. '/site/pack/packer/opt/packer.nvim'
-
-if vim.fn.empty(vim.fn.glob(packer_path)) > 0 then
-    print('Downloading plugin manager...')
-    vim.cmd('silent! !git clone ' .. packer_url .. ' ' .. packer_path)
-end
-
-vim.cmd('packadd packer.nvim')
-
 local packer = require('packer')
 
-return packer.startup(function(use)
-    packer.init({
-        compile_path = utils.os.data .. '/site/lua/packer_compiled.lua',
-        opt_default = true,
-        profile = { enable = true },
+--[[ Template for adding a plugin
+    use ({
+         'plugin/name',
+         config = require('modules.config.plugin_name'),
+         event|cmd|module, -- ways to lazy load the plugin
+         run = ':Command', -- any startup commands
+         requires = {}
     })
+--]]
+
+return packer.startup(function(use)
 
     -----[[-------------]]-----
     ---      ESSENTIALS     ---
     -----]]-------------[[-----
+
     use({ 'wbthomason/packer.nvim', event = 'VimEnter' })
     use({ 'nvim-lua/plenary.nvim', module = 'plenary', event = 'BufRead'  })
     use({ 'nvim-lua/popup.nvim', module = 'popup', event = 'BufRead' })
 
-    use({ 'tpope/vim-commentary', event = 'BufRead' })
-    use({ 'machakann/vim-sandwich', event = 'BufRead' })
+    use({ 'tpope/vim-commentary', event = 'BufEnter' })
+    use({ 'machakann/vim-sandwich', event = 'BufEnter' })
     use({ 'tpope/vim-fugitive', event = 'BufRead', requires = { 'tpope/vim-rhubarb'} })
-    use({ 'mbbill/undotree', event = 'BufRead' })
+    use({ 'mbbill/undotree', event = 'BufEnter' })
     use({ 'leafgarland/typescript-vim', event = 'BufRead' })
 
     use({ 'vim-utils/vim-man', event = 'BufRead' })
-    use({ 'godlygeek/tabular', event = 'BufEnter' })
     use({ 'plasticboy/vim-markdown', event = 'BufEnter' })
-    use({ 'rktjmp/lush.nvim', event = 'VimEnter', module = 'lush' })
 
     local lucid = '~/lucid_nvim'
     if vim.fn.isdirectory(utils.os.home .. '/lucid_nvim') ~= 1 then
         lucid = 'mikatpt/lucid_nvim'
     end
-    use({ lucid, event = 'VimEnter', module = 'lucid' })
+    use({ 'rktjmp/lush.nvim', module = 'lush' })
+    use({ lucid, module = 'lucid' })
 
-    --[[ Template for adding a plugin
-        use ({
-             'plugin/name'
-             config = require('modules.config.plugin_name')
-             event|cmd|module --> way to lazy load the plugin
-             run = 'If it needs to run a command'
-             requires = {}
-        })
-    --]]
+    -----[[--------------]]-----
+    ---     IDE Features     ---
+    -----[[--------------]]-----
 
     -- Treesitter
     use({
         'nvim-treesitter/nvim-treesitter',
-        config = require('modules.treesitter'),
+        config = require('modules.config.treesitter'),
         event = 'BufRead',
         run = ':TSUpdate',
         requires = { 'nvim-treesitter/nvim-treesitter-refactor' },
@@ -77,7 +67,7 @@ return packer.startup(function(use)
     -- Pretty diagnostics
     use({
         'folke/trouble.nvim',
-        config = require('modules.trouble'),
+        config = require('modules.config.trouble'),
         event = 'BufRead'
     })
 
@@ -99,16 +89,17 @@ return packer.startup(function(use)
         },
     })
 
+    -- Nice icons
     use({
         'onsails/lspkind-nvim',
-        config = require('modules.lspkind'),
+        config = require('modules.config.lspkind'),
         event = 'BufRead',
     })
 
     -- Text completion
     use({
         'hrsh7th/nvim-cmp',
-        config = require('modules.cmp'),
+        config = require('modules.config.cmp'),
         event = 'InsertEnter',
         requires = { 'hrsh7th/vim-vsnip', 'hrsh7th/cmp-buffer', 'hrsh7th/cmp-vsnip' },
     })
@@ -116,23 +107,23 @@ return packer.startup(function(use)
     -- Autopairs
     use({
         'windwp/nvim-autopairs',
-        config = require('modules.autopairs'),
+        config = require('modules.config.autopairs'),
         after = 'nvim-cmp',
     })
 
     -- Fuzzy finding / Ctrl + p
     use({
         'nvim-telescope/telescope.nvim',
-        config = require('modules.telescope'),
+        config = require('modules.config.telescope'),
         cmd = "Telescope",
-        module = 'telescope',
+        module = { 'telescope', 'telescope.builtin' },
         requires = { 'nvim-telescope/telescope-fzy-native.nvim' },
     })
 
     -- Debugging
     use({
         'mfussenegger/nvim-dap',
-        config = require('modules.dap'),
+        config = require('modules.config.dap'),
         event = 'BufEnter',
     })
 
@@ -146,20 +137,20 @@ return packer.startup(function(use)
             "SessionLoad",
             "SessionSave"
         },
-        config = require('modules.dashboard'),
+        config = require('modules.config.dashboard'),
     })
 
     -- Status line
     use({
         'famiu/feline.nvim',
-        config = require('modules.feline'),
+        config = require('modules.config.feline'),
         event = 'BufRead'
     })
 
     -- Git status in gutter
     use({
         'lewis6991/gitsigns.nvim',
-        config = require('modules.gitsigns'),
+        config = require('modules.config.gitsigns'),
         after = 'plenary.nvim'
     })
 
