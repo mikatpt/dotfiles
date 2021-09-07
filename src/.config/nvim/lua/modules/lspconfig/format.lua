@@ -21,6 +21,11 @@ local gofmt = {
     formatStdin = true,
 }
 
+local rustfmt = {
+    formatCommand = 'rustfmt',
+    formatStdin = true,
+}
+
 -- local rubocop = {
 --     formatCommand = 'rubocop -f',
 --     formatStdin = true,
@@ -32,6 +37,7 @@ return {
     typescript = { prettier, eslint },
     typescriptreact = { prettier, eslint },
     go = { gofmt },
+    rust = { rustfmt },
     -- ruby = { rubocop },
 }
 

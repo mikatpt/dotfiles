@@ -21,7 +21,8 @@ return function()
             underline = false,
             virtual_text = true,
             signs = true,
-            update_in_insert = false
+            update_in_insert = false,
+            severity_sort = true,
         }
     )
 
@@ -37,6 +38,7 @@ return function()
                 -- logLevel = 1,
             }
         },
+        lua = require('lua-dev').setup(),
         python = {
             filetypes = { "python" },
             root_dir = function(fname)
@@ -61,7 +63,15 @@ return function()
                 }
             },
         },
-        lua = require('lua-dev').setup()
+        rust = {
+            root_dir = util.root_pattern('Cargo.toml', 'rust-project.json', '.git/', '.'),
+            settings = {
+                ['rust-analyzer'] = {
+                    checkOnSave = { command = 'clippy' }
+                }
+            }
+
+        },
     }
 
     -- Setup servers
