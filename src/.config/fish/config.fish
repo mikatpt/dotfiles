@@ -10,3 +10,4 @@ end
 
 set GOPATH "$HOME/go/bin"
 fish_add_path /usr/local/go/bin
+bass source $HOME/.cargo/env
