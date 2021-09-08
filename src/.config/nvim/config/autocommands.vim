@@ -25,6 +25,7 @@ function! FollowSymlink()
 endfunction
 
 autocmd FileType harpoon nnoremap <silent> q :q<CR>
+autocmd FileType harpoon nnoremap <silent> <ESC> :q<CR>
 
 " follow symlink and set working directory
 autocmd BufRead *

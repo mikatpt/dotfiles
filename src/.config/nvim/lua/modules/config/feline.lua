@@ -103,11 +103,9 @@ return function()
     local statusline_style = icon_styles['default']
 
     -- Initialize components
-    local components = {
-        left = { active = {}, inactive = {} },
-        mid = { active = {}, inactive = {} },
-        right = { active = {}, inactive = {} },
-    }
+    local components = { active = {}, inactive = {} }
+    for _ = 1, 3 do table.insert(components.active, {}) end
+    for _ = 1, 2 do table.insert(components.inactive, {}) end
 
     --[[
         Component format:
@@ -120,7 +118,7 @@ return function()
     --]]
 
     -- Logo
-    table.insert(components.left.active ,{
+    table.insert(components.active[1] ,{
         provider = statusline_style.main_icon,
         hl = function()
             return {
@@ -141,7 +139,7 @@ return function()
     })
 
     -- Git Branch
-    table.insert(components.left.active ,{
+    table.insert(components.active[1] ,{
         provider = function()
             local git_branch = ''
 
@@ -218,16 +216,16 @@ return function()
     end
 
     -- File icon, name, edited status
-    table.insert(components.left.active ,filename_component('active'))
+    table.insert(components.active[1], filename_component('active'))
 
     -- Padding
-    table.insert(components.left.active ,{
+    table.insert(components.active[1], {
         provider = statusline_style.right,
         hl = { fg = colors.light_grey2, bg = colors.statusline_bg },
     })
 
     -- Diagnostics
-    table.insert(components.left.active ,{
+    table.insert(components.active[1], {
         provider = 'diagnostic_errors',
         enabled = function()
             return lsp.diagnostics_exist 'Error'
@@ -236,7 +234,7 @@ return function()
         icon = '  ',
     })
 
-    table.insert(components.left.active ,{
+    table.insert(components.active[1], {
         provider = 'diagnostic_warnings',
         enabled = function()
             return lsp.diagnostics_exist 'Warning'
@@ -245,7 +243,7 @@ return function()
         icon = '  ',
     })
 
-    table.insert(components.left.active ,{
+    table.insert(components.active[1], {
         provider = 'diagnostic_hints',
         enabled = function()
             return lsp.diagnostics_exist 'Hint'
@@ -254,7 +252,7 @@ return function()
         icon = '  ',
     })
 
-    table.insert(components.left.active ,{
+    table.insert(components.active[1], {
         provider = 'diagnostic_info',
         enabled = function()
             return lsp.diagnostics_exist 'Information'
@@ -264,7 +262,7 @@ return function()
     })
 
     -- LSP info
-    table.insert(components.mid.active ,{
+    table.insert(components.active[2], {
         provider = function()
             local Lsp = vim.lsp.util.get_progress_messages()[1]
             if Lsp then
@@ -290,7 +288,7 @@ return function()
     })
 
     -- Diffs
-    table.insert(components.right.active ,{
+    table.insert(components.active[3], {
         provider = 'git_diff_added',
         hl = {
             fg = colors.green,
@@ -299,7 +297,7 @@ return function()
         icon = ' ',
     })
 
-    table.insert(components.right.active ,{
+    table.insert(components.active[3], {
         provider = 'git_diff_changed',
         hl = {
             fg = colors.yellow,
@@ -308,7 +306,7 @@ return function()
         icon = '   ',
     })
 
-    table.insert(components.right.active ,{
+    table.insert(components.active[3], {
         provider = 'git_diff_removed',
         hl = {
             fg = colors.red,
@@ -318,7 +316,7 @@ return function()
     })
 
     -- LSP client name
-    table.insert(components.right.active ,{
+    table.insert(components.active[3], {
         provider = function()
             if next(vim.lsp.buf_get_clients()) ~= nil then
                 local clients = vim.lsp.get_active_clients()
@@ -346,7 +344,7 @@ return function()
     })
 
     -- Padding
-    table.insert(components.right.active ,{
+    table.insert(components.active[3], {
         provider = '  ' .. statusline_style.left,
         hl = function()
             return {
@@ -357,7 +355,7 @@ return function()
     })
 
     -- Vim mode
-    table.insert(components.right.active ,{
+    table.insert(components.active[3], {
         provider = statusline_style.vi_mode_icon,
         hl = function()
             return {
@@ -367,7 +365,7 @@ return function()
         end,
     })
 
-    table.insert(components.right.active ,{
+    table.insert(components.active[3], {
         provider = function()
             return ' ' .. mode_colors[vim.fn.mode()][1] .. ' '
         end,
@@ -380,7 +378,7 @@ return function()
     })
 
     -- Padding
-    table.insert(components.right.active ,{
+    table.insert(components.active[3], {
         provider = ' ' .. statusline_style.left,
         hl = {
             fg = colors.vibrant_green,
@@ -389,7 +387,7 @@ return function()
     })
 
     -- File Line %
-    table.insert(components.right.active ,{
+    table.insert(components.active[3], {
         provider = statusline_style.position_icon,
         hl = {
             fg = colors.black,
@@ -397,7 +395,7 @@ return function()
         },
     })
 
-    table.insert(components.right.active ,{
+    table.insert(components.active[3], {
         provider = function()
             local current_line = vim.fn.line '.'
             local total_line = vim.fn.line '$'
@@ -418,7 +416,7 @@ return function()
     })
 
     -- Inactive components appear on the dashboard, nvim-tree, etc.
-    table.insert(components.left.inactive ,{
+    table.insert(components.inactive[1], {
         provider = statusline_style.main_icon,
         hl = { fg = colors.statusline_bg, bg = colors.dark_purple },
 
@@ -431,7 +429,7 @@ return function()
         },
     })
 
-    table.insert(components.left.inactive ,{
+    table.insert(components.inactive[1], {
         provider = icon_styles.round.right,
         hl = {
             fg = colors.statusline_bg,
@@ -439,7 +437,7 @@ return function()
         },
     })
 
-    table.insert(components.left.inactive ,filename_component('inactive'))
+    table.insert(components.inactive[1], filename_component('inactive'))
 
     local config = {
         default_bg = colors.statusline_bg,
