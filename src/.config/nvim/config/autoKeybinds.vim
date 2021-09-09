@@ -9,3 +9,7 @@ augroup nhooyr_fugitive
     autocmd!
     autocmd FileType fugitive call s:ftplugin_fugitive()
 augroup END
+
+autocmd FileType harpoon nnoremap <buffer> <silent> q :q<CR>
+autocmd FileType harpoon nnoremap <buffer> <silent> <ESC> :q<CR>
+
