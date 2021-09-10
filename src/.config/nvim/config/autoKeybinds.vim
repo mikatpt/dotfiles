@@ -13,3 +13,5 @@ augroup END
 autocmd FileType harpoon nnoremap <buffer> <silent> q :q<CR>
 autocmd FileType harpoon nnoremap <buffer> <silent> <ESC> :q<CR>
 
+autocmd FileType lspinfo nnoremap <buffer> <silent> q :q<CR>
+autocmd FileType lspinfo nnoremap <buffer> <silent> <ESC> :q<CR>

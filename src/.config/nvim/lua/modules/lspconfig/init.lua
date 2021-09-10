@@ -88,4 +88,10 @@ return function()
     end
 
     setup_servers()
+
+    -- Auto setup servers again after :LspInstall <server>
+    lspinstall.post_install_hook = function()
+        setup_servers()
+        vim.cmd("bufdo e")
+    end
 end
