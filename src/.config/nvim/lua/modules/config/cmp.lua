@@ -87,4 +87,5 @@ return function()
         autocomplete = true;
         min_length = 0, -- allow for 'from package import _' in Python
     }
+    if vim.bo.filetype == 'norg' then require'neorg'.modules.load_module('core.norg.completion') end
 end
