@@ -1,6 +1,5 @@
 return function()
     local parser_configs = require'nvim-treesitter.parsers'.get_parser_configs()
-    vim.cmd('PackerLoad nvim-cmp')
     parser_configs.norg = {
         install_info = {
             url = 'https://github.com/nvim-neorg/tree-sitter-norg',
@@ -11,7 +10,19 @@ return function()
 
     require'neorg'.setup({
         load = {
-            ['core.defaults'] = {},
+            ['core.defaults'] = {
+                config = {
+                    -- lazy load cmp.
+                    disable = (function()
+                        local ok = pcall('cmp')
+                        if ok then return {}
+                        else
+                            vim.cmd('PackerLoad lspkind-nvim nvim-cmp')
+                            return { 'core.norg.completion' }
+                        end
+                    end)()
+                }
+            },
             ['core.norg.concealer'] = {},
             ['core.norg.completion'] = {
                 config = { engine = 'nvim-cmp' }
