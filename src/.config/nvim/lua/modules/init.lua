@@ -12,7 +12,7 @@ local packer = require('packer')
     })
 --]]
 
--- NOTE: opt is set true, so all plugins are lazy-loaded. Here are your options:
+-- NOTE: opt is set true, so all plugins are lazy-loaded.
 -- Use modules|event|cmd|after options to load plugins
 return packer.startup(function(use)
 
@@ -29,6 +29,7 @@ return packer.startup(function(use)
     use({ 'tpope/vim-fugitive', event = 'BufRead', requires = { 'tpope/vim-rhubarb'} })
     use({ 'mbbill/undotree', event = 'BufEnter' })
     use({ 'leafgarland/typescript-vim', event = 'BufRead' })
+    use({ 'lukas-reineke/indent-blankline.nvim', event = 'BufRead', config = require('modules.config.blankline') })
 
     use({ 'vim-utils/vim-man', event = 'BufRead' })
     use({ 'plasticboy/vim-markdown', event = 'BufEnter' })
@@ -46,9 +47,6 @@ return packer.startup(function(use)
     use({ lucid, module = 'lucid' })
 
     -- TODO: Plugins to explore.
-    --
-    -- Dots for spaces:
-    -- use({ 'lukas-reineke/indent-blankline.nvim', event = 'BufRead' })
     --
     -- Fancier TODO - currently we have TODO, FIXME, XXX natively with LSP. This allows searching them.
     -- See how well this integrates with trouble.nvim
@@ -113,7 +111,7 @@ return packer.startup(function(use)
     use({
         'onsails/lspkind-nvim',
         config = require('modules.config.lspkind'),
-        event = 'BufRead',
+        event = 'VimEnter',
     })
 
     -- Text completion
