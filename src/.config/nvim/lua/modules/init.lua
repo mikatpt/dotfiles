@@ -33,11 +33,15 @@ return packer.startup(function(use)
 
     use({ 'vim-utils/vim-man', event = 'BufRead' })
     use({ 'plasticboy/vim-markdown', event = 'BufEnter' })
-    use({
-        'nvim-neorg/neorg',
-        config = require('modules.config.neorg'),
-        after = 'nvim-treesitter'
-    })
+
+    -- funky compiler stuff on mac right now :(
+    if utils.os.name ~= 'Darwin' then
+        use({
+            'nvim-neorg/neorg',
+            config = require('modules.config.neorg'),
+            after = 'nvim-treesitter'
+        })
+    end
 
     local lucid = '~/lucid_nvim'
     if vim.fn.isdirectory(utils.os.home .. '/lucid_nvim') ~= 1 then
