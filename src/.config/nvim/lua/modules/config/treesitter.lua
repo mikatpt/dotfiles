@@ -1,6 +1,10 @@
+
 return function()
+    local parsers = require'nvim-treesitter.parsers'.maintained_parsers()
+    table.insert(parsers, 'norg')
+
     require'nvim-treesitter.configs'.setup{
-        ensure_installed = "maintained",
+        ensure_installed = parsers,
         ignore_install = { "javascript" },
         autopairs = { enable = true },
         indent = { enable = true },

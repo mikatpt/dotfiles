@@ -12,6 +12,8 @@ local packer = require('packer')
     })
 --]]
 
+-- NOTE: opt is set true, so all plugins are lazy-loaded. Here are your options:
+-- Use modules|event|cmd|after options to load plugins
 return packer.startup(function(use)
 
     -----[[-------------]]-----
@@ -30,6 +32,11 @@ return packer.startup(function(use)
 
     use({ 'vim-utils/vim-man', event = 'BufRead' })
     use({ 'plasticboy/vim-markdown', event = 'BufEnter' })
+    use({
+        'nvim-neorg/neorg',
+        config = require('modules.config.neorg'),
+        after = 'nvim-treesitter'
+    })
 
     local lucid = '~/lucid_nvim'
     if vim.fn.isdirectory(utils.os.home .. '/lucid_nvim') ~= 1 then

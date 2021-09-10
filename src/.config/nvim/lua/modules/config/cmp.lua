@@ -81,7 +81,8 @@ return function()
         },
         sources = {
             { name = 'nvim_lsp' },
-            { name = 'vsnip' }
+            { name = 'vsnip' },
+            { name = 'neorg' },
         },
         autocomplete = true;
         min_length = 0, -- allow for 'from package import _' in Python
