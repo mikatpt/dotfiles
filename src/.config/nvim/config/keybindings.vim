@@ -103,8 +103,8 @@ nnoremap <leader>b <CMD>Telescope buffers<CR>
 nnoremap <leader>s <CMD>lua require'telescope.builtin'.lsp_dynamic_workspace_symbols({ prompt_title = 'Search Symbols', layout_strategy = 'vertical'  })<CR>
 
 " Ripgrep for input or current word
-nnoremap <leader>f :lua require('telescope.builtin').live_grep({ prompt_title = 'Find Text' })<CR>
-nnoremap <leader>w :lua require('telescope.builtin').grep_string { search = vim.fn.expand("<cword>") }<CR>
+nnoremap <leader>f :lua require('telescope.builtin').live_grep({ prompt_title = 'Find Text', layout_strategy = 'vertical' })<CR>
+nnoremap <leader>w :lua require('telescope.builtin').grep_string({ search = vim.fn.expand("<cword>"), layout_strategy = 'vertical' })<CR>
 
 " Debugging
 function! Debug()
