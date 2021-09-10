@@ -12,6 +12,9 @@ let g:vsnip_filetypes.javascriptreact = ['javascript']
 let g:vsnip_filetypes.typescriptreact = ['javascript']
 let g:vsnip_filetypes.typescript = ['javascript']
 
+" This is to fix a neovim render bug in indent-blankline.
+set colorcolumn=9999
+
 " Basic Editor Settings
 set noerrorbells
 set nohlsearch
@@ -29,6 +32,8 @@ set wildmode=longest:full,full
 set shell=/bin/bash
 set formatoptions-=cro
 set conceallevel=2
+" set list
+" set listchars=lead:.
 
 " Tabs
 set tabstop=4
