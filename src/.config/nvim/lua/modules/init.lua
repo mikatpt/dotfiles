@@ -45,6 +45,19 @@ return packer.startup(function(use)
     use({ 'rktjmp/lush.nvim', module = 'lush' })
     use({ lucid, module = 'lucid' })
 
+    -- TODO: Plugins to explore.
+    --
+    -- Dots for spaces:
+    -- use({ 'lukas-reineke/indent-blankline.nvim', event = 'BufRead' })
+    --
+    -- Fancier TODO - currently we have TODO, FIXME, XXX natively with LSP. This allows searching them.
+    -- See how well this integrates with trouble.nvim
+    -- use({ 'folke/todo-comments.nvim', event = 'BufRead' })
+    --
+    -- I really want to like these two. It'll take a LOT of configuring, I think...
+    -- use({ 'msjpq/chadtree', event = 'VimEnter' })
+    -- use({ 'msjpq/coq_nvim', branch = 'coq' })
+
     -----[[--------------]]-----
     ---     IDE Features     ---
     -----[[--------------]]-----
