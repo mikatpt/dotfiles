@@ -25,7 +25,7 @@ colo lucid_nvim
 set background=dark
 set cmdheight=1
 set updatetime=300
-set shortmess+=c
+set shortmess+=ca
 set timeoutlen=200
 set wildmenu
 set wildmode=longest:full,full
