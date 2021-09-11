@@ -97,14 +97,14 @@ endfor
 " Find files (Telescope)
 nnoremap <C-P> <CMD>Telescope git_files<CR>
 nnoremap <leader>p <CMD>Telescope find_files<CR>
-nnoremap <leader>o <CMD>Telescope oldfiles<CR>
-nnoremap <leader>z <CMD>lua require"telescope.builtin".git_files({ prompt_title = 'Config Files', cwd = "$HOME/.config/nvim" })<CR>
+nnoremap <leader>o <CMD>Telescope oldfiles file_ignore_patterns={}<CR>
+nnoremap <leader>z <CMD>lua require"telescope.builtin".git_files({ prompt_title = 'Config Files', cwd = "$HOME/.config/nvim", file_ignore_patterns = {} })<CR>
 nnoremap <leader>b <CMD>Telescope buffers<CR>
 nnoremap <leader>s <CMD>lua require'telescope.builtin'.lsp_dynamic_workspace_symbols({ prompt_title = 'Search Symbols', layout_strategy = 'vertical'  })<CR>
 
 " Ripgrep for input or current word
-nnoremap <leader>f :lua require('telescope.builtin').live_grep({ prompt_title = 'Find Text', layout_strategy = 'vertical' })<CR>
-nnoremap <leader>w :lua require('telescope.builtin').grep_string({ search = vim.fn.expand("<cword>"), layout_strategy = 'vertical' })<CR>
+nnoremap <leader>f <CMD>lua require('telescope.builtin').live_grep({ prompt_title = 'Find Text', layout_strategy = 'vertical' })<CR>
+nnoremap <leader>w <CMD>TodoTelescope layout_strategy=vertical<CR>
 
 " Debugging
 function! Debug()

@@ -21,12 +21,12 @@ return packer.startup(function(use)
     -----]]-------------[[-----
 
     use({ 'wbthomason/packer.nvim', event = 'VimEnter' })
-    use({ 'nvim-lua/plenary.nvim', module = 'plenary', event = 'BufRead'  })
+    use({ 'nvim-lua/plenary.nvim', module = 'plenary', event = 'BufRead' })
     use({ 'nvim-lua/popup.nvim', module = 'popup', event = 'BufRead' })
 
     use({ 'tpope/vim-commentary', event = 'BufEnter' })
     use({ 'machakann/vim-sandwich', event = 'BufEnter' })
-    use({ 'tpope/vim-fugitive', event = 'BufRead', requires = { 'tpope/vim-rhubarb'} })
+    use({ 'tpope/vim-fugitive', event = 'BufRead', requires = { 'tpope/vim-rhubarb' } })
     use({ 'mbbill/undotree', event = 'BufEnter' })
     use({ 'leafgarland/typescript-vim', event = 'BufRead' })
     use({ 'lukas-reineke/indent-blankline.nvim', event = 'BufRead', config = require('modules.config.blankline') })
@@ -50,11 +50,10 @@ return packer.startup(function(use)
     use({ 'rktjmp/lush.nvim', module = 'lush' })
     use({ lucid, module = 'lucid' })
 
-    -- TODO: Plugins to explore.
+    -- TODO: Plugins to check out
     --
-    -- Fancier TODO - currently we have TODO, FIXME, XXX natively with LSP. This allows searching them.
-    -- See how well this integrates with trouble.nvim
-    -- use({ 'folke/todo-comments.nvim', event = 'BufRead' })
+    -- Advanced movement. Not sure if I need it, but something to try.
+    -- use({ 'ggandor/lightspeed.nvim', event = 'BufRead' })
     --
     -- I really want to like these two. It'll take a LOT of configuring, I think...
     -- use({ 'msjpq/chadtree', event = 'VimEnter' })
@@ -81,10 +80,7 @@ return packer.startup(function(use)
     }
 
     -- Quick navigation
-    use({
-        'ThePrimeagen/harpoon',
-        event = 'BufRead',
-    })
+    use({ 'ThePrimeagen/harpoon', event = 'BufRead' })
 
     -- Pretty diagnostics
     use({
@@ -92,6 +88,7 @@ return packer.startup(function(use)
         config = require('modules.config.trouble'),
         event = 'BufRead'
     })
+    use({ 'folke/todo-comments.nvim', event = 'BufRead', config = require('modules.config.todo') })
 
     -- Built-in lsp
     use({
