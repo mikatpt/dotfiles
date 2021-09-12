@@ -126,16 +126,6 @@ return function()
                 bg = mode_colors[vim.fn.mode()][2],
             }
         end,
-        right_sep = function()
-            local background = colors.light_grey2
-            if vim.b.gitsigns_status_dict then background = colors.statusline_bg end
-            return {
-                str = statusline_style.right,
-                hl = function()
-                    return { fg = mode_colors[vim.fn.mode()][2], bg = background }
-                end
-            }
-        end,
     })
 
     -- Git Branch
@@ -151,6 +141,15 @@ return function()
             return (git_branch ~= '' and '   ' .. git_branch) or git_branch
         end,
         hl = { gf = colors.dark_purple, bg = colors.statusline_bg },
+        left_sep = function()
+            local background = colors.light_grey2
+            if vim.b.gitsigns_status_dict then background = colors.statusline_bg end
+
+            return {
+                str = statusline_style.right,
+                hl = { fg = mode_colors[vim.fn.mode()][2], bg = background}
+            }
+        end,
         right_sep = function()
             local s = ''
             if vim.b.gitsigns_status_dict then s = '  ' end
