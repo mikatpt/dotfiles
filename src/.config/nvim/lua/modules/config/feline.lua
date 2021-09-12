@@ -64,14 +64,14 @@ return function()
         default = {
             left = '',
             right = ' ',
-            main_icon = '  ',
+            main_icon = '  ',
             vi_mode_icon = ' ',
             position_icon = ' ',
         },
         arrow = {
             left = '',
             right = '',
-            main_icon = '  ',
+            main_icon = '  ',
             vi_mode_icon = ' ',
             position_icon = ' ',
         },
@@ -79,7 +79,7 @@ return function()
         block = {
             left = ' ',
             right = ' ',
-            main_icon = '   ',
+            main_icon = '   ',
             vi_mode_icon = '  ',
             position_icon = '  ',
         },
@@ -87,14 +87,14 @@ return function()
         round = {
             left = '',
             right = '',
-            main_icon = '  ',
+            main_icon = '  ',
             vi_mode_icon = ' ',
             position_icon = ' ',
         },
         slant = {
             left = ' ',
             right = ' ',
-            main_icon = '  ',
+            main_icon = '  ',
             vi_mode_icon = ' ',
             position_icon = ' ',
         },
