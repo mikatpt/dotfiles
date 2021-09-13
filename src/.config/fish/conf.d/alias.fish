@@ -1,9 +1,9 @@
 # Edit config
-function ez; nvim ~/config +"PackerLoad dashboard-nvim" +Dashboard +NvimTreeOpen; end
-function ea; nvim ~/config/src/.config/fish/conf.d/alias.fish; end
-function sz; exec fish; end
+abbr -ag ez 'nvim ~/config +"PackerLoad dashboard-nvim" +Dashboard +NvimTreeOpen'
+abbr -ag ea 'nvim ~/config/src/.config/fish/conf.d/alias.fish'
+abbr -ag sz 'exec fish'
 
-function notes; nvim ~/notes +"PackerLoad dashboard-nvim" +Dashboard +NvimTreeOpen; end
+abbr -ag notes 'nvim ~/notes +"PackerLoad dashboard-nvim" +Dashboard +NvimTreeOpen'
 
 # Navigation
 function cs; cd $argv; ls -A; end
@@ -13,24 +13,24 @@ function sca; cd ..; ls -Ahl; end
 function la; ls -A $argv; end
 function lah; ls -Ahl $argv; end
 
-function ..; cd ..; end
-function ...; cd ../..; end
-function ....; cd ../../..; end
-function ffs; eval sudo $history[1]; end
-function :q; exit; end
+abbr -ag .. 'cd ..'
+abbr -ag ... 'cd ../..'
+abbr -ag .... 'cd ../../..'
+abbr -ag ffs 'eval sudo $history[1]'
+abbr -ag :q 'exit'
 
 # Git
-function cm; git commit $argv; end
-function ga; git add $argv; end
-function gp; git push $argv; end
-function push; git push $argv; end
-function pull; git pull $argv; end
-function gr; git reset $argv; end
-function b; git branch; end
-function co; git checkout $argv; end
-function s; git status $argv; end
-function st; git stash $argv; end
-function sd; git stash drop $argv; end
-function sp; git stash pop $argv; end
-function sa; git stash apply $argv; end
-function sl; git stash list $argv; end
+abbr -ag cm 'git commit'
+abbr -ag ga 'git add'
+abbr -ag gp 'git push'
+abbr -ag push 'git push'
+abbr -ag pull 'git pull'
+abbr -ag gr 'git reset'
+abbr -ag b 'git branch'
+abbr -ag co 'git checkout'
+abbr -ag s 'git status'
+abbr -ag st 'git stash'
+abbr -ag sd 'git stash drop'
+abbr -ag sp 'git stash pop'
+abbr -ag sa 'git stash apply'
+abbr -ag sl 'git stash list'
