@@ -50,15 +50,6 @@ return packer.startup(function(use)
     use({ 'rktjmp/lush.nvim', module = 'lush' })
     use({ lucid, module = 'lucid' })
 
-    -- TODO: Plugins to check out
-    --
-    -- Advanced movement. Not sure if I need it, but something to try.
-    -- use({ 'ggandor/lightspeed.nvim', event = 'BufRead' })
-    --
-    -- I really want to like these two. It'll take a LOT of configuring, I think...
-    -- use({ 'msjpq/chadtree', event = 'VimEnter' })
-    -- use({ 'msjpq/coq_nvim', branch = 'coq' })
-
     -----[[--------------]]-----
     ---     IDE Features     ---
     -----[[--------------]]-----
