@@ -11,6 +11,7 @@ let g:vsnip_filetypes = {}
 let g:vsnip_filetypes.javascriptreact = ['javascript']
 let g:vsnip_filetypes.typescriptreact = ['javascript']
 let g:vsnip_filetypes.typescript = ['javascript']
+let g:coq_settings = { 'keymap.recommended': v:false, 'display.pum.fast_close': v:false, 'auto_start': 'shut-up' }
 
 " This is to fix a neovim render bug in indent-blankline.
 set colorcolumn=9999

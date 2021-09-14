@@ -15,7 +15,6 @@ local packer = require('packer')
 -- NOTE: opt is set true, so all plugins are lazy-loaded.
 -- Use modules|event|cmd|after options to load plugins
 return packer.startup(function(use)
-
     -----[[-------------]]-----
     ---      ESSENTIALS     ---
     -----]]-------------[[-----
@@ -57,7 +56,14 @@ return packer.startup(function(use)
     --
     -- I really want to like these two. It'll take a LOT of configuring, I think...
     -- use({ 'msjpq/chadtree', event = 'VimEnter' })
-    -- use({ 'msjpq/coq_nvim', branch = 'coq' })
+    use({ 'ms-jpq/coq.artifacts', branch = 'artifacts' })
+    use({
+        'ms-jpq/coq_nvim',
+        branch = 'coq',
+        wants = 'coq.artifacts',
+        event = 'InsertEnter',
+        module = 'coq',
+    })
 
     -----[[--------------]]-----
     ---     IDE Features     ---
@@ -104,30 +110,29 @@ return packer.startup(function(use)
                 'jose-elias-alvarez/nvim-lsp-ts-utils',
                 module = 'nvim-lsp-ts-utils',
             },
-            { 'hrsh7th/cmp-nvim-lsp', module = 'cmp_nvim_lsp' }
         },
     })
 
     -- Nice icons
-    use({
-        'onsails/lspkind-nvim',
-        config = require('modules.config.lspkind'),
-        event = 'VimEnter',
-    })
+    -- use({
+    --     'onsails/lspkind-nvim',
+    --     config = require('modules.config.lspkind'),
+    --     event = 'VimEnter',
+    -- })
 
     -- Text completion
-    use({
-        'hrsh7th/nvim-cmp',
-        config = require('modules.config.cmp'),
-        event = 'InsertEnter',
-        requires = { 'hrsh7th/vim-vsnip', 'hrsh7th/cmp-buffer', 'hrsh7th/cmp-vsnip' },
-    })
+    -- use({
+    --     'hrsh7th/nvim-cmp',
+    --     config = require('modules.config.cmp'),
+    --     event = 'InsertEnter',
+    --     requires = { 'hrsh7th/vim-vsnip', 'hrsh7th/cmp-buffer', 'hrsh7th/cmp-vsnip' },
+    -- })
 
     -- Autopairs
     use({
         'windwp/nvim-autopairs',
         config = require('modules.config.autopairs'),
-        after = 'nvim-cmp',
+        event = 'InsertEnter',
     })
 
     -- Fuzzy finding / Ctrl + p

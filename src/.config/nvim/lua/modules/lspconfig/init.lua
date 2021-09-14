@@ -3,13 +3,18 @@ return function()
     local util = lspconfig.util
     local lspinstall = require('lspinstall')
     local on_attach = require('modules.lspconfig.on-attach')
+    local coq = require('coq')
+    vim.defer_fn(
+        function()
+            vim.o.completeopt = 'menu,preview,noinsert,menuone'
+        end, 1000
+    )
 
     require('modules.lspconfig.ui').symbols_override()
 
     local capabilities = vim.lsp.protocol.make_client_capabilities()
 
     -- Auto-complete options
-    capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
     capabilities.textDocument.completion.completionItem.snippetSupport = true
     capabilities.textDocument.completion.completionItem.resolveSupport = {
         properties = { 'documentation', 'detail', 'additionalTextEdits' },
@@ -83,6 +88,8 @@ return function()
                 or { root_dir = lspconfig.util.root_pattern({ '.git/', '.' }) }
             config.capabilities = capabilities
             config.on_attach = on_attach
+            config = coq.lsp_ensure_capabilities(config)
+            -- table.insert(config, coq.lsp_ensure_capabilities())
             lspconfig[server].setup(config)
         end
     end
