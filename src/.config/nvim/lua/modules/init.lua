@@ -56,8 +56,7 @@ return packer.startup(function(use)
     -- use({ 'ggandor/lightspeed.nvim', event = 'BufRead' })
     --
     -- I really want to like these two. It'll take a LOT of configuring, I think...
-    -- use({ 'msjpq/chadtree', event = 'VimEnter' })
-    -- use({ 'msjpq/coq_nvim', branch = 'coq' })
+    use({ 'ms-jpq/chadtree', event = 'BufRead', run = 'python3 -m chadtree deps' })
 
     -----[[--------------]]-----
     ---     IDE Features     ---
@@ -73,11 +72,12 @@ return packer.startup(function(use)
     })
 
     -- File tree
-    use {
-        'kyazdani42/nvim-tree.lua',
-        requires = 'kyazdani42/nvim-web-devicons',
-        event = 'BufRead'
-    }
+    -- use {
+    --     'kyazdani42/nvim-tree.lua',
+    --     requires = 'kyazdani42/nvim-web-devicons',
+    --     event = 'BufRead'
+    -- }
+    use({ 'kyazdani42/nvim-web-devicons', module = 'nvim-web-devicons' })
 
     -- Quick navigation
     use({ 'ThePrimeagen/harpoon', event = 'BufRead' })

@@ -67,10 +67,8 @@ tnoremap <C-H> <C-\><C-N><C-W>h
 tnoremap <C-L> <C-\><C-N><C-W>l
 
 " File Tree
-nnoremap <silent><C-N> :NvimTreeToggle<CR>
-tnoremap <silent><C-N> <C-\><C-N> :NvimTreeToggle<CR>
-nnoremap <silent><leader>nf :NvimTreeFindFile<CR>
-nnoremap <leader>nr :NvimTreeRefresh<CR>
+nnoremap <silent><C-N> :CHADopen<CR>
+tnoremap <silent><C-N> <C-\><C-N> :CHADopen<CR>
 
 " Reload the current buffer (to refresh lsp)
 nnoremap <leader>rl :LspRestart<CR>:e<CR>
