@@ -441,24 +441,21 @@ return function()
     table.insert(components.inactive[1], filename_component('inactive'))
 
     local config = {
-        default_bg = colors.statusline_bg,
-        default_fg = colors.white,
+        colors = { fg = colors.white, bg = colors.statusline_bg },
         components = components,
-        properties = {
-            force_inactive = {
-                filetypes = {
-                    'NvimTree',
-                    'dashboard',
-                    'Trouble',
-                    'dbui',
-                    'packer',
-                    'startify',
-                    'fugitive',
-                    'fugitiveblame'
-                },
-                buftypes = {'terminal'},
-                bufnames = {},
+        force_inactive = {
+            filetypes = {
+                'NvimTree',
+                'dashboard',
+                'Trouble',
+                'dbui',
+                'packer',
+                'startify',
+                'fugitive',
+                'fugitiveblame'
             },
+            buftypes = {'terminal'},
+            bufnames = {},
         },
     }
 
