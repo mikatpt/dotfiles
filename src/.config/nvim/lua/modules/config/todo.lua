@@ -14,7 +14,7 @@ return function()
             PERF = { icon = ' ', color = 'hint', alt = { 'OPTIM', 'PERFORMANCE', 'OPTIMIZE' } },
             NOTE = { icon = ' ', color = 'hint', alt = { 'INFO' } },
         },
-        merge_keywords = true,
+        merge_keywords = false,
         highlight = {
             before = '',
             keyword = 'wide',
