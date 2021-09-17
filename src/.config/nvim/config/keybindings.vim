@@ -73,7 +73,7 @@ nnoremap <silent><leader>nf :NvimTreeFindFile<CR>
 nnoremap <leader>nr :NvimTreeRefresh<CR>
 
 " Reload the current buffer (to refresh lsp)
-nnoremap <leader>rl :LspRestart<CR>:e<CR>
+nnoremap <leader>rl :LspRestart<CR>
 
 " set current working directory to current file
 nnoremap <leader>cd :cd %:p:h<CR>
