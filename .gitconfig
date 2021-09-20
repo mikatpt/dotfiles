@@ -29,3 +29,5 @@
     keepBackup = false
 [mergetool "nvim"]
     cmd = nvim -f -c \"Gdiffsplit!\" \"$MERGED\"
+[init]
+	defaultBranch = main
