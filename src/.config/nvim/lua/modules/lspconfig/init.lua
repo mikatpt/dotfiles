@@ -35,13 +35,16 @@ return function()
     local servers = {
         efm = {
             init_options = { documentFormatting = true, codeAction = true },
-            root_dir = function(fname) return get_root(fname, {'.git/'}) end,
+            root_dir = function(fname) return get_root(fname, { '.git/' }) end,
             filetypes = vim.tbl_keys(format_config),
             settings = {
                 languages = format_config,
                 -- logFile = utils.os.cache..'/efm.log',
                 -- logLevel = 1,
             }
+        },
+        go = {
+            root_dir = function(fname) return get_root(fname, { '.git/', '.' }) end,
         },
         lua = require('lua-dev').setup(),
         python = {
