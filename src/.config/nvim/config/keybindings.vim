@@ -38,9 +38,11 @@ vnoremap > >gv
 noremap! <C-BS> <C-W>
 noremap! <C-H> <C-W>
 
-" Insert
+" misc convenience stuff.
 inoremap <C-J> <Esc>o
 inoremap <S-CR> <Esc>O
+inoremap <C-S> <CMD>w<CR>
+nnoremap <C-S> <CMD>w<CR>
 
 " From vim-commentary:
 " gc to comment out lines
