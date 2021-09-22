@@ -26,11 +26,16 @@ return function()
         }
     )
 
+    local function get_root(fname, root_files)
+        return util.root_pattern(unpack(root_files))(fname)
+            or util.find_git_ancestor(fname) or util.path.dirname(fname)
+    end
+
     local format_config = require('modules.lspconfig.format')
     local servers = {
         efm = {
             init_options = { documentFormatting = true, codeAction = true },
-            root_dir = lspconfig.util.root_pattern({ '.git/', '.' }),
+            root_dir = function(fname) return get_root(fname, {'.git/'}) end,
             filetypes = vim.tbl_keys(format_config),
             settings = {
                 languages = format_config,
@@ -50,8 +55,7 @@ return function()
                     'Pipfile',
                     'pyrightconfig.json',
                 }
-                return util.root_pattern(unpack(root_files))(fname)
-                    or util.find_git_ancestor(fname) or util.path.dirname(fname)
+                return get_root(fname, root_files)
             end,
             settings = {
                 python = {
@@ -64,13 +68,21 @@ return function()
             },
         },
         rust = {
-            root_dir = util.root_pattern('Cargo.toml', 'rust-project.json', '.git/', '.'),
+            root_dir = function(fname)
+                local root_files = { 'Cargo.toml', 'rust-project.json', '.git/' }
+                return get_root(fname, root_files)
+            end,
             settings = {
                 ['rust-analyzer'] = {
                     checkOnSave = { command = 'clippy' }
                 }
             }
-
+        },
+        typescript = {
+            root_dir = function(fname)
+                local root_files = { 'package.json', 'tsconfig.json', 'yarn.lock', '.git/' }
+                return get_root(fname, root_files)
+            end,
         },
     }
 
@@ -80,7 +92,7 @@ return function()
         local installed = lspinstall.installed_servers()
         for _, server in pairs(installed) do
             local config = servers[server]
-                or { root_dir = lspconfig.util.root_pattern({ '.git/', '.' }) }
+                or { root_dir = function(fname) return get_root(fname, { '.git/' }) end }
             config.capabilities = capabilities
             config.on_attach = on_attach
             lspconfig[server].setup(config)
