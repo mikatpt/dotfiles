@@ -16,7 +16,7 @@ return function()
     }
 
     -- Don't update diagnostics while typing
-    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
         vim.lsp.diagnostic.on_publish_diagnostics, {
             underline = false,
             virtual_text = true,
@@ -41,7 +41,18 @@ return function()
                 languages = format_config,
                 -- logFile = utils.os.cache..'/efm.log',
                 -- logLevel = 1,
-            }
+            },
+            handlers = {
+                ['textDocument/publishDiagnostics'] = vim.lsp.with(
+                    vim.lsp.diagnostic.on_publish_diagnostics, {
+                        underline = true,
+                        virtual_text = false,
+                        signs = true,
+                        update_in_insert = false,
+                        severity_sort = true,
+                    }
+                )
+            },
         },
         go = {
             root_dir = function(fname) return get_root(fname, { '.git/', '.' }) end,
