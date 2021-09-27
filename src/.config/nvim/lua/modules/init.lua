@@ -64,10 +64,11 @@ return packer.startup(function(use)
     })
 
     -- File tree
+    use({ 'kyazdani42/nvim-web-devicons', event = 'VimEnter' })
     use {
         'kyazdani42/nvim-tree.lua',
-        requires = 'kyazdani42/nvim-web-devicons',
-        event = 'BufRead'
+        config = require('modules.config.nvim-tree'),
+        after = 'nvim-web-devicons',
     }
 
     -- Quick navigation
@@ -159,6 +160,7 @@ return packer.startup(function(use)
     -- Status line
     use({
         'famiu/feline.nvim',
+        commit = 'fcbd00d',
         config = require('modules.config.feline'),
         event = 'BufRead'
     })

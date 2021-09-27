@@ -13,9 +13,8 @@ M.setup = function()
     vim.cmd('packadd packer.nvim')
 
     local disabled_built_ins = {
-        "gzip", "zip", "zipPlugin", "tar", "tarPlugin",
-        "getscript", "getscriptPlugin", "vimball",
-        "vimballPlugin", "2html_plugin", "logipat",
+        "getscript", "getscriptPlugin",
+        "2html_plugin", "logipat",
         "rrhelper", "spellfile_plugin", "matchit"
     }
 

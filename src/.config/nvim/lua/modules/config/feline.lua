@@ -196,7 +196,7 @@ return function()
                 end
 
                 if icon == nil then
-                    icon = ''
+                    icon = '  '
                     return icon
                 end
 
@@ -335,6 +335,8 @@ return function()
 
                     ::continue::
                 end
+
+                if name == 'RUST_ANALYZER' then name = 'RUST' end
 
                 return '    ' .. name
             else
