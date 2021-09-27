@@ -17,6 +17,18 @@ return function(client, bufnr)
         },
     })
 
+    vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
+        vim.lsp.handlers.hover, { border = 'single' }
+    )
+
+    vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
+        vim.lsp.handlers.signature_help, { border = 'single' }
+    )
+
+    -- ask to merge this into neovim core?
+    -- it should be in lsp/util.lua
+    -- api.nvim_buf_set_keymap(floating_bufnr, "n", "<esc>", "<cmd>bdelete<cr>", { silent = true, noremap = true })
+
     -- Automatic function signatures
     require('lsp_signature').on_attach({ doc_lines = 2, use_lspsaga = true })
 

@@ -89,7 +89,7 @@ return packer.startup(function(use)
         requires = {
             { 'folke/lua-dev.nvim', module = 'lua-dev' },
             { 'kabouzeid/nvim-lspinstall', module = 'lspinstall' },
-            { 'glepnir/lspsaga.nvim', module = 'lspsaga' },
+            { 'tami5/lspsaga.nvim', module = 'lspsaga' },
             { 'ray-x/lsp_signature.nvim', module = 'lsp_signature' },
             {
                 'jose-elias-alvarez/nvim-lsp-ts-utils',
@@ -97,6 +97,12 @@ return packer.startup(function(use)
             },
             { 'hrsh7th/cmp-nvim-lsp', module = 'cmp_nvim_lsp' }
         },
+    })
+
+    use({
+        'simrat39/rust-tools.nvim',
+        config = require('modules.config.rust-tools'),
+        after = 'nvim-dap',
     })
 
     -- Nice icons
@@ -134,7 +140,7 @@ return packer.startup(function(use)
     use({
         'mfussenegger/nvim-dap',
         config = require('modules.config.dap'),
-        event = 'BufEnter',
+        after = 'nvim-lspconfig',
     })
 
     -- Dashboard
