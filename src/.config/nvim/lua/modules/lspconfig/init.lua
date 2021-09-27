@@ -105,11 +105,13 @@ return function()
         lspinstall.setup()
         local installed = lspinstall.installed_servers()
         for _, server in pairs(installed) do
+            if server == 'rust' then goto CONTINUE end
             local config = servers[server]
                 or { root_dir = function(fname) return get_root(fname, { '.git/' }) end }
             config.capabilities = capabilities
             config.on_attach = on_attach
             lspconfig[server].setup(config)
+            ::CONTINUE::
         end
     end
 

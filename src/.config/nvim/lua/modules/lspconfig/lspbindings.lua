@@ -18,9 +18,7 @@ M.attach_mappings = function(bufnr)
     buf_set_keymap('n', 'gr', '<cmd>Telescope lsp_references<CR>', opts)
     buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
     buf_set_keymap('n', 'gs', '<cmd>Lspsaga signature_help<CR>', opts)
-
-    -- Glepnir is not able to fix this yet - just waiting for when he comes back.
-    -- buf_set_keymap('n', 'gp', ':Lspsaga preview_definition')
+    buf_set_keymap('n', 'gp', ':Lspsaga preview_definition<CR>', opts)
 
     -- Actions
     buf_set_keymap('n', '<leader>rn', ':Lspsaga rename<CR>', opts)
@@ -30,7 +28,7 @@ M.attach_mappings = function(bufnr)
     buf_set_keymap('n', '<C-E>', '<CMD>lua require("lspsaga.action").smart_scroll_with_saga(-1)<CR>', opts)
 
     -- Diagnostics
-    buf_set_keymap('n', 'm', ':Lspsaga hover_doc<CR>', opts)
+    buf_set_keymap('n', 'm', ':lua vim.lsp.buf.hover()<CR>', opts)
     buf_set_keymap('n', '<leader>e', '<cmd>Lspsaga show_line_diagnostics<CR>', opts)
     buf_set_keymap('n', '<leader>q', '<cmd>TroubleToggle lsp_document_diagnostics<CR>', opts)
     buf_set_keymap('n', '<leader>Q', '<cmd>TroubleToggle lsp_workspace_diagnostics<CR>', opts)
