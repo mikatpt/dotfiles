@@ -1,1 +1,1 @@
-set formatoptions-=co
+set formatoptions-=cro
