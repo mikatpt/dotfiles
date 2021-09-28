@@ -4,5 +4,8 @@ return function()
             border = 'single',
             auto_focus = false
         },
+        server = {
+            on_attach = require('modules.lspconfig.on-attach'),
+        }
     })
 end

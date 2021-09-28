@@ -102,7 +102,7 @@ return packer.startup(function(use)
 
     use({
         'simrat39/rust-tools.nvim',
-        config = require('modules.config.rust-tools'),
+        config = require('modules.lspconfig.rust-tools'),
         after = 'nvim-dap',
     })
 
