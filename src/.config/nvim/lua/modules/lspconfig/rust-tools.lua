@@ -6,6 +6,9 @@ return function()
         },
         server = {
             on_attach = require('modules.lspconfig.on-attach'),
+        },
+        inlay_hints = {
+            highlight = "TSText",
         }
     })
 end
