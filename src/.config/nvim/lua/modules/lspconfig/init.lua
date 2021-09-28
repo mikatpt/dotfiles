@@ -56,6 +56,7 @@ return function()
             },
         },
         go = {
+            -- Intentionally use current folder as root: big repo's take too long to index.
             root_dir = function(fname) return get_root(fname, { '.git/', '.' }) end,
         },
         lua = require('lua-dev').setup(),
