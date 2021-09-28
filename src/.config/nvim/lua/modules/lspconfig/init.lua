@@ -7,6 +7,7 @@ return function()
     require('modules.lspconfig.ui').symbols_override()
 
     local capabilities = vim.lsp.protocol.make_client_capabilities()
+    vim.lsp.set_log_level("error")
 
     -- Auto-complete options
     capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
@@ -80,6 +81,14 @@ return function()
                     }
                 }
             },
+        },
+        ruby = {
+            root_dir = function(fname)
+                local root_files = { '.solargraph.yml', '.rubocop.yml', '.git/'}
+                return get_root(fname, root_files)
+            end,
+            -- cmd = { 'solargraph', 'stdio' },
+            filetypes = { 'ruby' },
         },
         rust = {
             root_dir = function(fname)
