@@ -30,7 +30,7 @@ set timeoutlen=200
 set wildmenu
 set wildmode=longest:full,full
 set shell=/bin/bash
-set formatoptions-=co
+set formatoptions-=cro
 set conceallevel=2
 " set list
 " set listchars=lead:.
