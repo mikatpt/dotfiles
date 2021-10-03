@@ -13,6 +13,11 @@ function sca; cd ..; ls -Ahl; end
 function la; ls -A $argv; end
 function lah; ls -Ahl $argv; end
 
+# Tmux
+abbr -ag t 'tmux'
+abbr -ag ta 'tmux attach'
+abbr -ag tn 'tmux new-session'
+
 abbr -ag .. 'cd ..'
 abbr -ag ... 'cd ../..'
 abbr -ag .... 'cd ../../..'
