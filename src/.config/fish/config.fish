@@ -1,8 +1,8 @@
 if status is-interactive
     # Start tmux with two windows on startup.
     if not set -q TMUX
-        tmux new-session -d -s main
-        tmux new-window -d -t main
+        tmux has-session -t main 2>/dev/null || tmux new-session -d -s main
+        tmux if-shell 'tmux select-window -t 2' 'select-window -t 1' 'new-window -d -t main'
         tmux attach -t main
     end
 
