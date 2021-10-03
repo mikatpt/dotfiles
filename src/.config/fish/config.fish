@@ -1,4 +1,5 @@
 if status is-interactive
+    if not set -q TMUX; tmux new-session -A -s main; end
     # Source local bashrc
     bass source ~/.bashrc
 
