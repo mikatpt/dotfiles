@@ -82,6 +82,9 @@ nnoremap <leader>cd :cd %:p:h<CR>
 " Toggle relative/absolute line numbers
 nnoremap <leader>l :set rnu!<CR>
 
+" Yank to system clipboard
+nnoremap <leader>y "+y
+
 " Open in Github
 nnoremap <silent> <leader>go <CMD>GBrowse<CR>
 
