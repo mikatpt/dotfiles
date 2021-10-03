@@ -1,5 +1,11 @@
 if status is-interactive
-    if not set -q TMUX; tmux new-session -A -s main; end
+    # Start tmux with two windows on startup.
+    if not set -q TMUX
+        tmux new-session -d -s main
+        tmux new-window -d -t main
+        tmux attach -t main
+    end
+
     # Source local bashrc
     bass source ~/.bashrc
 
