@@ -41,8 +41,6 @@ noremap! <C-H> <C-W>
 " misc convenience stuff.
 inoremap <C-J> <Esc>o
 inoremap <S-CR> <Esc>O
-inoremap <C-S> <CMD>w<CR>
-nnoremap <C-S> <CMD>w<CR>
 
 " From vim-commentary:
 " gc to comment out lines
@@ -54,8 +52,9 @@ nnoremap <silent> <S-UP> :res +5<CR>
 nnoremap <silent> <S-DOWN> :res -5<CR>
 
 " Use space j or k to open new splits, and Ctrl hjkl to move between them.
-nnoremap <leader>j :topleft vsp<CR>
+nnoremap <leader>j :split<CR>
 nnoremap <leader>k :vsp<CR>
+nnoremap <leader>u :sp<CR>
 nnoremap <leader><S-J> :topleft vsp<CR>
 nnoremap <leader><S-K> :vsp<CR>
 nnoremap <C-J> <C-W><S-W>
