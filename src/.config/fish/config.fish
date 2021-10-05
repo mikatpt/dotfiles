@@ -1,6 +1,6 @@
 if status is-interactive
     # Check if in tmux, then create session 'main' with two windows if it doesn't exist
-    if not set -q TMUX
+    if not set -q TERM_PROGRAM && not set -q TMUX
         tmux has-session -t main 2>/dev/null || tmux new-session -d -s main
         tmux if-shell 'tmux select-window -t 2' 'select-window -t 1' 'new-window -d -t main'
         tmux attach -t main
