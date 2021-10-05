@@ -108,6 +108,18 @@ return function()
                 return get_root(fname, root_files)
             end,
         },
+        yaml = {
+            root_dir = function(fname) return get_root(fname, { '.git' }) end,
+            settings = {
+                yaml = {
+                    customTags = {
+                        '!and', '!if', '!not', '!equals', '!or', '!findinmap sequence',
+                        '!base64', '!cidr', '!ref', '!sub', '!getatt', '!getazs',
+                        '!importvalue', '!select', '!select sequence', '!split', '!join sequence',
+                    }
+                }
+            }
+        },
     }
 
     -- Setup servers

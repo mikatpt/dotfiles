@@ -129,12 +129,13 @@ return packer.startup(function(use)
     })
 
     -- Fuzzy finding / Ctrl + p
+    use({ 'nvim-telescope/telescope-fzf-native.nvim', event = 'BufRead', run = 'make' })
     use({
         'nvim-telescope/telescope.nvim',
         config = require('modules.config.telescope'),
         cmd = "Telescope",
         module = { 'telescope', 'telescope.builtin' },
-        requires = { 'nvim-telescope/telescope-fzy-native.nvim' },
+        requires = { 'nvim-telescope/telescope-fzf-native.nvim' },
     })
 
     -- Debugging
