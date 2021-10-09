@@ -1,9 +1,9 @@
 return function()
-    local cmp = require'cmp'
-    local types = require'cmp.types'
-    local compare = require'cmp.config.compare'
-    local lspkind = require'lspkind'
-    local utils = require'core.utils'
+    local cmp = require('cmp')
+    local types = require('cmp.types')
+    local compare = require('cmp.config.compare')
+    local lspkind = require('lspkind')
+    local utils = require('core.utils')
 
     -- Prioritize snippets and field names.
     local lsp_sort = function(entry1, entry2)
@@ -15,19 +15,30 @@ return function()
         b = b == kind.Text and 100 or b
 
         if a ~= b then
-            if a == kind.Snippet then return true end
-            if b == kind.Snippet then return false end
+            if a == kind.Snippet then
+                return true
+            end
+            if b == kind.Snippet then
+                return false
+            end
 
-            if a == kind.Field then return true end
-            if b == kind.Field then return false end
+            if a == kind.Field then
+                return true
+            end
+            if b == kind.Field then
+                return false
+            end
 
             local diff = a - b
-            if diff < 0 then return true
-            elseif diff > 0 then return false end
+            if diff < 0 then
+                return true
+            elseif diff > 0 then
+                return false
+            end
         end
     end
 
-    cmp.setup {
+    cmp.setup({
         completion = { completeopt = 'menu,menuone,noinsert' },
         confirmation = {
             -- comma and parens won't trigger completion.
@@ -35,12 +46,12 @@ return function()
                 return vim.tbl_filter(function(char)
                     return char ~= ',' and char ~= '(' and char ~= '.'
                 end, commit_chars)
-            end
+            end,
         },
         -- Use lspkind icons for completion menu.
         formatting = {
             format = function(entry, vim_item)
-                vim_item.kind = lspkind.presets.default[vim_item.kind] .. "  " .. vim_item.kind
+                vim_item.kind = lspkind.presets.default[vim_item.kind] .. '  ' .. vim_item.kind
                 vim_item.menu = ({
                     buffer = '[Buffer]',
                     nvim_lsp = '[LSP]',
@@ -50,7 +61,7 @@ return function()
                     latex_symbols = '[Latex]',
                 })[entry.source.name]
                 return vim_item
-            end
+            end,
         },
         snippet = {
             expand = function(args)
@@ -68,7 +79,7 @@ return function()
                 compare.sort_text,
                 compare.length,
                 compare.order,
-            }
+            },
         },
         mapping = {
             ['<Tab>'] = utils.fn.cmp_select_next,
@@ -76,7 +87,7 @@ return function()
             ['<C-p>'] = cmp.mapping.select_prev_item(),
             ['<C-n>'] = cmp.mapping.select_next_item(),
             ['<C-Space>'] = cmp.mapping.complete(),
-            ['<C-e>'] = cmp.mapping.close()
+            ['<C-e>'] = cmp.mapping.close(),
             -- <CR> is handled by nvim-autopairs.
         },
         sources = {
@@ -84,8 +95,10 @@ return function()
             { name = 'vsnip' },
             { name = 'neorg' },
         },
-        autocomplete = true;
+        autocomplete = true,
         min_length = 0, -- allow for 'from package import _' in Python
-    }
-    if vim.bo.filetype == 'norg' then require'neorg'.modules.load_module('core.norg.completion') end
+    })
+    if vim.bo.filetype == 'norg' then
+        require('neorg').modules.load_module('core.norg.completion')
+    end
 end

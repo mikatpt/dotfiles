@@ -8,6 +8,7 @@ if empty_buffer then
     vim.cmd('silent! Dashboard')
 end
 
-local cmd = ':!xdg-open <cWORD> &<CR><CR>'
-if require'core.utils'.os.name == 'Darwin' then cmd = ':!open <cWORD> &<CR><CR>' end
-vim.api.nvim_set_keymap('n', 'gx', cmd, { silent = false, noremap = true})
+local isDarwin = require('core.utils').os.name == 'Darwin'
+local cmd = isDarwin and ':!open <cWORD> &<CR><CR>' or ':!xdg-open <cWORD> &<CR><CR>'
+
+vim.api.nvim_set_keymap('n', 'gx', cmd, { silent = false, noremap = true })

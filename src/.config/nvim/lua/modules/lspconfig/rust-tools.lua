@@ -1,13 +1,13 @@
 return function()
-    require'rust-tools'.setup({
+    require('rust-tools').setup({
         tools = {
             hover_actions = {
                 border = 'single',
-                auto_focus = false
+                auto_focus = false,
             },
             inlay_hints = {
-                highlight = "TSText",
-            }
+                highlight = 'TSText',
+            },
         },
         server = {
             on_attach = require('modules.lspconfig.on-attach'),

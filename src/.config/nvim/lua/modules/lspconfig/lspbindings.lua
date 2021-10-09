@@ -3,9 +3,11 @@ local M = {}
 -- See `:help vim.lsp.*` for documentation on native lsp functions
 -- See `:help telescope.builtin` for others
 M.attach_mappings = function(bufnr)
-    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+    local function buf_set_keymap(...)
+        vim.api.nvim_buf_set_keymap(bufnr, ...)
+    end
 
-    local opts = { noremap=true, silent=true }
+    local opts = { noremap = true, silent = true }
 
     -- Format without saving
     buf_set_keymap('c', 'wf', 'noautocmd w', { noremap = true })

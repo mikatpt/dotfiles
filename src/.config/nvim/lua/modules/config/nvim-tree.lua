@@ -14,57 +14,57 @@ return function()
         default = '',
         symlink = '',
         git = {
-            unstaged = "",
-            staged = "✓",
-            unmerged = "",
-            renamed = "➜",
-            untracked = "★",
-            deleted = "",
-            ignored = "◌"
+            unstaged = '',
+            staged = '✓',
+            unmerged = '',
+            renamed = '➜',
+            untracked = '★',
+            deleted = '',
+            ignored = '◌',
         },
         folder = {
-            arrow_open = "",
-            arrow_closed = "",
-            default = "",
-            open = "",
-            empty = "",
-            empty_open = "",
-            symlink = "",
-            symlink_open = "",
+            arrow_open = '',
+            arrow_closed = '',
+            default = '',
+            open = '',
+            empty = '',
+            empty_open = '',
+            symlink = '',
+            symlink_open = '',
         },
         lsp = {
-            hint = "",
-            info = "",
-            warning = "",
-            error = "",
-        }
+            hint = '',
+            info = '',
+            warning = '',
+            error = '',
+        },
     }
 
-    require'nvim-web-devicons'.setup()
-    require'nvim-tree'.setup({
-        disable_netrw       = false,
-        hijack_netrw        = true,
-        open_on_setup       = true,
-        ignore_ft_on_setup  = {},
-        auto_close          = true,
+    require('nvim-web-devicons').setup()
+    require('nvim-tree').setup({
+        disable_netrw = false,
+        hijack_netrw = true,
+        open_on_setup = true,
+        ignore_ft_on_setup = {},
+        auto_close = true,
         -- opens the tree when changing/opening a new tab if the tree wasn't previously opened
-        open_on_tab         = false,
+        open_on_tab = false,
         -- hijack the cursor in the tree to put it at the start of the filename
-        hijack_cursor       = true,
+        hijack_cursor = true,
         -- updates the root directory of the tree on `DirChanged` (when your run `:cd` usually)
-        update_cwd          = true,
-        lsp_diagnostics     = true,
+        update_cwd = true,
+        lsp_diagnostics = true,
         update_focused_file = {
-            enable      = true,
-            update_cwd  = true,
-            ignore_list = {}
+            enable = true,
+            update_cwd = true,
+            ignore_list = {},
         },
         -- configuration options for the system open command (`s` in the tree by default)
         system_open = {
             -- the command to run this, leaving nil should work in most cases
-            cmd  = nil,
+            cmd = nil,
             -- the command arguments as a list
-            args = {}
+            args = {},
         },
 
         view = {
@@ -72,7 +72,6 @@ return function()
             width = 40,
             side = 'left',
             auto_resize = true,
-        }
+        },
     })
-
 end

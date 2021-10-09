@@ -1,6 +1,13 @@
-require'modules.packerInit'.setup()
+require('modules.packerInit').setup()
 local utils = require('core.utils')
 local packer = require('packer')
+
+-- Use for plugin contributions
+local function get_local_plugin(author, plugin)
+    local local_path = '~/' .. plugin
+    local remote_path = author .. '/' .. plugin
+    return vim.fn.isdirectory(local_path) and local_path or remote_path
+end
 
 --[[ Template for adding a plugin
     use ({
@@ -15,7 +22,6 @@ local packer = require('packer')
 -- NOTE: opt is set true, so all plugins are lazy-loaded.
 -- Use modules|event|cmd|after options to load plugins
 return packer.startup(function(use)
-
     -----[[-------------]]-----
     ---      ESSENTIALS     ---
     -----]]-------------[[-----
@@ -39,16 +45,12 @@ return packer.startup(function(use)
         use({
             'nvim-neorg/neorg',
             config = require('modules.config.neorg'),
-            after = 'nvim-treesitter'
+            after = 'nvim-treesitter',
         })
     end
 
-    local lucid = '~/lucid_nvim'
-    if vim.fn.isdirectory(utils.os.home .. '/lucid_nvim') ~= 1 then
-        lucid = 'mikatpt/lucid_nvim'
-    end
     use({ 'rktjmp/lush.nvim', module = 'lush' })
-    use({ lucid, module = 'lucid' })
+    use({ get_local_plugin('mikatpt', 'lucid_nvim'), module = 'lucid' })
 
     -----[[--------------]]-----
     ---     IDE Features     ---
@@ -65,20 +67,20 @@ return packer.startup(function(use)
 
     -- File tree
     use({ 'kyazdani42/nvim-web-devicons', event = 'VimEnter' })
-    use {
+    use({
         'kyazdani42/nvim-tree.lua',
         config = require('modules.config.nvim-tree'),
         after = 'nvim-web-devicons',
-    }
+    })
 
     -- Quick navigation
-    use({ 'ThePrimeagen/harpoon', event = 'BufRead' })
+    use({ get_local_plugin('ThePrimeagen', 'harpoon'), event = 'BufRead' })
 
     -- Pretty diagnostics
     use({
         'folke/trouble.nvim',
         config = require('modules.config.trouble'),
-        event = 'BufRead'
+        event = 'BufRead',
     })
     use({ 'folke/todo-comments.nvim', event = 'BufRead', config = require('modules.config.todo') })
 
@@ -96,7 +98,7 @@ return packer.startup(function(use)
                 'jose-elias-alvarez/nvim-lsp-ts-utils',
                 module = 'nvim-lsp-ts-utils',
             },
-            { 'hrsh7th/cmp-nvim-lsp', module = 'cmp_nvim_lsp' }
+            { 'hrsh7th/cmp-nvim-lsp', module = 'cmp_nvim_lsp' },
         },
     })
 
@@ -133,7 +135,7 @@ return packer.startup(function(use)
     use({
         'nvim-telescope/telescope.nvim',
         config = require('modules.config.telescope'),
-        cmd = "Telescope",
+        cmd = 'Telescope',
         module = { 'telescope', 'telescope.builtin' },
         requires = { 'nvim-telescope/telescope-fzf-native.nvim' },
     })
@@ -149,11 +151,11 @@ return packer.startup(function(use)
     use({
         'glepnir/dashboard-nvim',
         cmd = {
-            "Dashboard",
-            "DashboardNewFile",
-            "DashboardJumpMarks",
-            "SessionLoad",
-            "SessionSave"
+            'Dashboard',
+            'DashboardNewFile',
+            'DashboardJumpMarks',
+            'SessionLoad',
+            'SessionSave',
         },
         config = require('modules.config.dashboard'),
     })
@@ -163,14 +165,14 @@ return packer.startup(function(use)
         'famiu/feline.nvim',
         commit = 'fcbd00d',
         config = require('modules.config.feline'),
-        event = 'BufRead'
+        event = 'BufRead',
     })
 
     -- Git status in gutter
     use({
         'lewis6991/gitsigns.nvim',
         config = require('modules.config.gitsigns'),
-        after = 'plenary.nvim'
+        after = 'plenary.nvim',
     })
 
     packer.install()

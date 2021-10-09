@@ -1,5 +1,5 @@
 return function()
-    require'todo-comments'.setup({
+    require('todo-comments').setup({
         sign_priority = 8,
 
         keywords = {
@@ -26,20 +26,20 @@ return function()
         },
         colors = {
             error = { 'LspDiagnosticsDefaultError', 'ErrorMsg', '#DC2626' },
-            warning = { "LspDiagnosticsDefaultWarning", "WarningMsg", "#FBBF24" },
-            info = { "Title", "#2563EB" },
-            hint = { "LspDiagnosticsDefaultHint", "#10B981" },
-            default = { "Identifier", "#7C3AED" },
+            warning = { 'LspDiagnosticsDefaultWarning', 'WarningMsg', '#FBBF24' },
+            info = { 'Title', '#2563EB' },
+            hint = { 'LspDiagnosticsDefaultHint', '#10B981' },
+            default = { 'Identifier', '#7C3AED' },
         },
         search = {
-            command = "rg",
+            command = 'rg',
             args = {
-                "--color=never",
-                "--no-heading",
-                "--with-filename",
-                "--line-number",
-                "--column",
-                "--hidden",
+                '--color=never',
+                '--no-heading',
+                '--with-filename',
+                '--line-number',
+                '--column',
+                '--hidden',
             },
             pattern = [[\b(KEYWORDS):]], -- ripgrep regex
         },
