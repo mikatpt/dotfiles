@@ -36,7 +36,7 @@ return function()
     local servers = {
         efm = {
             init_options = { documentFormatting = true, codeAction = true },
-            root_dir = function(fname) return get_root(fname, { '.git/' }) end,
+            root_dir = lspconfig.util.root_pattern({ '.git/', '.' }),
             filetypes = vim.tbl_keys(format_config),
             settings = {
                 languages = format_config,
