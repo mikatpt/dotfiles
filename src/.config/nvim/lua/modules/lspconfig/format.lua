@@ -8,7 +8,7 @@ local eslint = {
     lintIgnoreExitCode = true,
     lintStdin = true,
     formatStdin = true,
-    lintFormats = { '%f(%l,%c): %tarning %m', '%f(%l,%c): %rror %m'},
+    lintFormats = { '%f(%l,%c): %tarning %m', '%f(%l,%c): %rror %m' },
 }
 
 local prettier = {
@@ -26,12 +26,18 @@ local rustfmt = {
     formatStdin = true,
 }
 
+local stylua = {
+    formatCommand = 'stylua -s -',
+    formatStdin = true,
+}
+
 -- local rubocop = {
 --     formatCommand = 'rubocop -f',
 --     formatStdin = true,
 -- }
 
 return {
+    lua = { stylua },
     javascript = { prettier, eslint },
     javascriptreact = { prettier, eslint },
     typescript = { prettier, eslint },
