@@ -13,16 +13,20 @@ M.setup = function()
     vim.cmd('packadd packer.nvim')
 
     local disabled_built_ins = {
-        "getscript", "getscriptPlugin",
-        "2html_plugin", "logipat",
-        "rrhelper", "spellfile_plugin", "matchit"
+        'getscript',
+        'getscriptPlugin',
+        '2html_plugin',
+        'logipat',
+        'rrhelper',
+        'spellfile_plugin',
+        'matchit',
     }
 
     for _, plugin in pairs(disabled_built_ins) do
-        vim.g["loaded_" .. plugin] = 1
+        vim.g['loaded_' .. plugin] = 1
     end
 
-    require'packer'.init({
+    require('packer').init({
         compile_path = utils.os.data .. '/site/lua/packer_compiled.lua',
         opt_default = true,
         profile = { enable = true },
@@ -30,4 +34,3 @@ M.setup = function()
 end
 
 return M
-

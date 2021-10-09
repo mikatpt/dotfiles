@@ -17,12 +17,11 @@ return function(client, bufnr)
         },
     })
 
-    vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
-        vim.lsp.handlers.hover, { border = 'single' }
-    )
+    vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'single' })
 
     vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
-        vim.lsp.handlers.signature_help, { border = 'single' }
+        vim.lsp.handlers.signature_help,
+        { border = 'single' }
     )
 
     -- ask to merge this into neovim core?
@@ -33,7 +32,7 @@ return function(client, bufnr)
     require('lsp_signature').on_attach({ doc_lines = 2, use_lspsaga = true, hint_enable = false })
 
     -- Mappings
-    require'modules.lspconfig.lspbindings'.attach_mappings(bufnr)
+    require('modules.lspconfig.lspbindings').attach_mappings(bufnr)
 
     -- So that the only client with format capabilities is efm
     if client.name ~= 'efm' then
