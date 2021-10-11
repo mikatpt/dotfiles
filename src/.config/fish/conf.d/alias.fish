@@ -12,9 +12,10 @@ function csa; cd $argv; ls -Ahl; end
 function sca; cd ..; ls -Ahl; end
 function la; ls -A $argv; end
 function lah; ls -Ahl $argv; end
+function cat --wraps=cat; batcat $argv; end
 
 # Tmux
-abbr -ag t 'tmux'
+function t --wraps=tmux; tmux; end
 abbr -ag ta 'tmux attach'
 abbr -ag tn 'tmux new-session'
 
@@ -22,7 +23,8 @@ abbr -ag .. 'cd ..'
 abbr -ag ... 'cd ../..'
 abbr -ag .... 'cd ../../..'
 abbr -ag ffs 'eval sudo $history[1]'
-abbr -ag :q 'exit'
+function :q --wraps=exit; exit; end
+function :wq --wraps=exit; exit; end
 
 # Git
 abbr -ag cm 'git commit'
