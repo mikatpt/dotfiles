@@ -4,9 +4,9 @@ local packer = require('packer')
 
 -- Use for plugin contributions
 local function get_local_plugin(author, plugin)
-    local local_path = '~/' .. plugin
+    local local_path = utils.os.home .. '/' .. plugin
     local remote_path = author .. '/' .. plugin
-    return vim.fn.isdirectory(local_path) and local_path or remote_path
+    return vim.fn.isdirectory(local_path) == 1 and local_path or remote_path
 end
 
 --[[ Template for adding a plugin
