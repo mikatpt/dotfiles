@@ -84,6 +84,7 @@ nnoremap <leader>l :set rnu!<CR>
 
 " Yank to system clipboard
 nnoremap <leader>y "+y
+vnoremap <leader>y "+y
 
 " Open in Github
 nnoremap <silent> <leader>go <CMD>GBrowse<CR>
