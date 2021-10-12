@@ -1,4 +1,3 @@
-set clipboard=unnamedplus
 set incsearch
 set smartcase
 set ignorecase
@@ -27,3 +26,17 @@ nnoremap Y y$
 " Fix ctrl backspace behavior
 noremap! <C-BS> <C-w>
 noremap! <C-h> <C-w>
+
+" Remove the most toxic vim mode to exist and remap it to repeat the last macro.
+nnoremap Q @@
+
+" Merge lines
+nnoremap <S-M> <S-J>
+
+" Indenting won't throw you out of visual mode
+vnoremap <LT> <LT>gv
+vnoremap > >gv
+
+" Yank to system clipboard
+nnoremap <leader>y "+y
+vnoremap <leader>y "+y
