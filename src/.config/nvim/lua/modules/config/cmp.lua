@@ -15,17 +15,17 @@ return function()
         b = b == kind.Text and 100 or b
 
         if a ~= b then
-            if a == kind.Snippet then
-                return true
-            end
-            if b == kind.Snippet then
-                return false
-            end
-
             if a == kind.Field then
                 return true
             end
             if b == kind.Field then
+                return false
+            end
+
+            if a == kind.Snippet then
+                return true
+            end
+            if b == kind.Snippet then
                 return false
             end
 
