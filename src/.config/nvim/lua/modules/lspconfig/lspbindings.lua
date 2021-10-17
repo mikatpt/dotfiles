@@ -19,15 +19,14 @@ M.attach_mappings = function(bufnr)
     buf_set_keymap('n', 'gd', '<cmd>Telescope lsp_definitions<CR>', opts)
     buf_set_keymap('n', 'gr', '<cmd>Telescope lsp_references<CR>', opts)
     buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-    buf_set_keymap('n', 'gs', '<cmd>Lspsaga signature_help<CR>', opts)
     buf_set_keymap('n', 'gp', ':Lspsaga preview_definition<CR>', opts)
 
     -- Actions
     buf_set_keymap('n', '<leader>rn', ':Lspsaga rename<CR>', opts)
     buf_set_keymap('n', '<space>ca', ':Lspsaga code_action<CR>', opts)
     buf_set_keymap('v', '<space>ca', ':<C-U>Lspsaga range_code_action<CR>', opts)
-    buf_set_keymap('n', '<C-F>', '<CMD>lua require("lspsaga.action").smart_scroll_with_saga(1)<CR>', opts)
-    buf_set_keymap('n', '<C-E>', '<CMD>lua require("lspsaga.action").smart_scroll_with_saga(-1)<CR>', opts)
+    buf_set_keymap('n', '<C-W><C-F>', '<CMD>lua require("lspsaga.action").smart_scroll_with_saga(1)<CR>', opts)
+    buf_set_keymap('n', '<C-W><C-E>', '<CMD>lua require("lspsaga.action").smart_scroll_with_saga(-1)<CR>', opts)
 
     -- Diagnostics
     buf_set_keymap('n', 'm', ':lua vim.lsp.buf.hover()<CR>', opts)

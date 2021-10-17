@@ -130,6 +130,12 @@ return packer.startup(function(use)
         after = 'nvim-cmp',
     })
 
+    -- multicursor
+    use({
+        'mg979/vim-visual-multi',
+        event = 'BufEnter',
+    })
+
     -- Fuzzy finding / Ctrl + p
     use({ 'nvim-telescope/telescope-fzf-native.nvim', event = 'BufRead', run = 'make' })
     use({

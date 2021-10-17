@@ -1,0 +1,13 @@
+let g:VM_mouse_mappings = 0
+let g:VM_maps = {}
+let g:VM_maps['Select Operator'] = 'gs'
+let g:VM_maps['Undo'] = 'u'
+let g:VM_maps['Redo'] = '<C-R>'
+let g:VM_maps['Find Under'] = '<C-E>'
+let g:VM_maps['Find Subword Under'] = '<C-E>'
+let g:VM_maps['Select Cursor Down'] = '<C-Down>'
+let g:VM_maps['Select Cursor Up'] = '<C-Up>'
+let g:VM_maps['Find Operator'] = ''
+let g:VM_Extend_hl = 'Visual'
+let g:VM_Mono_hl = 'Visual'
+let g:VM_Insert_hl = 'Special'
