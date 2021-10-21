@@ -93,7 +93,7 @@ nnoremap <silent> <leader>go <CMD>GBrowse<CR>
 nnoremap <silent> <leader>t :lua require('harpoon.term').gotoTerminal({ idx = 1, create_with = ':e term://' .. vim.fn.system('echo $SHELL') })<CR>
 
 " Mark files and access them from 1-9.
-nnoremap <leader>m :lua require("harpoon.mark").add_file()<CR>
+nnoremap <leader>m :lua require("harpoon.mark").toggle_file()<CR>
 nnoremap <silent> <leader><S-M> :lua require("harpoon.ui").toggle_quick_menu()<CR>
 for i in [1, 2, 3, 4, 5, 6, 7, 8, 9]
     execute 'nnoremap <silent> <leader>' .. i .. ' :lua require("harpoon.ui").nav_file(' .. i .. ')<CR>'
@@ -101,7 +101,9 @@ endfor
 
 " Find files (Telescope)
 nnoremap <C-P> <CMD>Telescope git_files<CR>
-nnoremap <leader>p <CMD>Telescope find_files<CR>
+nnoremap <leader>p <CMD>lua require'harpoon.finderui'.find_files()<CR>
+nnoremap <leader><S-P> <CMD>lua require'harpoon.findermark'.toggle_file()<CR>
+" nnoremap <leader>p <CMD>Telescope find_files<CR>
 nnoremap <leader>o <CMD>Telescope oldfiles file_ignore_patterns={}<CR>
 nnoremap <leader>z <CMD>lua require"telescope.builtin".git_files({ prompt_title = 'Config Files', cwd = "$HOME/.config/nvim", file_ignore_patterns = {} })<CR>
 nnoremap <leader>b <CMD>Telescope buffers<CR>
