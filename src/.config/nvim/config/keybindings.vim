@@ -104,6 +104,7 @@ nnoremap <C-P> <CMD>Telescope git_files<CR>
 nnoremap <leader>p <CMD>lua require'harpoon.finderui'.find_files()<CR>
 nnoremap <leader><S-P><S-M> <CMD>lua require'harpoon.findermark'.toggle_file()<CR>
 nnoremap <leader><S-P><S-N> <CMD>lua require'harpoon.finderui'.toggle_quick_menu()<CR>
+nnoremap <leader><S-P><S-F> <CMD>lua require'telescope.builtin'.live_grep({ prompt_title = 'Find Text', layout_strategy = 'vertical', search_dirs = require'harpoon.finderui'.search_dirs() })<CR>
 " nnoremap <leader>p <CMD>Telescope find_files<CR>
 nnoremap <leader>o <CMD>Telescope oldfiles file_ignore_patterns={}<CR>
 nnoremap <leader>z <CMD>lua require"telescope.builtin".git_files({ prompt_title = 'Config Files', cwd = "$HOME/.config/nvim", file_ignore_patterns = {} })<CR>
