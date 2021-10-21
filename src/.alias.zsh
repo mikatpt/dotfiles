@@ -1,4 +1,5 @@
 export EDITOR='nvim'
+set -o ignoreeof
 
 # use nvim for everything
 alias vi='nvim'
