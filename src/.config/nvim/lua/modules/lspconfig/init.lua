@@ -114,7 +114,7 @@ return function()
                 yaml = {
                     customTags = {
                         '!and', '!if', '!not', '!equals', '!or', '!findinmap sequence',
-                        '!base64', '!cidr', '!ref', '!sub', '!getatt', '!getazs',
+                        '!base64', '!cidr', '!ref', '!sub', '!getatt', '!getazs', '!flatten sequence',
                         '!importvalue', '!select', '!select sequence', '!split', '!join sequence',
                     }
                 }
