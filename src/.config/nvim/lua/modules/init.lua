@@ -75,6 +75,7 @@ return packer.startup(function(use)
 
     -- Quick navigation
     use({ get_local_plugin('ThePrimeagen', 'harpoon'), event = 'BufRead' })
+    use({ get_local_plugin('mikatpt', 'harpoon-finder'), after = 'harpoon' })
 
     -- Pretty diagnostics
     use({
