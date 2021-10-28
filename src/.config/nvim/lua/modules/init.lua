@@ -26,7 +26,7 @@ return packer.startup(function(use)
     ---      ESSENTIALS     ---
     -----]]-------------[[-----
 
-    use({ 'wbthomason/packer.nvim', event = 'VimEnter' })
+    use({ 'wbthomason/packer.nvim', event = 'VimEnter', commit = 'a5f8858' })
     use({ 'nvim-lua/plenary.nvim', module = 'plenary', event = 'BufRead' })
     use({ 'nvim-lua/popup.nvim', module = 'popup', event = 'BufRead' })
 
@@ -93,7 +93,7 @@ return packer.startup(function(use)
         requires = {
             { 'folke/lua-dev.nvim', module = 'lua-dev' },
             { 'kabouzeid/nvim-lspinstall', module = 'lspinstall' },
-            { 'tami5/lspsaga.nvim', module = 'lspsaga' },
+            { 'tami5/lspsaga.nvim', module = 'lspsaga', commit = '8e5974c' },
             { 'ray-x/lsp_signature.nvim', module = 'lsp_signature' },
             {
                 'jose-elias-alvarez/nvim-lsp-ts-utils',

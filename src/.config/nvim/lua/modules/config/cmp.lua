@@ -82,8 +82,20 @@ return function()
             },
         },
         mapping = {
-            ['<Tab>'] = utils.fn.cmp_select_next,
-            ['<S-Tab>'] = utils.fn.cmp_select_prev,
+            ['<Tab>'] = function(fallback)
+                if cmp.visible() then
+                    cmp.select_next_item()
+                else
+                    fallback()
+                end
+            end,
+            ['<S-Tab>'] = function(fallback)
+                if cmp.visible() then
+                    cmp.select_prev_item()
+                else
+                    fallback()
+                end
+            end,
             ['<C-p>'] = cmp.mapping.select_prev_item(),
             ['<C-n>'] = cmp.mapping.select_next_item(),
             ['<C-Space>'] = cmp.mapping.complete(),
@@ -94,6 +106,7 @@ return function()
             { name = 'nvim_lsp' },
             { name = 'vsnip' },
             { name = 'neorg' },
+            { name = 'buffer', keyword_length = 7 },
         },
         autocomplete = true,
         min_length = 0, -- allow for 'from package import _' in Python

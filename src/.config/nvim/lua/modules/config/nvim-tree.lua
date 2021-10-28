@@ -32,12 +32,6 @@ return function()
             symlink = '',
             symlink_open = '',
         },
-        lsp = {
-            hint = '',
-            info = '',
-            warning = '',
-            error = '',
-        },
     }
 
     require('nvim-web-devicons').setup()
@@ -53,7 +47,9 @@ return function()
         hijack_cursor = true,
         -- updates the root directory of the tree on `DirChanged` (when your run `:cd` usually)
         update_cwd = true,
-        lsp_diagnostics = true,
+        diagnostics = {
+            enable = true,
+        },
         update_focused_file = {
             enable = true,
             update_cwd = true,
