@@ -44,24 +44,6 @@ M.os = {
 -- Misc functions
 M.fn = {
     is_git_dir = is_git_dir,
-    cmp_select_next = function(fallback)
-        if vim.fn.pumvisible() == 1 then
-            vim.fn.feedkeys(t('<C-N>'), 'n')
-        elseif vim.fn['vsnip#available']() == 1 then
-            vim.fn.feedkeys(t('<Plug>(vsnip-expand-or-jump)'), '')
-        else
-            fallback()
-        end
-    end,
-    cmp_select_prev = function(_, fallback)
-        if vim.fn.pumvisible() == 1 then
-            vim.fn.feedkeys(t('<C-P>'), 'n')
-        elseif vim.fn['vsnip#available']() == 1 then
-            vim.fn.feedkeys(t('<Plug>(vsnip-jump-prev)'), '')
-        else
-            fallback()
-        end
-    end,
     get_lua_runtime = get_lua_runtime,
 }
 
