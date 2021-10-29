@@ -4,8 +4,6 @@ return function()
     local lspinstall = require('lspinstall')
     local on_attach = require('modules.lspconfig.on-attach')
 
-    require('modules.lspconfig.ui').symbols_override()
-
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     vim.lsp.set_log_level("error")
 

@@ -29,7 +29,12 @@ return function(client, bufnr)
     -- api.nvim_buf_set_keymap(floating_bufnr, "n", "<esc>", "<cmd>bdelete<cr>", { silent = true, noremap = true })
 
     -- Automatic function signatures
-    require('lsp_signature').on_attach({ doc_lines = 2, use_lspsaga = true, hint_enable = false })
+    require('lsp_signature').on_attach({
+        doc_lines = 2,
+        use_lspsaga = true,
+        hint_enable = false,
+        toggle_key = '<C-E>',
+    })
 
     -- Mappings
     require('modules.lspconfig.lspbindings').attach_mappings(bufnr)
