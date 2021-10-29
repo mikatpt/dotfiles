@@ -170,7 +170,8 @@ return packer.startup(function(use)
     -- Status line
     use({
         'famiu/feline.nvim',
-        commit = 'fcbd00d',
+        -- commit = 'fcbd00d',
+        tag = 'v0.3.3',
         config = require('modules.config.feline'),
         event = 'BufRead',
     })

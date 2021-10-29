@@ -249,7 +249,7 @@ return function()
         enabled = function()
             return lsp.diagnostics_exist 'Hint'
         end,
-        hl = { fg = colors.grey_fg2 },
+        hl = { fg = colors.nord_blue },
         icon = '  ',
     })
 
@@ -267,9 +267,9 @@ return function()
         provider = function()
             local Lsp = vim.lsp.util.get_progress_messages()[1]
             if Lsp then
-                local msg = Lsp.message or ''
+                local msg = Lsp.message and Lsp.message .. ' ' or ''
                 local percentage = Lsp.percentage or 0
-                local title = Lsp.title or ''
+                local title = Lsp.title and Lsp.title .. ' ' or ''
                 local spinners = { '', '', '' }
 
                 local success_icon = { '', '', '' }
@@ -278,42 +278,63 @@ return function()
                 local frame = math.floor(ms / 120) % #spinners
 
                 if percentage >= 70 then
-                    return string.format(' %%<%s %s %s (%s%%%%) ', success_icon[frame + 1], title, msg, percentage)
+                    return string.format(' %%<%s %s%s(%s%%%%) ', success_icon[frame + 1], title, msg, percentage)
                 else
-                    return string.format(' %%<%s %s %s (%s%%%%) ', spinners[frame + 1], title, msg, percentage)
+                    return string.format(' %%<%s %s%s(%s%%%%) ', spinners[frame + 1], title, msg, percentage)
                 end
             end
             return ''
         end,
+        short_provider = function()
+            local Lsp = vim.lsp.util.get_progress_messages()[1]
+            if Lsp then
+                local msg = Lsp.message and Lsp.message .. ' ' or ''
+                local percentage = Lsp.percentage or 0
+                local title = Lsp.title and Lsp.title .. ' ' or ''
+
+                return string.format(' %%<%s%s(%s%%%%) ', title, msg, percentage)
+            end
+            return ''
+
+        end,
         hl = { fg = colors.green },
+    })
+
+    -- Line:cursor position
+    table.insert(components.active[3], {
+        provider = function() return string.format('%d:%d', unpack(vim.api.nvim_win_get_cursor(0))) end,
+        hl = { fg = colors.white, bg = colors.statusline_bg },
     })
 
     -- Diffs
     table.insert(components.active[3], {
         provider = 'git_diff_added',
+        short_provider = '',
         hl = {
             fg = colors.green,
             bg = colors.statusline_bg,
         },
-        icon = ' ',
+        icon = '  ',
     })
 
     table.insert(components.active[3], {
         provider = 'git_diff_changed',
+        short_provider = '',
         hl = {
             fg = colors.yellow,
             bg = colors.statusline_bg,
         },
-        icon = '   ',
+        icon = '  ',
     })
 
     table.insert(components.active[3], {
         provider = 'git_diff_removed',
+        short_provider = '',
         hl = {
             fg = colors.red,
             bg = colors.statusline_bg,
         },
-        icon = '   ',
+        icon = '  ',
     })
 
     -- LSP client name
@@ -339,59 +360,47 @@ return function()
                 if name == 'RUST_ANALYZER' then name = 'RUST' end
 
                 return '    ' .. name
-            else
-                return ''
             end
+            return ''
+        end,
+        short_provider = function()
+            if next(vim.lsp.buf_get_clients()) ~= nil then
+                return '    '
+            end
+            return ''
         end,
         hl = { fg = colors.purple, bg = colors.statusline_bg },
-    })
-
-    -- Padding
-    table.insert(components.active[3], {
-        provider = '  ' .. statusline_style.left,
-        hl = function()
-            return {
-                fg = mode_colors[vim.fn.mode()][2],
-                bg = colors.statusline_bg,
-            }
-        end,
     })
 
     -- Vim mode
     table.insert(components.active[3], {
         provider = statusline_style.vi_mode_icon,
+        short_provider = '',
         hl = function()
             return {
                 fg = colors.statusline_bg,
                 bg = mode_colors[vim.fn.mode()][2],
             }
         end,
-    })
-
-    table.insert(components.active[3], {
-        provider = function()
-            return ' ' .. mode_colors[vim.fn.mode()][1] .. ' '
-        end,
-        hl = function()
+        left_sep = function()
             return {
-                fg = mode_colors[vim.fn.mode()][2],
-                bg = colors.statusline_bg,
+                str = '  ' .. statusline_style.left,
+                hl = { fg = mode_colors[vim.fn.mode()][2], bg = colors.statusline_bg },
             }
         end,
-    })
-
-    -- Padding
-    table.insert(components.active[3], {
-        provider = ' ' .. statusline_style.left,
-        hl = {
-            fg = colors.vibrant_green,
-            bg = colors.statusline_bg,
-        },
+        right_sep = function()
+            return {
+                str = ' ' .. mode_colors[vim.fn.mode()][1] .. ' ',
+                hl = { fg = mode_colors[vim.fn.mode()][2], bg = colors.statusline_bg },
+            }
+        end,
     })
 
     -- File Line %
     table.insert(components.active[3], {
         provider = statusline_style.position_icon,
+        short_provider = '',
+        left_sep = { str = ' ' .. statusline_style.left, hl = { fg = colors.vibrant_green, bg = colors.statusline_bg } },
         hl = {
             fg = colors.black,
             bg = colors.vibrant_green,
