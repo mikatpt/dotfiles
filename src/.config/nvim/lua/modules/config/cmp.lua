@@ -3,7 +3,6 @@ return function()
     local types = require('cmp.types')
     local compare = require('cmp.config.compare')
     local lspkind = require('lspkind')
-    local utils = require('core.utils')
 
     -- Prioritize snippets and field names.
     local lsp_sort = function(entry1, entry2)
@@ -100,7 +99,7 @@ return function()
             ['<C-n>'] = cmp.mapping.select_next_item(),
             ['<C-Space>'] = cmp.mapping.complete(),
             ['<C-e>'] = cmp.mapping.close(),
-            -- <CR> is handled by nvim-autopairs.
+            ['<CR>'] = cmp.mapping.confirm({ select = true }),
         },
         sources = {
             { name = 'nvim_lsp' },
