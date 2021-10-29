@@ -20,7 +20,7 @@ sca() { cd  .. && ls -AGhl; }
 # cd to selected directory using fzf
 fda() {
     local dir
-    dir=$(fd --type d --hiden --exclude .git | fzf +m) &&
+    dir=$(fd --type d --hidden --exclude .git | fzf +m) &&
     cd "$dir"
 }
 
