@@ -3,7 +3,7 @@ abbr -ag ez 'nvim ~/config +"PackerLoad dashboard-nvim" +Dashboard +NvimTreeOpen
 abbr -ag ea 'nvim ~/config/src/.config/fish/conf.d/alias.fish'
 abbr -ag sz 'exec fish'
 
-function notes; eval 'nvim ~/notes +"PackerLoad dashboard-nvim nvim-web-devicons" +Dashboard +NvimTreeOpen'; end;
+function notes; nvim ~/notes; end;
 
 # Navigation
 function cs; cd $argv; ls -A; end

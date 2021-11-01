@@ -1,7 +1,6 @@
 return function()
     local g = vim.g
 
-    g.nvim_tree_ignore = { '.git', 'node_modules', '.cache' }
     g.nvim_tree_git_hl = 1
     g.nvim_tree_special_files = { ['README.md'] = 1, Makefile = 1, MAKEFILE = 1 } -- List of filenames that gets highlighted with NvimTreeSpecialFile
     g.nvim_tree_show_icons = {
@@ -39,7 +38,7 @@ return function()
         disable_netrw = false,
         hijack_netrw = true,
         open_on_setup = true,
-        ignore_ft_on_setup = {},
+        ignore_ft_on_setup = { '.git', 'node_modules', '.cache' },
         auto_close = true,
         -- opens the tree when changing/opening a new tab if the tree wasn't previously opened
         open_on_tab = false,
