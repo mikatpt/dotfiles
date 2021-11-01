@@ -191,8 +191,6 @@ return function()
                     icon = ''
                 elseif filetype == 'Trouble' then
                     icon = ''
-                elseif filetype == 'norg' then
-                    icon = ''
                 end
 
                 if icon == nil then

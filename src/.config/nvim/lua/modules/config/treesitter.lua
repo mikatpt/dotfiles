@@ -1,8 +1,5 @@
 return function()
     local parsers = require('nvim-treesitter.parsers').maintained_parsers()
-    if require('core.utils').os.name ~= 'Darwin' then
-        table.insert(parsers, 'norg')
-    end
 
     require('nvim-treesitter.configs').setup({
         ensure_installed = parsers,
