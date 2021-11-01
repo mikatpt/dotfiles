@@ -6,7 +6,7 @@ return function()
                 auto_focus = false,
             },
             inlay_hints = {
-                highlight = 'TSText',
+                highlight = 'Comment',
             },
         },
         server = {
