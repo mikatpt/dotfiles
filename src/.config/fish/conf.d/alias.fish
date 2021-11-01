@@ -13,6 +13,10 @@ function sca; cd ..; ls -Ahl; end
 function la; ls -A $argv; end
 function lah; ls -Ahl $argv; end
 function cat --wraps=cat; batcat $argv; end
+function fda
+    set -l dir (fd --type d --hidden --exclude .git | fzf +m)
+    cd $dir
+end
 
 # Tmux
 function t --wraps=tmux; tmux; end
