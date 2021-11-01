@@ -6,7 +6,6 @@ return function()
 
     require('nvim-treesitter.configs').setup({
         ensure_installed = parsers,
-        ignore_install = { 'javascript' },
         autopairs = { enable = true },
         indent = { enable = true },
         highlight = {

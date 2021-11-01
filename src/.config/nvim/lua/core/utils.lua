@@ -1,10 +1,16 @@
 local M = {}
 
-function P(cmd)
-    print(vim.inspect(cmd))
-end
+M.os = {
+    home = os.getenv('HOME'),
+    data = vim.fn.stdpath('data'),
+    cache = vim.fn.stdpath('cache'),
+    config = vim.fn.stdpath('config'),
+    name = vim.loop.os_uname().sysname,
+}
 
-local function is_git_dir()
+M.fn = {}
+
+M.fn.is_git_dir = function()
     if os.execute('git rev-parse --is-inside-work-tree >> /dev/null 2>&1') == 0 then
         return 1
     else
@@ -12,12 +18,8 @@ local function is_git_dir()
     end
 end
 
-local t = function(str)
-    return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
-
--- copied from tjdevries
-local function get_lua_runtime()
+-- author: tjdevries
+M.fn.get_lua_runtime = function()
     local result = {}
     for _, path in pairs(vim.api.nvim_list_runtime_paths()) do
         local lua_path = path .. '/lua/'
@@ -32,19 +34,57 @@ local function get_lua_runtime()
     return result
 end
 
--- Os
-M.os = {
-    home = os.getenv('HOME'),
-    data = vim.fn.stdpath('data'),
-    cache = vim.fn.stdpath('cache'),
-    config = vim.fn.stdpath('config'),
-    name = vim.loop.os_uname().sysname,
-}
+M.fn.dashboard_startup = function()
+    if vim.api.nvim_buf_get_name(0):len() == 0 then
+        vim.cmd('silent! Dashboard')
+    end
+end
 
--- Misc functions
-M.fn = {
-    is_git_dir = is_git_dir,
-    get_lua_runtime = get_lua_runtime,
-}
+M.fn.setup_packer = function()
+    local packer_url = 'https://github.com/wbthomason/packer.nvim'
+    local packer_path = M.os.data .. '/site/pack/packer/opt/packer.nvim'
+    if vim.fn.empty(vim.fn.glob(packer_path)) > 0 then
+        print('Downloading plugin manager...')
+        vim.cmd('silent! !git clone ' .. packer_url .. ' ' .. packer_path)
+    end
+
+    vim.cmd('packadd packer.nvim')
+
+    local disabled_built_ins = {
+        'getscript',
+        'getscriptPlugin',
+        '2html_plugin',
+        'logipat',
+        'rrhelper',
+        'spellfile_plugin',
+        'matchit',
+    }
+
+    for _, plugin in pairs(disabled_built_ins) do
+        vim.g['loaded_' .. plugin] = 1
+    end
+
+    require('packer').init({
+        compile_path = M.os.data .. '/site/lua/packer_compiled.lua',
+        opt_default = true,
+        profile = { enable = true },
+    })
+end
+
+M.fn.get_local_plugin = function(author, plugin)
+    local local_path = M.os.home .. '/' .. plugin
+    local remote_path = author .. '/' .. plugin
+    return vim.fn.isdirectory(local_path) == 1 and local_path or remote_path
+end
+
+local options = { noremap = true, silent = true }
+
+M.fn.map = function(mode, lhs, rhs, opts)
+    vim.api.nvim_set_keymap(mode, lhs, rhs, opts or options)
+end
+
+M.fn.buf_map = function(mode, lhs, rhs, opts)
+    vim.api.nvim_buf_set_keymap(0, mode, lhs, rhs, opts or options)
+end
 
 return M

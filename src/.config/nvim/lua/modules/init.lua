@@ -1,187 +1,76 @@
-require('modules.packerInit').setup()
+-- stylua: ignore start
 local utils = require('core.utils')
+utils.fn.setup_packer()
+
 local packer = require('packer')
-
--- Use for plugin contributions
-local function get_local_plugin(author, plugin)
-    local local_path = utils.os.home .. '/' .. plugin
-    local remote_path = author .. '/' .. plugin
-    return vim.fn.isdirectory(local_path) == 1 and local_path or remote_path
-end
-
---[[ Template for adding a plugin
-    use ({
-         'plugin/name',
-         config = require('modules.config.plugin_name'),
-         event|cmd|module, -- ways to lazy load the plugin
-         run = ':Command', -- any startup commands
-         requires = {}
-    })
---]]
+local c = require('modules.config')
+local get_local = utils.fn.get_local_plugin
 
 -- NOTE: opt is set true, so all plugins are lazy-loaded.
--- Use modules|event|cmd|after options to load plugins
 return packer.startup(function(use)
-    -----[[-------------]]-----
-    ---      ESSENTIALS     ---
-    -----]]-------------[[-----
+    use({ 'wbthomason/packer.nvim',               event = 'BufEnter',     commit = 'a5f8858'   })
 
-    use({ 'wbthomason/packer.nvim', event = 'VimEnter', commit = 'a5f8858' })
-    use({ 'nvim-lua/plenary.nvim', module = 'plenary', event = 'BufRead' })
-    use({ 'nvim-lua/popup.nvim', module = 'popup', event = 'BufRead' })
+    -- Colorscheme & Icons
+    use({ 'kyazdani42/nvim-web-devicons',         module = 'nvim-web-devicons'                 })
+    use({ 'onsails/lspkind-nvim',                 module = 'lspkind',     config = c.lspkind   })
+    use({ 'rktjmp/lush.nvim',                     module = 'lush'                              })
+    use({ get_local('mikatpt', 'lucid_nvim'),     module = 'lucid'                             })
 
-    use({ 'tpope/vim-commentary', event = 'BufEnter' })
-    use({ 'machakann/vim-sandwich', event = 'BufEnter' })
-    use({ 'tpope/vim-fugitive', event = 'BufRead', requires = { 'tpope/vim-rhubarb' } })
-    use({ 'mbbill/undotree', event = 'BufEnter' })
-    use({ 'leafgarland/typescript-vim', event = 'BufRead' })
-    use({ 'lukas-reineke/indent-blankline.nvim', event = 'BufRead', config = require('modules.config.blankline') })
+    -- Core vim/neovim
+    use({ 'tpope/vim-commentary',                 event = 'BufRead'                            })
+    use({ 'machakann/vim-sandwich',               event = 'BufRead'                            })
+    use({ 'vim-utils/vim-man',                    event = 'BufRead'                            })
+    use({ 'mg979/vim-visual-multi',               event = 'BufRead'                            })
+    use({ 'plasticboy/vim-markdown',              event = 'BufRead'                            })
+    use({ 'mbbill/undotree',                      event = 'BufRead'                            })
+    use({ 'nvim-lua/plenary.nvim',                module = 'plenary'                           })
+    use({ 'nvim-lua/popup.nvim',                  module = 'popup'                             })
+    use({ 'tpope/vim-fugitive',  requires = { 'tpope/vim-rhubarb' },      event = 'BufRead'    })
 
-    use({ 'vim-utils/vim-man', event = 'BufRead' })
-    use({ 'plasticboy/vim-markdown', event = 'BufEnter' })
-
-    -- funky compiler stuff on mac right now :(
-    if utils.os.name ~= 'Darwin' then
-        use({
-            'nvim-neorg/neorg',
-            config = require('modules.config.neorg'),
-            after = 'nvim-treesitter',
-        })
-    end
-
-    use({ 'rktjmp/lush.nvim', module = 'lush' })
-    use({ get_local_plugin('mikatpt', 'lucid_nvim'), module = 'lucid' })
-
-    -----[[--------------]]-----
-    ---     IDE Features     ---
-    -----[[--------------]]-----
-
-    -- Treesitter
-    use({
-        'nvim-treesitter/nvim-treesitter',
-        config = require('modules.config.treesitter'),
-        event = 'BufRead',
-        run = ':TSUpdate',
-        requires = { 'nvim-treesitter/nvim-treesitter-refactor' },
+    -- Display
+    use({ 'lewis6991/gitsigns.nvim',              after = 'plenary.nvim', config = c.gitsigns  })
+    use({ 'famiu/feline.nvim',   tag = 'v0.3.3',  event = 'BufRead',      config = c.feline    })
+    use({ 'folke/trouble.nvim',                   event = 'BufRead',      config = c.trouble   })
+    use({ 'folke/todo-comments.nvim',             event = 'BufRead',      config = c.todo      })
+    use({ 'lukas-reineke/indent-blankline.nvim',  event = 'BufRead' ,     config = c.blankline })
+    use({ 'glepnir/dashboard-nvim',                                       config = c.dashboard,
+        cmd = { 'Dashboard', 'DashboardNewFile', 'SessionLoad', 'SessionSave' },
     })
 
-    -- File tree
-    use({ 'kyazdani42/nvim-web-devicons', event = 'VimEnter' })
-    use({
-        'kyazdani42/nvim-tree.lua',
-        config = require('modules.config.nvim-tree'),
-        after = 'nvim-web-devicons',
-    })
-
-    -- Quick navigation
-    use({ get_local_plugin('ThePrimeagen', 'harpoon'), event = 'BufRead' })
-    use({ get_local_plugin('mikatpt', 'harpoon-finder'), after = 'harpoon' })
-
-    -- Pretty diagnostics
-    use({
-        'folke/trouble.nvim',
-        config = require('modules.config.trouble'),
-        event = 'BufRead',
-    })
-    use({ 'folke/todo-comments.nvim', event = 'BufRead', config = require('modules.config.todo') })
-
-    -- Built-in lsp
-    use({
-        'neovim/nvim-lspconfig',
-        config = require('modules.lspconfig'),
-        event = 'BufEnter',
+    -- Navigation
+    use({ get_local('ThePrimeagen', 'harpoon'),       event = 'BufEnter'                       })
+    use({ get_local('mikatpt', 'harpoon-finder'),     after = 'harpoon'                        })
+    use({ 'kyazdani42/nvim-tree.lua',                 event = 'BufEnter', config = c.nvim_tree })
+    use({ 'nvim-telescope/telescope.nvim',            cmd = 'Telescope',
+        module = { 'telescope', 'telescope.builtin' },                    config = c.telescope,
         requires = {
-            { 'folke/lua-dev.nvim', module = 'lua-dev' },
-            { 'kabouzeid/nvim-lspinstall', module = 'lspinstall' },
-            { 'tami5/lspsaga.nvim', module = 'lspsaga', commit = '8e5974c' },
-            { 'ray-x/lsp_signature.nvim', module = 'lsp_signature' },
-            {
-                'jose-elias-alvarez/nvim-lsp-ts-utils',
-                module = 'nvim-lsp-ts-utils',
-            },
-            { 'hrsh7th/cmp-nvim-lsp', module = 'cmp_nvim_lsp' },
+            { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make',   event = 'BufEnter'  },
         },
     })
 
-    use({
-        'simrat39/rust-tools.nvim',
-        config = require('modules.lspconfig.rust-tools'),
-        after = 'nvim-dap',
+    -- Language Server Protocol
+    use({ 'nvim-treesitter/nvim-treesitter',          event = 'BufRead' , config = c.treesitter,
+        run = ':TSUpdate', requires = { 'nvim-treesitter/nvim-treesitter-refactor' }
     })
-
-    -- Nice icons
-    use({
-        'onsails/lspkind-nvim',
-        config = require('modules.config.lspkind'),
-        event = 'VimEnter',
+    use({ 'neovim/nvim-lspconfig',                    event = 'BufRead' , config = c.lsp,
+        requires = {
+            { 'folke/lua-dev.nvim',                   module = 'lua-dev'                      },
+            { 'kabouzeid/nvim-lspinstall',            module = 'lspinstall'                   },
+            { 'tami5/lspsaga.nvim',                   module = 'lspsaga', commit = '8e5974c'  },
+            { 'ray-x/lsp_signature.nvim',             module = 'lsp_signature'                },
+            { 'jose-elias-alvarez/nvim-lsp-ts-utils', module = 'nvim-lsp-ts-utils'            },
+            { 'hrsh7th/cmp-nvim-lsp',                 module = 'cmp_nvim_lsp'                 },
+        },
     })
+    use({ 'leafgarland/typescript-vim',      event = 'BufRead'                                 })
+    use({ 'mfussenegger/nvim-dap',           after = 'nvim-lspconfig', config = c.dap          })
+    use({ 'simrat39/rust-tools.nvim',        after = 'nvim-dap',       config = c.rust_tools   })
 
-    -- Text completion
-    use({
-        'hrsh7th/nvim-cmp',
-        config = require('modules.config.cmp'),
-        event = 'InsertEnter',
+    -- Completion
+    use({ 'hrsh7th/nvim-cmp',                event = 'InsertEnter',    config = c.cmp,
         requires = { 'hrsh7th/vim-vsnip', 'hrsh7th/cmp-buffer', 'hrsh7th/cmp-vsnip' },
     })
-
-    -- Autopairs
-    use({
-        'windwp/nvim-autopairs',
-        config = require('modules.config.autopairs'),
-        after = 'nvim-cmp',
-    })
-
-    -- multicursor
-    use({
-        'mg979/vim-visual-multi',
-        event = 'BufEnter',
-    })
-
-    -- Fuzzy finding / Ctrl + p
-    use({ 'nvim-telescope/telescope-fzf-native.nvim', event = 'BufRead', run = 'make' })
-    use({
-        'nvim-telescope/telescope.nvim',
-        config = require('modules.config.telescope'),
-        cmd = 'Telescope',
-        module = { 'telescope', 'telescope.builtin' },
-        requires = { 'nvim-telescope/telescope-fzf-native.nvim' },
-    })
-
-    -- Debugging
-    use({
-        'mfussenegger/nvim-dap',
-        config = require('modules.config.dap'),
-        after = 'nvim-lspconfig',
-    })
-
-    -- Dashboard
-    use({
-        'glepnir/dashboard-nvim',
-        cmd = {
-            'Dashboard',
-            'DashboardNewFile',
-            'DashboardJumpMarks',
-            'SessionLoad',
-            'SessionSave',
-        },
-        config = require('modules.config.dashboard'),
-    })
-
-    -- Status line
-    use({
-        'famiu/feline.nvim',
-        -- commit = 'fcbd00d',
-        tag = 'v0.3.3',
-        config = require('modules.config.feline'),
-        event = 'BufRead',
-    })
-
-    -- Git status in gutter
-    use({
-        'lewis6991/gitsigns.nvim',
-        config = require('modules.config.gitsigns'),
-        after = 'plenary.nvim',
-    })
+    use({ 'windwp/nvim-autopairs',           after = 'nvim-cmp',       config = c.autopairs    })
 
     packer.install()
     packer.compile()
