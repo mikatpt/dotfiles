@@ -104,13 +104,9 @@ return function()
         sources = {
             { name = 'nvim_lsp' },
             { name = 'vsnip' },
-            { name = 'neorg' },
             { name = 'buffer', keyword_length = 7 },
         },
         autocomplete = true,
         min_length = 0, -- allow for 'from package import _' in Python
     })
-    if vim.bo.filetype == 'norg' then
-        require('neorg').modules.load_module('core.norg.completion')
-    end
 end
