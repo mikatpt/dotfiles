@@ -4,7 +4,7 @@
 
 ```
 cd ~
-git clone https://github.com/mikatpt/config.git
+git clone https://github.com/mikatpt/dotfiles.git
 sudo bash install.sh
 ```
 - Make sure you clone this repository to your home directory!
