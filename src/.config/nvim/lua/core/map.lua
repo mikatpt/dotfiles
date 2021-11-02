@@ -95,7 +95,7 @@ else
     map('n', '<C-P>',          '<CMD>Telescope git_files<CR>')
 end
 map('n', '<leader>o',          '<CMD>Telescope oldfiles file_ignore_patterns={}<CR>')
-map('n', '<leader>z',          '<CMD>lua require"telescope.builtin".git_files({ prompt_title = "Config Files", cwd = "$HOME/.config/nvim", file_ignore_patterns = {} })<CR>')
+map('n', '<leader>z',          '<CMD>lua require"telescope.builtin".git_files({ prompt_title = "Dotfiles", cwd = "$HOME/.config/nvim", file_ignore_patterns = {} })<CR>')
 map('n', '<leader>b',          '<CMD>Telescope buffers<CR>')
 map('n', '<leader>s',          '<CMD>lua require"telescope.builtin".lsp_dynamic_workspace_symbols({ prompt_title = "Search Symbols", layout_strategy = "vertical" })<CR>')
 
