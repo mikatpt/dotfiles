@@ -34,7 +34,7 @@ return function()
     local servers = {
         efm = {
             init_options = { documentFormatting = true, codeAction = true },
-            root_dir = lspconfig.util.root_pattern({ '.git/', '.' }),
+            root_dir = lspconfig.util.root_pattern({ '.git/', 'Makefile' }),
             filetypes = vim.tbl_keys(format_config),
             settings = {
                 languages = format_config,
@@ -55,7 +55,8 @@ return function()
         },
         go = {
             -- Intentionally use current folder as root: big repo's take too long to index.
-            root_dir = function(fname) return get_root(fname, { '.git/', '.' }) end,
+            -- root_dir = function(fname) return get_root(fname, { '.git/', vim.loop.cwd() }) end,
+            root_dir = function(fname) return get_root(fname, {'go.mod', 'Makefile'}) end,
         },
         lua = require('lua-dev').setup(),
         python = {
