@@ -28,3 +28,6 @@ endfunction
 autocmd BufRead *
   \ call FollowSymlink() |
   \ call SetProjectRoot()
+
+autocmd FocusLost * set mouse=
+autocmd FocusGained * lua require'core.utils'.fn.defer_mouse()

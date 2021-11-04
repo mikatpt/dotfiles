@@ -87,4 +87,10 @@ M.fn.buf_map = function(mode, lhs, rhs, opts)
     vim.api.nvim_buf_set_keymap(0, mode, lhs, rhs, opts or options)
 end
 
+M.fn.defer_mouse = function()
+    vim.defer_fn(function()
+        vim.opt.mouse:append({ a = true, r = true })
+    end, 50)
+end
+
 return M
