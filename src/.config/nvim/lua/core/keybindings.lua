@@ -31,6 +31,8 @@ map('!', '<C-H>',              '<C-W>')
 -- misc convenience stuff.
 map('i', '<C-J>',              '<Esc>o')
 map('i', '<S-CR>',             '<Esc>O')
+map('n', '<C-G>',              'A;<Esc>') -- C-G is equivalent to <C-'>
+map('i', '<C-G>',              '<Esc>A;')
 
 -- From vim-commentary:
 -- gc to comment out lines

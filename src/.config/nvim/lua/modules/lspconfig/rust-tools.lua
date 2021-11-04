@@ -11,6 +11,11 @@ return function()
         },
         server = {
             on_attach = require('modules.lspconfig.on-attach'),
+            settings = {
+                ['rust-analyzer'] = {
+                    checkOnSave = { command = 'clippy' },
+                },
+            },
         },
     })
 end
