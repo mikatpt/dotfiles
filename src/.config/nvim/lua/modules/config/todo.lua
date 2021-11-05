@@ -6,7 +6,7 @@ return function()
             FIX = {
                 icon = ' ',
                 color = 'error', -- can be a hex color, or a named color (see below)
-                alt = { 'FIXME', 'BUG', 'FIXIT', 'ISSUE' },
+                alt = { 'FIXME', 'BUG', 'FIXIT', 'ISSUE', 'FAIL' },
             },
             TODO = { icon = ' ', color = 'info' },
             HACK = { icon = ' ', color = 'warning' },
