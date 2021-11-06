@@ -1,6 +1,7 @@
 -- stylua: ignore start
 local utils = require('core.utils')
 local map = utils.fn.map
+local map_lsp = utils.fn.map_redraw
 local isDarwin = utils.os.name == 'Darwin'
 local open_cmd = isDarwin and ':!open <cWORD> &<CR><CR>' or ':!xdg-open <cWORD> &<CR><CR>'
 
@@ -29,10 +30,10 @@ map('!', '<C-BS>',             '<C-W>')
 map('!', '<C-H>',              '<C-W>')
 
 -- misc convenience stuff.
-map('i', '<C-J>',              '<Esc>o')
-map('i', '<S-CR>',             '<Esc>O')
-map('n', '<C-G>',              'A;<Esc>') -- C-G is equivalent to <C-'>
-map('i', '<C-G>',              '<Esc>A;')
+map_lsp('i', '<C-J>',          '<Esc>o')
+map_lsp('i', '<C-CR>',         '<Esc><S-O>')
+map_lsp('n', '<C-G>',          'A;<Esc>') -- C-G is equivalent to <C-'>
+map_lsp('i', '<C-G>',          '<Esc>A;')
 
 -- From vim-commentary:
 -- gc to comment out lines

@@ -93,4 +93,16 @@ M.fn.defer_mouse = function()
     end, 50)
 end
 
+M.fn.redraw_lsp = function()
+    for _, id in pairs(vim.tbl_keys(vim.lsp.buf_get_clients())) do
+        vim.lsp.diagnostic.disable(0, id)
+        vim.lsp.diagnostic.enable(0, id)
+    end
+end
+
+M.fn.map_redraw = function(mode, lhs, rhs, opts)
+    local redraw = '<CMD>lua require"core.utils".fn.redraw_lsp()<CR>'
+    vim.api.nvim_set_keymap(mode, lhs, rhs .. redraw, opts or options)
+end
+
 return M
