@@ -105,4 +105,10 @@ M.fn.map_redraw = function(mode, lhs, rhs, opts)
     vim.api.nvim_set_keymap(mode, lhs, rhs .. redraw, opts or options)
 end
 
+M.fn.get_env = function()
+    local Path = require('plenary.path')
+    local env_file = M.os.config .. '/.env.json'
+    return vim.fn.json_decode(Path:new(env_file):read())
+end
+
 return M

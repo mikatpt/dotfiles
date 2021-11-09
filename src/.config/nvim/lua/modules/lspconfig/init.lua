@@ -1,11 +1,11 @@
 return function()
     local lspconfig = require('lspconfig')
     local util = lspconfig.util
-    local lspinstall = require('lspinstall')
+    local lspinstaller = require('nvim-lsp-installer')
     local on_attach = require('modules.lspconfig.on-attach')
 
     local capabilities = vim.lsp.protocol.make_client_capabilities()
-    vim.lsp.set_log_level("error")
+    vim.lsp.set_log_level('error')
 
     -- Auto-complete options
     capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
@@ -15,19 +15,16 @@ return function()
     }
 
     -- Don't update diagnostics while typing
-    vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
-        vim.lsp.diagnostic.on_publish_diagnostics, {
-            underline = true,
-            virtual_text = { severity_limit = 'Warning' },
-            signs = true,
-            update_in_insert = false,
-            severity_sort = true,
-        }
-    )
+    vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+        underline = true,
+        virtual_text = { severity_limit = 'Warning' },
+        signs = true,
+        update_in_insert = false,
+        severity_sort = true,
+    })
 
     local function get_root(fname, root_files)
-        return util.root_pattern(unpack(root_files))(fname)
-            or util.find_git_ancestor(fname) or util.path.dirname(fname)
+        return util.root_pattern(unpack(root_files))(fname) or util.find_git_ancestor(fname) or util.path.dirname(fname)
     end
 
     local format_config = require('modules.lspconfig.format')
@@ -42,25 +39,25 @@ return function()
                 -- logLevel = 1,
             },
             handlers = {
-                ['textDocument/publishDiagnostics'] = vim.lsp.with(
-                    vim.lsp.diagnostic.on_publish_diagnostics, {
-                        underline = true,
-                        virtual_text = false,
-                        signs = true,
-                        update_in_insert = false,
-                        severity_sort = true,
-                    }
-                )
+                ['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+                    underline = true,
+                    virtual_text = false,
+                    signs = true,
+                    update_in_insert = false,
+                    severity_sort = true,
+                }),
             },
         },
-        go = {
+        gopls = {
             -- Intentionally use current folder as root: big repo's take too long to index.
             -- root_dir = function(fname) return get_root(fname, { '.git/', vim.loop.cwd() }) end,
-            root_dir = function(fname) return get_root(fname, {'go.mod', 'Makefile'}) end,
+            root_dir = function(fname)
+                return get_root(fname, { 'go.mod', 'Makefile' })
+            end,
         },
-        lua = require('lua-dev').setup(),
-        python = {
-            filetypes = { "python" },
+        sumneko_lua = require('lua-dev').setup(),
+        pyright = {
+            filetypes = { 'python' },
             root_dir = function(fname)
                 local root_files = {
                     'pyproject.toml',
@@ -76,71 +73,74 @@ return function()
                 python = {
                     analysis = {
                         autoSearchPaths = true,
-                        diagnosticMode = "workspace",
-                        useLibraryCodeForTypes = true
-                    }
-                }
+                        diagnosticMode = 'workspace',
+                        useLibraryCodeForTypes = true,
+                    },
+                },
             },
         },
-        ruby = {
+        solargraph = {
             root_dir = function(fname)
-                local root_files = { '.solargraph.yml', '.rubocop.yml', '.git/'}
+                local root_files = { '.solargraph.yml', '.rubocop.yml', '.git/' }
                 return get_root(fname, root_files)
             end,
             -- cmd = { 'solargraph', 'stdio' },
             filetypes = { 'ruby' },
         },
-        rust = {
-            root_dir = function(fname)
-                local root_files = { 'Cargo.toml', 'rust-project.json', '.git/' }
-                return get_root(fname, root_files)
-            end,
-            settings = {
-                ['rust-analyzer'] = {
-                    checkOnSave = { command = 'clippy' }
-                }
-            }
-        },
-        typescript = {
+        tsserver = {
             root_dir = function(fname)
                 local root_files = { 'package.json', 'tsconfig.json', 'yarn.lock', '.git/' }
                 return get_root(fname, root_files)
             end,
         },
-        yaml = {
-            root_dir = function(fname) return get_root(fname, { '.git' }) end,
+        yamlls = {
+            root_dir = function(fname)
+                return get_root(fname, { '.git' })
+            end,
             settings = {
                 yaml = {
                     customTags = {
-                        '!and', '!if', '!not', '!equals', '!or', '!findinmap sequence',
-                        '!base64', '!cidr', '!ref', '!sub', '!getatt', '!getazs', '!flatten sequence',
-                        '!importvalue', '!select', '!select sequence', '!split', '!join sequence',
-                    }
-                }
-            }
+                        '!and',
+                        '!if',
+                        '!not',
+                        '!equals',
+                        '!or',
+                        '!findinmap sequence',
+                        '!base64',
+                        '!cidr',
+                        '!ref',
+                        '!sub',
+                        '!getatt',
+                        '!getazs',
+                        '!flatten sequence',
+                        '!importvalue',
+                        '!select',
+                        '!select sequence',
+                        '!split',
+                        '!join sequence',
+                    },
+                },
+            },
         },
     }
 
-    -- Setup servers
     local function setup_servers()
-        lspinstall.setup()
-        local installed = lspinstall.installed_servers()
+        local installed = lspinstaller.get_installed_servers()
+
         for _, server in pairs(installed) do
-            if server == 'rust' then goto CONTINUE end
-            local config = servers[server]
-                or { root_dir = function(fname) return get_root(fname, { '.git/' }) end }
+            local config = servers[server.name]
+                or {
+                    root_dir = function(fname)
+                        return get_root(fname, { '.git/' })
+                    end,
+                }
+
             config.capabilities = capabilities
             config.on_attach = on_attach
-            lspconfig[server].setup(config)
-            ::CONTINUE::
+
+            server:setup(config)
         end
     end
 
     setup_servers()
-
-    -- Auto setup servers again after :LspInstall <server>
-    lspinstall.post_install_hook = function()
-        setup_servers()
-        vim.cmd("bufdo e")
-    end
 end

@@ -1,3 +1,4 @@
+-- stylua: ignore start
 return function()
     local cmp = require('cmp')
     local types = require('cmp.types')
@@ -9,31 +10,15 @@ return function()
         local kind = types.lsp.CompletionItemKind
         local a, b = entry1:get_kind(), entry2:get_kind()
 
-        -- Text fields are least important.
-        a = a == kind.Text and 100 or a
-        b = b == kind.Text and 100 or b
-
         if a ~= b then
-            if a == kind.Field then
-                return true
-            end
-            if b == kind.Field then
-                return false
-            end
+            if a == kind.Field then return true end
+            if b == kind.Field then return false end
 
-            if a == kind.Snippet then
-                return true
-            end
-            if b == kind.Snippet then
-                return false
-            end
+            if a == kind.Method then return true end
+            if b == kind.Method then return false end
 
-            local diff = a - b
-            if diff < 0 then
-                return true
-            elseif diff > 0 then
-                return false
-            end
+            if a == kind.Snippet then return true end
+            if b == kind.Snippet then return false end
         end
     end
 
@@ -71,10 +56,10 @@ return function()
         sorting = {
             priority_weight = 2,
             comparators = {
-                compare.offset,
                 compare.exact,
-                compare.score,
                 lsp_sort,
+                compare.offset,
+                compare.score,
                 compare.sort_text,
                 compare.length,
                 compare.order,

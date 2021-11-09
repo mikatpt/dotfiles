@@ -55,7 +55,7 @@ return packer.startup(function(use)
     use({ 'neovim/nvim-lspconfig',                    event = 'BufRead' , config = c.lsp,
         requires = {
             { 'folke/lua-dev.nvim',                   module = 'lua-dev'                      },
-            { 'kabouzeid/nvim-lspinstall',            module = 'lspinstall'                   },
+            { 'williamboman/nvim-lsp-installer',      module = 'nvim-lsp-installer'           },
             { 'tami5/lspsaga.nvim',                   module = 'lspsaga', commit = '8e5974c'  },
             { 'ray-x/lsp_signature.nvim',             module = 'lsp_signature'                },
             { 'jose-elias-alvarez/nvim-lsp-ts-utils', module = 'nvim-lsp-ts-utils'            },
