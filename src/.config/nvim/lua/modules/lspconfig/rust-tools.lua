@@ -16,6 +16,15 @@ return function()
                     checkOnSave = { command = 'clippy' },
                 },
             },
+            handlers = {
+                ['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+                    underline = true,
+                    virtual_text = { severity_limit = 'Error' },
+                    signs = true,
+                    update_in_insert = false,
+                    severity_sort = true,
+                }),
+            },
         },
     })
 end
