@@ -34,8 +34,6 @@ o.wildmode = { 'longest:full', 'full' }
 o.shell = '/bin/bash'
 o.formatoptions:remove({ 'c', 'r', 'o' })
 o.conceallevel = 2
--- set list
--- set listchars=lead:.
 
 -- Tabs
 o.tabstop = 4

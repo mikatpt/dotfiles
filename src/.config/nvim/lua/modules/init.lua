@@ -23,7 +23,7 @@ return packer.startup(function(use)
     use({ 'mg979/vim-visual-multi',               event = 'BufRead'                            })
     use({ 'plasticboy/vim-markdown',              event = 'BufRead'                            })
     use({ 'mbbill/undotree',                      event = 'BufRead'                            })
-    use({ 'nvim-lua/plenary.nvim',                module = 'plenary'                           })
+    use({ 'nvim-lua/plenary.nvim',                event = 'BufEnter'                           })
     use({ 'nvim-lua/popup.nvim',                  module = 'popup'                             })
     use({ 'tpope/vim-fugitive',  requires = { 'tpope/vim-rhubarb' },      event = 'BufRead'    })
 

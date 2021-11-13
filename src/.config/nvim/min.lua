@@ -25,10 +25,6 @@ local function load_plugins()
                     { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
                 },
             },
-            {
-                'lewis6991/gitsigns.nvim',
-                requires = { 'nvim-lua/plenary.nvim' },
-            },
         },
         config = {
             package_root = package_root,
