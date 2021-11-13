@@ -6,12 +6,14 @@ abbr -ag sz 'exec fish'
 function notes; nvim ~/notes; end;
 
 # Navigation
-function cs; cd $argv; ls -A; end
-function sc; cd ..; ls -A; end
-function csa; cd $argv; ls -Ahl; end
-function sca; cd ..; ls -Ahl; end
-function la; ls -A $argv; end
-function lah; ls -Ahl $argv; end
+abbr -ag ls 'exa'
+abbr -ag la 'exa -a'
+abbr -ag lah 'exa -la'
+abbr -ag lat 'exa -laT'
+function cs; cd $argv; exa -a; end
+function sc; cd ..; exa -a; end
+function csa; cd $argv; exa -al; end
+function sca; cd ..; exa -al; end
 function cat --wraps=cat; batcat $argv; end
 function fda
     set -l dir (fd --type d --hidden --exclude .git | fzf +m)
