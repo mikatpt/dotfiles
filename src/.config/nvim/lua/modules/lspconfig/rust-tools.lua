@@ -6,6 +6,7 @@ return function()
                 auto_focus = false,
             },
             inlay_hints = {
+                only_current_line = true,
                 highlight = 'Comment',
             },
         },
