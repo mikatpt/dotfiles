@@ -9,7 +9,7 @@ local install_path = package_root .. '/packer/start/packer.nvim'
 
 local function install_packer()
     if vim.fn.isdirectory(install_path) == 0 then
-        print('Installing Telescope and dependencies.')
+        print('Installing dependencies...')
         vim.fn.system({ 'git', 'clone', '--depth=1', 'https://github.com/wbthomason/packer.nvim', install_path })
     end
 end

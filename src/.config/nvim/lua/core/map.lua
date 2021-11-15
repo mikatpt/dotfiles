@@ -60,8 +60,9 @@ map('n', '<C-N>',              ':NvimTreeToggle<CR>')
 map('n', '<leader>nf',         ':NvimTreeFindFile<CR>')
 map('n', '<leader>nr',         ':NvimTreeRefresh<CR>', nonsilent)
 
--- Reload the current buffer (to refresh lsp)
-map('n', '<leader>rl',         ':LspRestart<CR>',      nonsilent)
+-- Reload neovim configuration and LSP
+map('n', '<leader>rl',         ':lua require"core.utils".fn.reload_all()<CR>')
+map('n', '<leader>rr',         ':lua require"core.utils".fn.reload_config()<CR>')
 
 -- set current working directory to current file
 map('n', '<leader>cd',         ':cd %:p:h<CR>',        nonsilent)

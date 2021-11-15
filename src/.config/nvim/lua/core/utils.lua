@@ -95,8 +95,8 @@ end
 
 M.fn.redraw_lsp = function()
     for _, id in pairs(vim.tbl_keys(vim.lsp.buf_get_clients())) do
-        vim.lsp.diagnostic.disable(0, id)
-        vim.lsp.diagnostic.enable(0, id)
+        vim.diagnostic.disable(0, id)
+        vim.diagnostic.enable(0, id)
     end
 end
 
@@ -109,6 +109,19 @@ M.fn.get_env = function()
     local Path = require('plenary.path')
     local env_file = M.os.config .. '/.env.json'
     return vim.fn.json_decode(Path:new(env_file):read())
+end
+
+M.fn.reload_all = function()
+    M.fn.reload_config()
+
+    local active = require('lspconfig').util.get_active_clients_list_by_ft(vim.bo.filetype)
+    if #active > 0 then
+        vim.cmd('LspRestart')
+    end
+end
+
+M.fn.reload_config = function()
+    vim.cmd("execute 'source ' . stdpath('config') . '/init.lua'")
 end
 
 return M

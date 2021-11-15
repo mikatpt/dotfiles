@@ -23,7 +23,7 @@ return packer.startup(function(use)
     use({ 'mg979/vim-visual-multi',               event = 'BufRead'                            })
     use({ 'plasticboy/vim-markdown',              event = 'BufRead'                            })
     use({ 'mbbill/undotree',                      event = 'BufRead'                            })
-    use({ 'nvim-lua/plenary.nvim',                event = 'BufEnter'                           })
+    use({ 'nvim-lua/plenary.nvim',                event = 'BufEnter',     module = {'plenary'} })
     use({ 'nvim-lua/popup.nvim',                  module = 'popup'                             })
     use({ 'tpope/vim-fugitive',  requires = { 'tpope/vim-rhubarb' },      event = 'BufRead'    })
 
@@ -56,7 +56,7 @@ return packer.startup(function(use)
         requires = {
             { 'folke/lua-dev.nvim',                   module = 'lua-dev'                      },
             { 'williamboman/nvim-lsp-installer',      module = 'nvim-lsp-installer'           },
-            { 'tami5/lspsaga.nvim',                   module = 'lspsaga', commit = '8e5974c'  },
+            { 'tami5/lspsaga.nvim',                   module = 'lspsaga'                      },
             { 'ray-x/lsp_signature.nvim',             module = 'lsp_signature'                },
             { 'jose-elias-alvarez/nvim-lsp-ts-utils', module = 'nvim-lsp-ts-utils'            },
             { 'hrsh7th/cmp-nvim-lsp',                 module = 'cmp_nvim_lsp'                 },
