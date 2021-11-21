@@ -4,7 +4,10 @@ return function()
     require('nvim-treesitter.configs').setup({
         ensure_installed = parsers,
         autopairs = { enable = true },
-        indent = { enable = true },
+        indent = {
+            enable = true,
+            disable = { 'python' },
+        },
         highlight = {
             enable = true, -- false will disable the whole extension
             disable = {}, -- list of language that will be disabled

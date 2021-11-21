@@ -62,6 +62,7 @@ return packer.startup(function(use)
             { 'hrsh7th/cmp-nvim-lsp',                 module = 'cmp_nvim_lsp'                 },
         },
     })
+    use({ 'Vimjas/vim-python-pep8-indent',   event = 'BufRead'                                 })
     use({ 'leafgarland/typescript-vim',      event = 'BufRead'                                 })
     use({ 'mfussenegger/nvim-dap',           after = 'nvim-lspconfig', config = c.dap          })
     use({ 'simrat39/rust-tools.nvim',        after = 'nvim-dap',       config = c.rust_tools   })

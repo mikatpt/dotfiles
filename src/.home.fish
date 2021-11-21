@@ -7,7 +7,7 @@ end
 function check_postgres
     set -l POSTGRES_ONLINE (service postgresql status | string match -r 'online')
     if test -z $POSTGRES_ONLINE
-        echo "Postgres is not online! Please start postgres and re-run .home.fish."
+        echo "Postgres is not online! Please start postgres and restart terminal with 'exec fish'"
         exit
     end
 end
