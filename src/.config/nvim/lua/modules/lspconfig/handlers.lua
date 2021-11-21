@@ -1,10 +1,9 @@
 local M = {}
 
--- TODO: I don't think this works anymore, look into it later.
-
 -- Telescope's lsp_implementations always brings up a preview menu, which can be annoying.
 -- If there's only one result, we'll just use the built-in lsp function.
-local custom_impl = function(err, method, result, client_id, bufnr, config)
+local custom_impl = function(err, result, ctx, config)
+    local bufnr = ctx.bufnr
     local ft = vim.api.nvim_buf_get_option(bufnr, 'filetype')
     local no_impls_err = 'ERROR: No implementations for this item!'
 
@@ -42,7 +41,7 @@ local custom_impl = function(err, method, result, client_id, bufnr, config)
         err = no_impls_err
     end
 
-    vim.lsp.handlers['textDocument/implementation'](err, method, result, client_id, bufnr, config)
+    vim.lsp.handlers['textDocument/implementation'](err, result, ctx, config)
     vim.cmd([[normal! zz]])
 end
 
