@@ -38,7 +38,10 @@ return function()
         disable_netrw = false,
         hijack_netrw = true,
         open_on_setup = true,
-        ignore_ft_on_setup = { '.git', 'node_modules', '.cache' },
+        filters = {
+            custom = { '.git/', 'node_modules', '.cache' },
+            dotfiles = false,
+        },
         auto_close = true,
         -- opens the tree when changing/opening a new tab if the tree wasn't previously opened
         open_on_tab = false,
