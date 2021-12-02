@@ -18,22 +18,6 @@ M.fn.is_git_dir = function()
     end
 end
 
--- author: tjdevries
-M.fn.get_lua_runtime = function()
-    local result = {}
-    for _, path in pairs(vim.api.nvim_list_runtime_paths()) do
-        local lua_path = path .. '/lua/'
-        if vim.fn.isdirectory(lua_path) then
-            result[lua_path] = true
-        end
-    end
-
-    -- This loads the `lua` files from nvim into the runtime.
-    result[vim.fn.expand('$VIMRUNTIME/lua')] = true
-
-    return result
-end
-
 M.fn.dashboard_startup = function()
     if vim.api.nvim_buf_get_name(0):len() == 0 then
         vim.cmd('silent! Dashboard')
@@ -79,14 +63,6 @@ end
 
 local options = { noremap = true, silent = true }
 
-M.fn.map = function(mode, lhs, rhs, opts)
-    vim.api.nvim_set_keymap(mode, lhs, rhs, opts or options)
-end
-
-M.fn.buf_map = function(mode, lhs, rhs, opts)
-    vim.api.nvim_buf_set_keymap(0, mode, lhs, rhs, opts or options)
-end
-
 M.fn.defer_mouse = function()
     vim.defer_fn(function()
         vim.opt.mouse:append({ a = true, r = true })
@@ -100,7 +76,7 @@ M.fn.redraw_lsp = function()
     end
 end
 
-M.fn.map_redraw = function(mode, lhs, rhs, opts)
+M.fn.map_lsp = function(mode, lhs, rhs, opts)
     local redraw = '<CMD>lua require"core.utils".fn.redraw_lsp()<CR>'
     vim.api.nvim_set_keymap(mode, lhs, rhs .. redraw, opts or options)
 end
@@ -111,9 +87,7 @@ M.fn.get_env = function()
     return vim.fn.json_decode(Path:new(env_file):read())
 end
 
-M.fn.reload_all = function()
-    M.fn.reload_config()
-
+M.fn.reload_lsp = function()
     local active = require('lspconfig').util.get_active_clients_list_by_ft(vim.bo.filetype)
     if #active > 0 then
         vim.cmd('LspRestart')
@@ -121,6 +95,26 @@ M.fn.reload_all = function()
 end
 
 M.fn.reload_config = function()
+    -- Plenary actually unloads plugins, so we have to manually set them back up.
+    -- Tried reloading base modules but that upsets packer - this workaround does functionally the same thing.
+    local reload = require('plenary.reload').reload_module
+    local plugin_configs = require('modules.config')
+
+    reload('core', true)
+    reload('modules.config', true)
+    reload('modules.lspconfig', true)
+
+    packer_plugins = packer_plugins or {}
+    for plugin, _ in pairs(packer_plugins) do
+        reload(plugin, true)
+        pcall(require, plugin)
+        pcall(require, string.gsub(plugin, '.nvim', ''))
+    end
+
+    for _, setup in pairs(plugin_configs) do
+        setup()
+    end
+
     vim.cmd("execute 'source ' . stdpath('config') . '/init.lua'")
 end
 

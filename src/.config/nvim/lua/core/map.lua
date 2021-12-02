@@ -1,11 +1,14 @@
 -- stylua: ignore start
 local utils = require('core.utils')
-local map = utils.fn.map
-local map_lsp = utils.fn.map_redraw
+local map_lsp = utils.fn.map_lsp
 local isDarwin = utils.os.name == 'Darwin'
 local open_cmd = isDarwin and ':!open <cWORD> &<CR><CR>' or ':!xdg-open <cWORD> &<CR><CR>'
 
 local nonsilent = { silent = false, noremap = true }
+
+local map = function(mode, lhs, rhs, opts)
+    vim.api.nvim_set_keymap(mode, lhs, rhs, opts or { silent = true, noremap = true })
+end
 
 vim.g.mapleader = ' '
 map('i', 'jk',                 '<ESC>')
@@ -61,7 +64,7 @@ map('n', '<leader>nf',         ':NvimTreeFindFile<CR>')
 map('n', '<leader>nr',         ':NvimTreeRefresh<CR>', nonsilent)
 
 -- Reload neovim configuration and LSP
-map('n', '<leader>rl',         ':lua require"core.utils".fn.reload_all()<CR>')
+map('n', '<leader>rl',         ':lua require"core.utils".fn.reload_lsp()<CR>')
 map('n', '<leader>rr',         ':lua require"core.utils".fn.reload_config()<CR>', nonsilent)
 
 -- set current working directory to current file
@@ -73,6 +76,7 @@ map('n', '<leader>l',          ':set rnu!<CR>',        nonsilent)
 -- Yank to system clipboard
 map('n', '<leader>y',          '"+y')
 map('v', '<leader>y',          '"+y')
+map('n', '<leader><S-Y>',      '<CMD>%y+<CR>')
 
 -- Open URL
 map('n', 'gx',                 open_cmd,               nonsilent)
