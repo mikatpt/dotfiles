@@ -38,10 +38,6 @@ return function()
         disable_netrw = false,
         hijack_netrw = true,
         open_on_setup = true,
-        filters = {
-            custom = { '.git/', 'node_modules', '.cache' },
-            dotfiles = false,
-        },
         auto_close = true,
         -- opens the tree when changing/opening a new tab if the tree wasn't previously opened
         open_on_tab = false,
@@ -49,8 +45,16 @@ return function()
         hijack_cursor = true,
         -- updates the root directory of the tree on `DirChanged` (when your run `:cd` usually)
         update_cwd = true,
+        update_to_buf_dir = {
+            enable = true,
+            auto_open = true,
+        },
         diagnostics = {
             enable = true,
+            hint = '',
+            info = '',
+            warning = '',
+            error = '',
         },
         update_focused_file = {
             enable = true,
@@ -64,7 +68,15 @@ return function()
             -- the command arguments as a list
             args = {},
         },
-
+        filters = {
+            custom = { '.git/', 'node_modules', '.cache' },
+            dotfiles = false,
+        },
+        git = {
+            enable = true,
+            ignore = true,
+            timeout = 1000,
+        },
         view = {
             -- width of the window, can be either a number (columns) or a string in `%`
             width = 40,
