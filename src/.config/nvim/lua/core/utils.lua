@@ -56,7 +56,7 @@ M.fn.setup_packer = function()
 end
 
 M.fn.get_local_plugin = function(author, plugin)
-    local local_path = M.os.home .. '/' .. plugin
+    local local_path = M.os.home .. '/foss/' .. plugin
     local remote_path = author .. '/' .. plugin
     return vim.fn.isdirectory(local_path) == 1 and local_path or remote_path
 end
