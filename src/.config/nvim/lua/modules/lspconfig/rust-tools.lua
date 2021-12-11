@@ -1,4 +1,8 @@
 return function()
+    local extpath = os.getenv('HOME') .. '/.vscode-server/extensions/vadimcn.vscode-lldb-1.6.10/'
+    local codelldb = extpath .. 'adapter/codelldb'
+    local liblldb = extpath .. 'lldb/lib/liblldb.so'
+
     require('rust-tools').setup({
         tools = {
             hover_actions = {
@@ -11,10 +15,13 @@ return function()
             },
         },
         server = {
+            cmd = { vim.fn.stdpath('data') .. '/lsp_servers/rust/rust-analyzer' },
             on_attach = require('modules.lspconfig.on-attach'),
             settings = {
                 ['rust-analyzer'] = {
                     checkOnSave = { command = 'clippy' },
+                    experimental = { procAttrMacros = true },
+                    procMacro = { enable = true },
                 },
             },
             handlers = {
@@ -26,6 +33,9 @@ return function()
                     severity_sort = true,
                 }),
             },
+        },
+        dap = {
+            adapter = require('rust-tools.dap').get_codelldb_adapter(codelldb, liblldb),
         },
     })
 end
