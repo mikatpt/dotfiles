@@ -456,16 +456,24 @@ return function()
             filetypes = {
                 'NvimTree',
                 'dashboard',
+            },
+            buftypes = {'terminal'},
+            bufnames = {},
+        },
+        disable = {
+            filetypes = {
                 'Trouble',
                 'dbui',
                 'packer',
                 'startify',
                 'fugitive',
-                'fugitiveblame'
-            },
-            buftypes = {'terminal'},
-            bufnames = {},
-        },
+                'fugitiveblame',
+                'dapui_scopes',
+                'dapui_breakpoints',
+                'dapui_stacks',
+                'dapui_watches',
+            }
+        }
     }
 
     require('feline').setup(config)

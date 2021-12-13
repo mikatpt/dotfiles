@@ -1,7 +1,11 @@
 return function()
+    local dap = require('dap')
     local extpath = os.getenv('HOME') .. '/.vscode-server/extensions/vadimcn.vscode-lldb-1.6.10/'
     local codelldb = extpath .. 'adapter/codelldb'
     local liblldb = extpath .. 'lldb/lib/liblldb.so'
+
+    -- defining this here in case dependency loading order is funky.
+    dap.adapters.lldb = require('rust-tools.dap').get_codelldb_adapter(codelldb, liblldb)
 
     require('rust-tools').setup({
         tools = {
