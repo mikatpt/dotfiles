@@ -26,6 +26,5 @@ end
 
 set GOPATH "$HOME/go/bin"
 fish_add_path /usr/local/go/bin
-fish_add_path $HOME/.local/share/solana/install/active_release/bin
 fish_add_path $HOME/.local/share/nvim/lsp_servers/rust
 bass source $HOME/.cargo/env

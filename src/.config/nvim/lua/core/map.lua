@@ -104,7 +104,6 @@ else
 end
 map('n', '<leader>o',          '<CMD>Telescope oldfiles file_ignore_patterns={}<CR>')
 map('n', '<leader>z',          '<CMD>lua require"telescope.builtin".git_files({ prompt_title = "Dotfiles", cwd = "$HOME/.config/nvim", file_ignore_patterns = {} })<CR>')
-map('n', '<leader>b',          '<CMD>Telescope buffers<CR>')
 map('n', '<leader>s',          '<CMD>lua require"telescope.builtin".lsp_dynamic_workspace_symbols({ prompt_title = "Search Symbols", layout_strategy = "vertical" })<CR>')
 
 -- Ripgrep for input or current word
@@ -112,9 +111,11 @@ map('n', '<leader>f',          '<CMD>lua require("telescope.builtin").live_grep(
 map('n', '<leader>w',          '<CMD>TodoTelescope layout_strategy=vertical<CR>')
 
 -- Debugging
-map('n', '<F5>',               ':lua require"dap".continue()<CR>')
+map('n', '<F5>',               ':lua require("dapui").open()<CR>:lua require"dap".continue()<CR>')
 map('n', '<F10>',              ':lua require"dap".step_over()<CR>')
 map('n', '<F11>',              ':lua require"dap".step_into()<CR>')
 map('n', '<F12>',              ':lua require"dap".step_out()<CR>')
+map('n', '<C-Y>',              ':lua require("dapui").toggle()<CR>')
+map('n', '<leader>d',          ':lua require("dapui").eval()<CR>')
+map('v', '<leader>d',          ':lua require("dapui").eval()<CR>')
 map('n', '<C-B>',              ':lua require"dap".toggle_breakpoint()<CR>')
-map('n', '<leader>d',          ':lua local widgets=require"dap.ui.widgets";widgets.centered_float(widgets.scopes)<CR>')
