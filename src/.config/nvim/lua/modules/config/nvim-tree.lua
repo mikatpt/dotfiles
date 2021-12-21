@@ -69,7 +69,7 @@ return function()
             args = {},
         },
         filters = {
-            custom = { '.git/', 'node_modules', '.cache' },
+            custom = { '.git', 'node_modules', '.cache' },
             dotfiles = false,
         },
         git = {
