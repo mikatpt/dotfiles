@@ -2,7 +2,10 @@ if status is-interactive
     # Check if in tmux, then create session 'main' with two windows if it doesn't exist
     if not set -q TERM_PROGRAM && not set -q TMUX
         tmux has-session -t main 2>/dev/null || tmux new-session -d -s main
-        tmux if-shell 'tmux select-window -t 2' 'select-window -t 1' 'new-window -d -t main'
+        tmux if-shell 'tmux select-window -t main:2' '' 'new-window -d -t main'
+        tmux if-shell 'tmux select-window -t main:3' '' 'new-window -d -t main'
+        tmux if-shell 'tmux select-window -t main:4' '' 'new-window -d -t main'
+        tmux rename-window -t main:4 config
         tmux attach -t main
     end
 
@@ -29,10 +32,3 @@ set GOPATH "$HOME/go/bin"
 fish_add_path /usr/local/go/bin
 fish_add_path $HOME/.local/share/nvim/lsp_servers/rust
 bass source $HOME/.cargo/env
-
-# React Native
-
-set JAVA_HOME "/usr/lib/jvm/java-8-openjdk-amd64"
-set ANDROID_HOME "$HOME/Android"
-set ANDROID_SDK_ROOT "$ANDROID_SDK_ROOT"
-fish_add_path $JAVA_HOME/bin $ANDROID_HOME/emulator $ANDROID_HOME/tools $ANDROID_HOME/tools/bin $ANDROID_HOME/cmdline-tools/latest $ANDROID_HOME/cmdline-tools/latest/bin $ANDROID_HOME/platform-tools
