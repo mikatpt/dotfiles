@@ -99,9 +99,10 @@ end
 -- Telescope
 local telescope_cmd = utils.fn.is_git_dir() and 'git_files' or 'find_files'
 map('n', '<C-P>',              '<CMD>Telescope ' .. telescope_cmd .. '<CR>')
+local config = utils.os.config
 
 map('n', '<leader>o',          '<CMD>Telescope oldfiles file_ignore_patterns={}<CR>')
-map('n', '<leader>z',          '<CMD>lua require"telescope.builtin".git_files({ prompt_title = "Dotfiles", cwd = "$HOME/.config/nvim", file_ignore_patterns = {} })<CR>')
+map('n', '<leader>z',          '<CMD>lua require"telescope.builtin".git_files({ prompt_title = "Dotfiles", cwd = "' .. config .. '", file_ignore_patterns = {} })<CR>')
 map('n', '<leader>s',          '<CMD>lua require"telescope.builtin".lsp_dynamic_workspace_symbols({ prompt_title = "Search Symbols", layout_strategy = "vertical" })<CR>')
 
 -- Ripgrep for input or current word
