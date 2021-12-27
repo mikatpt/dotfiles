@@ -97,11 +97,9 @@ for i = 1, 9 do
 end
 
 -- Telescope
-if utils.fn.is_git_dir() == 0 then
-    map('n', '<C-P>',          '<CMD>Telescope find_files<CR>')
-else
-    map('n', '<C-P>',          '<CMD>Telescope git_files<CR>')
-end
+local telescope_cmd = utils.fn.is_git_dir() and 'git_files' or 'find_files'
+map('n', '<C-P>',              '<CMD>Telescope ' .. telescope_cmd .. '<CR>')
+
 map('n', '<leader>o',          '<CMD>Telescope oldfiles file_ignore_patterns={}<CR>')
 map('n', '<leader>z',          '<CMD>lua require"telescope.builtin".git_files({ prompt_title = "Dotfiles", cwd = "$HOME/.config/nvim", file_ignore_patterns = {} })<CR>')
 map('n', '<leader>s',          '<CMD>lua require"telescope.builtin".lsp_dynamic_workspace_symbols({ prompt_title = "Search Symbols", layout_strategy = "vertical" })<CR>')

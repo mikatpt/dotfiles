@@ -1,21 +1,25 @@
 local M = {}
 
 M.os = {
-    home = os.getenv('HOME'),
     data = vim.fn.stdpath('data'),
     cache = vim.fn.stdpath('cache'),
     config = vim.fn.stdpath('config'),
     name = vim.loop.os_uname().sysname,
 }
 
+local home = M.os.name == 'Windows_NT' and 'HOMEPATH' or 'HOME'
+M.os.home = os.getenv(home)
+
 M.fn = {}
 
+local windows_git_dir = function()
+    vim.cmd('silent! !git rev-parse --is-inside-work-tree')
+    return vim.v.shell_error == 0
+end
+
 M.fn.is_git_dir = function()
-    if os.execute('git rev-parse --is-inside-work-tree >> /dev/null 2>&1') == 0 then
-        return 1
-    else
-        return 0
-    end
+    if M.os.name == 'Windows_NT' then return windows_git_dir() end
+    return os.execute('git rev-parse --is-inside-work-tree >> /dev/null 2>&1') == 0
 end
 
 M.fn.dashboard_startup = function()
@@ -58,6 +62,7 @@ end
 M.fn.get_local_plugin = function(author, plugin)
     local local_path = M.os.home .. '/foss/' .. plugin
     local remote_path = author .. '/' .. plugin
+    if M.os.name == 'Windows_NT' then return remote_path end
     return vim.fn.isdirectory(local_path) == 1 and local_path or remote_path
 end
 
