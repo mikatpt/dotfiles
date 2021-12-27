@@ -59,9 +59,3 @@ o.splitright = true
 o.smartcase = true
 o.ignorecase = true
 o.completeopt = { 'menuone', 'noselect' }
-
--- Indent preferences
-vim.cmd('autocmd FileType javascript setlocal shiftwidth=2 tabstop=2')
-vim.cmd('autocmd FileType typescript setlocal shiftwidth=2 tabstop=2')
-vim.cmd('autocmd FileType javascriptreact setlocal shiftwidth=2 tabstop=2')
-vim.cmd('autocmd FileType typescriptreact setlocal shiftwidth=2 tabstop=2')
