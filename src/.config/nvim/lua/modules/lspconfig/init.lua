@@ -49,11 +49,13 @@ return function()
             },
         },
         gopls = {
-            -- Intentionally use current folder as root: big repo's take too long to index.
-            -- root_dir = function(fname) return get_root(fname, { '.git/', vim.loop.cwd() }) end,
             root_dir = function(fname)
                 return get_root(fname, { 'go.mod', 'Makefile' })
             end,
+        },
+        jsonls = {
+            root_dir = lspconfig.util.root_pattern({ '.git/', 'package.json' }),
+            filetypes = { 'json', 'jsonc' },
         },
         sumneko_lua = require('lua-dev').setup(),
         pyright = {
