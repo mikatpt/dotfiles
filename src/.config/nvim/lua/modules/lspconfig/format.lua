@@ -1,7 +1,3 @@
--- linting runs automatically, and formatting runs either on save or using <leader>s
--- in general, the lintStdin/formatStdin options are required
--- nothing to install from nvim directly - install each linter yourself.
-
 local eslint = {
     lintCommand = 'eslint_d -f visualstudio --stdin --stdin-filename ${INPUT}',
     formatCommand = 'eslint_d --fix-to-stdout --stdin --stdin-filename ${INPUT}',
@@ -12,7 +8,7 @@ local eslint = {
 }
 
 local prettier = {
-    formatCommand = 'prettier --stdin-filepath ${INPUT}',
+    formatCommand = [[$([ -n "$(command -v node_modules/.bin/prettier)" ] && echo "node_modules/.bin/prettier" || echo "prettier") --stdin-filepath ${INPUT} ${--config-precedence:"prefer-file"}]],
     formatStdin = true,
 }
 

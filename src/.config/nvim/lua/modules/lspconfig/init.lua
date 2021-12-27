@@ -35,8 +35,8 @@ return function()
             filetypes = vim.tbl_keys(format_config),
             settings = {
                 languages = format_config,
-                -- logFile = utils.os.cache..'/efm.log',
-                -- logLevel = 1,
+                logFile = vim.fn.stdpath('cache') .. '/efm.log',
+                logLevel = vim.log.levels.DEBUG,
             },
             handlers = {
                 ['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
