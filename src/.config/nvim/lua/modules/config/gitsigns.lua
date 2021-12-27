@@ -1,5 +1,5 @@
 return function()
-    require('gitsigns').setup({
+    local config = {
         signs = {
             add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
             change       = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
@@ -53,6 +53,7 @@ return function()
         },
         sign_priority = 6,
         update_debounce = 100,
+        use_internal_diff = true,
         status_formatter = nil, -- Use default
         max_file_length = 40000,
         preview_config = {
@@ -67,5 +68,10 @@ return function()
         yadm = {
             enable = false,
         },
-    })
+    }
+    if require('core.utils').os.name == 'WindowsNT' then
+        config.use_internal_diff = false
+    end
+
+    require('gitsigns').setup(config)
 end
