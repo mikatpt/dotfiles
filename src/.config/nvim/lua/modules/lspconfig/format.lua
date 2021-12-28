@@ -1,16 +1,21 @@
 local eslint = {
-    lintCommand = 'eslint_d -f visualstudio --stdin --stdin-filename ${INPUT}',
-    formatCommand = 'eslint_d --fix-to-stdout --stdin --stdin-filename ${INPUT}',
+    lintCommand = 'eslint_d -f visualstudio --stdin --stdin-filename=${INPUT}',
+    formatCommand = 'eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}',
     lintIgnoreExitCode = true,
     lintStdin = true,
     formatStdin = true,
     lintFormats = { '%f(%l,%c): %tarning %m', '%f(%l,%c): %rror %m' },
 }
 
-local prettier = {
-    formatCommand = [[$([ -n "$(command -v node_modules/.bin/prettier)" ] && echo "node_modules/.bin/prettier" || echo "prettier") --stdin-filepath ${INPUT} ${--config-precedence:"prefer-file"}]],
-    formatStdin = true,
-}
+-- This doesn't work on windows right now :(
+-- Use eslint to call prettier for now.
+-- local prettier = {
+--     formatCommand = ([[
+--     $([ -n "$(command -v node_modules/.bin/prettier)" ] && echo "node_modules/.bin/prettier" || echo "prettier")
+--     ${--config-precedence:"prefer-file"}
+--     ]]):gsub("\n", ""),
+--     formatStdin = true,
+-- }
 
 local gofmt = {
     formatCommand = 'gofmt',
@@ -34,10 +39,10 @@ local stylua = {
 
 return {
     lua = { stylua },
-    javascript = { prettier, eslint },
-    javascriptreact = { prettier, eslint },
-    typescript = { prettier, eslint },
-    typescriptreact = { prettier, eslint },
+    javascript = { eslint },
+    javascriptreact = { eslint },
+    typescript = { eslint },
+    typescriptreact = { eslint },
     go = { gofmt },
     rust = { rustfmt },
     -- ruby = { rubocop },
