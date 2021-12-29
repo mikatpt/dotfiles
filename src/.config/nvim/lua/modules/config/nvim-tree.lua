@@ -58,7 +58,7 @@ return function()
         },
         update_focused_file = {
             enable = true,
-            update_cwd = true,
+            update_cwd = false,
             ignore_list = {},
         },
         -- configuration options for the system open command (`s` in the tree by default)
@@ -74,7 +74,7 @@ return function()
         },
         git = {
             enable = true,
-            ignore = true,
+            ignore = false,
             timeout = 1000,
         },
         view = {

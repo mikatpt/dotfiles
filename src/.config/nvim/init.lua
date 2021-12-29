@@ -1,6 +1,5 @@
-vim.cmd('runtime! config/**/*.vim')
-
 require('modules')
+vim.cmd('runtime! vim_conf/*.vim')
 require('core.options')
 require('core.map')
 require('core.utils').fn.dashboard_startup()

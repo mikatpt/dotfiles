@@ -1,6 +1,3 @@
-.vim/plugged/
-.vim/autoload
-
 *.pem
 .env.json
 .env
