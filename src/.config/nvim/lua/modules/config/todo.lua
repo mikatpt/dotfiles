@@ -6,7 +6,7 @@ return function()
             FIX = {
                 icon = ' ',
                 color = 'error', -- can be a hex color, or a named color (see below)
-                alt = { 'FIXME', 'BUG', 'FIXIT', 'ISSUE', 'FAIL' },
+                alt = { 'FIX', 'FIXME', 'BUG', 'FIXIT', 'ISSUE', 'FAIL' },
             },
             TODO = { icon = ' ', color = 'info' },
             HACK = { icon = ' ', color = 'warning' },
@@ -17,9 +17,9 @@ return function()
         merge_keywords = false,
         highlight = {
             before = '',
-            keyword = 'wide',
+            keyword = 'fg',
             after = 'fg',
-            pattern = [[.*<(KEYWORDS)\s*:]],
+            pattern = [[.*<(KEYWORDS)(\([^\)]*\))?:]],
             comments_only = true,
             max_line_len = 400,
             exclude = {},
