@@ -84,4 +84,8 @@ return function()
             auto_resize = true,
         },
     })
+    -- We need to apply these autocommands here because they need to run _after_ lazy loading has completed.
+    require('core.utils').fn.set_project_root()
+    vim.cmd('autocmd WinEnter * lua require("core.utils").fn.set_project_root()')
+    vim.cmd('autocmd BufEnter * lua require("core.utils").fn.set_project_root()')
 end

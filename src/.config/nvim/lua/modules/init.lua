@@ -8,6 +8,7 @@ local get_local = utils.fn.get_local_plugin
 
 -- NOTE: opt is set true, so all plugins are lazy-loaded.
 return packer.startup(function(use)
+    -- NOTE: permanently pinned! stop wasting time trying to update it.
     use({ 'wbthomason/packer.nvim',               event = 'BufEnter',     commit = 'a5f8858'   })
 
     -- Colorscheme & Icons
@@ -25,14 +26,14 @@ return packer.startup(function(use)
     use({ 'mbbill/undotree',                      event = 'BufRead'                            })
     use({ 'nvim-lua/plenary.nvim',                event = 'BufEnter',     module = {'plenary'} })
     use({ 'nvim-lua/popup.nvim',                  module = 'popup'                             })
-    use({ 'tpope/vim-fugitive',  requires = { 'tpope/vim-rhubarb' },      event = 'BufRead'    })
+    use({ 'tpope/vim-fugitive',  requires = { 'tpope/vim-rhubarb' },      event = 'BufEnter'   })
 
     -- Display
     use({ 'lewis6991/gitsigns.nvim',              after = 'plenary.nvim', config = c.gitsigns  })
     use({ 'famiu/feline.nvim',   tag = 'v0.3.3',  event = 'BufRead',      config = c.feline    })
     use({ 'folke/trouble.nvim',                   event = 'BufRead',      config = c.trouble   })
     use({ 'folke/todo-comments.nvim',             event = 'BufRead',      config = c.todo      })
-    use({ 'lukas-reineke/indent-blankline.nvim',  event = 'BufRead' ,     config = c.blankline })
+    use({ 'lukas-reineke/indent-blankline.nvim',  event = 'BufRead',      config = c.blankline })
     use({ 'glepnir/dashboard-nvim',                                       config = c.dashboard,
         cmd = { 'Dashboard', 'DashboardNewFile', 'SessionLoad', 'SessionSave' },
     })
