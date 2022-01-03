@@ -12,14 +12,35 @@ M.os.home = os.getenv(home)
 
 M.fn = {}
 
+-- TODO: change to use vim.fn.system
 local windows_git_dir = function()
     vim.cmd('silent! !git rev-parse --is-inside-work-tree')
     return vim.v.shell_error == 0
 end
 
 M.fn.is_git_dir = function()
-    if M.os.name == 'Windows_NT' then return windows_git_dir() end
+    if M.os.name == 'Windows_NT' then
+        return windows_git_dir()
+    end
     return os.execute('git rev-parse --is-inside-work-tree >> /dev/null 2>&1') == 0
+end
+
+local follow_symlink = function()
+    local file = vim.api.nvim_buf_get_name(0)
+    if vim.bo.filetype == 'link' then
+        vim.fn.execute('file ' .. vim.fn.resolve(file))
+    end
+end
+
+M.fn.set_project_root = function()
+    follow_symlink()
+    vim.cmd('cd %:p:h')
+
+    local git_dir = vim.fn.system('git rev-parse --show-toplevel')
+    if not string.find(git_dir, '^fatal:.*') then
+        vim.cmd('cd ' .. git_dir)
+    end
+    require('nvim-tree').change_dir(vim.loop.cwd())
 end
 
 M.fn.dashboard_startup = function()
@@ -62,7 +83,9 @@ end
 M.fn.get_local_plugin = function(author, plugin)
     local local_path = M.os.home .. '/foss/' .. plugin
     local remote_path = author .. '/' .. plugin
-    if M.os.name == 'Windows_NT' then return remote_path end
+    if M.os.name == 'Windows_NT' then
+        return remote_path
+    end
     return vim.fn.isdirectory(local_path) == 1 and local_path or remote_path
 end
 
