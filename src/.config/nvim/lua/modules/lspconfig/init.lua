@@ -36,7 +36,7 @@ return function()
             settings = {
                 languages = format_config,
                 logFile = vim.fn.stdpath('cache') .. '/efm.log',
-                logLevel = vim.log.levels.DEBUG,
+                -- logLevel = vim.log.levels.ERROR,
             },
             handlers = {
                 ['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
