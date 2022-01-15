@@ -12,12 +12,6 @@ if status is-interactive
     # Start our home server
     fish ~/.home.fish
 
-    # If successful, source our event hook.
-    if tmux has-session -t home 2>/dev/null
-        echo "Applying stats hook"
-        source ~/.config/fish/personal/stats_hook.fish
-    end
-
     # Source local bashrc
     bass source ~/.bashrc
 
