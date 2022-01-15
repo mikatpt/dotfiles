@@ -19,6 +19,12 @@ function start_server
     tmux send-keys -t home.1 "cargo run --release" ENTER
 end
 
+function apply_stats_hook
+    echo "Applying stats hook"
+    source ~/.config/fish/personal/stats_hook.fish
+end
+
 check_tmux
 check_postgres
 start_server
+apply_stats_hook
