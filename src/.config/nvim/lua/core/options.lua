@@ -24,6 +24,7 @@ o.hidden = true
 o.termguicolors = true
 o.background = 'dark'
 vim.cmd('colo lucid_nvim')
+vim.cmd('syntax on')
 o.cmdheight = 1
 o.updatetime = 300
 o.shortmess:append({ c = true, a = true, s = true })
