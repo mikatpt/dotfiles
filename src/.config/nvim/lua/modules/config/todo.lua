@@ -13,6 +13,7 @@ return function()
             WARN = { icon = ' ', color = 'warning', alt = { 'WARNING', 'XXX' } },
             PERF = { icon = ' ', color = 'hint', alt = { 'OPTIM', 'PERFORMANCE', 'OPTIMIZE' } },
             NOTE = { icon = ' ', color = 'hint', alt = { 'INFO' } },
+            SAFETY = { icon = '聯', color = 'safety' },
         },
         merge_keywords = false,
         highlight = {
@@ -30,6 +31,7 @@ return function()
             info = { 'Title', '#2563EB' },
             hint = { 'LspDiagnosticsDefaultHint', '#10B981' },
             default = { 'Identifier', '#7C3AED' },
+            safety = { 'Question', '#00db00' },
         },
         search = {
             command = 'rg',
