@@ -53,7 +53,6 @@ return function()
         },
         sign_priority = 6,
         update_debounce = 100,
-        use_internal_diff = true,
         status_formatter = nil, -- Use default
         max_file_length = 40000,
         preview_config = {
@@ -70,7 +69,7 @@ return function()
         },
     }
     if require('core.utils').os.name == 'WindowsNT' then
-        config.use_internal_diff = false
+        config.diff_opts.internal = false
     end
 
     require('gitsigns').setup(config)
