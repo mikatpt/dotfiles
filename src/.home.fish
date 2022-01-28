@@ -1,5 +1,6 @@
 function check_tmux
-    if tmux has-session -t home 2>/dev/null
+    tmux has-session -t home 2>/dev/null
+    if test $status -eq 0
         exit
     end
 end
