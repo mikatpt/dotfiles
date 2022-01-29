@@ -13,7 +13,7 @@ return function()
             WARN = { icon = ' ', color = 'warning', alt = { 'WARNING', 'XXX' } },
             PERF = { icon = ' ', color = 'hint', alt = { 'OPTIM', 'PERFORMANCE', 'OPTIMIZE' } },
             NOTE = { icon = ' ', color = 'hint', alt = { 'INFO' } },
-            SAFETY = { icon = '聯', color = 'safety' },
+            SAFETY = { icon = '', color = 'safety' },
         },
         merge_keywords = false,
         highlight = {

@@ -33,6 +33,9 @@ local follow_symlink = function()
 end
 
 M.fn.set_project_root = function()
+    if vim.bo.filetype == '' then
+        return
+    end
     follow_symlink()
     vim.cmd('cd %:p:h')
 
