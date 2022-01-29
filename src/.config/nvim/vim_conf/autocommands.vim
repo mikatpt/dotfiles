@@ -16,9 +16,6 @@ function! UpdateTodoKeywords(...)
         return
     endif
 
-    " For some reason 'syntax on' doesn't immediately fire - probably due to
-    " TreeSitter funkiness. Update later if there's a better workaround.
-    syntax on
     let b:ExecutedTodoUpdate = 1
 
     let newKeywords = join(a:000, " ")
@@ -32,3 +29,5 @@ augroup updateTodos
     autocmd!
     autocmd BufEnter * call UpdateTodoKeywords("NOTE", "FIX", "FIXIT", "ISSUE", "FAIL", "WARN", "PERF", "OPTIM", "SAFETY")
 augroup END
+
+command UpdateToDo call UpdateTodoKeywords("NOTE", "FIX", "FIXIT", "ISSUE", "FAIL", "WARN", "PERF", "OPTIM", "SAFETY")
