@@ -1,14 +1,7 @@
 return function()
-    local parsers = require('nvim-treesitter.parsers').maintained_parsers()
-    for i, v in ipairs(parsers) do
-        if v == 'tlaplus' then
-            table.remove(parsers, i)
-            break
-        end
-    end
-
     require('nvim-treesitter.configs').setup({
-        ensure_installed = parsers,
+        ensure_installed = 'maintained',
+        ignore_install = { 'tlaplus', 'norg' },
         autopairs = { enable = true },
         indent = {
             enable = true,
