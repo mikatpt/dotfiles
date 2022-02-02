@@ -1,9 +1,4 @@
 return function()
-    local lspconfig = require('lspconfig')
-    local util = lspconfig.util
-    local lspinstaller = require('nvim-lsp-installer')
-    local on_attach = require('modules.lspconfig.on-attach')
-
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     vim.lsp.set_log_level('error')
 
@@ -23,15 +18,23 @@ return function()
         severity_sort = true,
     })
 
-    local function get_root(fname, root_files)
-        return util.root_pattern(unpack(root_files))(fname) or util.find_git_ancestor(fname) or util.path.dirname(fname)
+    local util = require('lspconfig').util
+    -- Order of priority: Defined root patterns, then git root, then cwd.
+    local function get_root(root_files)
+        return function(fname)
+            return util.root_pattern(unpack(root_files))(fname)
+                or util.find_git_ancestor(fname)
+                or util.path.dirname(fname)
+        end
     end
 
     local format_config = require('modules.lspconfig.format')
+    local pyroots = { 'pyproject.toml', 'setup.py', 'setup.cfg', 'requirements.txt', 'Pipfile', 'pyrightconfig.json' }
+
     local servers = {
         efm = {
             init_options = { documentFormatting = true, codeAction = true },
-            root_dir = lspconfig.util.root_pattern({ '.git/', 'Makefile', 'go.mod', 'package.json', 'Cargo.toml' }),
+            root_dir = get_root({ '.git/', 'Makefile', 'go.mod', 'package.json', 'Cargo.toml' }),
             filetypes = vim.tbl_keys(format_config),
             settings = {
                 languages = format_config,
@@ -39,6 +42,7 @@ return function()
                 -- logLevel = vim.log.levels.ERROR,
             },
             handlers = {
+                -- No need to see formatting lints, they are very distracting
                 ['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
                     underline = true,
                     virtual_text = false,
@@ -49,28 +53,16 @@ return function()
             },
         },
         gopls = {
-            root_dir = function(fname)
-                return get_root(fname, { 'go.mod', 'Makefile' })
-            end,
+            root_dir = get_root({ 'go.mod', 'Makefile' }),
         },
         jsonls = {
-            root_dir = lspconfig.util.root_pattern({ '.git/', 'package.json' }),
+            root_dir = get_root({ '.git/', 'package.json' }),
             filetypes = { 'json', 'jsonc' },
         },
         sumneko_lua = require('lua-dev').setup(),
         pyright = {
             filetypes = { 'python' },
-            root_dir = function(fname)
-                local root_files = {
-                    'pyproject.toml',
-                    'setup.py',
-                    'setup.cfg',
-                    'requirements.txt',
-                    'Pipfile',
-                    'pyrightconfig.json',
-                }
-                return get_root(fname, root_files)
-            end,
+            root_dir = get_root(pyroots),
             settings = {
                 python = {
                     analysis = {
@@ -82,23 +74,15 @@ return function()
             },
         },
         solargraph = {
-            root_dir = function(fname)
-                local root_files = { '.solargraph.yml', '.rubocop.yml', '.git/' }
-                return get_root(fname, root_files)
-            end,
+            root_dir = get_root({ '.solargraph.yml', '.rubocop.yml' }),
             -- cmd = { 'solargraph', 'stdio' },
             filetypes = { 'ruby' },
         },
         tsserver = {
-            root_dir = function(fname)
-                local root_files = { 'package.json', 'tsconfig.json', 'yarn.lock', '.git/' }
-                return get_root(fname, root_files)
-            end,
+            root_dir = get_root({ 'package.json', 'tsconfig.json', 'yarn.lock' }),
         },
         yamlls = {
-            root_dir = function(fname)
-                return get_root(fname, { '.git' })
-            end,
+            root_dir = get_root({ '.git/' }),
             settings = {
                 yaml = {
                     customTags = {
@@ -127,18 +111,13 @@ return function()
     }
 
     local function setup_servers()
-        local installed = lspinstaller.get_installed_servers()
+        local installed = require('nvim-lsp-installer').get_installed_servers()
 
         for _, server in pairs(installed) do
-            local config = servers[server.name]
-                or {
-                    root_dir = function(fname)
-                        return get_root(fname, { '.git/' })
-                    end,
-                }
+            local config = servers[server.name] or { root_dir = get_root({ '.git/' }) }
 
             config.capabilities = capabilities
-            config.on_attach = on_attach
+            config.on_attach = require('modules.lspconfig.on-attach')
 
             server:setup(config)
         end
