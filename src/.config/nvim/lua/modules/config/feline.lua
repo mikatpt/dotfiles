@@ -236,7 +236,7 @@ return function()
     table.insert(components.active[1], {
         provider = 'diagnostic_warnings',
         enabled = function()
-            return lsp.diagnostics_exist 'Warning'
+            return lsp.diagnostics_exist 'Warn'
         end,
         hl = { fg = colors.yellow },
         icon = '  ',
@@ -254,7 +254,7 @@ return function()
     table.insert(components.active[1], {
         provider = 'diagnostic_info',
         enabled = function()
-            return lsp.diagnostics_exist 'Information'
+            return lsp.diagnostics_exist 'Info'
         end,
         hl = { fg = colors.green },
         icon = '  ',
