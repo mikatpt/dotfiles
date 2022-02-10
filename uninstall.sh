@@ -1,4 +1,5 @@
 #!/bin/bash
+[ $(whoami) != 'root' ] || echo 'Please run with elevated permissions; exiting.'; exit;
 
 # Set current directory
 d=$(dirname $(readlink -f $0))
@@ -7,16 +8,12 @@ d=$(dirname $(readlink -f $0))
 bash $d/unconfigure.sh
 
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    sudo chsh -s `which bash`
-    bash $d/cleanup/linux/nvim.sh
-    bash $d/cleanup/linux/dev.sh
-    bash $d/cleanup/linux/fish.sh
-    sudo apt autoremove
+    chsh -s `which bash`
+    bash $d/setup/linuxUninstall.sh
+    apt autoremove
 elif [[ "$OSTYPE" == "darwin"* ]]; then
-    sudo chsh -s `which zsh`
-    bash $d/cleanup/mac/nvim.sh
-    bash $d/cleanup/mac/dev.sh
-    bash $d/cleanup/mac/fish.sh
+    chsh -s `which zsh`
+    bash $d/setup/macUninstall.sh
 else
     echo "Sorry! This script only works on linux or macOS."
 fi
