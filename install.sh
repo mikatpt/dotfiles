@@ -1,4 +1,5 @@
 #!/bin/bash
+[ $(whoami) != 'root' ] || echo 'Please run with elevated permissions; exiting.'; exit;
 
 install_stow() {
     echo "Checking packages..."
@@ -7,7 +8,7 @@ install_stow() {
             echo "Error - please install apt and run this script again."
             exit
         fi
-        sudo apt-get install -y stow
+        apt-get install -y stow
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         which -s brew
         if [[ $? != 0 ]] ; then
@@ -16,7 +17,7 @@ install_stow() {
         fi
         brew install stow
     else
-        echo "sorry! this script only works on linux or macos."
+        echo "Error - this script only works on linux or macos."
         exit
     fi
 }
@@ -30,18 +31,16 @@ install_packages() {
     echo "Installing packages..."
     # Order is important here! Setup fish before dev.
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        bash $d/setup/linux/fish.sh
-        bash $d/setup/linux/dev.sh
-        bash $d/setup/linux/nvim.sh
+        bash $d/setup/linuxInstall.sh
     elif [[ "$OSTYPE" == "darwin"* ]]; then
-        bash $d/setup/mac/fish.sh
-        bash $d/setup/mac/dev.sh
-        bash $d/setup/mac/nvim.sh
+        bash $d/setup/macInstall.sh
     else
         echo "sorry! this script only works on linux or macos."
     fi
 
 }
+
+echo "Setting up environment... 🚀"
 
 # Set current directory
 d=$(dirname $(readlink -f $0))
@@ -50,3 +49,4 @@ install_stow
 stow_files $d
 install_packages
 
+echo "Done. 👍"
