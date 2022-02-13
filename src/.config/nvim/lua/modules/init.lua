@@ -16,14 +16,14 @@ return packer.startup(function(use)
     use({ 'rktjmp/lush.nvim',                                                                  })
     use({ get_local('mikatpt', 'lucid_nvim'),                                                  })
 
-    -- Core vim/neovim
+    -- Core vim
     use({ 'tpope/vim-commentary',                event  = 'BufRead'                            })
     use({ 'machakann/vim-sandwich',              event  = 'BufRead'                            })
     use({ 'vim-utils/vim-man',                   event  = 'BufRead'                            })
     use({ 'mg979/vim-visual-multi',              event  = 'BufRead'                            })
     use({ 'plasticboy/vim-markdown',             event  = 'BufRead'                            })
     use({ 'mbbill/undotree',                     event  = 'BufRead'                            })
-    use({ 'nvim-lua/plenary.nvim',               event  = 'BufEnter',    module = 'plenary'    })
+    use({ 'nvim-lua/plenary.nvim',                                                             })
     use({ 'nvim-lua/popup.nvim',                 module = 'popup'                              })
     use({ 'tpope/vim-fugitive',  requires = { 'tpope/vim-rhubarb' },     event  = 'BufEnter'   })
 
