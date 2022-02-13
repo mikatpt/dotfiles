@@ -27,7 +27,7 @@ vim.cmd('colo lucid_nvim')
 vim.cmd('syntax on')
 o.cmdheight = 1
 o.updatetime = 300
-o.shortmess:append({ c = true, a = true, s = true })
+o.shortmess:append({ c = true, a = true, s = true, I = true })
 o.mouse:append({ a = true, r = true })
 o.timeoutlen = 200
 o.wildmenu = true
