@@ -37,7 +37,7 @@ return function()
     require('nvim-tree').setup({
         disable_netrw = false,
         hijack_netrw = true,
-        open_on_setup = true,
+        open_on_setup = false,
         auto_close = true,
         -- opens the tree when changing/opening a new tab if the tree wasn't previously opened
         open_on_tab = false,

@@ -48,7 +48,10 @@ end
 
 M.fn.dashboard_startup = function()
     if vim.api.nvim_buf_get_name(0):len() == 0 then
-        vim.cmd('silent! Dashboard')
+        -- TODO: this is a workaround, re-evaluate later
+        vim.defer_fn(function()
+            vim.cmd('Dashboard')
+        end, 50)
     end
 end
 
@@ -78,7 +81,7 @@ M.fn.setup_packer = function()
 
     require('packer').init({
         compile_path = M.os.data .. '/site/lua/packer_compiled.lua',
-        opt_default = true,
+        opt_default = false,
         profile = { enable = true },
     })
 end
