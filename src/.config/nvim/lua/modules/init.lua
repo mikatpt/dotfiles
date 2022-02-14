@@ -24,7 +24,7 @@ return packer.startup(function(use)
     use({ 'plasticboy/vim-markdown',             event  = 'BufRead'                            })
     use({ 'mbbill/undotree',                     event  = 'BufRead'                            })
     use({ 'nvim-lua/plenary.nvim',                                                             })
-    use({ 'nvim-lua/popup.nvim',                 module = 'popup'                              })
+    use({ 'nvim-lua/popup.nvim',                                                               })
     use({ 'tpope/vim-fugitive',  requires = { 'tpope/vim-rhubarb' },     event  = 'BufEnter'   })
 
     -- Display
@@ -45,12 +45,12 @@ return packer.startup(function(use)
     use({ 'nvim-telescope/telescope.nvim',                               config = c.telescope  })
 
     -- Language Server Protocol
-    use({ 'neovim/nvim-lspconfig',                  event  = 'BufRead',  config = c.lsp        })
-    use({ 'williamboman/nvim-lsp-installer',        module = 'nvim-lsp-installer'              })
-    use({ 'tami5/lspsaga.nvim',                     module = 'lspsaga'                         })
-    use({ 'ray-x/lsp_signature.nvim',               module = 'lsp_signature'                   })
-    use({ 'mfussenegger/nvim-dap',           after = 'nvim-lspconfig',   config = c.dap        })
-    use({ 'rcarriga/nvim-dap-ui',            after = 'nvim-dap',         config = c.dapui      })
+    use({ 'neovim/nvim-lspconfig',           event  = 'BufRead',         config = c.lsp        })
+    use({ 'williamboman/nvim-lsp-installer', module = 'nvim-lsp-installer'                     })
+    use({ 'tami5/lspsaga.nvim',              module = 'lspsaga'                                })
+    use({ 'ray-x/lsp_signature.nvim',        module = 'lsp_signature'                          })
+    use({ 'mfussenegger/nvim-dap',           after  = 'nvim-lspconfig',  config = c.dap        })
+    use({ 'rcarriga/nvim-dap-ui',            after  = 'nvim-dap',        config = c.dapui      })
 
     -- Languages
     use({ 'simrat39/rust-tools.nvim',               after  = 'nvim-dap', config = c.rust_tools })
@@ -60,12 +60,12 @@ return packer.startup(function(use)
     use({ 'Vimjas/vim-python-pep8-indent',          event  = 'BufRead'                         })
 
     -- Completion
-    use({ 'hrsh7th/nvim-cmp',                event  = 'InsertEnter',     config = c.cmp        })
-    use({ 'windwp/nvim-autopairs',           after  = 'nvim-cmp',        config = c.autopairs  })
-    use({ 'hrsh7th/cmp-nvim-lsp',            module = 'cmp_nvim_lsp'                           })
-    use({ 'hrsh7th/vim-vsnip',               event  = 'InsertEnter'                            })
-    use({ 'hrsh7th/cmp-buffer',              event  = 'InsertEnter'                            })
-    use({ 'hrsh7th/cmp-vsnip',               event  = 'InsertEnter'                            })
+    use({ 'hrsh7th/nvim-cmp',   module = 'cmp', event  = 'BufRead',      config = c.cmp        })
+    use({ 'windwp/nvim-autopairs',              after  = 'nvim-cmp',     config = c.autopairs  })
+    use({ 'hrsh7th/cmp-nvim-lsp',               module = 'cmp_nvim_lsp', event = 'BufRead'     })
+    use({ 'hrsh7th/vim-vsnip',                  event  = 'BufRead'                             })
+    use({ 'hrsh7th/cmp-buffer',                 event  = 'BufRead'                             })
+    use({ 'hrsh7th/cmp-vsnip',                  event  = 'BufRead'                             })
 
     packer.install()
     packer.compile('quiet=true')
