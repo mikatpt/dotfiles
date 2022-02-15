@@ -307,7 +307,7 @@ return function()
     table.insert(components.active[3], {
         provider = 'file_encoding',
         hl = { fg = colors.white, bg = colors.statusline_bg },
-        left_sep = ' ',
+        left_sep = { str = ' ', hl = { bg = colors.statusline_bg } },
     })
 
     -- Diffs
