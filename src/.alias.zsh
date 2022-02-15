@@ -38,6 +38,16 @@ fdr() {
     cd "$DIR"
 }
 
+squash() {
+    local RED='\033[0;31m'
+    local NC='\033[0m'
+    if [[ -z "$1" ]]; then
+        echo "${RED}error: Provide a commit SHA or HEAD number to squash to.${NC}";
+    else
+        git reset --hard "$1" && git merge --squash HEAD@{1} && git commit
+    fi
+}
+
 alias ls='ls -G'
 alias la='ls -AG'
 alias lah='ls -AGhl'
