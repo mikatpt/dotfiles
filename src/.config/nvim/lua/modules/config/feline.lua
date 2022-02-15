@@ -229,7 +229,7 @@ return function()
         enabled = function()
             return lsp.diagnostics_exist 'Error'
         end,
-        hl = { fg = colors.red },
+        hl = { fg = colors.red, bg = colors.statusline_bg },
         icon = '  ',
     })
 
@@ -238,7 +238,7 @@ return function()
         enabled = function()
             return lsp.diagnostics_exist 'Warn'
         end,
-        hl = { fg = colors.yellow },
+        hl = { fg = colors.yellow, bg = colors.statusline_bg },
         icon = '  ',
     })
 
@@ -247,7 +247,7 @@ return function()
         enabled = function()
             return lsp.diagnostics_exist 'Hint'
         end,
-        hl = { fg = colors.nord_blue },
+        hl = { fg = colors.nord_blue, bg = colors.statusline_bg },
         icon = '  ',
     })
 
@@ -256,7 +256,7 @@ return function()
         enabled = function()
             return lsp.diagnostics_exist 'Info'
         end,
-        hl = { fg = colors.green },
+        hl = { fg = colors.green, bg = colors.statusline_bg },
         icon = '  ',
     })
 
@@ -295,13 +295,19 @@ return function()
             return ''
 
         end,
-        hl = { fg = colors.green },
+        hl = { fg = colors.green, bg = colors.statusline_bg },
     })
 
     -- Line:cursor position
     table.insert(components.active[3], {
         provider = function() return string.format('%d:%d', unpack(vim.api.nvim_win_get_cursor(0))) end,
         hl = { fg = colors.white, bg = colors.statusline_bg },
+    })
+
+    table.insert(components.active[3], {
+        provider = 'file_encoding',
+        hl = { fg = colors.white, bg = colors.statusline_bg },
+        left_sep = ' ',
     })
 
     -- Diffs
