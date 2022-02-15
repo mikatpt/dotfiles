@@ -14,6 +14,7 @@ vim.g.mapleader = ' '
 map('i', 'jk',                 '<ESC>')
 map('n', 'Y',                  'y$')
 map('n', 'Q',                  '@@')
+map('n', '<F1>',               '<nop>')
 
 -- Merge lines
 map('n', '<S-M>',              '<S-J>')
