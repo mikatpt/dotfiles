@@ -3,7 +3,7 @@ abbr -ag ez 'nvim ~/config +"PackerLoad dashboard-nvim" +Dashboard +NvimTreeOpen
 abbr -ag ea 'nvim ~/config/src/.config/fish/conf.d/alias.fish'
 abbr -ag sz 'exec fish'
 
-function notes; nvim ~/notes; end;
+function notes; nvim ~/notes/notes.md; end;
 abbr -ag py 'python3.9'
 
 # Navigation
