@@ -33,7 +33,8 @@ local follow_symlink = function()
 end
 
 M.fn.set_project_root = function()
-    if vim.bo.filetype == '' then
+    local is_git = string.find(vim.api.nvim_buf_get_name(0), '.git')
+    if vim.bo.filetype == '' or is_git then
         return
     end
     follow_symlink()
