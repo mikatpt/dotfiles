@@ -41,10 +41,13 @@ fdr() {
 squash() {
     local RED='\033[0;31m'
     local NC='\033[0m'
-    if [[ -z "$1" ]]; then
+    local SHA="$1"
+    if [[ -z "$SHA" ]]; then
         echo "${RED}error: Provide a commit SHA or HEAD number to squash to.${NC}";
     else
-        git reset --hard "$1" && git merge --squash HEAD@{1} && git commit
+        if read -q "?hard squash to commit after ${SHA} (y/n) ?"; then
+            git reset --hard "$SHA" && git merge --squash HEAD@{1} && git commit
+        fi
     fi
 }
 
@@ -77,6 +80,10 @@ alias sd='git stash drop'
 alias sp='git stash pop'
 alias sa='git stash apply'
 alias sl='git stash list'
+alias merge='git merge'
+alias gmt='git mergetool'
+alias mergetool='git mergetool'
+alias rebase='git rebase'
 
 alias pingg='ping www.google.com'    # See network speed against google.com
 alias myip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'"
