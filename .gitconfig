@@ -14,14 +14,17 @@
 	sa = stash apply
 	sp = stash pop
 	sd = stash drop
+
 [credential]
 	helper = store --file ~/.git-credentials
+
 [difftool]
     prompt = true
 [diff]
     tool = nvimdiff
 [difftool "nvimdiff"]
     cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
+
 [merge]
     tool = nvim
 [mergetool]
@@ -29,5 +32,6 @@
     keepBackup = false
 [mergetool "nvim"]
     cmd = nvim -f -c \"Gdiffsplit!\" \"$MERGED\"
+
 [init]
 	defaultBranch = main

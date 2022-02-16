@@ -25,7 +25,7 @@ return packer.startup(function(use)
     use({ 'mbbill/undotree',                     event  = 'BufRead'                            })
     use({ 'nvim-lua/plenary.nvim',                                                             })
     use({ 'nvim-lua/popup.nvim',                                                               })
-    use({ 'tpope/vim-fugitive',  requires = { 'tpope/vim-rhubarb' },     event  = 'BufEnter'   })
+    use({ 'tpope/vim-fugitive',  requires = { 'tpope/vim-rhubarb' },                           })
 
     -- Display
     use({ treesitter,         run = ':TSUpdate', event = 'BufRead',      config = c.treesitter })
