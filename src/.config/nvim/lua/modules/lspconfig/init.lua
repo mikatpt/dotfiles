@@ -38,8 +38,6 @@ return function()
             filetypes = vim.tbl_keys(format_config),
             settings = {
                 languages = format_config,
-                logFile = vim.fn.stdpath('cache') .. '/efm.log',
-                -- logLevel = vim.log.levels.ERROR,
             },
             handlers = {
                 -- No need to see formatting lints, they are very distracting
@@ -81,6 +79,9 @@ return function()
         tsserver = {
             root_dir = get_root({ 'package.json', 'tsconfig.json', 'yarn.lock' }),
         },
+        rust_analyzer = {
+            root_dir = get_root({ 'Cargo.toml', 'rust-project.json' }),
+        },
         yamlls = {
             root_dir = get_root({ '.git/' }),
             settings = {
@@ -114,14 +115,17 @@ return function()
         local installed = require('nvim-lsp-installer').get_installed_servers()
 
         for _, server in pairs(installed) do
+            if server.name == 'rust_analyzer' then goto CONTINUE end
             local config = servers[server.name] or { root_dir = get_root({ '.git/' }) }
 
             config.capabilities = capabilities
             config.on_attach = require('modules.lspconfig.on-attach')
 
             server:setup(config)
+            ::CONTINUE::
         end
     end
+    require('modules.config').rust_tools()
 
     setup_servers()
 end
