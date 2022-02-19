@@ -157,14 +157,36 @@ return function()
         end,
     })
 
+    local function get_icon() 
+        local filename = vim.fn.expand '%:t'
+        local extension = vim.fn.expand '%:e'
+        local icon = require('nvim-web-devicons').get_icon(filename, extension)
+        local filetype = vim.bo.filetype
+
+        if filename == 'NvimTree' then
+            icon = ' '
+        elseif filetype == 'dashboard' then
+            icon = ''
+            filename = 'Dashboard'
+        elseif filetype == 'proto' then
+            icon = ''
+        elseif filetype == 'Trouble' then
+            icon = ''
+        end
+
+        if icon == nil then
+            icon = '  '
+        end
+
+        return icon
+    end
+
     local function filename_component(status)
         local background = colors.statusline_bg
         if status == 'active' then background = colors.light_grey2 end
         return {
             left_sep = function()
-                local filename = vim.fn.expand '%:t'
-                local extension = vim.fn.expand '%:e'
-                if require('nvim-web-devicons').get_icon(filename, extension) == nil or status ~= 'active' then
+                if status ~= 'active' then
                     return { str = '', hl = { fg = colors.statusline_bg, bg = colors.statusline_bg }}
                 end
 
@@ -178,25 +200,7 @@ return function()
             end,
             provider = function()
                 local filename = vim.fn.expand "%:t"
-                local filetype = vim.bo.filetype
-                local extension = vim.fn.expand "%:e"
-                local icon = require("nvim-web-devicons").get_icon(filename, extension)
-
-                if filename == 'NvimTree' then
-                    icon = ' '
-                elseif filetype == 'dashboard' then
-                    icon = ''
-                    filename = 'Dashboard'
-                elseif filetype == 'proto' then
-                    icon = ''
-                elseif filetype == 'Trouble' then
-                    icon = ''
-                end
-
-                if icon == nil then
-                    icon = '  '
-                    return icon
-                end
+                local icon = get_icon()
 
                 local info_icon = ''
                 if vim.bo.readonly == true then
