@@ -126,7 +126,8 @@ return function()
         end
     end
     require('modules.config').rust_tools()
-    require('lspconfig').protols.setup({})
+    local protols = require('lspconfig').protols
+    if protols then protols.setup({}) end
 
     setup_servers()
 end
