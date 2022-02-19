@@ -126,6 +126,7 @@ return function()
         end
     end
     require('modules.config').rust_tools()
+    require('lspconfig').protols.setup({})
 
     setup_servers()
 end

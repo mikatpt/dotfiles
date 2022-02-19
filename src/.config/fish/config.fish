@@ -19,7 +19,8 @@ if status is-interactive
     end
 
     # Start our home server
-    fish ~/.home.fish
+    source ~/.home.fish
+    _apply_stats_hook
 
     # Source local bashrc
     bass source ~/.bashrc
