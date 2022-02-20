@@ -84,6 +84,9 @@ map('n', 'gx',                 open_cmd,               nonsilent)
 
 -- Open in Github
 map('n', '<leader>go',         '<CMD>GBrowse<CR>')
+-- Git merge
+map('n', '<leader>hj',         '<cmd>diffget //2<CR>' )
+map('n', '<leader>hk',         '<cmd>diffget //3<CR>' )
 
 -- Harpoon
 map('n', '<leader><S-P><S-M>', '<CMD>lua require"harpoon-finder.mark".toggle_dir()<CR>')

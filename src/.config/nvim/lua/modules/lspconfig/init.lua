@@ -29,6 +29,7 @@ return function()
     end
 
     local format_config = require('modules.lspconfig.format')
+    local on_attach = require('modules.lspconfig.on-attach')
     local pyroots = { 'pyproject.toml', 'setup.py', 'setup.cfg', 'requirements.txt', 'Pipfile', 'pyrightconfig.json' }
 
     local servers = {
@@ -38,6 +39,7 @@ return function()
             filetypes = vim.tbl_keys(format_config),
             settings = {
                 languages = format_config,
+                logLevel = 1,
             },
             handlers = {
                 -- No need to see formatting lints, they are very distracting
@@ -57,7 +59,11 @@ return function()
             root_dir = get_root({ '.git/', 'package.json' }),
             filetypes = { 'json', 'jsonc' },
         },
-        sumneko_lua = require('lua-dev').setup(),
+        protols = {
+            root_dir = get_root({ '.git/' }),
+            capabilities = capabilities,
+            on_attach = on_attach,
+        },
         pyright = {
             filetypes = { 'python' },
             root_dir = get_root(pyroots),
@@ -76,11 +82,9 @@ return function()
             -- cmd = { 'solargraph', 'stdio' },
             filetypes = { 'ruby' },
         },
+        sumneko_lua = require('lua-dev').setup(),
         tsserver = {
             root_dir = get_root({ 'package.json', 'tsconfig.json', 'yarn.lock' }),
-        },
-        rust_analyzer = {
-            root_dir = get_root({ 'Cargo.toml', 'rust-project.json' }),
         },
         yamlls = {
             root_dir = get_root({ '.git/' }),
@@ -111,6 +115,10 @@ return function()
         },
     }
 
+    -- INFO: temporary until we're done contributing
+    if vim.loop.os_uname().sysname == 'Linux' then
+        servers.efm.cmd = { '/home/mikatpt/foss/efm-langserver/efm-langserver' }
+    end
     local function setup_servers()
         local installed = require('nvim-lsp-installer').get_installed_servers()
 
@@ -119,7 +127,7 @@ return function()
             local config = servers[server.name] or { root_dir = get_root({ '.git/' }) }
 
             config.capabilities = capabilities
-            config.on_attach = require('modules.lspconfig.on-attach')
+            config.on_attach = on_attach
 
             server:setup(config)
             ::CONTINUE::
@@ -127,7 +135,7 @@ return function()
     end
     require('modules.config').rust_tools()
     local protols = require('lspconfig').protols
-    if protols then protols.setup({}) end
+    if protols then protols.setup(servers.protols) end
 
     setup_servers()
 end

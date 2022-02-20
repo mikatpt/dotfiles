@@ -4,9 +4,9 @@ return function()
     local codelldb = extpath .. 'adapter/codelldb'
     local liblldb = extpath .. 'lldb/lib/liblldb.so'
 
-    -- defining this here in case dependency loading order is funky.
     dap.adapters.lldb = require('rust-tools.dap').get_codelldb_adapter(codelldb, liblldb)
 
+    -- Rust tools handles client capabilities.
     require('rust-tools').setup({
         tools = {
             hover_actions = {
