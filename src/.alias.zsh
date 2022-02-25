@@ -1,5 +1,5 @@
 export EDITOR='nvim'
-set -o ignoreeof
+set -o ignoreeof    # ignore C-D
 
 # use nvim for everything
 alias vi='nvim'
@@ -50,12 +50,16 @@ squash() {
         fi
     fi
 }
+bd() {
+    git diff --name-only --line-prefix=`git rev-parse --show-toplevel`/ | xargs bat --diff
+}
 
+alias cat='bat'
 alias ls='ls -G'
 alias la='ls -AG'
 alias lah='ls -AGhl'
 alias notes='nvim ~/notes'
-alias rm='rm -i'
+alias rm='rm'
 
 alias ..='cd ..'
 alias ...='cd ../..'
