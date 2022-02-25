@@ -134,8 +134,12 @@ return function()
         end
     end
     require('modules.config').rust_tools()
-    local protols = require('lspconfig').protols
-    if protols then protols.setup(servers.protols) end
+
+    for _, v in ipairs(require('lspconfig').available_servers()) do
+        if v == 'protols' then
+            require('lspconfig').protols.setup(servers.protols)
+        end
+    end
 
     setup_servers()
 end
