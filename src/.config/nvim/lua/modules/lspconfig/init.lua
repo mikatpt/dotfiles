@@ -39,7 +39,7 @@ return function()
             filetypes = vim.tbl_keys(format_config),
             settings = {
                 languages = format_config,
-                logLevel = 1,
+                -- logLevel = 1,
             },
             handlers = {
                 -- No need to see formatting lints, they are very distracting

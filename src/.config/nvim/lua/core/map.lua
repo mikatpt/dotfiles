@@ -16,6 +16,11 @@ map('n', 'Y',                  'y$')
 map('n', 'Q',                  '@@')
 map('n', '<F1>',               '<nop>')
 
+-- Magic search
+map('n', '?',                  '?\\v')
+map('n', '/',                  '/\\v')
+map('c', '%s/',                '%sm/')
+
 -- Merge lines
 map('n', '<S-M>',              '<S-J>')
 
