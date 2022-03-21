@@ -5,7 +5,7 @@ return function()
         autopairs = { enable = true },
         indent = {
             enable = true,
-            disable = { 'python', 'lua', 'go', 'yaml' },
+            disable = { 'python', 'lua', 'go', 'yaml', 'json', 'jsonc' },
         },
         highlight = {
             enable = true, -- false will disable the whole extension
