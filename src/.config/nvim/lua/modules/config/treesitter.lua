@@ -1,11 +1,14 @@
 return function()
     require('nvim-treesitter.configs').setup({
+        autotag = {
+            enable = true,
+        },
         ensure_installed = 'maintained',
         ignore_install = { 'tlaplus', 'norg' },
         autopairs = { enable = true },
         indent = {
             enable = true,
-            disable = { 'python', 'lua', 'go', 'yaml', 'json', 'jsonc' },
+            disable = { 'python', 'lua', 'go', 'yaml', 'json', 'jsonc', 'html', 'css' },
         },
         highlight = {
             enable = true, -- false will disable the whole extension
