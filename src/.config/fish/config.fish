@@ -5,7 +5,7 @@ if status is-interactive
         tmux has-session -t main 2>/dev/null || tmux new-session -d -s main
         tmux if-shell 'tmux select-window -t main:2' '' 'new-window -d -t main'
         tmux if-shell 'tmux select-window -t main:3' '' 'new-window -d -t main'
-        tmux if-shell 'tmux select-window -t main:4' '' 'new-window -d -t main'
+        tmux if-shell 'tmux select-window -t main:4' 'select-window -t main:1' 'new-window -d -t main'
         tmux rename-window -t main:4 config
         tmux list-sessions | rg --quiet main 2>/dev/null && tmux attach -t main
     end

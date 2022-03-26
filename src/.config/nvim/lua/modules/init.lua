@@ -18,7 +18,7 @@ return packer.startup(function(use)
 
     -- Core vim
     use({ 'tpope/vim-commentary',                event  = 'BufRead'                            })
-    use({ 'machakann/vim-sandwich',              event  = 'BufRead'                            })
+    use({ 'machakann/vim-sandwich',                                                            })
     use({ 'vim-utils/vim-man',                   event  = 'BufRead'                            })
     use({ 'mg979/vim-visual-multi',              event  = 'BufRead'                            })
     use({ 'plasticboy/vim-markdown',             event  = 'BufRead'                            })
@@ -62,6 +62,7 @@ return packer.startup(function(use)
     -- Completion
     use({ 'hrsh7th/nvim-cmp',   module = 'cmp', event  = 'BufRead',      config = c.cmp        })
     use({ 'windwp/nvim-autopairs',              after  = 'nvim-cmp',     config = c.autopairs  })
+    use({ 'windwp/nvim-ts-autotag',                                                            })
     use({ 'hrsh7th/cmp-nvim-lsp',               module = 'cmp_nvim_lsp', event = 'BufRead'     })
     use({ 'hrsh7th/vim-vsnip',                  event  = 'BufRead'                             })
     use({ 'hrsh7th/cmp-buffer',                 event  = 'BufRead'                             })
