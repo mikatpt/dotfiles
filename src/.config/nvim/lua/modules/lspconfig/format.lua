@@ -23,7 +23,7 @@ local gofmt = {
 }
 
 local rustfmt = {
-    formatCommand = 'rustfmt',
+    formatCommand = 'rustfmt --edition 2021',
     formatStdin = true,
 }
 
