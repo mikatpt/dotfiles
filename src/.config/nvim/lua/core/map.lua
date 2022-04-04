@@ -114,6 +114,8 @@ map('n', '<leader>o',          '<CMD>Telescope oldfiles file_ignore_patterns={}<
 map('n', '<leader>z',          '<CMD>lua require"telescope.builtin".git_files({ prompt_title = "Dotfiles", cwd = "' .. config .. '", file_ignore_patterns = {} })<CR>')
 map('n', '<leader>s',          '<CMD>lua require"telescope.builtin".lsp_dynamic_workspace_symbols({ prompt_title = "Search Symbols", layout_strategy = "vertical" })<CR>')
 map('n', '<leader>b',          '<CMD>lua require"telescope.builtin".buffers()<CR>')
+map('n', '<leader>q',          '<CMD>TroubleToggle document_diagnostics<CR>')
+map('n', '<leader>Q',          '<CMD>TroubleToggle workspace_diagnostics<CR>')
 
 -- Ripgrep for input or current word
 map('n', '<leader>f',          '<CMD>lua require("telescope.builtin").live_grep({ prompt_title = "Find Text", layout_strategy = "vertical" })<CR>')

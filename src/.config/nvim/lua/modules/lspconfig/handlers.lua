@@ -12,11 +12,12 @@ local custom_impl = function(err, result, ctx, config)
         err = no_impls_err
     end
 
-    if ft == 'go' then
-        -- Do not include implementations from mocks or test files in go.
+    if ft == 'go' or ft == 'rust' then
+        -- Do not include implementations from mocks or test files in go and rust.
         -- We do two checks to make sure we don't open telescope if not necessary
         local new_result = vim.tbl_filter(function(v)
-            return not string.find(v.uri, 'mock') and not string.find(v.uri, 'test')
+            local uri = ft == 'go' and v.uri or v.targetUri
+            return not string.find(uri, 'mock') and not string.find(uri, 'test')
         end, result)
 
         if #new_result > 0 then
