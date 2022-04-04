@@ -31,8 +31,6 @@ M.attach_mappings = function(bufnr)
     -- Diagnostics
     buf_set_keymap('n', 'm', ':lua vim.lsp.buf.hover()<CR>', opts)
     buf_set_keymap('n', '<leader>e', '<cmd>Lspsaga show_line_diagnostics<CR>', opts)
-    buf_set_keymap('n', '<leader>q', '<cmd>TroubleToggle lsp_document_diagnostics<CR>', opts)
-    buf_set_keymap('n', '<leader>Q', '<cmd>TroubleToggle lsp_workspace_diagnostics<CR>', opts)
     buf_set_keymap('n', '[d', ':Lspsaga diagnostic_jump_prev<CR>', opts)
     buf_set_keymap('n', ']d', ':Lspsaga diagnostic_jump_next<CR>', opts)
 end
