@@ -38,7 +38,6 @@ return function()
         disable_netrw = false,
         hijack_netrw = true,
         open_on_setup = false,
-        auto_close = true,
         -- opens the tree when changing/opening a new tab if the tree wasn't previously opened
         open_on_tab = false,
         -- hijack the cursor in the tree to put it at the start of the filename
@@ -78,6 +77,13 @@ return function()
             timeout = 1000,
         },
         view = {
+            mappings = {
+                custom_only = false,
+                list = {
+                    { key = '<C-k>', action = '' },
+                    { key = '<CR>', action = 'edit' },
+                },
+            },
             -- width of the window, can be either a number (columns) or a string in `%`
             width = 40,
             side = 'left',
