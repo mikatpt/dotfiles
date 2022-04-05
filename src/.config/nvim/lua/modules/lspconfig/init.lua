@@ -35,7 +35,7 @@ return function()
     local servers = {
         efm = {
             init_options = { documentFormatting = true, codeAction = true },
-            root_dir = get_root({ '.git/', 'Makefile', 'go.mod', 'package.json', 'Cargo.toml' }),
+            root_dir = get_root({ '.git/', 'go.mod', 'package.json', 'Cargo.toml' }),
             filetypes = vim.tbl_keys(format_config),
             settings = {
                 languages = format_config,
