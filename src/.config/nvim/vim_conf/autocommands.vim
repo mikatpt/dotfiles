@@ -1,6 +1,7 @@
 " don't allow mouse events when window is inactive.
 autocmd FocusLost * set mouse=
 autocmd FocusGained * lua require'core.utils'.fn.defer_mouse()
+autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif
 
 " allow config files to have comments in them.
 augroup assign_jsonc
@@ -31,3 +32,4 @@ augroup updateTodos
 augroup END
 
 command UpdateToDo call UpdateTodoKeywords("NOTE", "FIX", "FIXIT", "ISSUE", "FAIL", "WARN", "PERF", "OPTIM", "SAFETY", "INFO")
+

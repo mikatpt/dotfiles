@@ -25,7 +25,12 @@ return function()
                 ['rust-analyzer'] = {
                     checkOnSave = { command = 'clippy' },
                     experimental = { procAttrMacros = true },
-                    procMacro = { enable = true },
+                    procMacro = {
+                        enable = true,
+                        ignored = {
+                            ['async-trait'] = { 'async_trait' },
+                        },
+                    },
                 },
             },
             handlers = {
