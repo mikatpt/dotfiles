@@ -3,7 +3,7 @@ return function()
         autotag = {
             enable = true,
         },
-        ensure_installed = 'maintained',
+        ensure_installed = 'all',
         ignore_install = { 'tlaplus', 'norg' },
         autopairs = { enable = true },
         indent = {
