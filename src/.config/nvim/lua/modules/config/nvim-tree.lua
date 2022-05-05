@@ -44,16 +44,14 @@ return function()
         hijack_cursor = true,
         -- updates the root directory of the tree on `DirChanged` (when your run `:cd` usually)
         update_cwd = true,
-        update_to_buf_dir = {
-            enable = true,
-            auto_open = true,
-        },
         diagnostics = {
             enable = true,
-            hint = '',
-            info = '',
-            warning = '',
-            error = '',
+            icons = {
+                hint = '',
+                info = '',
+                warning = '',
+                error = '',
+            },
         },
         update_focused_file = {
             enable = true,
@@ -87,7 +85,6 @@ return function()
             -- width of the window, can be either a number (columns) or a string in `%`
             width = 40,
             side = 'left',
-            auto_resize = true,
         },
     })
     -- We need to apply these autocommands here because they need to run _after_ lazy loading has completed.
