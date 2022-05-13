@@ -47,15 +47,6 @@ M.fn.set_project_root = function()
     require('nvim-tree').change_dir(vim.loop.cwd())
 end
 
-M.fn.dashboard_startup = function()
-    if vim.api.nvim_buf_get_name(0):len() == 0 then
-        -- TODO: this is a workaround, re-evaluate later
-        vim.defer_fn(function()
-            vim.cmd('Dashboard')
-        end, 50)
-    end
-end
-
 M.fn.setup_packer = function()
     local packer_url = 'https://github.com/wbthomason/packer.nvim'
     local packer_path = M.os.data .. '/site/pack/packer/opt/packer.nvim'

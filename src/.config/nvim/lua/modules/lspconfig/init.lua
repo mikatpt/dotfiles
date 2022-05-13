@@ -55,6 +55,9 @@ return function()
         gopls = {
             root_dir = get_root({ 'go.mod', 'Makefile' }),
         },
+        golangci_lint_ls = {
+            root_dir = get_root({ 'go.mod', 'Makefile', '.golangci.yaml', '.git' })
+        },
         jsonls = {
             root_dir = get_root({ '.git/', 'package.json' }),
             filetypes = { 'json', 'jsonc' },
