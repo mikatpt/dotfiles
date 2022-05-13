@@ -1,5 +1,5 @@
 # Edit config
-abbr -ag ez 'nvim ~/config +"PackerLoad dashboard-nvim" +Dashboard +NvimTreeOpen'
+abbr -ag ez 'nvim ~/config'
 abbr -ag ea 'nvim ~/config/src/.config/fish/conf.d/alias.fish'
 abbr -ag sz 'exec fish'
 

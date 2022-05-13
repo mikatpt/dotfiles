@@ -32,4 +32,3 @@ augroup updateTodos
 augroup END
 
 command UpdateToDo call UpdateTodoKeywords("NOTE", "FIX", "FIXIT", "ISSUE", "FAIL", "WARN", "PERF", "OPTIM", "SAFETY", "INFO")
-

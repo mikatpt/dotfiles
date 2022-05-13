@@ -35,7 +35,6 @@ return packer.startup(function(use)
     use({ 'folke/trouble.nvim',                  event = 'BufRead',      config = c.trouble    })
     use({ 'folke/todo-comments.nvim',            event = 'BufRead',      config = c.todo       })
     use({ 'lukas-reineke/indent-blankline.nvim', event = 'BufRead',      config = c.blankline  })
-    use({ 'glepnir/dashboard-nvim'                                                             })
 
     -- Navigation
     use({ get_local('ThePrimeagen', 'harpoon'),                                                })
