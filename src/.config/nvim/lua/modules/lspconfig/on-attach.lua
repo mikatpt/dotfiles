@@ -41,10 +41,10 @@ return function(client, bufnr)
 
     -- So that the only client with format capabilities is efm
     if client.name ~= 'efm' then
-        client.resolved_capabilities.document_formatting = false
+        client.server_capabilities.document_formatting = false
     end
 
-    if client.resolved_capabilities.document_formatting then
+    if client.server_capabilities.document_formatting then
         vim.cmd([[
             augroup Format
                 autocmd! * <buffer>
