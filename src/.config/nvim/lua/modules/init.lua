@@ -61,7 +61,7 @@ return packer.startup(function(use)
     -- Databases
     use({ 'tpope/vim-dadbod'                                                                   })
     use({ 'kristijanhusak/vim-dadbod-ui',           config = c.dadbod                          })
-    use({ 'kristijanhusak/vim-dadbod-completion'                                               })
+    use({ 'kristijanhusak/vim-dadbod-completion',   event = 'BufRead'                          })
 
     -- Completion
     use({ 'hrsh7th/nvim-cmp',   module = 'cmp', event  = 'BufRead',      config = c.cmp        })
