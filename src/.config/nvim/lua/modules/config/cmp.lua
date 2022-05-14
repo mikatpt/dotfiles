@@ -77,7 +77,8 @@ return function()
         sources = {
             { name = 'nvim_lsp' },
             { name = 'vsnip' },
-            { name = 'buffer', keyword_length = 7 },
+            { name = 'vim-dadbod-completion' },
+            { name = 'buffer', keyword_length = 10 },
         },
         autocomplete = true,
         min_length = 0, -- allow for 'from package import _' in Python

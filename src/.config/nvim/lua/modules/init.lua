@@ -53,16 +53,21 @@ return packer.startup(function(use)
 
     -- Languages
     use({ 'simrat39/rust-tools.nvim',                                    config = c.rust_tools })
-    use({ 'folke/lua-dev.nvim',                     event = 'BufRead',   module = 'lua-dev'    })
+    use({ 'folke/lua-dev.nvim',                     event  = 'BufRead',  module = 'lua-dev'    })
     use({ 'jose-elias-alvarez/nvim-lsp-ts-utils',   module = 'nvim-lsp-ts-utils'               })
     use({ 'leafgarland/typescript-vim',             event  = 'BufRead'                         })
     use({ 'Vimjas/vim-python-pep8-indent',          event  = 'BufRead'                         })
+
+    -- Databases
+    use({ 'tpope/vim-dadbod'                                                                   })
+    use({ 'kristijanhusak/vim-dadbod-ui',           config = c.dadbod                          })
+    use({ 'kristijanhusak/vim-dadbod-completion'                                               })
 
     -- Completion
     use({ 'hrsh7th/nvim-cmp',   module = 'cmp', event  = 'BufRead',      config = c.cmp        })
     use({ 'windwp/nvim-autopairs',              after  = 'nvim-cmp',     config = c.autopairs  })
     use({ 'windwp/nvim-ts-autotag',                                                            })
-    use({ 'hrsh7th/cmp-nvim-lsp',               module = 'cmp_nvim_lsp', event = 'BufRead'     })
+    use({ 'hrsh7th/cmp-nvim-lsp',               module = 'cmp_nvim_lsp', event  = 'BufRead'    })
     use({ 'hrsh7th/vim-vsnip',                  event  = 'BufRead'                             })
     use({ 'hrsh7th/cmp-buffer',                 event  = 'BufRead'                             })
     use({ 'hrsh7th/cmp-vsnip',                  event  = 'BufRead'                             })
