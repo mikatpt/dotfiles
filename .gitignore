@@ -1,3 +1,4 @@
 *.pem
 .env.json
 .env
+.env.dbs

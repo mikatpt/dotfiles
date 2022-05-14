@@ -66,7 +66,8 @@ return function()
             args = {},
         },
         filters = {
-            custom = { '.git', 'node_modules', '.cache' },
+            custom = { '.git', '.cache' },
+            exclude = { '.gitconfig', '.gitignore' },
             dotfiles = false,
         },
         git = {

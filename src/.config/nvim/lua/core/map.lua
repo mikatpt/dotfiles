@@ -121,6 +121,9 @@ map('n', '<leader>Q',          '<CMD>TroubleToggle workspace_diagnostics<CR>')
 map('n', '<leader>f',          '<CMD>lua require("telescope.builtin").live_grep({ prompt_title = "Find Text", layout_strategy = "vertical" })<CR>')
 map('n', '<leader>w',          '<CMD>TodoTelescope layout_strategy=vertical<CR>')
 
+-- DB
+map('n', '<leader><S-D>',      '<CMD>DBUIToggle<CR>')
+
 -- Debugging
 map('n', '<F5>',               ':lua require("dapui").open()<CR>:lua require"dap".continue()<CR>')
 map('n', '<F10>',              ':lua require"dap".step_over()<CR>')
