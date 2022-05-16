@@ -33,7 +33,7 @@ return packer.startup(function(use)
     use({ 'lewis6991/gitsigns.nvim',             after = 'plenary.nvim', config = c.gitsigns   })
     use({ 'feline-nvim/feline.nvim',             tag   = 'v1.0.0',       config = c.feline     })
     use({ 'folke/trouble.nvim',                  event = 'BufRead',      config = c.trouble    })
-    use({ 'folke/todo-comments.nvim',            event = 'BufRead',      config = c.todo       })
+    use({ 'folke/todo-comments.nvim',                                    config = c.todo       })
     use({ 'lukas-reineke/indent-blankline.nvim', event = 'BufRead',      config = c.blankline  })
 
     -- Navigation
