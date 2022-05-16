@@ -40,15 +40,13 @@ return function(client, bufnr)
     require('modules.lspconfig.lspbindings').attach_mappings(bufnr)
 
     -- So that the only client with format capabilities is efm
-    if client.name ~= 'efm' then
-        client.server_capabilities.document_formatting = false
-    end
+    client.server_capabilities.document_formatting = client.name == 'efm'
 
     if client.server_capabilities.document_formatting then
         vim.cmd([[
             augroup Format
                 autocmd! * <buffer>
-                autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 1000)
+                autocmd BufWritePre <buffer> lua vim.lsp.buf.format()
             augroup END
         ]])
     end
