@@ -118,10 +118,6 @@ return function()
         },
     }
 
-    -- INFO: temporary until we're done contributing
-    if vim.loop.os_uname().sysname == 'Linux' then
-        servers.efm.cmd = { '/home/mikatpt/foss/efm-langserver/efm-langserver' }
-    end
     local function setup_servers()
         local installed = require('nvim-lsp-installer').get_installed_servers()
 

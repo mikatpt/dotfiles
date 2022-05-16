@@ -118,7 +118,7 @@ return function()
     --]]
 
     -- Logo
-    table.insert(components.active[1] ,{
+    table.insert(components.active[1], {
         provider = statusline_style.main_icon,
         hl = function()
             return {
@@ -129,7 +129,7 @@ return function()
     })
 
     -- Git Branch
-    table.insert(components.active[1] ,{
+    table.insert(components.active[1], {
         provider = function()
             local git_branch = ''
 
@@ -147,17 +147,17 @@ return function()
 
             return {
                 str = statusline_style.right,
-                hl = { fg = mode_colors[vim.fn.mode()][2], bg = background}
+                hl = { fg = mode_colors[vim.fn.mode()][2], bg = background }
             }
         end,
         right_sep = function()
             local s = ''
             if vim.b.gitsigns_status_dict then s = '  ' end
-            return { str = s, hl = { fg = colors.statusline_bg, bg = colors.statusline_bg }}
+            return { str = s, hl = { fg = colors.statusline_bg, bg = colors.statusline_bg } }
         end,
     })
 
-    local function get_icon() 
+    local function get_icon()
         local filename = vim.fn.expand '%:t'
         local extension = vim.fn.expand '%:e'
         local icon = require('nvim-web-devicons').get_icon(filename, extension)
@@ -187,7 +187,7 @@ return function()
         return {
             left_sep = function()
                 if status ~= 'active' then
-                    return { str = '', hl = { fg = colors.statusline_bg, bg = colors.statusline_bg }}
+                    return { str = '', hl = { fg = colors.statusline_bg, bg = colors.statusline_bg } }
                 end
 
                 local icon = statusline_style.right .. ' '
@@ -348,31 +348,31 @@ return function()
     -- LSP client name
     table.insert(components.active[3], {
         provider = function()
-            if next(vim.lsp.buf_get_clients()) ~= nil then
+            if next(vim.lsp.buf_get_clients(0)) ~= nil then
                 local clients = vim.lsp.get_active_clients()
 
-                local name = 'LSP'
+                local name = 'lsp'
                 for _, client in ipairs(clients) do
-                    if client.name:upper() == 'EFM' then goto continue end
+                    if client.name:lower() == 'efm' then goto continue end
 
-                    local buf_ft = vim.api.nvim_buf_get_option(0,'filetype')
+                    local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
                     local filetypes = client.config.filetypes
                     if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-                        name = client.name:upper()
+                        name = client.name:lower()
                         break
                     end
 
                     ::continue::
                 end
 
-                if name == 'RUST_ANALYZER' then name = 'RUST' end
+                if name == 'rust_analyzer' then name = 'rust' end
 
                 return '    ' .. name
             end
             return ''
         end,
         short_provider = function()
-            if next(vim.lsp.buf_get_clients()) ~= nil then
+            if next(vim.lsp.buf_get_clients(0)) ~= nil then
                 return '    '
             end
             return ''
@@ -467,7 +467,7 @@ return function()
                 'NvimTree',
                 'dashboard',
             },
-            buftypes = {'terminal'},
+            buftypes = { 'terminal' },
             bufnames = {},
         },
         disable = {
