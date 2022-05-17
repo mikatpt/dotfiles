@@ -3,5 +3,5 @@ function testing -e fish_postexec
     set -l CMD (jq -n --arg command "$argv" '{$command}')
 
     # Silent curl to home server
-    curl -s --data "$CMD" --header 'Content-Type: application/json' http://localhost:7749/stats
+    curl --data "$CMD" --header 'Content-Type: application/json' http://localhost:7749/stats 1>/dev/null 2>/dev/null
 end
