@@ -1,6 +1,6 @@
 return function()
     require('todo-comments').setup({
-        sign_priority = 8,
+        sign_priority = 1,
 
         keywords = {
             FIX = {
