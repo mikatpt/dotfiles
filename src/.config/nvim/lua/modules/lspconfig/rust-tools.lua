@@ -20,7 +20,7 @@ return function()
         },
         server = {
             cmd = { vim.fn.stdpath('data') .. '/lsp_servers/rust/rust-analyzer' },
-            on_attach = require('modules.lspconfig.on-attach'),
+            on_attach = require('modules.lspconfig.helpers').on_attach,
             settings = {
                 ['rust-analyzer'] = {
                     checkOnSave = { command = 'clippy' },
