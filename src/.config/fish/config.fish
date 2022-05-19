@@ -2,11 +2,15 @@ if status is-interactive
     # Check if in tmux and if in a terminal, then create a new tmux session 'main' with
     # four windows if it doesn't already exist
     if not set -q TERM_PROGRAM && not set -q TMUX
-        tmux has-session -t main 2>/dev/null || tmux new-session -d -s main
-        tmux if-shell 'tmux select-window -t main:2' '' 'new-window -d -t main'
-        tmux if-shell 'tmux select-window -t main:3' '' 'new-window -d -t main'
-        tmux if-shell 'tmux select-window -t main:4' 'select-window -t main:1' 'new-window -d -t main'
-        tmux rename-window -t main:4 config
+        tmux has-session -t main 2>/dev/null
+        if test ! $status -eq 0
+            tmux new-session -d -s main
+            tmux new-window -d -t main
+            tmux new-window -d -t main
+            tmux new-window -d -t main
+            tmux select-window -t main:1
+            tmux rename-window -t main:4 config
+        end
         tmux list-sessions | rg --quiet main 2>/dev/null && tmux attach -t main
     end
 

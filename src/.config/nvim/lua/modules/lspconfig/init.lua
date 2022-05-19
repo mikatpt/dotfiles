@@ -95,7 +95,7 @@ return function()
         local lspconfig = require('lspconfig')
         local lsp_installer = require('nvim-lsp-installer')
         lsp_installer.setup({
-            ensure_installed = vim.list_extend(vim.tbl_keys(servers), { 'html', 'rust_analyzer' }),
+            ensure_installed = vim.list_extend(vim.tbl_keys(servers), { 'html', 'rust_analyzer', 'bashls' }),
             automatic_installation = true,
         })
         local installed = lsp_installer.get_installed_servers();
