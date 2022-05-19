@@ -1,7 +1,5 @@
 local M = {}
 
--- See `:help vim.lsp.*` for documentation on native lsp functions
--- See `:help telescope.builtin` for others
 M.attach_mappings = function(bufnr)
     local function buf_set_keymap(...)
         vim.api.nvim_buf_set_keymap(bufnr, ...)
@@ -13,7 +11,7 @@ M.attach_mappings = function(bufnr)
     buf_set_keymap('c', 'wf', 'noautocmd w', { noremap = true })
 
     -- Custom telescope find_implementation. Ignores mocks and tests in go.
-    buf_set_keymap('n', 'gi', "<CMD>lua require'modules.lspconfig.handlers'.implementation()<CR>", opts)
+    buf_set_keymap('n', 'gi', "<CMD>lua require'modules.lspconfig.helpers'.implementation()<CR>", opts)
 
     -- Jump to definition
     buf_set_keymap('n', 'gd', '<cmd>Telescope lsp_definitions<CR>', opts)
