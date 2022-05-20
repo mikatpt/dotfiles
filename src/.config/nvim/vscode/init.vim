@@ -40,3 +40,4 @@ vnoremap > >gv
 " Yank to system clipboard
 nnoremap <leader>y "+y
 vnoremap <leader>y "+y
+nnoremap <leader><S-Y> <CMD>%y+<CR>
