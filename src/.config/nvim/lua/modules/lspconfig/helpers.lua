@@ -25,9 +25,9 @@ M.on_attach = function(client, bufnr)
     require('modules.lspconfig.lsp-map').attach_mappings(bufnr)
 
     -- Only permit EFM to format.
-    client.server_capabilities.document_formatting = client.name == 'efm'
+    client.server_capabilities.documentFormattingProvider = client.name == 'efm'
 
-    if client.server_capabilities.document_formatting then
+    if client.server_capabilities.documentFormattingProvider then
         vim.cmd([[
             augroup Format
                 autocmd! * <buffer>
