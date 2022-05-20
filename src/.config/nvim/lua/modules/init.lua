@@ -18,6 +18,7 @@ return packer.startup(function(use)
 
     -- Core vim
     use({ 'tpope/vim-commentary',                event  = 'BufRead'                            })
+    use({ 'tpope/vim-sleuth',                                                                  })
     use({ 'machakann/vim-sandwich',                                                            })
     use({ 'vim-utils/vim-man',                   event  = 'BufRead'                            })
     use({ 'mg979/vim-visual-multi',              event  = 'BufRead'                            })
