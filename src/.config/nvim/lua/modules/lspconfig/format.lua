@@ -1,10 +1,3 @@
-local eslint = {
-    lintCommand = 'eslint_d -f visualstudio --stdin --stdin-filename=${INPUT}',
-    lintIgnoreExitCode = true,
-    lintStdin = true,
-    lintFormats = { '%f(%l,%c): %tarning %m', '%f(%l,%c): %rror %m' },
-}
-
 local prettier = {
     formatCommand = [[$([ -n "$(command -v node_modules/.bin/prettier)" ] && echo "node_modules/.bin/prettier" || echo "prettier") --stdin-filepath ${INPUT} ${--config-precedence:configPrecedence}]],
     formatStdin = true,
@@ -32,10 +25,10 @@ local stylua = {
 
 return {
     lua = { stylua },
-    javascript = { eslint, prettier },
-    javascriptreact = { eslint, prettier },
-    typescript = { eslint, prettier },
-    typescriptreact = { eslint, prettier },
+    javascript = { prettier },
+    javascriptreact = { prettier },
+    typescript = { prettier },
+    typescriptreact = { prettier },
     go = { gofmt },
     rust = { rustfmt },
     -- ruby = { rubocop },

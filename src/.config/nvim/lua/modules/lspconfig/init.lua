@@ -8,6 +8,17 @@ return function()
 
     local pyroots = { 'pyproject.toml', 'setup.py', 'setup.cfg', 'requirements.txt', 'Pipfile', 'pyrightconfig.json' }
 
+    local format_handlers = {
+        ['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+            underline = true,
+            virtual_text = false,
+            signs = true,
+            update_in_insert = false,
+            severity_sort = true,
+        }),
+        ['window/showMessageRequest'] = function(_, result) return result end
+    }
+
     local servers = {
         cssls = {
             root_dir = get_root({ 'package.json' })
@@ -20,16 +31,11 @@ return function()
                 languages = format_config,
                 -- logLevel = 1,
             },
-            handlers = {
-                -- No need to see formatting lints, they are very distracting
-                ['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-                    underline = true,
-                    virtual_text = false,
-                    signs = true,
-                    update_in_insert = false,
-                    severity_sort = true,
-                }),
-            },
+            handlers = format_handlers,
+        },
+        eslint = {
+            root_dir = get_root({ 'package.json', '.eslintrc.json' }),
+            handlers = format_handlers,
         },
         gopls = {
             root_dir = get_root({ 'go.mod', 'Makefile' }),
@@ -95,7 +101,7 @@ return function()
         local lspconfig = require('lspconfig')
         local lsp_installer = require('nvim-lsp-installer')
         lsp_installer.setup({
-            ensure_installed = vim.list_extend(vim.tbl_keys(servers), { 'html', 'rust_analyzer', 'bashls' }),
+            ensure_installed = vim.list_extend(vim.tbl_keys(servers), { 'html', 'rust_analyzer', 'bashls', 'eslint' }),
             automatic_installation = true,
         })
         local installed = lsp_installer.get_installed_servers();
