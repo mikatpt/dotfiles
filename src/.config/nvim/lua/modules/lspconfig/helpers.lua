@@ -35,6 +35,16 @@ M.on_attach = function(client, bufnr)
             augroup END
         ]])
     end
+
+    if client.name == 'eslint' then
+        local group = vim.api.nvim_create_augroup('Eslint', {})
+        vim.api.nvim_create_autocmd('BufWritePre', {
+            group = group,
+            pattern = '<buffer>',
+            command = 'EslintFixAll',
+            desc = 'Run eslint when saving buffer.',
+        })
+    end
 end
 
 M.set_capabilities = function()
@@ -122,6 +132,15 @@ M.implementation = function()
     local params = vim.lsp.util.make_position_params(0, nil)
 
     vim.lsp.buf_request(0, 'textDocument/implementation', params, custom_impl)
+end
+
+M.fix_action = function()
+    vim.lsp.buf.code_action({
+        apply = true,
+        filter = function(action)
+            return action.title == 'Fix all auto-fixable problems'
+        end,
+    })
 end
 
 return M
