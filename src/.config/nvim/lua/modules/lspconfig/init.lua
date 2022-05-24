@@ -16,12 +16,14 @@ return function()
             update_in_insert = false,
             severity_sort = true,
         }),
-        ['window/showMessageRequest'] = function(_, result) return result end
+        ['window/showMessageRequest'] = function(_, result)
+            return result
+        end,
     }
 
     local servers = {
         cssls = {
-            root_dir = get_root({ 'package.json' })
+            root_dir = get_root({ 'package.json' }),
         },
         efm = {
             init_options = { documentFormatting = true, codeAction = true },
@@ -39,13 +41,19 @@ return function()
         },
         gopls = {
             root_dir = get_root({ 'go.mod', 'Makefile' }),
+            filetypes = { 'go', 'gomod' },
         },
         golangci_lint_ls = {
-            root_dir = get_root({ 'go.mod', 'Makefile', '.golangci.yaml' })
+            root_dir = get_root({ 'go.mod', 'Makefile', '.golangci.yaml' }),
         },
         jsonls = {
-            root_dir = get_root({ 'package.json' }),
             filetypes = { 'json', 'jsonc' },
+            settings = {
+                json = {
+                    schemas = require('schemastore').json.schemas(),
+                    validate = { enable = true },
+                },
+            },
         },
         pyright = {
             filetypes = { 'python' },
@@ -104,7 +112,7 @@ return function()
             ensure_installed = vim.list_extend(vim.tbl_keys(servers), { 'html', 'rust_analyzer', 'bashls', 'eslint' }),
             automatic_installation = true,
         })
-        local installed = lsp_installer.get_installed_servers();
+        local installed = lsp_installer.get_installed_servers()
 
         for _, server in pairs(installed) do
             if server.name == 'rust_analyzer' then goto CONTINUE end

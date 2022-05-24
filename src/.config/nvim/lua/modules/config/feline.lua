@@ -353,7 +353,9 @@ return function()
 
                 local name = 'lsp'
                 for _, client in ipairs(clients) do
-                    if client.name:lower() == 'efm' then goto continue end
+                    if client.name:lower() == 'efm' or client.name:lower() == 'eslint' then
+                        goto continue
+                    end
 
                     local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
                     local filetypes = client.config.filetypes
@@ -365,7 +367,11 @@ return function()
                     ::continue::
                 end
 
-                if name == 'rust_analyzer' then name = 'rust' end
+                if name == 'rust_analyzer' then
+                    name = 'rust'
+                elseif name == 'golangci_lint_ls' or name == 'gopls' then
+                    name = 'go'
+                end
 
                 return '    ' .. name
             end

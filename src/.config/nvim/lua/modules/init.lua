@@ -45,7 +45,8 @@ return packer.startup(function(use)
     use({ 'nvim-telescope/telescope.nvim',                               config = c.telescope  })
 
     -- Language Server Protocol
-    use({ get_local('neovim', 'nvim-lspconfig'),                         config = c.lsp        })
+    -- use({ get_local('neovim', 'nvim-lspconfig'),                      config = c.lsp        })
+    use({ 'neovim/nvim-lspconfig',                                       config = c.lsp        })
     use({ 'williamboman/nvim-lsp-installer',        module = 'nvim-lsp-installer'              })
     use({ 'tami5/lspsaga.nvim',                     module = 'lspsaga'                         })
     use({ 'ray-x/lsp_signature.nvim',               module = 'lsp_signature'                   })
@@ -58,6 +59,7 @@ return packer.startup(function(use)
     use({ 'jose-elias-alvarez/nvim-lsp-ts-utils',   module = 'nvim-lsp-ts-utils'               })
     use({ 'leafgarland/typescript-vim',             event  = 'BufRead'                         })
     use({ 'Vimjas/vim-python-pep8-indent',          event  = 'BufRead'                         })
+    use({ 'b0o/schemastore.nvim',                                                              })
 
     -- Databases
     use({ 'tpope/vim-dadbod'                                                                   })

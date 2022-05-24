@@ -3,13 +3,6 @@ autocmd FocusLost * set mouse=
 autocmd FocusGained * lua require'core.utils'.fn.defer_mouse()
 autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif
 
-" allow config files to have comments in them.
-augroup assign_jsonc
-    autocmd!
-    autocmd BufNewFile,BufRead tsconfig.json setlocal filetype=jsonc
-    autocmd BufNewFile,BufRead package.json setlocal filetype=jsonc
-augroup end
-
 " Extend the Todo syntax group
 function! UpdateTodoKeywords(...)
     " Execute only once per buffer, and only for files which have a filetype.
