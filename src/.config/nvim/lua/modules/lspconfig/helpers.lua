@@ -7,7 +7,7 @@ M.on_attach = function(client, bufnr)
         rename_prompt_prefix = 'Rename ➤',
         code_action_prompt = {
             enable = true,
-            sign = false,
+            sign = true,
             sign_priority = 20,
             virtual_text = false,
         },
@@ -44,6 +44,12 @@ M.on_attach = function(client, bufnr)
             command = 'EslintFixAll',
             desc = 'Run eslint when saving buffer.',
         })
+    elseif client.name == 'tsserver' then
+        local ts_utils = require('nvim-lsp-ts-utils')
+        ts_utils.setup({
+            auto_inlay_hints = false,
+        })
+        ts_utils.setup_client(client)
     end
 end
 

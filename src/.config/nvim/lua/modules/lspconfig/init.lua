@@ -75,6 +75,7 @@ return function()
         sumneko_lua = require('lua-dev').setup(),
         tsserver = {
             root_dir = get_root({ 'package.json', 'tsconfig.json', 'yarn.lock' }),
+            init_options = require('nvim-lsp-ts-utils').init_options,
         },
         yamlls = {
             root_dir = get_root({ '.git' }),
