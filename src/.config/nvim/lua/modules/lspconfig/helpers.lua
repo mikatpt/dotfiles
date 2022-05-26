@@ -7,7 +7,7 @@ M.on_attach = function(client, bufnr)
         rename_prompt_prefix = 'Rename ➤',
         code_action_prompt = {
             enable = true,
-            sign = true,
+            sign = false,
             sign_priority = 20,
             virtual_text = false,
         },
