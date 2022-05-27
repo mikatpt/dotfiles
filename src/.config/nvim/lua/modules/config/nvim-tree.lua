@@ -92,7 +92,4 @@ return function()
     require('core.utils').fn.set_project_root()
     vim.cmd('autocmd WinEnter * lua require("core.utils").fn.set_project_root()')
     vim.cmd('autocmd BufEnter * lua require("core.utils").fn.set_project_root()')
-    if vim.bo.filetype == 'netrw' then
-        require('nvim-tree').toggle()
-    end
 end
