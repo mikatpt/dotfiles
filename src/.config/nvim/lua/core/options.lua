@@ -33,7 +33,7 @@ o.timeoutlen = 200
 o.wildmenu = true
 o.wildmode = { 'longest:full', 'full' }
 o.shell = vim.loop.os_uname().sysname == 'Windows_NT' and 'cmd.exe' or '/bin/bash'
-o.formatoptions:remove({ 'c', 'r', 'o' })
+o.formatoptions:remove({ 'c', 'r', 'o', 't' }) -- :h fo-table
 o.textwidth = 100
 o.conceallevel = 2
 o.fileformat = 'unix'
