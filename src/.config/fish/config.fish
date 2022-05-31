@@ -32,6 +32,9 @@ if status is-interactive
     # Fix Ctrl-Backspace behavior
     bind \cH 'backward-kill-word'
 
+    # unbind ctrl d exit
+    bind \cd true
+
     starship init fish | source
 end
 
