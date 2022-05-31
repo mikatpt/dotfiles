@@ -211,6 +211,9 @@ return function()
 
                 return icon .. ' ' .. filename .. ' ' .. info_icon .. ' '
             end,
+            right_sep = function()
+                return { str = '', hl = { fg = background, bg = background }}
+            end,
             hl = {
                 fg = colors.white,
                 bg = background,
@@ -264,6 +267,12 @@ return function()
         icon = '  ',
     })
 
+    -- Padding
+    table.insert(components.active[1], {
+        provider = '',
+        hl = { fg = colors.statusline_bg, bg = colors.statusline_bg },
+    })
+
     -- LSP info
     table.insert(components.active[2], {
         provider = function()
@@ -299,13 +308,21 @@ return function()
             return ''
 
         end,
+        left_sep = { str = '', fg = colors.statusline_bg, bg = colors.statusline_bg },
+        right_sep = { str = '', fg = colors.statusline_bg, bg = colors.statusline_bg },
         hl = { fg = colors.green, bg = colors.statusline_bg },
+    })
+
+    table.insert(components.active[2], {
+        provider = '',
+        hl = { fg = colors.statusline_bg, bg = colors.statusline_bg },
     })
 
     -- Line:cursor position
     table.insert(components.active[3], {
         provider = function() return string.format('%d:%d', unpack(vim.api.nvim_win_get_cursor(0))) end,
         hl = { fg = colors.white, bg = colors.statusline_bg },
+        left_sep = { str = ' ', hl = { bg = colors.statusline_bg, fg = colors.statusline_bg }}
     })
 
     table.insert(components.active[3], {
