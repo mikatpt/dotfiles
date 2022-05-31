@@ -42,6 +42,11 @@ return function()
         gopls = {
             root_dir = get_root({ 'go.mod', 'Makefile' }),
             filetypes = { 'go', 'gomod' },
+            settings = {
+                gopls = {
+                    ["build.allowModfileModifications"] = true,
+                },
+            },
         },
         golangci_lint_ls = {
             root_dir = get_root({ 'go.mod', 'Makefile', '.golangci.yaml' }),

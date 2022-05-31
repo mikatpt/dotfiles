@@ -1,4 +1,7 @@
 return function()
+    -- Git's too slow at work
+    local not_darwin = vim.loop.os_uname().sysname ~= 'Darwin'
+
     require('nvim-web-devicons').setup()
     require('nvim-tree').setup({
         disable_netrw = false,
@@ -37,7 +40,7 @@ return function()
             dotfiles = false,
         },
         git = {
-            enable = true,
+            enable = not_darwin,
             ignore = false,
             timeout = 1000,
         },
