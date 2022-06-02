@@ -40,7 +40,7 @@ return function()
             handlers = format_handlers,
         },
         gopls = {
-            root_dir = get_root({ 'go.mod', 'Makefile' }),
+            root_dir = get_root({ 'go.mod' }),
             filetypes = { 'go', 'gomod' },
             settings = {
                 gopls = {
