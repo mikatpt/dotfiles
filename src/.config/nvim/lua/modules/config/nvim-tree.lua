@@ -7,12 +7,8 @@ return function()
         disable_netrw = false,
         hijack_netrw = true,
         open_on_setup = false,
-        -- opens the tree when changing/opening a new tab if the tree wasn't previously opened
         open_on_tab = false,
-        -- hijack the cursor in the tree to put it at the start of the filename
         hijack_cursor = true,
-        -- updates the root directory of the tree on `DirChanged` (when your run `:cd` usually)
-        update_cwd = true,
         diagnostics = {
             enable = true,
             icons = {
@@ -22,17 +18,17 @@ return function()
                 error = '',
             },
         },
+        update_cwd = true,
         update_focused_file = {
             enable = true,
-            update_cwd = false,
+            update_cwd = true,
             ignore_list = {},
         },
+        respect_buf_cwd = true,
         -- configuration options for the system open command (`s` in the tree by default)
         system_open = {
-            -- the command to run this, leaving nil should work in most cases
-            cmd = nil,
-            -- the command arguments as a list
-            args = {},
+            cmd = nil, -- the command to run this, leaving nil should work in most cases
+            args = {}, -- the command arguments as a list
         },
         filters = {
             custom = { '.git', '.cache' },
@@ -92,8 +88,4 @@ return function()
             side = 'left',
         },
     })
-    -- We need to apply these autocommands here because they need to run _after_ lazy loading has completed.
-    require('core.utils').fn.set_project_root()
-    vim.cmd('autocmd WinEnter * lua require("core.utils").fn.set_project_root()')
-    vim.cmd('autocmd BufEnter * lua require("core.utils").fn.set_project_root()')
 end
