@@ -43,6 +43,7 @@ return packer.startup(function(use)
     use({ 'kyazdani42/nvim-tree.lua',                                    config = c.nvim_tree  })
     use({ 'nvim-telescope/telescope-fzf-native.nvim',                    run    = 'make'       })
     use({ 'nvim-telescope/telescope.nvim',                               config = c.telescope  })
+    use({ 'ahmedkhalf/project.nvim',                                     config = c.project    })
 
     -- Language Server Protocol
     -- use({ get_local('neovim', 'nvim-lspconfig'),                      config = c.lsp        })
