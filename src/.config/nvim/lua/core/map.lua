@@ -1,6 +1,5 @@
 -- stylua: ignore start
 local utils = require('core.utils')
-local map_lsp = utils.fn.map_lsp
 local isDarwin = utils.os.name == 'Darwin'
 local open_cmd = isDarwin and ':!open <cWORD> &<CR><CR>' or ':!xdg-open <cWORD> &<CR><CR>'
 
@@ -8,6 +7,11 @@ local nonsilent = { silent = false, noremap = true }
 
 local map = function(mode, lhs, rhs, opts)
     vim.api.nvim_set_keymap(mode, lhs, rhs, opts or { silent = true, noremap = true })
+end
+
+local map_lsp = function(mode, lhs, rhs, opts)
+    local redraw = '<CMD>lua require"core.utils".fn.redraw_lsp()<CR>'
+    vim.api.nvim_set_keymap(mode, lhs, rhs .. redraw, opts or { silent = true, noremap = true})
 end
 
 vim.g.mapleader = ' '
