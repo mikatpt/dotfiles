@@ -2,8 +2,13 @@ return function()
     -- Git's too slow at work
     local not_darwin = vim.loop.os_uname().sysname ~= 'Darwin'
 
+    local nvim_tree = require('nvim-tree')
+    if nvim_tree.setup_called then
+        return
+    end
+
     require('nvim-web-devicons').setup()
-    require('nvim-tree').setup({
+    nvim_tree.setup({
         disable_netrw = false,
         hijack_netrw = true,
         open_on_setup = false,

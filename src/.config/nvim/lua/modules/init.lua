@@ -27,6 +27,7 @@ return packer.startup(function(use)
     use({ 'nvim-lua/plenary.nvim',                                                             })
     use({ 'nvim-lua/popup.nvim',                                                               })
     use({ 'tpope/vim-fugitive',                  requires = { 'tpope/vim-rhubarb' }            })
+    use({ 'lewis6991/impatient.nvim',                                                          })
 
     -- Display
     use({ treesitter,                            run = ':TSUpdate',      config = c.treesitter })
@@ -36,6 +37,7 @@ return packer.startup(function(use)
     use({ 'folke/trouble.nvim',                  event = 'BufRead',      config = c.trouble    })
     use({ 'folke/todo-comments.nvim',                                    config = c.todo       })
     use({ 'lukas-reineke/indent-blankline.nvim', event = 'BufRead',      config = c.blankline  })
+    use({ 'goolord/alpha-nvim',                                          config = c.dashboard  })
 
     -- Navigation
     use({ get_local('ThePrimeagen', 'harpoon'),                                                })

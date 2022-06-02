@@ -7,10 +7,11 @@ vim.g.vim_markdown_fenced_languages = { 'html', 'python', 'go', 'bash=sh', 'java
 vim.g.vim_markdown_folding_disabled = 1
 vim.g.fugitive_github_domains = { 'github.com', 'github.cbhq.net' }
 vim.g.vsnip_snippet_dir = '~/config/src/.config/nvim/snippets'
-vim.g.vsnip_filetypes = {}
-vim.g.vsnip_filetypes.javascriptreact = { 'javascript' }
-vim.g.vsnip_filetypes.typescriptreact = { 'javascript' }
-vim.g.vsnip_filetypes.typescript = { 'javascript' }
+vim.g.vsnip_filetypes = {
+    javascriptreact = { 'javascript' },
+    typescript = { 'javascript' },
+    typescriptreact = { 'javascript' },
+}
 
 local o = vim.opt
 
