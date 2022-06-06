@@ -3,6 +3,7 @@ return function()
     local helpers = require('modules.lspconfig.helpers')
     local capabilities = helpers.set_capabilities()
     local get_root = helpers.get_root
+    local cmd_root = vim.fn.stdpath('data') .. '/lsp_servers'
 
     vim.lsp.set_log_level('error')
 
@@ -40,7 +41,7 @@ return function()
             handlers = format_handlers,
         },
         gopls = {
-            root_dir = get_root({ 'go.mod' }),
+            root_dir = get_root({ 'go.mod', 'Makefile' }),
             filetypes = { 'go', 'gomod' },
             settings = {
                 gopls = {
@@ -50,6 +51,9 @@ return function()
         },
         golangci_lint_ls = {
             root_dir = get_root({ 'go.mod', 'Makefile', '.golangci.yaml' }),
+            init_options = {
+                command = { cmd_root .. '/golangci_lint_ls/golangci-lint', 'run', '--D typecheck', '--out-format', 'json' }
+            },
         },
         jsonls = {
             filetypes = { 'json', 'jsonc' },
