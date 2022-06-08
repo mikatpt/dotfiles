@@ -45,7 +45,8 @@ return function()
             filetypes = { 'go', 'gomod' },
             settings = {
                 gopls = {
-                    ["build.allowModfileModifications"] = true,
+                    ['build.allowModfileModifications'] = true,
+                    ['expandWorkspaceToModule'] = true,
                 },
             },
         },
