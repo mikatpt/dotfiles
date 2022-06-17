@@ -46,7 +46,6 @@ return function()
             settings = {
                 gopls = {
                     ['build.allowModfileModifications'] = true,
-                    ['expandWorkspaceToModule'] = true,
                 },
             },
         },
