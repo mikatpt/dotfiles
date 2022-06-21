@@ -148,11 +148,11 @@ nnoremap('<leader>w',          '<CMD>TodoTelescope layout_strategy=vertical<CR>'
 nnoremap('<leader><S-D>',      '<CMD>DBUIToggle<CR>')
 
 -- Debugging
-nnoremap('<F5>',               function() require('dapui').open() end)
+nnoremap('<F5>',               function() require('dapui').open()require('dap').continue() end)
 nnoremap('<F10>',              function() require('dap').step_over({}) end)
 nnoremap('<F11>',              function() require('dap').step_into() end)
 nnoremap('<F12>',              function() require('dap').step_out() end)
 nnoremap('<C-Y>',              function() require('dapui').toggle() end)
-nnoremap('<leader>d',          function() require('dapui').eval() end)
-vnoremap('<leader>d',          function() require('dapui').eval() end)
+nnoremap('<leader>d',          function() require('dapui').eval(nil, nil) end)
+vnoremap('<leader>d',          function() require('dapui').eval(nil, nil) end)
 nnoremap('<C-B>',              function() require('dap').toggle_breakpoint() end)
