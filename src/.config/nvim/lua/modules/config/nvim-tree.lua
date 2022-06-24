@@ -36,7 +36,7 @@ return function()
             args = {}, -- the command arguments as a list
         },
         filters = {
-            custom = { '.git$', '.cache' },
+            custom = { '\\.git$', '\\.cache$' },
             exclude = { '.gitconfig', '.gitignore' },
             dotfiles = false,
         },
