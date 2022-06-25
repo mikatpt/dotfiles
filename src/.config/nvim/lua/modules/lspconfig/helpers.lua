@@ -36,6 +36,16 @@ M.on_attach = function(client, bufnr)
         ]])
     end
 
+    if client.server_capabilities.codeLensProvider then
+        vim.cmd([[
+            augroup lsp_document_codelens
+            au! * <buffer>
+            autocmd BufEnter ++once         <buffer> lua require('vim.lsp.codelens').refresh()
+            autocmd BufWritePost,CursorHold <buffer> lua require('vim.lsp.codelens').refresh()
+            augroup END
+        ]])
+    end
+
     if client.name == 'eslint' then
         local group = vim.api.nvim_create_augroup('Eslint', {})
         vim.api.nvim_create_autocmd('BufWritePre', {
