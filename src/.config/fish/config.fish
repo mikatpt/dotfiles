@@ -44,3 +44,6 @@ fish_add_path /usr/local/go/bin
 fish_add_path $GOPATH
 fish_add_path $HOME/.local/share/nvim/lsp_servers/rust
 bass source $HOME/.cargo/env
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/mikatpt/google-cloud-sdk/path.fish.inc' ]; . '/home/mikatpt/google-cloud-sdk/path.fish.inc'; end
