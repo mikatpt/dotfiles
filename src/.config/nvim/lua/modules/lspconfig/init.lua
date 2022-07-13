@@ -46,13 +46,14 @@ return function()
             settings = {
                 gopls = {
                     ['build.allowModfileModifications'] = true,
+                    ['expandWorkspaceToModule'] = true,
                 },
             },
         },
         golangci_lint_ls = {
             root_dir = get_root({ 'go.mod', 'Makefile', '.golangci.yaml' }),
             init_options = {
-                command = { cmd_root .. '/golangci_lint_ls/golangci-lint', 'run', '--D typecheck', '--out-format', 'json' }
+                command = { cmd_root .. '/golangci_lint_ls/golangci-lint', 'run', '-D typecheck', '-D structcheck', '--out-format', 'json' }
             },
         },
         jsonls = {
