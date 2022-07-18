@@ -1,4 +1,8 @@
 return function()
+    if _G.__dapui__setup_called == true then
+        return
+    end
+    _G.__dapui__setup_called = true
     require('dapui').setup({
         icons = { expanded = '▾', collapsed = '▸' },
         mappings = {
