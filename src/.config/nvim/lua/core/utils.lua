@@ -46,31 +46,6 @@ M.fn.defer_mouse = function()
     end, 50)
 end
 
-M.fn.auto_close_tree = function()
-    local au_group_id = vim.api.nvim_create_augroup('AutoCloseNvimTree', { clear = true })
-
-    local cb = function()
-        local ft = vim.bo.filetype
-        if _G.auto_close_called or ft == 'NvimTree' or ft == 'TelescopePrompt' or ft == '' then
-            return
-        end
-
-        _G.auto_close_called = true
-        vim.defer_fn(function()
-            vim.api.nvim_create_autocmd('BufEnter', {
-                command = "if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif",
-                nested = true,
-            })
-        end, 1000)
-        vim.api.nvim_del_augroup_by_id(au_group_id)
-    end
-
-    vim.api.nvim_create_autocmd('BufEnter', {
-        group = au_group_id,
-        callback = cb,
-    })
-end
-
 M.fn.redraw_lsp = function()
     for _, id in pairs(vim.tbl_keys(vim.lsp.buf_get_clients(nil))) do
         vim.diagnostic.disable(0, id)

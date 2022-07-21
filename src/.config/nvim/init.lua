@@ -10,4 +10,4 @@ pcall(require, 'packer_compiled')
 
 require('modules')
 require('core.utils').fn.dashboard_startup()
-require('core.utils').fn.auto_close_tree()
+require('core.autocmds')
