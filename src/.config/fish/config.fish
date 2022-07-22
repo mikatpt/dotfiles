@@ -40,6 +40,8 @@ end
 
 set GOPATH "$HOME/go/bin"
 
+# from jonhoo - one dir for all rust builds
+setenv CARGO_TARGET_DIR ~/.cargo-target
 fish_add_path /usr/local/go/bin
 fish_add_path $GOPATH
 fish_add_path $HOME/.local/share/nvim/lsp_servers/rust
