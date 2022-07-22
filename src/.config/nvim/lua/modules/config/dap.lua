@@ -1,17 +1,16 @@
 return function()
     local dap = require('dap')
-    local utils = require('core.utils')
 
     dap.adapters.go = {
         type = 'executable',
         command = 'node',
-        args = { utils.os.home .. '/.debug/vscode-go/dist/debugAdapter.js' },
+        args = { vim.loop.os_homedir() .. '/.debug/vscode-go/dist/debugAdapter.js' },
     }
 
     dap.adapters.node2 = {
         type = 'executable',
         command = 'node',
-        args = { utils.os.home .. '/.debug/vscode-node-debug2/out/src/nodeDebug.js' },
+        args = { vim.loop.os_homedir() .. '/.debug/vscode-node-debug2/out/src/nodeDebug.js' },
     }
 
     dap.configurations.go = {
