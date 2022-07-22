@@ -1,7 +1,5 @@
 return function()
-    local utils = require('core.utils')
-
-    vim.g.db_ui_save_location = utils.os.config .. '/.env.dbs'
+    vim.g.db_ui_save_location = vim.fn.stdpath('config') .. '/.env.dbs'
     vim.g.db_ui_winwidth = 40
     vim.g.db_ui_auto_execute_table_helpers = 1
     vim.g.db_ui_table_helpers = {

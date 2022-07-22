@@ -1,6 +1,6 @@
 return function()
     local dap = require('dap')
-    local extpath = require('core.utils').os.home .. '/.vscode-server/extensions/vadimcn.vscode-lldb-1.6.10/'
+    local extpath = vim.loop.os_homedir() .. '/.vscode-server/extensions/vadimcn.vscode-lldb-1.6.10/'
     local codelldb = extpath .. 'adapter/codelldb'
     local liblldb = extpath .. 'lldb/lib/liblldb.so'
 

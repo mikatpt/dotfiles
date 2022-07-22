@@ -1,6 +1,6 @@
 -- stylua: ignore start
 local utils = require('core.utils')
-local isDarwin = utils.os.name == 'Darwin'
+local isDarwin = vim.loop.os_uname().sysname == 'Darwin'
 local open_cmd = isDarwin and ':!open <cWORD> &<CR><CR>' or ':!xdg-open <cWORD> &<CR><CR>'
 
 local nonsilent = { silent = false }
@@ -131,10 +131,11 @@ end
 
 -- Telescope
 local telescope_cmd = utils.fn.is_git_dir() and 'git_files' or 'find_files'
+local cfg_path = vim.fn.stdpath('config')
 nnoremap('<C-P>',              '<CMD>Telescope ' .. telescope_cmd .. '<CR>')
 
 nnoremap('<leader>o',          '<CMD>Telescope oldfiles file_ignore_patterns={}<CR>')
-nnoremap('<leader>z',          function() require('telescope.builtin').git_files({ prompt_title = 'Dotfiles', cwd = utils.os.config, file_ignore_patterns = {} }) end)
+nnoremap('<leader>z',          function() require('telescope.builtin').git_files({ prompt_title = 'Dotfiles', cwd = cfg_path, file_ignore_patterns = {} }) end)
 nnoremap('<leader>s',          function() require('telescope.builtin').lsp_dynamic_workspace_symbols({ prompt_title = 'Search Symbols', layout_strategy = 'vertical' }) end)
 nnoremap('<leader>b',          function() require('telescope.builtin').buffers() end)
 nnoremap('<leader>q',          '<CMD>TroubleToggle document_diagnostics<CR>')
@@ -148,11 +149,11 @@ nnoremap('<leader>w',          '<CMD>TodoTelescope layout_strategy=vertical<CR>'
 nnoremap('<leader><S-D>',      '<CMD>DBUIToggle<CR>')
 
 -- Debugging
-nnoremap('<F5>',               function() require('dapui').open()require('dap').continue() end)
+nnoremap('<F5>',               function() require('dapui').open({})require('dap').continue() end)
 nnoremap('<F10>',              function() require('dap').step_over({}) end)
 nnoremap('<F11>',              function() require('dap').step_into() end)
 nnoremap('<F12>',              function() require('dap').step_out() end)
-nnoremap('<C-Y>',              function() require('dapui').toggle() end)
+nnoremap('<C-Y>',              function() require('dapui').toggle({}) end)
 nnoremap('<leader>d',          function() require('dapui').eval(nil, nil) end)
 vnoremap('<leader>d',          function() require('dapui').eval(nil, nil) end)
 nnoremap('<C-B>',              function() require('dap').toggle_breakpoint() end)

@@ -48,7 +48,6 @@ return packer.startup(function(use)
     use({ 'ahmedkhalf/project.nvim',                                     config = c.project    })
 
     -- Language Server Protocol
-    -- use({ get_local('neovim', 'nvim-lspconfig'),                      config = c.lsp        })
     use({ 'neovim/nvim-lspconfig',                                       config = c.lsp        })
     use({ 'williamboman/nvim-lsp-installer',        module = 'nvim-lsp-installer'              })
     use({ 'tami5/lspsaga.nvim',                     module = 'lspsaga'                         })

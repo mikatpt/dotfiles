@@ -1,15 +1,5 @@
 local M = {}
 
-M.os = {
-    data = vim.fn.stdpath('data'),
-    cache = vim.fn.stdpath('cache'),
-    config = vim.fn.stdpath('config'),
-    name = vim.loop.os_uname().sysname,
-}
-
-local home = M.os.name == 'Windows_NT' and 'HOMEPATH' or 'HOME'
-M.os.home = os.getenv(home)
-
 M.fn = {}
 
 -- TODO: change to use vim.fn.system
@@ -19,7 +9,7 @@ local windows_git_dir = function()
 end
 
 M.fn.is_git_dir = function()
-    if M.os.name == 'Windows_NT' then
+    if vim.loop.os_uname().sysname == 'Windows_NT' then
         return windows_git_dir()
     end
     return os.execute('git rev-parse --is-inside-work-tree >> /dev/null 2>&1') == 0
@@ -32,18 +22,12 @@ M.fn.dashboard_startup = function()
 end
 
 M.fn.get_local_plugin = function(author, plugin)
-    local local_path = M.os.home .. '/foss/' .. plugin
+    local local_path = vim.loop.os_homedir() .. '/foss/' .. plugin
     local remote_path = author .. '/' .. plugin
-    if M.os.name == 'Windows_NT' then
+    if vim.loop.os_uname().sysname == 'Windows_NT' then
         return remote_path
     end
     return vim.fn.isdirectory(local_path) == 1 and local_path or remote_path
-end
-
-M.fn.defer_mouse = function()
-    vim.defer_fn(function()
-        vim.opt.mouse:append({ a = true, r = true })
-    end, 50)
 end
 
 M.fn.redraw_lsp = function()
@@ -87,7 +71,7 @@ end
 
 M.fn.setup_packer = function()
     local packer_url = 'https://github.com/wbthomason/packer.nvim'
-    local packer_path = M.os.data .. '/site/pack/packer/opt/packer.nvim'
+    local packer_path = vim.fn.stdpath('data') .. '/site/pack/packer/opt/packer.nvim'
     if vim.fn.empty(vim.fn.glob(packer_path, nil, nil)) > 0 then
         print('Downloading plugin manager...')
         vim.cmd('silent! !git clone ' .. packer_url .. ' ' .. packer_path)
@@ -110,7 +94,7 @@ M.fn.setup_packer = function()
     end
 
     require('packer').init({
-        compile_path = M.os.data .. '/site/lua/packer_compiled.lua',
+        compile_path = vim.fn.stdpath('data') .. '/site/lua/packer_compiled.lua',
         opt_default = false,
         profile = { enable = true },
     })

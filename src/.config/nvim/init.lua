@@ -3,8 +3,8 @@ if ok then
     impatient.enable_profile()
 end
 
-vim.cmd('runtime! vim_conf/*.vim')
 require('core.options')
+require('core.plug_opts')
 require('core.map')
 pcall(require, 'packer_compiled')
 
