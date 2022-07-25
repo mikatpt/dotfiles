@@ -8,7 +8,14 @@ return function()
         },
     }
 
-    vim.cmd('autocmd FileType dbui nmap <buffer><C-J> <C-W><S-W>')
-    vim.cmd('autocmd FileType dbui nmap <buffer><C-K> <C-W>w')
-    vim.cmd('autocmd FileType dbui nmap <buffer><C-V> <Plug>(DBUI_SelectLineVsplit)')
+    local id = vim.api.nvim_create_augroup('dadbod_bindings', { clear = true })
+    vim.api.nvim_create_autocmd('FileType', {
+        group = id,
+        pattern = { 'dbui' },
+        callback = function()
+            vim.api.nvim_set_keymap('n', '<C-J>', '<C-W><S-W>', { silent = true })
+            vim.api.nvim_set_keymap('n', '<C-K>', '<C-W>w', { silent = true })
+            vim.api.nvim_set_keymap('n', '<C-V>', '<Plug>(DBUI_SelectLineVsplit)', { silent = true })
+        end,
+    })
 end

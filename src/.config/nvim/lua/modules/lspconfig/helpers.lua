@@ -28,22 +28,33 @@ M.on_attach = function(client, bufnr)
     client.server_capabilities.documentFormattingProvider = client.name == 'efm'
 
     if client.server_capabilities.documentFormattingProvider then
-        vim.cmd([[
-            augroup Format
-                autocmd! * <buffer>
-                autocmd BufWritePre <buffer> lua vim.lsp.buf.format()
-            augroup END
-        ]])
+        local id = vim.api.nvim_create_augroup('Format', { clear = true })
+        vim.api.nvim_create_autocmd('BufWritePre', {
+            group = id,
+            buffer = bufnr,
+            callback = function()
+                vim.lsp.buf.format({})
+            end,
+        })
     end
 
     if client.server_capabilities.codeLensProvider then
-        vim.cmd([[
-            augroup lsp_document_codelens
-            au! * <buffer>
-            autocmd BufEnter ++once         <buffer> lua require('vim.lsp.codelens').refresh()
-            autocmd BufWritePost,CursorHold <buffer> lua require('vim.lsp.codelens').refresh()
-            augroup END
-        ]])
+        local id = vim.api.nvim_create_augroup('lsp_document_codelens', { clear = true })
+        vim.api.nvim_create_autocmd('BufEnter', {
+            group = id,
+            buffer = bufnr,
+            once = true,
+            callback = function()
+                vim.lsp.codelens.refresh()
+            end,
+        })
+        vim.api.nvim_create_autocmd({ 'BufWritePost', 'CursorHold' }, {
+            group = id,
+            buffer = bufnr,
+            callback = function()
+                vim.lsp.codelens.refresh()
+            end,
+        })
     end
 
     if client.name == 'eslint' then
