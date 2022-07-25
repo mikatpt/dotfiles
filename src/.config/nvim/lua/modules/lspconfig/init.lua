@@ -118,21 +118,21 @@ return function()
 
     local function setup_servers()
         local lspconfig = require('lspconfig')
-        local lsp_installer = require('nvim-lsp-installer')
-        lsp_installer.setup({
+        local mason_lspconfig = require('mason-lspconfig')
+        mason_lspconfig.setup({
             ensure_installed = vim.list_extend(vim.tbl_keys(servers), { 'html', 'rust_analyzer', 'bashls', 'eslint' }),
             automatic_installation = true,
         })
-        local installed = lsp_installer.get_installed_servers()
+        local installed = mason_lspconfig.get_installed_servers()
 
         for _, server in pairs(installed) do
-            if server.name == 'rust_analyzer' then goto CONTINUE end
-            local config = servers[server.name] or { root_dir = get_root({ '.git' }) }
+            if server == 'rust_analyzer' then goto CONTINUE end
+            local config = servers[server] or { root_dir = get_root({ '.git' }) }
 
             config.capabilities = capabilities
             config.on_attach = helpers.on_attach
 
-            lspconfig[server.name].setup(config)
+            lspconfig[server].setup(config)
 
             ::CONTINUE::
         end
