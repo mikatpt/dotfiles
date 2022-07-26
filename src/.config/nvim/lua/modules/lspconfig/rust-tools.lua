@@ -19,7 +19,7 @@ return function()
             },
         },
         server = {
-            cmd = { vim.fn.stdpath('data') .. '/lsp_servers/rust/rust-analyzer' },
+            cmd = { vim.fn.stdpath('data') .. '/mason/bin/rust-analyzer' },
             on_attach = require('modules.lspconfig.helpers').on_attach,
             settings = {
                 ['rust-analyzer'] = {
