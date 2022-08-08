@@ -4,6 +4,7 @@ abbr -ag ea 'nvim ~/config/src/.config/fish/conf.d/alias.fish'
 abbr -ag sz 'exec fish'
 
 function notes; nvim ~/notes/notes.md; end;
+function repl; nvim ~/repl/src/main.rs; end;
 abbr -ag py 'python3.9'
 
 # Navigation

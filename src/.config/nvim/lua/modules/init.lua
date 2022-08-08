@@ -49,13 +49,13 @@ return packer.startup(function(use)
 
     -- Language Server Protocol
     use({ 'neovim/nvim-lspconfig',                                       config = c.lsp        })
-    -- use({ 'williamboman/nvim-lsp-installer',        module = 'nvim-lsp-installer'              })
     use({ 'williamboman/mason.nvim',                                     config = c.mason      })
     use({ 'williamboman/mason-lspconfig.nvim'                                                  })
     use({ 'tami5/lspsaga.nvim',                     module = 'lspsaga'                         })
     use({ 'ray-x/lsp_signature.nvim',               module = 'lsp_signature'                   })
     use({ 'mfussenegger/nvim-dap',                                       config = c.dap        })
     use({ 'rcarriga/nvim-dap-ui',                   after  = 'nvim-dap', config = c.dapui      })
+    use({ get_local('mikatpt', 'roadrunner'),                            config = c.roadrunner })
 
     -- Languages
     use({ 'simrat39/rust-tools.nvim',                                    config = c.rust_tools })

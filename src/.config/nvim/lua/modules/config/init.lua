@@ -20,6 +20,7 @@ M.treesitter   =  require('modules.config.treesitter')
 M.trouble      =  require('modules.config.trouble')
 M.autopairs    =  require('modules.config.autopairs')
 M.lsp          =  require('modules.lspconfig')
+M.roadrunner   =  require('modules.config.roadrunner')
 M.rust_tools   =  require('modules.lspconfig.rust-tools')
 
 return M

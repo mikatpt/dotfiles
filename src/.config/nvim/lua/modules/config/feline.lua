@@ -158,8 +158,8 @@ return function()
     })
 
     local function get_icon()
-        local filename = vim.fn.expand '%:t'
-        local extension = vim.fn.expand '%:e'
+        local filename = vim.fn.expand('%:t')
+        local extension = vim.fn.expand('%:e')
         local icon = require('nvim-web-devicons').get_icon(filename, extension)
         local filetype = vim.bo.filetype
 
@@ -199,7 +199,7 @@ return function()
                 return { str = icon, hl = { fg = colo, bg = colors.light_grey2 } }
             end,
             provider = function()
-                local filename = vim.fn.expand "%:t"
+                local filename = vim.fn.expand('%:t')
                 local icon = get_icon()
 
                 local info_icon = ''
@@ -365,7 +365,7 @@ return function()
     -- LSP client name
     table.insert(components.active[3], {
         provider = function()
-            if next(vim.lsp.buf_get_clients(0)) ~= nil then
+            if next(vim.lsp.get_active_clients({ bufnr = 0 })) ~= nil then
                 local clients = vim.lsp.get_active_clients()
 
                 local name = 'lsp'
@@ -395,7 +395,7 @@ return function()
             return ''
         end,
         short_provider = function()
-            if next(vim.lsp.buf_get_clients(0)) ~= nil then
+            if next(vim.lsp.get_active_clients({ bufnr = 0 })) ~= nil then
                 return '    '
             end
             return ''
