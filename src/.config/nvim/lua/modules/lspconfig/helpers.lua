@@ -22,7 +22,7 @@ M.on_attach = function(client, bufnr)
     })
 
     -- Mappings
-    require('modules.lspconfig.lsp-map').attach_mappings(bufnr)
+    require('modules.lspconfig.lsp-map').attach_mappings(client, bufnr)
 
     -- Only permit EFM to format.
     client.server_capabilities.documentFormattingProvider = client.name == 'efm'
@@ -38,24 +38,25 @@ M.on_attach = function(client, bufnr)
         })
     end
 
-    if client.server_capabilities.codeLensProvider then
-        local id = vim.api.nvim_create_augroup('lsp_document_codelens', { clear = true })
-        vim.api.nvim_create_autocmd('BufEnter', {
-            group = id,
-            buffer = bufnr,
-            once = true,
-            callback = function()
-                vim.lsp.codelens.refresh()
-            end,
-        })
-        vim.api.nvim_create_autocmd({ 'BufWritePost', 'CursorHold' }, {
-            group = id,
-            buffer = bufnr,
-            callback = function()
-                vim.lsp.codelens.refresh()
-            end,
-        })
-    end
+    -- NOTE: I'm not sure if I really care about these.
+    -- if client.server_capabilities.codeLensProvider then
+    --     local id = vim.api.nvim_create_augroup('lsp_document_codelens', { clear = true })
+    --     vim.api.nvim_create_autocmd('BufEnter', {
+    --         group = id,
+    --         buffer = bufnr,
+    --         once = true,
+    --         callback = function()
+    --             vim.lsp.codelens.refresh()
+    --         end,
+    --     })
+    --     vim.api.nvim_create_autocmd({ 'BufWritePost', 'CursorHold' }, {
+    --         group = id,
+    --         buffer = bufnr,
+    --         callback = function()
+    --             vim.lsp.codelens.refresh()
+    --         end,
+    --     })
+    -- end
 
     if client.name == 'eslint' then
         local group = vim.api.nvim_create_augroup('Eslint', {})
@@ -159,15 +160,6 @@ M.implementation = function()
     local params = vim.lsp.util.make_position_params(0, nil)
 
     vim.lsp.buf_request(0, 'textDocument/implementation', params, custom_impl)
-end
-
-M.fix_action = function()
-    vim.lsp.buf.code_action({
-        apply = true,
-        filter = function(action)
-            return action.title == 'Fix all auto-fixable problems'
-        end,
-    })
 end
 
 return M

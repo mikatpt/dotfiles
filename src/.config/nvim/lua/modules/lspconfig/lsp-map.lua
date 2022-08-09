@@ -1,36 +1,51 @@
 local M = {}
 
-M.attach_mappings = function(bufnr)
-    local function buf_set_keymap(...)
-        vim.api.nvim_buf_set_keymap(bufnr, ...)
+local bind = function(bufnr, mode, outer_opts)
+    outer_opts = outer_opts or { silent = true, buffer = bufnr }
+    return function(lhs, rhs, opts)
+        opts = vim.tbl_extend('force', outer_opts, opts or {})
+        vim.keymap.set(mode, lhs, rhs, opts)
     end
+end
 
-    local opts = { noremap = true, silent = true }
+M.attach_mappings = function(client, bufnr)
+    -- :h map-listing
+    -- local nmap = bind(bufnr, 'n', { silent = true, remap = true })
+    -- local inoremap = bind(bufnr, 'i')
+    -- local icnoremap = bind(bufnr, '!')
+    local nnoremap = bind(bufnr, 'n')
+    local vnoremap = bind(bufnr, 'v')
+    local cnoremap = bind(bufnr, 'c')
 
     -- Format without saving
-    buf_set_keymap('c', 'wf', 'noautocmd w', { noremap = true })
+    cnoremap('wf', 'noautocmd w')
 
     -- Custom telescope find_implementation. Ignores mocks and tests in go.
-    buf_set_keymap('n', 'gi', "<CMD>lua require'modules.lspconfig.helpers'.implementation()<CR>", opts)
+    nnoremap('gi', function() require('modules.lspconfig.helpers').implementation() end)
 
     -- Jump to definition
-    buf_set_keymap('n', 'gd', '<cmd>Telescope lsp_definitions<CR>', opts)
-    buf_set_keymap('n', 'gr', '<cmd>Telescope lsp_references<CR>', opts)
-    buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-    buf_set_keymap('n', 'gp', ':Lspsaga preview_definition<CR>', opts)
+    nnoremap('gd', function() require('telescope.builtin').lsp_definitions() end)
+    nnoremap('gr', function() require('telescope.builtin').lsp_references() end)
+    nnoremap('gD', function() vim.lsp.buf.declaration() end)
+    nnoremap('gp', function() require('lspsaga.provider').preview_definition(500) end)
 
     -- Actions
-    buf_set_keymap('n', '<leader>rn', ':Lspsaga rename<CR>', opts)
-    buf_set_keymap('n', '<space>ca', ':Lspsaga code_action<CR>', opts)
-    buf_set_keymap('v', '<space>ca', ':<C-U>Lspsaga range_code_action<CR>', opts)
-    buf_set_keymap('n', '<C-W><C-F>', '<CMD>lua require("lspsaga.action").smart_scroll_with_saga(1)<CR>', opts)
-    buf_set_keymap('n', '<C-W><C-E>', '<CMD>lua require("lspsaga.action").smart_scroll_with_saga(-1)<CR>', opts)
+    nnoremap('<leader>rn', function() require('lspsaga.rename').rename() end)
+    nnoremap('<space>ca', function() require('lspsaga.codeaction').code_action() end)
+    vnoremap('<space>ca', function() require('lspsaga.codeaction').code_action() end)
+    nnoremap('<C-W><C-F>', function() require('lspsaga.action').smart_scroll_with_saga(1) end)
+    nnoremap('<C-W><C-E>', function() require('lspsaga.action').smart_scroll_with_saga(-1) end)
+
 
     -- Diagnostics
-    buf_set_keymap('n', 'm', ':lua vim.lsp.buf.hover()<CR>', opts)
-    buf_set_keymap('n', '<leader>e', '<cmd>Lspsaga show_line_diagnostics<CR>', opts)
-    buf_set_keymap('n', '[d', ':Lspsaga diagnostic_jump_prev<CR>', opts)
-    buf_set_keymap('n', ']d', ':Lspsaga diagnostic_jump_next<CR>', opts)
+    if client.name == 'rust_analyzer' then
+        nnoremap('m', function() require('rust-tools').hover_actions.hover_actions() end)
+    else
+        nnoremap('m', function() vim.lsp.buf.hover() end)
+    end
+    nnoremap('<leader>e', function() require('lspsaga.diagnostic').show_line_diagnostics() end)
+    nnoremap('[d', function() require('lspsaga.diagnostic').navigate('prev')() end)
+    nnoremap(']d', function() require('lspsaga.diagnostic').navigate('next')() end)
 end
 
 return M
