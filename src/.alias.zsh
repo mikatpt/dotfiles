@@ -59,6 +59,7 @@ alias ls='ls -G'
 alias la='ls -AG'
 alias lah='ls -AGhl'
 alias notes='nvim ~/notes'
+alias repl='nvim ~/repl/src/main.rs'
 alias rm='rm'
 
 alias ..='cd ..'

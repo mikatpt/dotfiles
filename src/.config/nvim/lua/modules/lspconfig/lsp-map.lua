@@ -1,3 +1,4 @@
+-- stylua: ignore start
 local M = {}
 
 local bind = function(bufnr, mode, outer_opts)
