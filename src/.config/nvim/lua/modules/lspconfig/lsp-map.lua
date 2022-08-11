@@ -39,7 +39,7 @@ M.attach_mappings = function(client, bufnr)
 
 
     -- Diagnostics
-    if client.name == 'rust_analyzer' then
+    if type(client) == 'table' and client.name == 'rust_analyzer' then
         nnoremap('m', function() require('rust-tools').hover_actions.hover_actions() end)
     else
         nnoremap('m', function() vim.lsp.buf.hover() end)
