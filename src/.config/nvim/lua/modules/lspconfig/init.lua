@@ -23,6 +23,10 @@ return function()
     }
 
     local servers = {
+        bashls = {
+            root_dir = get_root({ '.git' }),
+            filetypes = { 'sh', 'zsh', 'bash' },
+        },
         cssls = {
             root_dir = get_root({ 'package.json' }),
         },

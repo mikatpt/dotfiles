@@ -15,7 +15,7 @@ return function()
         open_on_tab = false,
         hijack_cursor = true,
         diagnostics = {
-            enable = true,
+            enable = not_darwin,
             icons = {
                 hint = '',
                 info = '',
@@ -44,6 +44,14 @@ return function()
             enable = not_darwin,
             ignore = false,
             timeout = 1000,
+        },
+        log = {
+            enable = false,
+            truncate = true,
+            types = {
+                git = true,
+                profile = true,
+            },
         },
         renderer = {
             special_files = { ['README.md'] = 1, Makefile = 1, MAKEFILE = 1 }, -- List of filenames that gets highlighted with NvimTreeSpecialFile
