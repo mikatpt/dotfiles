@@ -1,6 +1,6 @@
 return function()
     local dap = require('dap')
-    local extpath = vim.loop.os_homedir() .. '/.vscode-server/extensions/vadimcn.vscode-lldb-1.6.10/'
+    local extpath = vim.loop.os_homedir() .. '/.vscode-server/extensions/vadimcn.vscode-lldb-1.7.4//'
     local codelldb = extpath .. 'adapter/codelldb'
     local liblldb = extpath .. 'lldb/lib/liblldb.so'
 
@@ -17,13 +17,13 @@ return function()
                 auto = true,
                 only_current_line = true,
                 show_parameter_hints = true,
-                parameter_hints_prefix = "<- ",
-                other_hints_prefix = "=> ",
+                parameter_hints_prefix = '<- ',
+                other_hints_prefix = '=> ',
                 max_len_align = false,
                 max_len_align_padding = 1,
                 right_align = false,
                 right_align_padding = 7,
-                highlight = "Comment",
+                highlight = 'Comment',
             },
         },
         server = {

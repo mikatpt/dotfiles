@@ -24,6 +24,11 @@ M.on_attach = function(client, bufnr)
     -- Mappings
     require('modules.lspconfig.lsp-map').attach_mappings(client, bufnr)
 
+    -- I've seen some transient bugs here.
+    if type(client) ~= 'table' then
+        return
+    end
+
     -- Only permit EFM to format.
     client.server_capabilities.documentFormattingProvider = client.name == 'efm'
 

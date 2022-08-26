@@ -32,21 +32,31 @@ M.attach_mappings = function(client, bufnr)
 
     -- Actions
     nnoremap('<leader>rn', function() require('lspsaga.rename').rename() end)
-    nnoremap('<space>ca', function() require('lspsaga.codeaction').code_action() end)
-    vnoremap('<space>ca', function() require('lspsaga.codeaction').code_action() end)
+    nnoremap('<space>ca',  function() require('lspsaga.codeaction').code_action() end)
+    vnoremap('<space>ca',  function() require('lspsaga.codeaction').code_action() end)
     nnoremap('<C-W><C-F>', function() require('lspsaga.action').smart_scroll_with_saga(1) end)
     nnoremap('<C-W><C-E>', function() require('lspsaga.action').smart_scroll_with_saga(-1) end)
 
 
     -- Diagnostics
     if type(client) == 'table' and client.name == 'rust_analyzer' then
-        nnoremap('m', function() require('rust-tools').hover_actions.hover_actions() end)
+        nnoremap('m',       function() require('rust-tools').hover_actions.hover_actions() end)
     else
-        nnoremap('m', function() vim.lsp.buf.hover() end)
+        nnoremap('m',       function() vim.lsp.buf.hover() end)
     end
-    nnoremap('<leader>e', function() require('lspsaga.diagnostic').show_line_diagnostics() end)
-    nnoremap('[d', function() require('lspsaga.diagnostic').navigate('prev')() end)
-    nnoremap(']d', function() require('lspsaga.diagnostic').navigate('next')() end)
+    nnoremap('<leader>e',   function() require('lspsaga.diagnostic').show_line_diagnostics() end)
+    nnoremap('[d',          function() require('lspsaga.diagnostic').navigate('prev')() end)
+    nnoremap(']d',          function() require('lspsaga.diagnostic').navigate('next')() end)
+
+    -- Debugging
+    nnoremap('<F5>',        function() require('dapui').open({})require('dap').continue() end)
+    nnoremap('<F10>',       function() require('dap').step_over({}) end)
+    nnoremap('<F11>',       function() require('dap').step_into() end)
+    nnoremap('<F12>',       function() require('dap').step_out() end)
+    nnoremap('<C-Y>',       function() require('dapui').toggle({}) end)
+    nnoremap('<leader>d',   function() require('dapui').eval(nil, nil) end)
+    vnoremap('<leader>d',   function() require('dapui').eval(nil, nil) end)
+    nnoremap('<C-B>',       function() require('dap').toggle_breakpoint() end)
 end
 
 return M

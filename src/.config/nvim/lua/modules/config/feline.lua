@@ -370,14 +370,14 @@ return function()
 
                 local name = 'lsp'
                 for _, client in ipairs(clients) do
-                    if client.name:lower() == 'efm' or client.name:lower() == 'eslint' then
+                    if type(client) == 'table' and (client.name:lower() == 'efm' or client.name:lower() == 'eslint') then
                         goto continue
                     end
 
                     local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
                     local filetypes = client.config.filetypes
                     if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-                        name = client.name:lower()
+                        name = type(client) == 'table' and client.name:lower() or name
                         break
                     end
 
