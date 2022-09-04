@@ -16,6 +16,12 @@ nnoremap <S-K> :m .-2<CR>==
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
+" not correct in vs code.
+nnoremap <C-D> 40jzz
+nnoremap <C-U> 40kzz
+vnoremap <C-D> 40jzz
+vnoremap <C-U> 40kzz
+
 " Indenting won't throw you out of visual mode
 vnoremap <lt> <lt>gv
 vnoremap > >gv

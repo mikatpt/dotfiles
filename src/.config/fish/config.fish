@@ -42,9 +42,11 @@ set GOPATH "$HOME/go/bin"
 
 # from jonhoo - one dir for all rust builds
 setenv CARGO_TARGET_DIR ~/.cargo-target
+setenv DENO_INSTALL $HOME/.deno/bin/deno
 fish_add_path /usr/local/go/bin
 fish_add_path $GOPATH
 fish_add_path $HOME/.local/share/nvim/lsp_servers/rust
+fish_add_path $HOME/.deno/bin
 bass source $HOME/.cargo/env
 
 # The next line updates PATH for the Google Cloud SDK.
