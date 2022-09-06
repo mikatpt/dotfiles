@@ -19,7 +19,8 @@ local map_lsp = function(mode, lhs, rhs, opts)
 end
 
 -- :h map-listing
--- local nmap = bind('n', { silent = true, noremap = false })
+local imap = bind('i', { silent = true, noremap = false })
+local smap = bind('s', { silent = true, noremap = false })
 -- local xnoremap = bind('x')
 local nnoremap = bind('n')
 local vnoremap = bind('v')
@@ -37,6 +38,12 @@ nnoremap('<F1>',          '<nop>')
 nnoremap('?',             '?\\v')
 nnoremap('/',             '/\\v')
 cnoremap('%s/',           '%sm/')
+
+-- vsnip
+imap('<Tab>', "vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<Tab>'", { expr = true })
+smap('<Tab>', "vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<Tab>'", { expr = true })
+imap('<S-Tab>', "vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<Tab>'", { expr = true })
+smap('<S-Tab>', "vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<Tab>'", { expr = true })
 
 -- terminal bindings for command line mode
 cnoremap('<C-A>',         '<Home>',  nonsilent)
