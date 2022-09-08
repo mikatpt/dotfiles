@@ -45,17 +45,16 @@ return function()
             handlers = format_handlers,
         },
         gopls = {
-            root_dir = get_root({ 'go.mod', 'Makefile' }),
+            root_dir = get_root({ 'go.mod' }),
             filetypes = { 'go', 'gomod' },
             settings = {
                 gopls = {
                     ['build.allowModfileModifications'] = true,
-                    ['expandWorkspaceToModule'] = true,
                 },
             },
         },
         golangci_lint_ls = {
-            root_dir = get_root({ 'go.mod', 'Makefile', '.golangci.yaml' }),
+            root_dir = get_root({ 'go.mod', '.golangci.yaml' }),
             init_options = {
                 command = { cmd_root .. '/golangci_lint_ls/golangci-lint', 'run', '-D typecheck', '-D structcheck', '--out-format', 'json' }
             },
