@@ -1,26 +1,12 @@
 return function()
-    local format_config = require('modules.lspconfig.format')
     local helpers = require('modules.lspconfig.helpers')
     local capabilities = helpers.set_capabilities()
     local get_root = helpers.get_root
-    local cmd_root = vim.fn.stdpath('data') .. '/lsp_servers'
+    local cmd_root = vim.fn.stdpath('data') .. '/mason/bin'
 
     vim.lsp.set_log_level('error')
 
     local pyroots = { 'pyproject.toml', 'setup.py', 'setup.cfg', 'requirements.txt', 'Pipfile', 'pyrightconfig.json' }
-
-    local format_handlers = {
-        ['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-            underline = true,
-            virtual_text = false,
-            signs = true,
-            update_in_insert = false,
-            severity_sort = true,
-        }),
-        ['window/showMessageRequest'] = function(_, result)
-            return result
-        end,
-    }
 
     local servers = {
         bashls = {
@@ -29,20 +15,6 @@ return function()
         },
         cssls = {
             root_dir = get_root({ 'package.json' }),
-        },
-        efm = {
-            init_options = { documentFormatting = true, codeAction = true },
-            root_dir = get_root({ 'go.mod', 'package.json', 'Cargo.toml' }),
-            filetypes = vim.tbl_keys(format_config),
-            settings = {
-                languages = format_config,
-                -- logLevel = 1,
-            },
-            handlers = format_handlers,
-        },
-        eslint = {
-            root_dir = get_root({ 'package.json', '.eslintrc.json' }),
-            handlers = format_handlers,
         },
         gopls = {
             root_dir = get_root({ 'go.mod' }),
@@ -55,8 +27,9 @@ return function()
         },
         golangci_lint_ls = {
             root_dir = get_root({ 'go.mod', '.golangci.yaml' }),
+            command = cmd_root .. '/golangci-lint-langserver',
             init_options = {
-                command = { cmd_root .. '/golangci_lint_ls/golangci-lint', 'run', '-D typecheck', '-D structcheck', '--out-format', 'json' }
+                command = { 'golangci-lint', 'run', '-D typecheck', '-D structcheck', '--out-format', 'json' }
             },
         },
         jsonls = {
@@ -123,7 +96,7 @@ return function()
         local lspconfig = require('lspconfig')
         local mason_lspconfig = require('mason-lspconfig')
         mason_lspconfig.setup({
-            ensure_installed = vim.list_extend(vim.tbl_keys(servers), { 'html', 'rust_analyzer', 'bashls', 'eslint' }),
+            ensure_installed = vim.list_extend(vim.tbl_keys(servers), { 'html', 'rust_analyzer', 'bashls',  'autopep8' }),
             automatic_installation = true,
         })
         local installed = mason_lspconfig.get_installed_servers()

@@ -1,5 +1,9 @@
 local M = {}
 
+-- This needs to be a global id, otherwise each buffer will recreate the group and wipe the previous
+-- buffers.
+local format_group = vim.api.nvim_create_augroup('Format', { clear = true })
+
 M.on_attach = function(client, bufnr)
     -- Nicer hover menus for builtin lsp methods
     require('lspsaga').init_lsp_saga({
@@ -21,6 +25,22 @@ M.on_attach = function(client, bufnr)
         toggle_key = '<C-E>',
     })
 
+    -- Disable virtual text for null ls
+    local namespaces = vim.diagnostic.get_namespaces()
+    for id, tbl in pairs(namespaces) do
+        local name = string.lower(tbl.name)
+        local idx = string.find(name, 'null')
+        if idx ~= nil then
+            vim.diagnostic.config({
+                underline = true,
+                virtual_text = false,
+                signs = true,
+                update_in_insert = false,
+                severity_sort = true,
+            }, id)
+        end
+    end
+
     -- Mappings
     require('modules.lspconfig.lsp-map').attach_mappings(client, bufnr)
 
@@ -29,16 +49,15 @@ M.on_attach = function(client, bufnr)
         return
     end
 
-    -- Only permit EFM to format.
-    client.server_capabilities.documentFormattingProvider = client.name == 'efm'
+    -- only one may format
+    client.server_capabilities.documentFormattingProvider = client.name == 'null-ls'
 
     if client.server_capabilities.documentFormattingProvider then
-        local id = vim.api.nvim_create_augroup('Format', { clear = true })
         vim.api.nvim_create_autocmd('BufWritePre', {
-            group = id,
+            group = format_group,
             buffer = bufnr,
             callback = function()
-                vim.lsp.buf.format({})
+                vim.lsp.buf.format({ bufnr = bufnr })
             end,
         })
     end
@@ -91,7 +110,7 @@ M.set_capabilities = function()
     }
 
     -- Don't update diagnostics while typing
-    vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+    vim.diagnostic.config({
         underline = true,
         virtual_text = { severity_limit = 'Warning' },
         signs = true,
