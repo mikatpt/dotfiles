@@ -13,6 +13,7 @@ return function()
                 condition = function(utils)
                     return utils.root_has_file({ '.eslintrc.js', '.eslintrc', '.eslintrc.json' })
                 end,
+                diagnostic_config = { virtual_text = false },
             }),
             null_ls.builtins.formatting.stylua.with({
                 command = 'stylua',

@@ -7,14 +7,18 @@ local format_group = vim.api.nvim_create_augroup('Format', { clear = true })
 M.on_attach = function(client, bufnr)
     -- Nicer hover menus for builtin lsp methods
     require('lspsaga').init_lsp_saga({
-        rename_action_keys = { quit = '<ESC>', exec = '<CR>' },
-        rename_prompt_prefix = 'Rename ➤',
-        code_action_prompt = {
+        diagnostic_header = { ' ', ' ', ' ', '' },
+        code_action_lightbulb = {
             enable = true,
+            enable_in_insert = false,
             sign = false,
+            cache_code_action = true,
+            update_time = 150,
             sign_priority = 20,
-            virtual_text = false,
+            virtual_text = true,
         },
+        rename_action_quit = '<ESC>',
+        rename_in_select = false,
     })
 
     -- Automatic function signatures
@@ -25,29 +29,8 @@ M.on_attach = function(client, bufnr)
         toggle_key = '<C-E>',
     })
 
-    -- Disable virtual text for null ls
-    local namespaces = vim.diagnostic.get_namespaces()
-    for id, tbl in pairs(namespaces) do
-        local name = string.lower(tbl.name)
-        local idx = string.find(name, 'null')
-        if idx ~= nil then
-            vim.diagnostic.config({
-                underline = true,
-                virtual_text = false,
-                signs = true,
-                update_in_insert = false,
-                severity_sort = true,
-            }, id)
-        end
-    end
-
     -- Mappings
     require('modules.lspconfig.lsp-map').attach_mappings(client, bufnr)
-
-    -- I've seen some transient bugs here.
-    if type(client) ~= 'table' then
-        return
-    end
 
     -- only one may format
     client.server_capabilities.documentFormattingProvider = client.name == 'null-ls'
@@ -61,26 +44,6 @@ M.on_attach = function(client, bufnr)
             end,
         })
     end
-
-    -- NOTE: I'm not sure if I really care about these.
-    -- if client.server_capabilities.codeLensProvider then
-    --     local id = vim.api.nvim_create_augroup('lsp_document_codelens', { clear = true })
-    --     vim.api.nvim_create_autocmd('BufEnter', {
-    --         group = id,
-    --         buffer = bufnr,
-    --         once = true,
-    --         callback = function()
-    --             vim.lsp.codelens.refresh()
-    --         end,
-    --     })
-    --     vim.api.nvim_create_autocmd({ 'BufWritePost', 'CursorHold' }, {
-    --         group = id,
-    --         buffer = bufnr,
-    --         callback = function()
-    --             vim.lsp.codelens.refresh()
-    --         end,
-    --     })
-    -- end
 
     if client.name == 'eslint' then
         local group = vim.api.nvim_create_augroup('Eslint', {})
@@ -108,6 +71,19 @@ M.set_capabilities = function()
     capabilities.textDocument.completion.completionItem.resolveSupport = {
         properties = { 'documentation', 'detail', 'additionalTextEdits' },
     }
+
+    -- Set default column signs
+    local signs = {
+        Error = ' ',
+        Warn = ' ',
+        Info = ' ',
+        Hint = '',
+    }
+
+    for type, icon in pairs(signs) do
+        local hl = 'DiagnosticSign' .. type
+        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+    end
 
     -- Don't update diagnostics while typing
     vim.diagnostic.config({
