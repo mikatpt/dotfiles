@@ -1,6 +1,6 @@
 function _check_postgres
-    set -l POSTGRES_ONLINE (service postgresql status | string match -r 'online')
-    if test -z $POSTGRES_ONLINE
+    docker ps | rg postgres -q
+    if test $status -eq 1
         echo "Postgres is not online! Please start postgres and restart terminal with 'exec fish'"
         exit
     end
@@ -14,7 +14,7 @@ function _start_home_server
 
     echo "Initializing home server"
     tmux new-session -d -s home
-    tmux send-keys -t home.1 "cd /home/mikatpt/coding/home/crates/home" ENTER
+    tmux send-keys -t home.1 "cd /home/mikatpt/coding/home/backend/crates/api-gateway" ENTER
     tmux send-keys -t home.1 "cargo run --release" ENTER
 end
 
