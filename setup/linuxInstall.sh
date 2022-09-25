@@ -19,9 +19,8 @@ _install_fish() {
 _install_starship() { curl -fsSL https://starship.rs/install.sh | bash -s -- --yes; }
 
 _install_node() {
-    yes | curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
-    fish -c "yes | omf install nvm"
-    fish -c "nvm install node"
+    yes | curl -fsSL https://fnm.vercel.app/install | bash
+    fish -c "fnm install v18.0.0"
     fish -c "npm install -g neovim eslint_d"
 }
 
@@ -43,7 +42,7 @@ _install_rust() {
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
     # make sure we have cargo in path before continuing.
     . "$HOME/.cargo/env"
-    cargo install ripgrep fd-find tealdeer exa stylua zoxide
+    cargo install ripgrep fd-find tealdeer exa stylua zoxide bat
 }
 
 _install_neovim() {
@@ -51,10 +50,10 @@ _install_neovim() {
     yes | apt-get update
     yes | apt-get install neovim
 
+
     # Initial setup
     nvim --headless +PackerInstall +qall
-    nvim --headless +"LspInstall efm gopls bashls html jsonls sumneko_lua rust_analyzer tsserver
-    yamlls vimls" +qall
+    nvim --headless +"MasonInstall bash-language-server golangci-lint-langserver gopls lua-language-server rust-analyzer yaml-language-server typescript-language-server vim-language-server" +qall
 
     # Debuggers
     # Go debugging

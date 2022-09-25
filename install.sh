@@ -1,5 +1,5 @@
 #!/bin/bash
-[ $(whoami) != 'root' ] || echo 'Please run with elevated permissions; exiting.'; exit;
+# [ $(whoami) != 'root' ] || echo 'Please run with elevated permissions; exiting.'; exit;
 
 install_stow() {
     echo "Checking packages..."
@@ -8,6 +8,7 @@ install_stow() {
             echo "Error - please install apt and run this script again."
             exit
         fi
+        apt install build-essential gcc
         apt-get install -y stow
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         which -s brew
@@ -46,7 +47,7 @@ echo "Setting up environment... 🚀"
 d=$(dirname $(readlink -f $0))
 
 install_stow
-stow_files $d
 install_packages
+stow_files $d
 
 echo "Done. 👍"

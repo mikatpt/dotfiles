@@ -16,7 +16,7 @@ function cs; cd $argv; exa -a; end
 function sc; cd ..; exa -a; end
 function csa; cd $argv; exa -al; end
 function sca; cd ..; exa -al; end
-function cat --wraps=cat; batcat $argv; end
+function cat --wraps=cat; bat $argv; end
 function fda
     set -l dir (fd --type d --hidden --exclude .git | fzf +m)
     cd $dir
