@@ -34,4 +34,7 @@
     cmd = nvim -f -c \"Gvdiffsplit!\" \"$MERGED\"
 
 [init]
-	defaultBranch = main
+    defaultBranch = main
+
+[push]
+    autoSetupRemote = true
