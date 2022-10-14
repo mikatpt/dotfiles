@@ -136,10 +136,10 @@ for i = 1, 9 do
     nnoremap('<leader>' .. i,  function() require('harpoon.ui').nav_file(i) end)
 end
 
--- Telescope
-local telescope_cmd = utils.fn.is_git_dir() and 'git_files' or 'find_files'
+-- Telescope, fzf
+local fzf_cmd = utils.fn.is_git_dir() and 'git_files' or 'find_files'
 local cfg_path = vim.fn.stdpath('config')
-nnoremap('<C-P>',              '<CMD>Telescope ' .. telescope_cmd .. '<CR>')
+nnoremap('<C-P>',              '<CMD>Fzf ' .. fzf_cmd .. '<CR>')
 
 nnoremap('<leader>o',          '<CMD>Telescope oldfiles file_ignore_patterns={}<CR>')
 nnoremap('<leader>z',          function() require('telescope.builtin').git_files({ prompt_title = 'Dotfiles', cwd = cfg_path, file_ignore_patterns = {} }) end)
