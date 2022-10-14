@@ -45,6 +45,8 @@ return packer.startup(function(use)
     use({ 'kyazdani42/nvim-tree.lua',                                    config = c.nvim_tree  })
     use({ 'nvim-telescope/telescope-fzf-native.nvim',                    run    = 'make'       })
     use({ 'nvim-telescope/telescope.nvim',                               config = c.telescope  })
+    use({ 'ibhagwan/fzf-lua'                                                                   })
+    use({ 'junegunn/fzf', run = './install --bin'                                              })
     use({ 'ahmedkhalf/project.nvim',                                     config = c.project    })
 
     -- Language Server Protocol
