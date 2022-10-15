@@ -8,7 +8,7 @@ return function()
 
     local pyroots = { 'pyproject.toml', 'setup.py', 'setup.cfg', 'requirements.txt', 'Pipfile', 'pyrightconfig.json' }
 
-    require('lua-dev').setup()
+    require('neodev').setup({})
     local servers = {
         bashls = {
             root_dir = get_root({ '.git' }),

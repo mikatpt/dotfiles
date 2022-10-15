@@ -45,7 +45,7 @@ return packer.startup(function(use)
     use({ 'kyazdani42/nvim-tree.lua',                                    config = c.nvim_tree  })
     use({ 'nvim-telescope/telescope-fzf-native.nvim',                    run    = 'make'       })
     use({ 'nvim-telescope/telescope.nvim',                               config = c.telescope  })
-    use({ 'ibhagwan/fzf-lua'                                                                   })
+    use({ 'ibhagwan/fzf-lua',                                            config = c.fzf        })
     use({ 'junegunn/fzf', run = './install --bin'                                              })
     use({ 'ahmedkhalf/project.nvim',                                     config = c.project    })
 
@@ -62,7 +62,7 @@ return packer.startup(function(use)
 
     -- Languages
     use({ 'simrat39/rust-tools.nvim',                                    config = c.rust_tools })
-    use({ 'folke/lua-dev.nvim',                     event  = 'BufRead',  module = 'lua-dev'    })
+    use({ 'folke/neodev.nvim',                      event  = 'BufRead',  module = 'neodev'     })
     use({ 'jose-elias-alvarez/nvim-lsp-ts-utils',   module = 'nvim-lsp-ts-utils'               })
     use({ 'leafgarland/typescript-vim',             event  = 'BufRead'                         })
     use({ 'Vimjas/vim-python-pep8-indent',          event  = 'BufRead'                         })
