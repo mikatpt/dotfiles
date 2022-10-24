@@ -137,7 +137,7 @@ for i = 1, 9 do
 end
 
 -- Telescope, fzf
-local fzf_cmd = utils.fn.is_git_dir() and 'git_files' or 'find_files'
+local fzf_cmd = utils.fn.is_git_dir() and 'git_files' or 'files'
 local cfg_path = vim.fn.stdpath('config')
 nnoremap('<C-P>',              '<CMD>Fzf ' .. fzf_cmd .. '<CR>')
 
