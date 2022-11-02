@@ -97,7 +97,7 @@ return function()
         local lspconfig = require('lspconfig')
         local mason_lspconfig = require('mason-lspconfig')
         mason_lspconfig.setup({
-            ensure_installed = vim.list_extend(vim.tbl_keys(servers), { 'html', 'rust_analyzer', 'bashls', 'sumneko_lua', 'autopep8' }),
+            ensure_installed = vim.list_extend(vim.tbl_keys(servers), { 'html', 'rust_analyzer', 'bashls', 'sumneko_lua' }),
             automatic_installation = true,
         })
         local installed = mason_lspconfig.get_installed_servers()

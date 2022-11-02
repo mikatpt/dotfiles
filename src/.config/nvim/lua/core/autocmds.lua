@@ -100,6 +100,25 @@ local function update_keywords()
     end, {})
 end
 
+local function json_ft()
+    local group_id = vim.api.nvim_create_augroup('mikatpt_json_ft', { clear = true })
+    vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
+        group = group_id,
+        pattern = {
+            'tsconfig.json',
+            'package.json',
+            'pyrightconfig.json',
+            'jest.config.json',
+            'babel.config.json',
+            '*eslintrc.json',
+            '*prettierrc.json',
+        },
+        callback = function()
+            vim.bo.filetype = 'jsonc'
+        end,
+    })
+end
+
 local function commands()
     vim.api.nvim_create_user_command('Format', function()
         vim.lsp.buf.formatting_sync(nil, 1000)
@@ -120,3 +139,4 @@ autokeybinds()
 mouse_events()
 update_keywords()
 commands()
+json_ft()

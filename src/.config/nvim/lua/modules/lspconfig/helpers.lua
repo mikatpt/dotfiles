@@ -100,6 +100,7 @@ M.set_capabilities = function()
         vim.lsp.handlers.signature_help,
         { border = 'single' }
     )
+    return capabilities
 end
 
 -- Order of priority: Defined root patterns, then git root, then cwd.

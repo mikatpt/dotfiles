@@ -14,7 +14,6 @@ return function()
         hijack_cursor = true,
         hijack_netrw = true,
         hijack_unnamed_buffer_when_opening = true,
-        focus_empty_on_setup = true,
         ignore_buf_on_tab_change = {},
         sort_by = 'name',
         root_dirs = {},

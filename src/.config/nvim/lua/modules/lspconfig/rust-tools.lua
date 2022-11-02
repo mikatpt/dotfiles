@@ -33,6 +33,10 @@ return function()
                 ['rust-analyzer'] = {
                     checkOnSave = { command = 'clippy' },
                     experimental = { procAttrMacros = true },
+                    inlayHints = {
+                        lifetimeElisionHints = { enable = true },
+                        reborrowHints = { enable = true },
+                    },
                     procMacro = {
                         enable = true,
                         ignored = {
