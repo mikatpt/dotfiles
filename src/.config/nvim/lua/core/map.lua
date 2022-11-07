@@ -39,12 +39,6 @@ nnoremap('?',             '?\\v')
 nnoremap('/',             '/\\v')
 cnoremap('%s/',           '%sm/')
 
--- vsnip
-imap('<Tab>', "vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<Tab>'", { expr = true })
-smap('<Tab>', "vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<Tab>'", { expr = true })
-imap('<S-Tab>', "vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<Tab>'", { expr = true })
-smap('<S-Tab>', "vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<Tab>'", { expr = true })
-
 -- terminal bindings for command line mode
 cnoremap('<C-A>',         '<Home>',  nonsilent)
 cnoremap('<C-E>',         '<End>',   nonsilent)
