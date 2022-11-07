@@ -11,7 +11,7 @@ return function()
     nvim_tree.setup({
         open_on_setup = true,
         auto_reload_on_write = true,
-        hijack_cursor = true,
+        hijack_cursor = false,
         hijack_netrw = true,
         hijack_unnamed_buffer_when_opening = true,
         ignore_buf_on_tab_change = {},
