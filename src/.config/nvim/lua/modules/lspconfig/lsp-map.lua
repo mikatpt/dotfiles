@@ -20,7 +20,7 @@ M.attach_mappings = function(client, bufnr)
     local cnoremap = bind(bufnr, 'c')
 
     -- Format without saving
-    cnoremap('wf', 'noautocmd w')
+    cnoremap('wf', 'noautocmd w', { silent = false })
 
     -- Custom telescope find_implementation. Ignores mocks and tests in go.
     nnoremap('gi', function() require('modules.lspconfig.helpers').implementation() end)

@@ -134,10 +134,6 @@ local function commands()
         vim.lsp.buf.formatting_sync(nil, 1000)
     end, {})
 
-    vim.api.nvim_create_user_command('W', function()
-        vim.cmd('w')
-    end, {})
-
     -- check highlight group for current item under cursor
     vim.api.nvim_create_user_command('SynID', function()
         vim.cmd('echo synIDattr(synID(line("."), col("."), 1), "name")')

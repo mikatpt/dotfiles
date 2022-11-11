@@ -46,6 +46,10 @@ cnoremap('<C-B>',         '<Left>',  nonsilent)
 cnoremap('<C-F>',         '<Right>', nonsilent)
 vim.cmd('set cedit=<C-G>')
 
+for wrong, right in pairs({ qq = 'q', QQ = 'q', Qq = 'q', Q = 'q', qqa = 'qa', QQa = 'qa', Qqa = 'qa', W = 'w', Wq = 'wq', Wqa = 'wqa' }) do
+    vim.cmd('cnoreabbrev ' .. wrong .. ' ' .. right)
+end
+
 -- Merge lines
 nnoremap('<S-M>',         '<S-J>')
 
