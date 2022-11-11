@@ -48,7 +48,7 @@ return function()
             buffer_previewer_maker = function(filepath, bufnr, opts)
                 opts = opts or {}
 
-                filepath = vim.fn.expand(filepath, nil, nil)
+                filepath = vim.fn.expand(filepath, nil, false)
                 vim.loop.fs_stat(filepath, function(_, stat)
                     if not stat then
                         return

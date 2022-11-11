@@ -31,7 +31,7 @@ M.fn.get_local_plugin = function(author, plugin)
 end
 
 M.fn.redraw_lsp = function()
-    for _, id in pairs(vim.tbl_keys(vim.lsp.buf_get_clients(nil))) do
+    for _, id in pairs(vim.tbl_keys(vim.lsp.get_active_clients(nil))) do
         vim.diagnostic.disable(0, id)
         vim.diagnostic.enable(0, id)
     end
@@ -72,7 +72,7 @@ end
 M.fn.setup_packer = function()
     local packer_url = 'https://github.com/wbthomason/packer.nvim'
     local packer_path = vim.fn.stdpath('data') .. '/site/pack/packer/opt/packer.nvim'
-    if vim.fn.empty(vim.fn.glob(packer_path, nil, nil)) > 0 then
+    if vim.fn.empty(vim.fn.glob(packer_path, nil, false)) > 0 then
         print('Downloading plugin manager...')
         vim.cmd('silent! !git clone ' .. packer_url .. ' ' .. packer_path)
     end
