@@ -1,3 +1,4 @@
+autoload colors; colors
 export EDITOR='nvim'
 set -o ignoreeof    # ignore C-D
 
@@ -54,6 +55,37 @@ bd() {
     git diff --name-only --line-prefix=`git rev-parse --show-toplevel`/ | xargs bat --diff
 }
 
+__info() {
+    echo "${fg[green]}$1${reset_color}"
+}
+
+__warn() {
+    echo "${fg[yellow]}$1${reset_color}"
+}
+
+__err() {
+    echo "${fg[red]}$1${reset_color}"
+}
+
+pullup() {
+    MAIN=$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)
+    BRANCH=$(git rev-parse --abbrev-ref HEAD)
+    __info "Updating $MAIN"
+
+    if [ "$BRANCH" = "$MAIN" ]; then
+        git pull --rebase origin $MAIN && git push origin $MAIN
+    else
+        (
+            set -e
+            git fetch upstream $MAIN:$MAIN
+            git push origin $MAIN:$MAIN
+            __info "Rebasing $BRANCH"
+            git rebase $MAIN
+        )
+
+    fi
+}
+
 alias cat='bat'
 alias ls='ls -G'
 alias la='ls -AG'
@@ -75,7 +107,6 @@ alias gp='git push'
 alias gpo='git push --set-upstream origin `git rev-parse --abbrev-ref HEAD`'
 alias push='git push'
 alias pull='git pull'
-alias pullup='git pull upstream master --rebase'
 alias gr='git reset'
 alias b='git branch'
 alias co='git checkout'
