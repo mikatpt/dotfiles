@@ -34,6 +34,26 @@ abbr -ag ffs 'eval sudo $history[1]'
 function :q --wraps=exit; exit; end
 function :wq --wraps=exit; exit; end
 
+function __info; set_color green; echo $argv; set_color normal; end
+function __warn; set_color yellow; echo $argv; set_color normal; end
+function __error; set_color red; echo $argv; set_color normal; end
+function __debug; set_color magenta; echo $argv; set_color normal; end
+
+function pullup
+    set -l MAIN (git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)
+    set -l BRANCH (git rev-parse --abbrev-ref HEAD)
+    __info "Updating $MAIN"
+
+    if test $MAIN = $BRANCH
+        git pull origin $MAIN --rebase && git push origin $MAIN
+    else
+        git fetch upstream $MAIN:$MAIN
+        and git push origin $MAIN:$MAIN
+        and __info "Rebasing $BRANCH"
+        and git rebase $MAIN
+    end
+end
+
 # Git
 abbr -ag cm 'git commit'
 abbr -ag ga 'git add'
