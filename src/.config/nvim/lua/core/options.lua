@@ -1,3 +1,5 @@
+-- For some reason, all vim.o options are typed as tables.
+---@diagnostic disable assign-type-mismatch
 -- Global variables
 vim.g.netrw_browse_split = 0
 vim.g.netrw_liststyle = 4
@@ -8,7 +10,6 @@ vim.g.vim_markdown_folding_disabled = 1
 vim.g.fugitive_github_domains = { 'github.com', 'github.cbhq.net' }
 
 local o = vim.opt
-
 -- This is to fix a neovim render bug in indent-blankline.
 o.colorcolumn = '9999'
 
@@ -32,6 +33,7 @@ o.formatoptions:remove({ 'c', 'r', 'o', 't' }) -- :h fo-table
 o.textwidth = 100
 o.conceallevel = 2
 o.fileformat = 'unix'
+o.fillchars = 'eob: '
 
 -- Tabs
 o.tabstop = 4

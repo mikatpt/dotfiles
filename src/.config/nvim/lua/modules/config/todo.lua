@@ -1,7 +1,6 @@
 return function()
     require('todo-comments').setup({
         sign_priority = 7,
-
         keywords = {
             FIX = {
                 icon = ' ',
@@ -17,6 +16,7 @@ return function()
         },
         merge_keywords = false,
         highlight = {
+            multiline = false,
             before = '',
             keyword = 'fg',
             after = 'fg',
@@ -26,10 +26,10 @@ return function()
             exclude = {},
         },
         colors = {
-            error = { 'LspDiagnosticsDefaultError', 'ErrorMsg', '#DC2626' },
-            warning = { 'LspDiagnosticsDefaultWarning', 'WarningMsg', '#FBBF24' },
+            error = { 'DiagnosticError', 'ErrorMsg', '#DC2626' },
+            warning = { 'DiagnosticWarn', 'WarningMsg', '#FBBF24' },
             info = { 'Title', '#2563EB' },
-            hint = { 'LspDiagnosticsDefaultHint', '#10B981' },
+            hint = { 'DiagnosticHint', '#10B981' },
             default = { 'Identifier', '#7C3AED' },
             safety = { 'Question', '#00db00' },
         },

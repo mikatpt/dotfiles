@@ -7,7 +7,7 @@ return function()
         fzf_colors = {
             ['hl'] = { 'fg', 'Special' },
             ['hl+'] = { 'fg', 'Special' },
-            ['fg+'] = { 'fg', 'Tabline' },
+            ['fg+'] = { 'fg', 'FzfTabline' },
             ['bg+'] = { 'bg', 'Visual' },
             ['prompt'] = { 'fg', 'Special' },
             ['gutter'] = { 'bg', 'VertSplit' },

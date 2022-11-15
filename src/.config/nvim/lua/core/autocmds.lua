@@ -140,6 +140,12 @@ local function commands()
     end, {})
 end
 
+function P(...)
+    for _, v in pairs({ ... }) do
+        print(vim.inspect(v))
+    end
+end
+
 auto_close_tree()
 autokeybinds()
 mouse_events()
