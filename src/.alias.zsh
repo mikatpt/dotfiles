@@ -73,7 +73,7 @@ pullup() {
     __info "Updating $MAIN"
 
     if [ "$BRANCH" = "$MAIN" ]; then
-        git pull --rebase origin $MAIN && git push origin $MAIN
+        git pull --rebase upstream $MAIN && git push origin $MAIN
     else
         (
             set -e

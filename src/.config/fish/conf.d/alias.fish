@@ -45,7 +45,7 @@ function pullup
     __info "Updating $MAIN"
 
     if test $MAIN = $BRANCH
-        git pull origin $MAIN --rebase && git push origin $MAIN
+        git pull upstream $MAIN --rebase && git push origin $MAIN
     else
         git fetch upstream $MAIN:$MAIN
         and git push origin $MAIN:$MAIN
