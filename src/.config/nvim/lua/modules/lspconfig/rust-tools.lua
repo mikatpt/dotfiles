@@ -32,6 +32,7 @@ return function()
             settings = {
                 ['rust-analyzer'] = {
                     checkOnSave = { command = 'clippy' },
+                    diagnostics = { disabled = { 'type-mismatch' } },
                     experimental = { procAttrMacros = true },
                     inlayHints = {
                         lifetimeElisionHints = { enable = true },

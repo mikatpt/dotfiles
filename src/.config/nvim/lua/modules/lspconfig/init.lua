@@ -49,7 +49,7 @@ return function()
                 python = {
                     analysis = {
                         autoSearchPaths = true,
-                        diagnosticMode = 'workspace',
+                        diagnosticMode = 'openFilesOnly',
                         useLibraryCodeForTypes = true,
                     },
                 },
