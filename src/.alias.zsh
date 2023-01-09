@@ -1,3 +1,18 @@
+# Put this in .zshrc, cloning it here for posterity.
+# if [[ -z "$TMUX" && "$TERM_PROGRAM" = 'iTerm.app' ]]
+# then
+#     tmux has-session -t main &>/dev/null
+#     if [ $? -ne 0 ]; then
+#         tmux new-session -d -s main
+#         tmux new-window -d -t main
+#         tmux new-window -d -t main
+#         tmux new-window -d -t main
+#         tmux select-window -t main:1
+#         tmux rename-window -t main:4 config
+#     fi
+#     tmux attach -t main
+# fi
+
 autoload colors; colors
 export EDITOR='nvim'
 set -o ignoreeof    # ignore C-D
