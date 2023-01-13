@@ -6,9 +6,25 @@ local format_group = vim.api.nvim_create_augroup('Format', { clear = true })
 
 M.on_attach = function(client, bufnr)
     -- Nicer hover menus for builtin lsp methods
-    require('lspsaga').init_lsp_saga({
-        diagnostic_header = { ' ', ' ', ' ', '' },
-        code_action_lightbulb = {
+    require('lspsaga').setup({
+        ui = {
+            theme = 'round',
+            border = 'rounded',
+            winblend = 0,
+            expand = '',
+            collapse = '',
+            preview = ' ',
+            code_action = '💡',
+            diagnostic = '🐞 ',
+            incoming = ' ',
+            outgoing = ' ',
+            colors = {
+                normal_bg = '',
+                title_bg = '',
+            },
+            kind = {},
+        },
+        lightbulb = {
             enable = true,
             enable_in_insert = false,
             sign = false,
@@ -17,8 +33,18 @@ M.on_attach = function(client, bufnr)
             sign_priority = 20,
             virtual_text = true,
         },
-        rename_action_quit = '<ESC>',
-        rename_in_select = false,
+        rename = {
+            quit = '<ESC>',
+            exec = '<CR>',
+            in_select = false,
+        },
+        symbol_in_winbar = {
+            enable = false,
+            separator = '  ',
+            hide_keyword = true,
+            show_file = true,
+            folder_level = 1,
+        },
     })
 
     -- Automatic function signatures
