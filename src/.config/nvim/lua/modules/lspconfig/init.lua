@@ -55,10 +55,10 @@ return function()
                 },
             },
         },
-        -- solargraph = {
-        --     root_dir = get_root({ '.solargraph.yml', '.rubocop.yml' }),
-        --     filetypes = { 'ruby' },
-        -- },
+        solargraph = {
+            root_dir = get_root({ '.solargraph.yml', '.rubocop.yml' }),
+            filetypes = { 'ruby' },
+        },
         sumneko_lua = {},
         tsserver = {
             root_dir = get_root({ 'package.json', 'tsconfig.json', 'yarn.lock' }),
