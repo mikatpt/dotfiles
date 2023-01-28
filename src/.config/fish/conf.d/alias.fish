@@ -2,6 +2,7 @@
 abbr -ag ez 'nvim ~/config'
 abbr -ag ea 'nvim ~/config/src/.config/fish/conf.d/alias.fish'
 abbr -ag sz 'exec fish'
+abbr -ag nvm 'fnm'
 
 function notes; nvim ~/notes/notes.md; end;
 function repl; nvim ~/repl/src/main.rs; end;

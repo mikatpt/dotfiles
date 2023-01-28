@@ -1,3 +1,18 @@
+set GOPATH "$HOME/go/bin"
+
+# from jonhoo - one dir for all rust builds
+setenv CARGO_TARGET_DIR ~/.cargo-target
+setenv DENO_INSTALL $HOME/.deno/bin/deno
+fish_add_path /usr/local/go/bin
+fish_add_path $GOPATH
+fish_add_path $HOME/.local/share/nvim/lsp_servers/rust
+fish_add_path $HOME/.deno/bin
+bass source $HOME/.cargo/env
+fnm env | source
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/mikatpt/google-cloud-sdk/path.fish.inc' ]; . '/home/mikatpt/google-cloud-sdk/path.fish.inc'; end
+
 if status is-interactive
     # Check if in tmux and if in a terminal, then create a new tmux session 'main' with
     # four windows if it doesn't already exist
@@ -37,17 +52,3 @@ if status is-interactive
 
     starship init fish | source
 end
-
-set GOPATH "$HOME/go/bin"
-
-# from jonhoo - one dir for all rust builds
-setenv CARGO_TARGET_DIR ~/.cargo-target
-setenv DENO_INSTALL $HOME/.deno/bin/deno
-fish_add_path /usr/local/go/bin
-fish_add_path $GOPATH
-fish_add_path $HOME/.local/share/nvim/lsp_servers/rust
-fish_add_path $HOME/.deno/bin
-bass source $HOME/.cargo/env
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/mikatpt/google-cloud-sdk/path.fish.inc' ]; . '/home/mikatpt/google-cloud-sdk/path.fish.inc'; end

@@ -19,7 +19,6 @@ _install_fish() {
 _install_starship() { curl -fsSL https://starship.rs/install.sh | bash -s -- --yes; }
 
 _install_node() {
-    yes | curl -fsSL https://fnm.vercel.app/install | bash
     fish -c "fnm install v18.0.0"
     fish -c "npm install -g neovim eslint_d"
 }
@@ -72,10 +71,15 @@ _install_neovim() {
     npm run build
 }
 
+_install_essentials() {
+    yes | apt install build-essential
+}
+
+_install_essentials
+_install_rust
 _install_fish
 _install_starship
 _install_node
 _install_go
 _install_python
-_install_rust
 _install_neovim
