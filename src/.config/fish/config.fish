@@ -3,7 +3,9 @@ set GOPATH "$HOME/go/bin"
 # from jonhoo - one dir for all rust builds
 setenv CARGO_TARGET_DIR ~/.cargo-target
 setenv DENO_INSTALL $HOME/.deno/bin/deno
+setenv SSH_KEYS_TO_AUTOLOAD "$HOME/.ssh/github_personal"
 fish_add_path /usr/local/go/bin
+fish_add_path $HOME/.local/bin
 fish_add_path $GOPATH
 fish_add_path $HOME/.local/share/nvim/lsp_servers/rust
 fish_add_path $HOME/.deno/bin

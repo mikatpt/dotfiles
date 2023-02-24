@@ -59,7 +59,7 @@ return function()
             root_dir = get_root({ '.solargraph.yml', '.rubocop.yml' }),
             filetypes = { 'ruby' },
         },
-        sumneko_lua = {},
+        lua_ls = {},
         tsserver = {
             root_dir = get_root({ 'package.json', 'tsconfig.json', 'yarn.lock' }),
             init_options = require('nvim-lsp-ts-utils').init_options,
@@ -97,7 +97,7 @@ return function()
         local lspconfig = require('lspconfig')
         local mason_lspconfig = require('mason-lspconfig')
         mason_lspconfig.setup({
-            ensure_installed = vim.list_extend(vim.tbl_keys(servers), { 'html', 'rust_analyzer', 'bashls', 'sumneko_lua' }),
+            ensure_installed = vim.list_extend(vim.tbl_keys(servers), { 'html', 'rust_analyzer', 'bashls' }),
             automatic_installation = true,
         })
         local installed = mason_lspconfig.get_installed_servers()

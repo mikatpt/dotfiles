@@ -9,7 +9,6 @@ return function()
 
     require('nvim-web-devicons').setup()
     nvim_tree.setup({
-        open_on_setup = true,
         auto_reload_on_write = true,
         hijack_cursor = false,
         hijack_netrw = true,

@@ -5,29 +5,54 @@ local au = vim.api.nvim_create_autocmd
 local group_id = ag('mikatpt_autocmds', {})
 
 local function auto_close_tree()
-    -- We want this to only run once, so we don't use the global group id.
-    local id = ag('mikatpt_AutoCloseNvimTree', {})
+    local function close_tree(winnr)
+        local info = vim.fn.getbufinfo({ buf = vim.api.nvim_win_get_buf(winnr) })[1]
+        local windows = vim.tbl_filter(function(w)
+            return w ~= winnr
+        end, vim.api.nvim_tabpage_list_wins(vim.api.nvim_win_get_tabpage(winnr)))
+        local buffers = vim.tbl_map(vim.api.nvim_win_get_buf, windows)
 
-    local cb = function()
-        local ft = vim.bo.filetype
-        if _G.auto_close_called or ft == 'NvimTree' or ft == 'TelescopePrompt' or ft == '' then
-            return
+        if info.name:match('.*NvimTree_%d*$') then
+            if not vim.tbl_isempty(buffers) then
+                require('nvim-tree.api').tree.close()
+            end
+        else
+            if #buffers == 1 then
+                local last_buffer = vim.fn.getbufinfo(buffers[1])[1]
+                if last_buffer.name:match('.*NvimTree_%d*$') then
+                    vim.schedule(function()
+                        if #vim.api.nvim_list_wins() == 1 then
+                            vim.cmd('quit')
+                        else
+                            vim.api.nvim_win_close(windows[1], true)
+                        end
+                    end)
+                end
+            end
         end
-
-        _G.auto_close_called = true
-        vim.defer_fn(function()
-            au('BufEnter', {
-                command = "if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif",
-                nested = true,
-            })
-        end, 1000)
-        vim.api.nvim_del_augroup_by_id(id)
     end
 
-    au('BufEnter', {
-        group = id,
-        callback = cb,
+    au('WinClosed', {
+        group = group_id,
+        callback = function()
+            local winnr = tonumber(vim.fn.expand('<amatch>'))
+            vim.schedule_wrap(close_tree(winnr))
+        end,
+        nested = true,
     })
+end
+
+local function open_tree()
+    -- VimEnter callback is passed { buf, file, event }
+    local function _open_tree(data)
+        local is_dir = vim.fn.isdirectory(data.file) == 1
+        if not is_dir then
+            return
+        end
+        require('nvim-tree.api').tree.open()
+    end
+
+    au('VimEnter', { callback = _open_tree, group = group_id })
 end
 
 local function autokeybinds()
@@ -147,6 +172,7 @@ function P(...)
 end
 
 auto_close_tree()
+open_tree()
 autokeybinds()
 mouse_events()
 update_keywords()
