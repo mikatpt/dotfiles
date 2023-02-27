@@ -52,7 +52,7 @@ return packer.startup(function(use)
 
     -- Language Server Protocol
     use({ 'neovim/nvim-lspconfig',                                       config = c.lsp        })
-    use({ 'williamboman/mason.nvim',                                     config = c.mason      })
+    use({ 'williamboman/mason.nvim',                                                           })
     use({ 'williamboman/mason-lspconfig.nvim'                                                  })
     use({ 'jose-elias-alvarez/null-ls.nvim',                             config = c.null_ls    })
     use({ 'glepnir/lspsaga.nvim',                   module = 'lspsaga'                         })
