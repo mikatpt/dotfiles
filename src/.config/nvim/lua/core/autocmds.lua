@@ -14,7 +14,7 @@ local function auto_close_tree()
 
         if info.name:match('.*NvimTree_%d*$') then
             if not vim.tbl_isempty(buffers) then
-                require('nvim-tree.api').tree.close()
+                pcall(require('nvim-tree.api').tree.close)
             end
         else
             if #buffers == 1 then

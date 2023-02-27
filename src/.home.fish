@@ -23,5 +23,5 @@ function _apply_stats_hook
     source ~/.config/fish/personal/stats_hook.fish
 end
 
-#_check_postgres
-#_start_home_server
+_check_postgres
+_start_home_server
