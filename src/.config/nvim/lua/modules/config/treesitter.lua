@@ -27,7 +27,7 @@ return function()
         autopairs = { enable = true },
         indent = {
             enable = true,
-            disable = { 'python', 'lua', 'go', 'yaml', 'json', 'jsonc', 'html', 'css', 'rust' },
+            disable = { 'python', 'lua', 'go', 'yaml', 'json', 'jsonc', 'html', 'css', 'rust', 'markdown_inline' },
         },
         highlight = {
             enable = true, -- false will disable the whole extension
