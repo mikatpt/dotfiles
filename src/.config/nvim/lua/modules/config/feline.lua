@@ -165,7 +165,7 @@ return function()
 
         if filename == 'NvimTree' then
             icon = ' '
-        elseif filetype == 'dashboard' then
+        elseif filetype == 'alpha' then
             icon = ''
             filename = 'Dashboard'
         elseif filetype == 'proto' then
