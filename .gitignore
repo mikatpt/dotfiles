@@ -2,3 +2,4 @@
 .env.json
 .env
 .env.dbs
+**/fish_variables
