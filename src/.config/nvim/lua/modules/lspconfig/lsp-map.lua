@@ -43,7 +43,7 @@ M.attach_mappings = function(client, bufnr)
         nnoremap('m',       function() vim.lsp.buf.hover() end)
     end
 
-    nnoremap('<leader>e',   function() require('lspsaga.diagnostic'):show_diagnostics(nil, 'line') end)
+    nnoremap('<leader>e',   function() require('lspsaga.showdiag'):show_diagnostics({ line = true }) end)
     nnoremap('[d',          function() require('lspsaga.diagnostic'):goto_prev() end)
     nnoremap(']d',          function() require('lspsaga.diagnostic'):goto_next() end)
 
