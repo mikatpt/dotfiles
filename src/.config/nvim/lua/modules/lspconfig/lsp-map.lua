@@ -43,7 +43,24 @@ M.attach_mappings = function(client, bufnr)
         nnoremap('m',       function() vim.lsp.buf.hover() end)
     end
 
-    nnoremap('<leader>e',   function() require('lspsaga.showdiag'):show_diagnostics({ line = true }) end)
+    -- lspsaga has a really nice diagnostic window that it doesn't use for line diagnostics, manual
+    -- implementation here. pray that glepnir does not break it.
+    nnoremap(
+        '<leader>e',
+        function()
+            local display = require('lspsaga.showdiag')
+            local incursor = display:get_diagnostic({ line = true})
+            local entry
+            if next(incursor) ~= nil and not (display.winid and vim.api.nvim_win_is_valid(display.winid)) then
+                entry = incursor[1]
+            end
+            if not entry then
+                require('lspsaga.diagnostic'):goto_next()
+                return
+            end
+            require('lspsaga.diagnostic'):render_diagnostic_window(entry)
+        end
+    )
     nnoremap('[d',          function() require('lspsaga.diagnostic'):goto_prev() end)
     nnoremap(']d',          function() require('lspsaga.diagnostic'):goto_next() end)
 
