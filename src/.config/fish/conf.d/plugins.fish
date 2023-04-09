@@ -1,3 +1,4 @@
+# Allow using ctrl z to go between foreground and background
 function fgbg
     if test -z (commandline)
         if test (jobs | count) != 0

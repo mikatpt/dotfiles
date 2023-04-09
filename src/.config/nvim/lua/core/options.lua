@@ -5,7 +5,18 @@ vim.g.netrw_browse_split = 0
 vim.g.netrw_liststyle = 4
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 75
-vim.g.vim_markdown_fenced_languages = { 'html', 'python', 'go', 'bash=sh', 'javascript', 'typescript' }
+vim.g.vim_markdown_fenced_languages = {
+    'html',
+    'python',
+    'go',
+    'bash=sh',
+    'javascript',
+    'typescript',
+    'javascript=js',
+    'typescript=ts',
+    'sh=bash',
+    'rust=rs',
+}
 vim.g.vim_markdown_folding_disabled = 1
 vim.g.fugitive_github_domains = { 'github.com', 'github.cbhq.net' }
 
