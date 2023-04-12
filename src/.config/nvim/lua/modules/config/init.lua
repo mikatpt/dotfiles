@@ -4,6 +4,7 @@ local M = {}
 M.autopairs    =  require('modules.config.autopairs')
 M.blankline    =  require('modules.config.blankline')
 M.cmp          =  require('modules.config.cmp')
+M.comment      =  require('modules.config.comment')
 M.dadbod       =  require('modules.config.dadbod')
 M.dashboard    =  require('modules.config.dashboard')
 M.dap          =  require('modules.config.dap')

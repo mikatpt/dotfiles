@@ -2,7 +2,7 @@ local M = {}
 
 -- This needs to be a global id, otherwise each buffer will recreate the group and wipe the previous
 -- buffers.
-local format_group = vim.api.nvim_create_augroup('Format', { clear = true })
+local format_group = vim.api.nvim_create_augroup('mikatpt_Format', { clear = true })
 
 M.on_attach = function(client, bufnr)
     -- Nicer hover menus for builtin lsp methods
@@ -71,20 +71,18 @@ M.on_attach = function(client, bufnr)
         })
     end
 
-    if client.name == 'eslint' then
-        local group = vim.api.nvim_create_augroup('Eslint', {})
-        vim.api.nvim_create_autocmd('BufWritePre', {
-            group = group,
-            pattern = '<buffer>',
-            command = 'EslintFixAll',
-            desc = 'Run eslint when saving buffer.',
-        })
-    elseif client.name == 'tsserver' then
+    if client.name == 'tsserver' then
         local ts_utils = require('nvim-lsp-ts-utils')
         ts_utils.setup({
             auto_inlay_hints = false,
         })
         ts_utils.setup_client(client)
+        vim.api.nvim_create_autocmd('BufWritePre', {
+            group = format_group,
+            buffer = bufnr,
+            command = 'TSLspOrganizeSync',
+            desc = 'Organizes imports on save',
+        })
     end
 end
 
@@ -122,10 +120,8 @@ M.set_capabilities = function()
 
     vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'single' })
 
-    vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
-        vim.lsp.handlers.signature_help,
-        { border = 'single' }
-    )
+    vim.lsp.handlers['textDocument/signatureHelp'] =
+        vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'single' })
     return capabilities
 end
 

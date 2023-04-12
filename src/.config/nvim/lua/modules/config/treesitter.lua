@@ -138,5 +138,8 @@ return function()
                 show_help = '?',
             },
         },
+        context_commentstring = {
+            enable = true,
+        },
     })
 end
