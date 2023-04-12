@@ -43,7 +43,20 @@ function __debug; set_color magenta; echo $argv; set_color normal; end
 function pullup
     set -l MAIN (git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)
     set -l BRANCH (git rev-parse --abbrev-ref HEAD)
+    set -l UPSTREAM_EXISTS (git remote | grep upstream)
     __info "Updating $MAIN"
+
+    # Just update origin if upstream doesn't exist.
+    if test -z $UPSTREAM_EXISTS
+        if test $MAIN = $BRANCH
+            git pull origin $MAIN --rebase && git push origin $MAIN
+        else
+            git fetch origin $MAIN:$MAIN
+            and __info "Rebasing $BRANCH"
+            and git rebase $MAIN
+        end
+        return
+    end
 
     if test $MAIN = $BRANCH
         git pull upstream $MAIN --rebase && git push origin $MAIN
