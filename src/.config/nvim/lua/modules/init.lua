@@ -46,7 +46,7 @@ return packer.startup(function(use)
     -- Navigation
     use({ get_local('ThePrimeagen', 'harpoon'),                                                })
     use({ get_local('mikatpt', 'harpoon-finder'),                                              })
-    use({ 'kyazdani42/nvim-tree.lua',                                    config = c.nvim_tree  })
+    use({ 'kyazdani42/nvim-tree.lua',            commit = '086bf31',     config = c.nvim_tree  })
     use({ 'nvim-telescope/telescope-fzf-native.nvim',                    run    = 'make'       })
     use({ 'nvim-telescope/telescope.nvim',                               config = c.telescope  })
     use({ 'ibhagwan/fzf-lua',                                            config = c.fzf        })
