@@ -20,9 +20,16 @@ return function()
         sync_root_with_cwd = false,
         reload_on_bufenter = false,
         respect_buf_cwd = true,
-        remove_keymaps = {
-            '<C-k>',
-        },
+        on_attach = function(bufnr)
+            local api = require('nvim-tree.api')
+            local function opts(desc)
+                return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+            end
+
+            api.config.mappings.default_on_attach(bufnr)
+            vim.keymap.set('n', '<CR>', api.node.open.edit, opts('Open'))
+            vim.keymap.del('n', '<C-k>', { buffer = bufnr })
+        end,
         view = {
             adaptive_size = false,
             centralize_selection = false,
@@ -33,12 +40,6 @@ return function()
             number = false,
             relativenumber = false,
             signcolumn = 'yes',
-            mappings = {
-                custom_only = false,
-                list = {
-                    { key = '<CR>', action = 'edit' },
-                },
-            },
         },
         renderer = {
             highlight_git = not_darwin,
@@ -92,7 +93,6 @@ return function()
             update_root = true,
             ignore_list = { 'toggleterm', 'term' },
         },
-        ignore_ft_on_setup = {},
         system_open = {
             cmd = '',
             args = {},

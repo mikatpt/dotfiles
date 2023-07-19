@@ -77,12 +77,13 @@ M.on_attach = function(client, bufnr)
             auto_inlay_hints = false,
         })
         ts_utils.setup_client(client)
-        vim.api.nvim_create_autocmd('BufWritePre', {
-            group = format_group,
-            buffer = bufnr,
-            command = 'TSLspOrganizeSync',
-            desc = 'Organizes imports on save',
-        })
+        -- This is behaving weird and I don't like it.
+        -- vim.api.nvim_create_autocmd('BufWritePre', {
+        --     group = format_group,
+        --     buffer = bufnr,
+        --     command = 'TSLspOrganizeSync',
+        --     desc = 'Organizes imports on save',
+        -- })
     end
 end
 

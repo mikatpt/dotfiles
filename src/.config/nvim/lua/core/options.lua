@@ -30,7 +30,7 @@ o.hlsearch = false
 o.hidden = true
 o.termguicolors = true
 o.background = 'dark'
-vim.cmd('colo lucid_nvim')
+vim.cmd('silent! colo lucid_nvim')
 vim.cmd('syntax on')
 o.cmdheight = 1
 o.updatetime = 300
