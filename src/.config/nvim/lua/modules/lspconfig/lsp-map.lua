@@ -48,7 +48,7 @@ M.attach_mappings = function(client, bufnr)
     nnoremap(
         '<leader>e',
         function()
-            local display = require('lspsaga.showdiag')
+            local display = require('lspsaga.diagnostic')
             local incursor = display:get_diagnostic({ line = true})
             local entry
             if next(incursor) ~= nil and not (display.winid and vim.api.nvim_win_is_valid(display.winid)) then
