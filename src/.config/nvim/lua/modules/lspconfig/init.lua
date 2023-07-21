@@ -30,7 +30,7 @@ return function()
             root_dir = get_root({ 'go.mod', '.golangci.yaml' }),
             command = cmd_root .. '/golangci-lint-langserver',
             init_options = {
-                command = { 'golangci-lint', 'run', '-D typecheck', '-D structcheck', '--out-format', 'json' }
+                command = { 'golangci-lint', 'run', '--out-format', 'json' }
             },
         },
         jsonls = {
