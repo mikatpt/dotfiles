@@ -1,10 +1,14 @@
 return function()
     local dap = require('dap')
 
-    dap.adapters.go = {
-        type = 'executable',
-        command = 'node',
-        args = { vim.loop.os_homedir() .. '/.debug/vscode-go/dist/debugAdapter.js' },
+    -- go install github.com/go-delve/delve/cmd/dlv@latest
+    dap.adapters.delve = {
+        type = 'server',
+        port = '${port}',
+        executable = {
+            command = 'dlv',
+            args = { 'dap', '-l', '127.0.0.1:${port}' },
+        },
     }
 
     dap.adapters.node2 = {
@@ -15,14 +19,25 @@ return function()
 
     dap.configurations.go = {
         {
-            type = 'go',
+            type = 'delve',
             name = 'Debug',
             request = 'launch',
-            showLog = false,
             program = '${file}',
-            -- program = '${fileDirname}',
-            -- program = "${workspaceFolder}",
-            dlvToolPath = vim.fn.exepath('dlv'), -- Adjust to where delve is installed
+        },
+        {
+            type = 'delve',
+            name = 'Debug test', -- configuration for debugging test files
+            request = 'launch',
+            mode = 'test',
+            program = '${file}',
+        },
+        -- works with go.mod packages and sub packages
+        {
+            type = 'delve',
+            name = 'Debug test (go.mod)',
+            request = 'launch',
+            mode = 'test',
+            program = './${relativeFileDirname}',
         },
     }
     dap.configurations.javascript = {
