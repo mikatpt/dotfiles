@@ -9,12 +9,14 @@ return function()
             command = 'dlv',
             args = { 'dap', '-l', '127.0.0.1:${port}' },
         },
+        enrich_config = function() end,
     }
 
     dap.adapters.node2 = {
         type = 'executable',
         command = 'node',
         args = { vim.loop.os_homedir() .. '/.debug/vscode-node-debug2/out/src/nodeDebug.js' },
+        enrich_config = function() end,
     }
 
     dap.configurations.go = {
@@ -61,7 +63,7 @@ return function()
             type = 'lldb',
             request = 'launch',
             program = function()
-                return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+                return vim.fn.input('Path to executable: ' .. vim.fn.getcwd() .. '/' .. 'file')
             end,
             cwd = '${workspaceFolder}',
             stopOnEntry = false,
