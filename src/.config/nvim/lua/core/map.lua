@@ -35,8 +35,8 @@ nnoremap('Q',             '@@')
 nnoremap('<F1>',          '<nop>')
 
 -- Magic search
-nnoremap('?',             '?\\v')
-nnoremap('/',             '/\\v')
+nnoremap('?',             '?\\m')
+nnoremap('/',             '/\\m')
 cnoremap('%s/',           '%sm/')
 
 -- terminal bindings for command line mode
