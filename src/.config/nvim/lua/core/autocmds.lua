@@ -154,6 +154,23 @@ local function hl_yank()
     })
 end
 
+local function hls()
+    au('CmdlineEnter', {
+        group = group_id,
+        pattern = '/,\\?',
+        callback = function()
+            vim.o.hlsearch = true
+        end,
+    })
+    au('CmdlineLeave', {
+        group = group_id,
+        pattern = '/,\\?',
+        callback = function()
+            vim.o.hlsearch = false
+        end,
+    })
+end
+
 local function commands()
     vim.api.nvim_create_user_command('Format', function()
         vim.lsp.buf.formatting_sync(nil, 1000)
@@ -172,6 +189,7 @@ function P(...)
 end
 
 auto_close_tree()
+hls()
 open_tree()
 autokeybinds()
 mouse_events()

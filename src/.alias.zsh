@@ -17,11 +17,6 @@ autoload colors; colors
 export EDITOR='nvim'
 set -o ignoreeof    # ignore C-D
 
-# use nvim for everything
-alias vi='nvim'
-alias vim='nvim'
-alias v='nvim'
-
 # Shortcuts to config editing
 alias ez='$EDITOR ~/.zshrc'
 alias ea='$EDITOR ~/config/src/.alias.zsh'
