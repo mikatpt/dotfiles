@@ -64,6 +64,7 @@ return packer.startup(function(use)
     use({ 'mfussenegger/nvim-dap',                                       config = c.dap        })
     use({ 'rcarriga/nvim-dap-ui',                   after  = 'nvim-dap', config = c.dapui      })
     use({ get_local('mikatpt', 'roadrunner'),                            config = c.roadrunner })
+    use({ 'github/copilot.vim',                                          config = c.copilot    })
 
     -- Languages
     use({ 'simrat39/rust-tools.nvim',                                    config = c.rust_tools })

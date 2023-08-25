@@ -2,6 +2,31 @@ local M = {}
 
 M.fn = {}
 
+local bind = function(mode, outer_opts)
+    outer_opts = outer_opts or { silent = true }
+    return function(lhs, rhs, opts)
+        opts = vim.tbl_extend('force', outer_opts, opts or {})
+        vim.keymap.set(mode, lhs, rhs, opts)
+    end
+end
+
+local map_lsp = function(mode, lhs, rhs, opts)
+    local redraw = '<CMD>lua require"core.utils".fn.redraw_lsp()<CR>'
+    vim.api.nvim_set_keymap(mode, lhs, rhs .. redraw, opts or { silent = true, noremap = true })
+end
+
+M.keybinds = {}
+
+M.keybinds.imap = bind('i', { silent = true, noremap = false })
+M.keybinds.smap = bind('s', { silent = true, noremap = false })
+M.keybinds.xnoremap = bind('x')
+M.keybinds.nnoremap = bind('n')
+M.keybinds.vnoremap = bind('v')
+M.keybinds.inoremap = bind('i')
+M.keybinds.cnoremap = bind('c')
+M.keybinds.icnoremap = bind('!')
+M.keybinds.map_lsp = map_lsp
+
 -- TODO: change to use vim.fn.system
 local windows_git_dir = function()
     vim.cmd('silent! !git rev-parse --is-inside-work-tree')
