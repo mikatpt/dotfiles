@@ -9,14 +9,14 @@ function repl; nvim ~/repl/src/main.rs; end;
 abbr -ag py 'python3.9'
 
 # Navigation
-abbr -ag ls 'exa'
-abbr -ag la 'exa -a'
-abbr -ag lah 'exa -la'
-abbr -ag lat 'exa -laT'
-function cs; cd $argv; exa -a; end
-function sc; cd ..; exa -a; end
-function csa; cd $argv; exa -al; end
-function sca; cd ..; exa -al; end
+abbr -ag ls 'eza'
+abbr -ag la 'eza -a'
+abbr -ag lah 'eza -la'
+abbr -ag lat 'eza -laT'
+function cs; cd $argv; eza -a; end
+function sc; cd ..; eza -a; end
+function csa; cd $argv; eza -al; end
+function sca; cd ..; eza -al; end
 function cat --wraps=cat; bat $argv; end
 function fda
     set -l dir (fd --type d --hidden --exclude .git | fzf +m)

@@ -21,7 +21,7 @@ _install_node() {
 
 _install_rust() {
     rustup-init --default-toolchain nightly -y
-    cargo install ripgrep fd-find tealdeer exa stylua zoxide
+    cargo install ripgrep fd-find tealdeer eza stylua zoxide
 }
 
 _install_neovim() {

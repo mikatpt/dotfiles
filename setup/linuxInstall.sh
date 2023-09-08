@@ -41,7 +41,7 @@ _install_rust() {
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
     # make sure we have cargo in path before continuing.
     . "$HOME/.cargo/env"
-    cargo install ripgrep fd-find tealdeer exa stylua zoxide bat
+    cargo install ripgrep fd-find tealdeer eza stylua zoxide bat
 }
 
 _install_neovim() {

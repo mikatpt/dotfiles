@@ -57,7 +57,7 @@ No promises on full idempotency.
 - `Tab` autocompletion, `ctrl-f` to autocomplete from history
 - zoxide: predictive cd; for example, `z DIRNAME`
 - tealdeer: type `tldr COMMAND` for a summary of options
-- fd-find/ripgrep/exa: improved versions of find/grep/ls
+- fd-find/ripgrep/eza: improved versions of find/grep/ls
 
 #### Neovim
 - tl;dr, files to check out for mappings and plugins:
