@@ -3,6 +3,7 @@ local M = {}
 
 M.autopairs    =  require('modules.config.autopairs')
 M.blankline    =  require('modules.config.blankline')
+M.colo         =  require('modules.config.colo')
 M.cmp          =  require('modules.config.cmp')
 M.comment      =  require('modules.config.comment')
 M.copilot      =  require('modules.config.copilot')

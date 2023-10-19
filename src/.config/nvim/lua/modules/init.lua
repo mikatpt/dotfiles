@@ -1,94 +1,94 @@
 -- stylua: ignore start
 local utils = require('core.utils')
-utils.fn.setup_packer()
+utils.fn.setup_lazy()
 
-local packer = require('packer')
 local c = require('modules.config')
 local get_local = utils.fn.get_local_plugin
 local treesitter = 'nvim-treesitter/nvim-treesitter'
 
-return packer.startup(function(use)
-    use({ 'wbthomason/packer.nvim',              event = 'BufEnter'                            })
-
+local plugins = {
     -- Colorscheme & Icons
-    use({ 'kyazdani42/nvim-web-devicons',                                                      })
-    use({ 'onsails/lspkind-nvim',                module = 'lspkind',     config = c.lspkind    })
-    use({ 'rktjmp/lush.nvim',                                                                  })
-    use({ get_local('mikatpt', 'lucid_nvim'),                                                  })
+    { 'kyazdani42/nvim-web-devicons',                                                      },
+    { 'onsails/lspkind-nvim',                lazy = true,            config = c.lspkind    },
+    { 'rktjmp/lush.nvim',                                                                  },
+    { 'mikatpt/lucid_nvim',                  dev = true,             config = c.colo       },
 
     -- Core vim
-    -- use({ 'tpope/vim-commentary',                event  = 'BufRead'                            })
-    use({ 'numToStr/Comment.nvim',               event = 'BufRead',      config = c.comment    })
-    use({ 'tpope/vim-sleuth',                                                                  })
-    use({ 'machakann/vim-sandwich',                                                            })
-    use({ 'vim-utils/vim-man',                   event  = 'BufRead'                            })
-    use({ 'mg979/vim-visual-multi',              event  = 'BufRead'                            })
-    use({ 'plasticboy/vim-markdown',             event  = 'BufEnter'                           })
-    use({ 'mbbill/undotree',                     event  = 'BufRead'                            })
-    use({ 'nvim-lua/plenary.nvim',                                                             })
-    use({ 'nvim-lua/popup.nvim',                                                               })
-    use({ 'tpope/vim-fugitive',                  requires = { 'tpope/vim-rhubarb' }            })
-    use({ 'lewis6991/impatient.nvim',                                                          })
+    { 'numToStr/Comment.nvim',               event = 'BufRead',      config = c.comment    },
+    { 'tpope/vim-sleuth',                                                                  },
+    { 'machakann/vim-sandwich',                                                            },
+    { 'mg979/vim-visual-multi',              event  = 'BufRead'                            },
+    { 'plasticboy/vim-markdown',             event  = 'BufEnter'                           },
+    { 'mbbill/undotree',                     event  = 'BufRead'                            },
+    { 'nvim-lua/plenary.nvim',                                                             },
+    { 'nvim-lua/popup.nvim',                                                               },
+    { 'tpope/vim-fugitive',                  requires = { 'tpope/vim-rhubarb' }            },
 
     -- Display
-    use({ treesitter,   run = ':TSUpdate',       event = 'BufRead',      config = c.treesitter })
-    use({ treesitter .. '-refactor',             event = 'BufRead'                             })
-    use({ treesitter .. '-textobjects',          event = 'BufRead'                             })
-    use({ 'JoosepAlviste/nvim-ts-context-commentstring',                 event = 'BufRead'     })
-    use({ 'nvim-treesitter/playground',          event = 'BufRead'                             })
-    use({ 'lewis6991/gitsigns.nvim',             after = 'plenary.nvim', config = c.gitsigns   })
-    use({ 'feline-nvim/feline.nvim',             tag   = 'v1.1.3',       config = c.feline     })
-    use({ 'j-hui/fidget.nvim',                   tag = 'legacy'                                })
-    use({ 'folke/trouble.nvim',                  event = 'BufRead',      config = c.trouble    })
-    use({ 'folke/todo-comments.nvim',            event = 'BufRead',      config = c.todo       })
-    use({ 'lukas-reineke/indent-blankline.nvim', event = 'BufRead',      config = c.blankline  })
-    use({ 'goolord/alpha-nvim',                                          config = c.dashboard  })
+    { treesitter,   run = ':TSUpdate',       event = 'BufRead',      config = c.treesitter },
+    { treesitter .. '-refactor',             event = 'BufRead'                             },
+    { treesitter .. '-textobjects',          event = 'BufRead'                             },
+    { 'JoosepAlviste/nvim-ts-context-commentstring',                 event = 'BufRead'     },
+    { 'nvim-treesitter/playground',          event = 'BufRead'                             },
+    { 'lewis6991/gitsigns.nvim',             after = 'plenary.nvim', config = c.gitsigns   },
+    { 'feline-nvim/feline.nvim',             tag   = 'v1.1.3',       config = c.feline     },
+    { 'j-hui/fidget.nvim',                   tag = 'legacy'                                },
+    { 'folke/trouble.nvim',                  event = 'BufRead',      config = c.trouble    },
+    { 'folke/todo-comments.nvim',            event = 'BufRead',      config = c.todo       },
+    { 'lukas-reineke/indent-blankline.nvim', event = 'BufRead',      config = c.blankline  },
+    { 'goolord/alpha-nvim',                                          config = c.dashboard  },
 
     -- Navigation
-    use({ get_local('ThePrimeagen', 'harpoon'),                                                })
-    use({ get_local('mikatpt', 'harpoon-finder'),                                              })
-    use({ 'kyazdani42/nvim-tree.lua',            commit = '086bf31',     config = c.nvim_tree  })
-    use({ 'nvim-telescope/telescope-fzf-native.nvim',                    run    = 'make'       })
-    use({ 'nvim-telescope/telescope.nvim',                               config = c.telescope  })
-    use({ 'ibhagwan/fzf-lua',                                            config = c.fzf        })
-    use({ 'junegunn/fzf', run = './install --bin'                                              })
-    use({ 'ahmedkhalf/project.nvim',                                     config = c.project    })
+    { 'ThePrimeagen/harpoon',                dev = true,                                   },
+    { 'mikatpt/harpoon-finder',              dev = true,                                   },
+    { 'kyazdani42/nvim-tree.lua',            commit = '086bf31',     config = c.nvim_tree  },
+    { 'nvim-telescope/telescope-fzf-native.nvim',                    run    = 'make'       },
+    { 'nvim-telescope/telescope.nvim',                               config = c.telescope  },
+    { 'ibhagwan/fzf-lua',                                            config = c.fzf        },
+    { 'junegunn/fzf', run = './install --bin'                                              },
+    { 'ahmedkhalf/project.nvim',                                     config = c.project    },
 
     -- Language Server Protocol
-    use({ 'neovim/nvim-lspconfig',                                       config = c.lsp        })
-    use({ 'williamboman/mason.nvim',                                                           })
-    use({ 'williamboman/mason-lspconfig.nvim'                                                  })
-    use({ 'jose-elias-alvarez/null-ls.nvim',                             config = c.null_ls    })
-    use({ 'glepnir/lspsaga.nvim',                   module = 'lspsaga',  commit = '41c8fcf'    })
-    use({ 'ray-x/lsp_signature.nvim',               module = 'lsp_signature'                   })
-    use({ 'mfussenegger/nvim-dap',                                       config = c.dap        })
-    use({ 'rcarriga/nvim-dap-ui',                   after  = 'nvim-dap', config = c.dapui      })
-    use({ get_local('mikatpt', 'roadrunner'),                            config = c.roadrunner })
-    use({ 'github/copilot.vim',                                          config = c.copilot    })
+    { 'neovim/nvim-lspconfig',                                       config = c.lsp        },
+    { 'williamboman/mason.nvim',                                                           },
+    { 'williamboman/mason-lspconfig.nvim'                                                  },
+    { 'jose-elias-alvarez/null-ls.nvim',                             config = c.null_ls    },
+    { 'glepnir/lspsaga.nvim',                   lazy = true,         commit = '41c8fcf'    },
+    { 'ray-x/lsp_signature.nvim',               lazy = true,                               },
+    { 'mfussenegger/nvim-dap',                                       config = c.dap        },
+    { 'rcarriga/nvim-dap-ui',                   after  = 'nvim-dap', config = c.dapui      },
+    { 'mikatpt/roadrunner',                     dev = true,          config = c.roadrunner },
+    { 'github/copilot.vim',                                          config = c.copilot    },
 
     -- Languages
-    use({ 'simrat39/rust-tools.nvim',                                    config = c.rust_tools })
-    use({ 'folke/neodev.nvim',                      event  = 'BufRead',  module = 'neodev'     })
-    use({ 'jose-elias-alvarez/nvim-lsp-ts-utils',   module = 'nvim-lsp-ts-utils'               })
-    use({ 'MaxMEllon/vim-jsx-pretty',               event = 'BufRead'                          })
-    use({ 'leafgarland/typescript-vim',             event  = 'BufRead'                         })
-    use({ 'Vimjas/vim-python-pep8-indent',          event  = 'BufRead'                         })
-    use({ 'b0o/schemastore.nvim',                                                              })
+    { 'simrat39/rust-tools.nvim',               lazy = true,         config = c.rust_tools },
+    { 'folke/neodev.nvim',                      event  = 'BufRead',  lazy = true,          },
+    { 'jose-elias-alvarez/nvim-lsp-ts-utils',   lazy = true,                               },
+    { 'MaxMEllon/vim-jsx-pretty',               event = 'BufRead'                          },
+    { 'leafgarland/typescript-vim',             event  = 'BufRead'                         },
+    { 'Vimjas/vim-python-pep8-indent',          event  = 'BufRead'                         },
+    { 'b0o/schemastore.nvim',                                                              },
 
     -- Databases
-    use({ 'tpope/vim-dadbod'                                                                   })
-    use({ 'kristijanhusak/vim-dadbod-ui',           config = c.dadbod                          })
-    use({ 'kristijanhusak/vim-dadbod-completion',   event = 'BufRead'                          })
+    { 'tpope/vim-dadbod'                                                                   },
+    { 'kristijanhusak/vim-dadbod-ui',           config = c.dadbod                          },
+    { 'kristijanhusak/vim-dadbod-completion',   event = 'BufRead'                          },
 
     -- Completion
-    use({ 'hrsh7th/nvim-cmp',   module = 'cmp', event  = 'BufRead',      config = c.cmp        })
-    use({ 'windwp/nvim-autopairs',              after  = 'nvim-cmp',     config = c.autopairs  })
-    use({ 'windwp/nvim-ts-autotag',             event  = 'BufRead'                             })
-    use({ 'hrsh7th/cmp-nvim-lsp',               module = 'cmp_nvim_lsp', event  = 'BufRead'    })
-    use({ 'hrsh7th/cmp-buffer',                 event  = 'BufRead'                             })
-    use({ 'saadparwaiz1/cmp_luasnip',           event  = 'BufRead'                             })
-    use({ 'L3MON4D3/LuaSnip',   tag = 'v1.1.0', event  = 'BufRead'                             })
+    { 'hrsh7th/nvim-cmp',    lazy = true,   event  = 'InsertEnter',  config = c.cmp        },
+    { 'windwp/nvim-autopairs',              event  = 'InsertEnter',  config = c.autopairs  },
+    { 'windwp/nvim-ts-autotag',             event  = 'BufRead'                             },
+    { 'hrsh7th/cmp-nvim-lsp',               module = 'cmp_nvim_lsp', event  = 'BufRead'    },
+    { 'hrsh7th/cmp-buffer',                 event  = 'BufRead'                             },
+    { 'saadparwaiz1/cmp_luasnip',           event  = 'BufRead'                             },
+    { 'L3MON4D3/LuaSnip',   tag = 'v1.1.0', event  = 'BufRead'                             },
+}
 
-    packer.install()
-    packer.compile()
-end)
+local opts = {
+    dev = {
+        path = "~/foss",
+        fallback = true,
+    }
+}
+
+require("lazy").setup(plugins, opts)

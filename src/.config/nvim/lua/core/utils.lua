@@ -40,12 +40,6 @@ M.fn.is_git_dir = function()
     return os.execute('git rev-parse --is-inside-work-tree >> /dev/null 2>&1') == 0
 end
 
-M.fn.dashboard_startup = function()
-    if vim.api.nvim_buf_get_name(0):len() == 0 then
-        vim.cmd('silent! Alpha')
-    end
-end
-
 M.fn.get_local_plugin = function(author, plugin)
     local local_path = vim.loop.os_homedir() .. '/foss/' .. plugin
     local remote_path = author .. '/' .. plugin
@@ -92,6 +86,21 @@ M.fn.reload_config = function()
     end
 
     vim.cmd("execute 'source ' . stdpath('config') . '/init.lua'")
+end
+
+M.fn.setup_lazy = function()
+    local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+    if not vim.loop.fs_stat(lazypath) then
+        vim.fn.system({
+            'git',
+            'clone',
+            '--filter=blob:none',
+            'https://github.com/folke/lazy.nvim.git',
+            '--branch=stable', -- latest stable release
+            lazypath,
+        })
+    end
+    vim.opt.rtp:prepend(lazypath)
 end
 
 M.fn.setup_packer = function()
