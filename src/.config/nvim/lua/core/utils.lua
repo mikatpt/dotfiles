@@ -40,17 +40,8 @@ M.fn.is_git_dir = function()
     return os.execute('git rev-parse --is-inside-work-tree >> /dev/null 2>&1') == 0
 end
 
-M.fn.get_local_plugin = function(author, plugin)
-    local local_path = vim.loop.os_homedir() .. '/foss/' .. plugin
-    local remote_path = author .. '/' .. plugin
-    if vim.loop.os_uname().sysname == 'Windows_NT' then
-        return remote_path
-    end
-    return vim.fn.isdirectory(local_path) == 1 and local_path or remote_path
-end
-
 M.fn.redraw_lsp = function()
-    for _, id in pairs(vim.tbl_keys(vim.lsp.get_active_clients(nil))) do
+    for _, id in pairs(vim.tbl_keys(vim.lsp.get_clients())) do
         vim.diagnostic.disable(0, id)
         vim.diagnostic.enable(0, id)
     end

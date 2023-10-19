@@ -3,7 +3,6 @@ local utils = require('core.utils')
 utils.fn.setup_lazy()
 
 local c = require('modules.config')
-local get_local = utils.fn.get_local_plugin
 local treesitter = 'nvim-treesitter/nvim-treesitter'
 local fzf_build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build'
 
