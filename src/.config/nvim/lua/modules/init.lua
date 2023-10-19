@@ -5,6 +5,7 @@ utils.fn.setup_lazy()
 local c = require('modules.config')
 local get_local = utils.fn.get_local_plugin
 local treesitter = 'nvim-treesitter/nvim-treesitter'
+local fzf_build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build'
 
 local plugins = {
     -- Colorscheme & Icons
@@ -42,7 +43,7 @@ local plugins = {
     { 'ThePrimeagen/harpoon',                dev = true,                                   },
     { 'mikatpt/harpoon-finder',              dev = true,                                   },
     { 'kyazdani42/nvim-tree.lua',            commit = '086bf31',     config = c.nvim_tree  },
-    { 'nvim-telescope/telescope-fzf-native.nvim',                    run    = 'make'       },
+    { 'nvim-telescope/telescope-fzf-native.nvim',                    run    = fzf_build    },
     { 'nvim-telescope/telescope.nvim',                               config = c.telescope  },
     { 'ibhagwan/fzf-lua',                                            config = c.fzf        },
     { 'junegunn/fzf', run = './install --bin'                                              },
