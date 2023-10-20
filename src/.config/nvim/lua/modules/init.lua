@@ -30,6 +30,7 @@ local plugins = {
     { treesitter .. '-textobjects',          event = 'BufRead'                             },
     { 'JoosepAlviste/nvim-ts-context-commentstring',                 event = 'BufRead'     },
     { 'nvim-treesitter/playground',          event = 'BufRead'                             },
+    { 'windwp/nvim-ts-autotag',              event  = 'BufRead'                            },
     { 'lewis6991/gitsigns.nvim',             after = 'plenary.nvim', config = c.gitsigns   },
     { 'feline-nvim/feline.nvim',             tag   = 'v1.1.3',       config = c.feline     },
     { 'j-hui/fidget.nvim',                   tag = 'legacy'                                },
@@ -77,7 +78,6 @@ local plugins = {
     -- Completion
     { 'hrsh7th/nvim-cmp',    lazy = true,   event  = 'InsertEnter',  config = c.cmp        },
     { 'windwp/nvim-autopairs',              event  = 'InsertEnter',  config = c.autopairs  },
-    { 'windwp/nvim-ts-autotag',             event  = 'BufRead'                             },
     { 'hrsh7th/cmp-nvim-lsp',               module = 'cmp_nvim_lsp', event  = 'BufRead'    },
     { 'hrsh7th/cmp-buffer',                 event  = 'BufRead'                             },
     { 'saadparwaiz1/cmp_luasnip',           event  = 'BufRead'                             },

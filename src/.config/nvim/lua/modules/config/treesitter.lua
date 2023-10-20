@@ -7,8 +7,8 @@ function __Disable_on_large_files(_, bufnr)
         if not vim.b.__disable_large_called then
             vim.defer_fn(function()
                 vim.notify('mikatpt: disabling Treesitter for files > 100KB', vim.log.levels.WARN)
-                if vim.fn.exists(':IndentBlanklineDisable') then
-                    vim.cmd(':IndentBlanklineDisable')
+                if vim.fn.exists(':IBLDisable') > 0 then
+                    vim.cmd(':IBLDisable')
                 end
             end, 50)
         end
@@ -28,13 +28,13 @@ return function()
         ignore_install = { 'tlaplus', 'norg' },
         autotag = { enable = true },
         autopairs = { enable = true },
+        disable = __Disable_on_large_files,
         indent = {
             enable = true,
             disable = { 'python', 'lua', 'go', 'yaml', 'json', 'jsonc', 'html', 'css', 'rust' },
         },
         highlight = {
             enable = true, -- false will disable the whole extension
-            disable = __Disable_on_large_files,
             -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
             -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
             -- Using this option may slow down your editor, and you may see some duplicate highlights.
@@ -45,7 +45,6 @@ return function()
         refactor = {
             highlight_definitions = {
                 enable = true,
-                disable = __Disable_on_large_files,
             },
             highlight_current_scope = { enable = false },
             navigation = { enable = false },
