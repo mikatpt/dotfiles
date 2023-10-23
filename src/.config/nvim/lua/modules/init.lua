@@ -22,7 +22,8 @@ local plugins = {
     { 'mbbill/undotree',                     event  = 'BufRead'                            },
     { 'nvim-lua/plenary.nvim',                                                             },
     { 'nvim-lua/popup.nvim',                                                               },
-    { 'tpope/vim-fugitive',                  requires = { 'tpope/vim-rhubarb' }            },
+    { 'tpope/vim-rhubarb',                                                                 },
+    { 'tpope/vim-fugitive',                                                                },
 
     -- Display
     { treesitter,   run = ':TSUpdate',       event = 'BufRead',      config = c.treesitter },
