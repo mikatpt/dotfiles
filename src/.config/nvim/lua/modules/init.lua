@@ -63,7 +63,7 @@ local plugins = {
     { 'github/copilot.vim',                                          config = c.copilot    },
 
     -- Languages
-    { 'simrat39/rust-tools.nvim',               lazy = true,         config = c.rust_tools },
+    { 'simrat39/rust-tools.nvim',               event = 'BufRead',   config = c.rust_tools },
     { 'folke/neodev.nvim',                      event  = 'BufRead',  lazy = true,          },
     { 'jose-elias-alvarez/nvim-lsp-ts-utils',   lazy = true,                               },
     { 'MaxMEllon/vim-jsx-pretty',               event = 'BufRead'                          },
