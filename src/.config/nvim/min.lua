@@ -1,37 +1,21 @@
--- Add plugins here when trying to debug config. Run using nvim -u min.lua
--- If you'd like to test with NO plugins at all, make a min.vim and run with nvim -u min.vim --clean
+-- Run using nvim -u min.lua
+-- To test using NO plugins, run nvim -u min.lua --clean
 
-vim.cmd([[set runtimepath=$VIMRUNTIME]])
-vim.cmd([[set packpath=/tmp/nvim/site]])
+-- Add plugins here when trying to debug config.
+-- Modify configs in `load_config`
+local plugins = {
+    { 'nvim-lua/plenary.nvim' },
+    { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+    { 'nvim-telescope/telescope.nvim' },
+}
 
-local package_root = '/tmp/nvim/site/pack'
-local install_path = package_root .. '/packer/start/packer.nvim'
+_G.load_personal = function()
+    vim.cmd([[nnoremap <C-P> <cmd>lua require('telescope.builtin').git_files({})<CR>]])
+    vim.cmd([[inoremap jk <ESC>]])
 
-local function install_packer()
-    if vim.fn.isdirectory(install_path) == 0 then
-        print('Installing dependencies...')
-        vim.fn.system({ 'git', 'clone', '--depth=1', 'https://github.com/wbthomason/packer.nvim', install_path })
-    end
-end
-
-local function load_plugins()
-    require('packer').startup({
-        {
-            'wbthomason/packer.nvim',
-            {
-                'nvim-telescope/telescope.nvim',
-                requires = {
-                    'nvim-lua/plenary.nvim',
-                    { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
-                },
-            },
-        },
-        config = {
-            package_root = package_root,
-            compile_path = install_path .. '/plugin/packer_compiled.lua',
-            display = { non_interactive = true },
-        },
-    })
+    local o = vim.opt
+    o.timeoutlen = 200
+    o.errorbells = false
 end
 
 _G.load_config = function()
@@ -39,12 +23,44 @@ _G.load_config = function()
         defaults = {
             file_ignore_patterns = { 'node_modules/', '.gitignore' },
         },
+        extensions = {
+            fzf = {
+                fuzzy = true,
+                override_generic_sorter = true,
+                override_file_sorter = true,
+                case_mode = 'smart_case',
+            },
+        },
     })
     require('telescope').load_extension('fzf')
+    load_personal()
 end
 
-install_packer()
-load_plugins()
-require('packer').sync()
+local package_root = '/tmp/share/nvim/lazy'
 
-vim.cmd([[autocmd User PackerComplete ++once echo "Ready!" | lua load_config()]])
+local function install_lazy()
+    local install_path = package_root .. '/lazy.nvim'
+    if vim.fn.isdirectory(install_path) == 0 then
+        vim.fn.system({
+            'git',
+            'clone',
+            '--filter=blob:none',
+            'https://github.com/folke/lazy.nvim.git',
+            '--branch=stable', -- latest stable release
+            install_path,
+        })
+    end
+    vim.opt.rtp:prepend(install_path)
+end
+
+local function load_plugins(p)
+    local opts = {
+        root = package_root,
+        lockfile = package_root .. '/lazy-lock.json',
+    }
+    require('lazy').setup(p, opts)
+end
+
+install_lazy()
+load_plugins(plugins)
+vim.cmd([[autocmd User VeryLazy ++once echo "Ready!" | lua load_config()]])

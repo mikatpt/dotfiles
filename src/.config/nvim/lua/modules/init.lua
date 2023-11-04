@@ -31,10 +31,10 @@ local plugins = {
     { treesitter .. '-textobjects',          event = 'BufRead'                             },
     { 'JoosepAlviste/nvim-ts-context-commentstring',                 event = 'BufRead'     },
     { 'nvim-treesitter/playground',          event = 'BufRead'                             },
-    { 'windwp/nvim-ts-autotag',              event  = 'BufRead'                            },
-    { 'lewis6991/gitsigns.nvim',             after = 'plenary.nvim', config = c.gitsigns   },
+    { 'windwp/nvim-ts-autotag',              event = 'BufRead'                             },
+    { 'lewis6991/gitsigns.nvim',                                     config = c.gitsigns   },
     { 'feline-nvim/feline.nvim',             tag   = 'v1.1.3',       config = c.feline     },
-    { 'j-hui/fidget.nvim',                   tag = 'legacy'                                },
+    { 'j-hui/fidget.nvim',                   tag   = 'legacy'                              },
     { 'folke/trouble.nvim',                  event = 'BufRead',      config = c.trouble    },
     { 'folke/todo-comments.nvim',            event = 'BufRead',      config = c.todo       },
     { 'lukas-reineke/indent-blankline.nvim', event = 'BufRead',      config = c.blankline  },
@@ -44,9 +44,8 @@ local plugins = {
     { 'ThePrimeagen/harpoon',                dev = true,                                   },
     { 'mikatpt/harpoon-finder',              dev = true,                                   },
     { 'kyazdani42/nvim-tree.lua',            commit = '086bf31',     config = c.nvim_tree  },
-    { 'nvim-telescope/telescope-fzf-native.nvim',                    run    = fzf_build    },
+    { 'nvim-telescope/telescope-fzf-native.nvim',                    build  = fzf_build    },
     { 'nvim-telescope/telescope.nvim',                               config = c.telescope  },
-    { 'ibhagwan/fzf-lua',                                            config = c.fzf        },
     { 'junegunn/fzf', run = './install --bin'                                              },
     { 'ahmedkhalf/project.nvim',                                     config = c.project    },
 
@@ -58,15 +57,15 @@ local plugins = {
     { 'glepnir/lspsaga.nvim',                   lazy = true,         commit = '41c8fcf'    },
     { 'ray-x/lsp_signature.nvim',               lazy = true,                               },
     { 'mfussenegger/nvim-dap',                                       config = c.dap        },
-    { 'rcarriga/nvim-dap-ui',                   after  = 'nvim-dap', config = c.dapui      },
+    { 'rcarriga/nvim-dap-ui',                                        config = c.dapui      },
     { 'mikatpt/roadrunner',                     dev = true,          config = c.roadrunner },
     { 'github/copilot.vim',                                          config = c.copilot    },
 
     -- Languages
-    { 'simrat39/rust-tools.nvim',               event = 'BufRead',   config = c.rust_tools },
+    { 'simrat39/rust-tools.nvim',               ft     = 'rust',     config = c.rust_tools },
     { 'folke/neodev.nvim',                      event  = 'BufRead',  lazy = true,          },
-    { 'jose-elias-alvarez/nvim-lsp-ts-utils',   lazy = true,                               },
-    { 'MaxMEllon/vim-jsx-pretty',               event = 'BufRead'                          },
+    { 'jose-elias-alvarez/nvim-lsp-ts-utils',   lazy   = true,                             },
+    { 'MaxMEllon/vim-jsx-pretty',               event  = 'BufRead'                         },
     { 'leafgarland/typescript-vim',             event  = 'BufRead'                         },
     { 'Vimjas/vim-python-pep8-indent',          event  = 'BufRead'                         },
     { 'b0o/schemastore.nvim',                                                              },
@@ -74,7 +73,7 @@ local plugins = {
     -- Databases
     { 'tpope/vim-dadbod'                                                                   },
     { 'kristijanhusak/vim-dadbod-ui',           config = c.dadbod                          },
-    { 'kristijanhusak/vim-dadbod-completion',   event = 'BufRead'                          },
+    { 'kristijanhusak/vim-dadbod-completion',   event  = 'BufRead'                         },
 
     -- Completion
     { 'hrsh7th/nvim-cmp',    lazy = true,   event  = 'InsertEnter',  config = c.cmp        },

@@ -23,9 +23,9 @@ nnoremap('Q',             '@@')
 nnoremap('<F1>',          '<nop>')
 
 -- Magic search
-nnoremap('?',             '?\\m')
-nnoremap('/',             '/\\m')
-cnoremap('%s/',           '%sm/')
+nnoremap('?',             '?\\m', nonsilent)
+nnoremap('/',             '/\\m', nonsilent)
+cnoremap('%s/',           '%sm/', nonsilent)
 
 -- terminal bindings for command line mode
 cnoremap('<C-A>',         '<Home>',  nonsilent)
@@ -122,10 +122,9 @@ for i = 1, 9 do
     nnoremap('<leader>' .. i,  function() require('harpoon.ui').nav_file(i) end)
 end
 
--- Telescope, fzf
-local fzf_cmd = utils.fn.is_git_dir() and 'git_files' or 'files'
+-- Telescope
 local cfg_path = vim.fn.stdpath('config')
-nnoremap('<C-P>',              '<CMD>Fzf ' .. fzf_cmd .. '<CR>')
+nnoremap('<C-P>',              function() require('telescope.builtin').git_files({}) end)
 
 nnoremap('<leader>o',          '<CMD>Telescope oldfiles file_ignore_patterns={}<CR>')
 nnoremap('<leader>z',          function() require('telescope.builtin').git_files({ prompt_title = 'Dotfiles', cwd = cfg_path, file_ignore_patterns = {} }) end)

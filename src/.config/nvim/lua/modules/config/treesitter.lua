@@ -1,19 +1,22 @@
--- Apparently has to be global for treesitter to pick up on it
+-- This function will get called for every treesitter module.
 function __Disable_on_large_files(_, bufnr)
+    local function notify_and_disable_ibl()
+        vim.defer_fn(function()
+            vim.notify('mikatpt: disabling Treesitter for files > 100KB', vim.log.levels.WARN)
+            if vim.fn.exists(':IBLDisable') > 0 then
+                vim.cmd(':IBLDisable')
+            end
+        end, 50)
+    end
+
     local max_size = 100 * 1024 -- 100KB
     local file_size = vim.fn.getfsize(vim.api.nvim_buf_get_name(bufnr))
-
     if file_size > max_size then
+        -- Only run notifications/IBL disable once per buffer
         if not vim.b.__disable_large_called then
-            vim.defer_fn(function()
-                vim.notify('mikatpt: disabling Treesitter for files > 100KB', vim.log.levels.WARN)
-                if vim.fn.exists(':IBLDisable') > 0 then
-                    vim.cmd(':IBLDisable')
-                end
-            end, 50)
+            notify_and_disable_ibl()
+            vim.b.__disable_large_called = true
         end
-        vim.b.__disable_large_called = true
-
         return true
     end
     return false
@@ -21,27 +24,23 @@ end
 
 return function()
     require('nvim-treesitter.configs').setup({
-        modules = {},
         sync_install = false,
         auto_install = false,
         ensure_installed = 'all',
         ignore_install = { 'tlaplus', 'norg' },
         autotag = { enable = true },
         autopairs = { enable = true },
-        disable = __Disable_on_large_files,
         indent = {
             enable = true,
             disable = { 'python', 'lua', 'go', 'yaml', 'json', 'jsonc', 'html', 'css', 'rust' },
         },
         highlight = {
             enable = true, -- false will disable the whole extension
-            -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-            -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+            disable = __Disable_on_large_files,
             -- Using this option may slow down your editor, and you may see some duplicate highlights.
             -- Instead of true it can also be a list of languages
             additional_vim_regex_highlighting = true,
         },
-        -- From treesitter-refactor plugin
         refactor = {
             highlight_definitions = {
                 enable = true,
@@ -49,9 +48,30 @@ return function()
             highlight_current_scope = { enable = false },
             navigation = { enable = false },
             smart_rename = { enable = false },
+            disable = __Disable_on_large_files,
         },
-        -- from textobjects plugin
         textobjects = {
+            disable = __Disable_on_large_files,
+            move = {
+                enable = true,
+                set_jumps = true, -- whether to set jumps in the jumplist
+                goto_next_start = {
+                    [']n'] = '@function.outer',
+                    [']]'] = '@class.outer',
+                },
+                goto_next_end = {
+                    [']N'] = '@function.outer',
+                    [']['] = '@class.outer',
+                },
+                goto_previous_start = {
+                    ['[n'] = '@function.outer',
+                    ['[['] = '@class.outer',
+                },
+                goto_previous_end = {
+                    ['[n'] = '@function.outer',
+                    ['[]'] = '@class.outer',
+                },
+            },
             select = {
                 enable = true,
                 lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
@@ -88,43 +108,23 @@ return function()
                 -- and should return true of false
                 include_surrounding_whitespace = false,
             },
+            swap = {
+                enable = true,
+                swap_next = {
+                    ['<leader>a'] = '@parameter.inner',
+                },
+                swap_previous = {
+                    ['<leader>A'] = '@parameter.inner',
+                },
+            },
         },
         incremental_selection = {
             enable = true,
             disable = __Disable_on_large_files,
         },
-        move = {
-            enable = true,
-            set_jumps = true, -- whether to set jumps in the jumplist
-            goto_next_start = {
-                [']m'] = '@function.outer',
-                [']]'] = '@class.outer',
-            },
-            goto_next_end = {
-                [']M'] = '@function.outer',
-                [']['] = '@class.outer',
-            },
-            goto_previous_start = {
-                ['[m'] = '@function.outer',
-                ['[['] = '@class.outer',
-            },
-            goto_previous_end = {
-                ['[M'] = '@function.outer',
-                ['[]'] = '@class.outer',
-            },
-        },
-        swap = {
-            enable = true,
-            swap_next = {
-                ['<leader>a'] = '@parameter.inner',
-            },
-            swap_previous = {
-                ['<leader>A'] = '@parameter.inner',
-            },
-        },
         playground = {
             enable = true,
-            disable = {},
+            disable = __Disable_on_large_files,
             updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
             persist_queries = false, -- Whether the query persists across vim sessions
             keybindings = {
@@ -142,6 +142,7 @@ return function()
         },
         context_commentstring = {
             enable = true,
+            disable = __Disable_on_large_files,
         },
     })
 end
