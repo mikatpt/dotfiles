@@ -52,5 +52,6 @@ if status is-interactive
     # unbind ctrl d exit
     bind \cd true
 
+    zoxide init fish | source
     starship init fish | source
 end
