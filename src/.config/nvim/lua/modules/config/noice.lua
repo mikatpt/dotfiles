@@ -29,6 +29,10 @@ return function()
             long_message_to_split = true,
         },
         routes = { -- see :h noice and search FILTERS for more filtering options.
+            { -- show mode changes and @recording messages
+                filter = { event = 'msg_showmode' },
+                view = 'mini',
+            },
             {
                 filter = {
                     event = 'notify',
@@ -41,9 +45,9 @@ return function()
                     event = 'msg_show',
                     min_height = 10,
                 },
-                view = 'split',
+                view = 'messages',
             },
-            {
+            { -- filter out undo messages
                 filter = {
                     event = 'msg_show',
                     any = {

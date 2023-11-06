@@ -44,6 +44,7 @@ return function()
         refactor = {
             highlight_definitions = {
                 enable = true,
+                disable = __Disable_on_large_files,
             },
             highlight_current_scope = { enable = false },
             navigation = { enable = false },
@@ -54,6 +55,7 @@ return function()
             disable = __Disable_on_large_files,
             move = {
                 enable = true,
+                disable = __Disable_on_large_files,
                 set_jumps = true, -- whether to set jumps in the jumplist
                 goto_next_start = {
                     [']n'] = '@function.outer',
@@ -74,6 +76,7 @@ return function()
             },
             select = {
                 enable = true,
+                disable = __Disable_on_large_files,
                 lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
                 keymaps = {
                     ['aa'] = '@parameter.outer',
@@ -110,6 +113,7 @@ return function()
             },
             swap = {
                 enable = true,
+                disable = __Disable_on_large_files,
                 swap_next = {
                     ['<leader>a'] = '@parameter.inner',
                 },
