@@ -1,5 +1,6 @@
 -- Run using nvim -u min.lua
 -- To test using NO plugins, run nvim -u min.lua --clean
+--
 
 -- Add plugins here when trying to debug config.
 -- Modify configs in `load_config`
@@ -7,6 +8,7 @@ local plugins = {
     { 'nvim-lua/plenary.nvim' },
     { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
     { 'nvim-telescope/telescope.nvim' },
+    { 'folke/noice.nvim', dependencies = { 'MunifTanjim/nui.nvim', 'rcarriga/nvim-notify' } },
 }
 
 _G.load_personal = function()
@@ -59,6 +61,10 @@ local function load_plugins(p)
         lockfile = package_root .. '/lazy-lock.json',
     }
     require('lazy').setup(p, opts)
+    require('noice').setup({
+        lsp = { enabled = false },
+        messages = { enabled = false },
+    })
 end
 
 install_lazy()

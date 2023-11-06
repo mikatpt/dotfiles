@@ -21,7 +21,6 @@ local plugins = {
     { 'plasticboy/vim-markdown',             event  = 'BufEnter'                           },
     { 'mbbill/undotree',                     event  = 'BufRead'                            },
     { 'nvim-lua/plenary.nvim',                                                             },
-    { 'nvim-lua/popup.nvim',                                                               },
     { 'tpope/vim-rhubarb',                                                                 },
     { 'tpope/vim-fugitive',                                                                },
 
@@ -37,6 +36,8 @@ local plugins = {
     { 'j-hui/fidget.nvim',                   tag   = 'legacy'                              },
     { 'folke/trouble.nvim',                  event = 'BufRead',      config = c.trouble    },
     { 'folke/todo-comments.nvim',            event = 'BufRead',      config = c.todo       },
+    { 'folke/noice.nvim',  dependencies = { 'MunifTanjim/nui.nvim', 'rcarriga/nvim-notify' },
+                                                                     config = c.noice      },
     { 'lukas-reineke/indent-blankline.nvim', event = 'BufRead',      config = c.blankline  },
     { 'goolord/alpha-nvim',                                          config = c.dashboard  },
 
@@ -46,7 +47,7 @@ local plugins = {
     { 'kyazdani42/nvim-tree.lua',            commit = '086bf31',     config = c.nvim_tree  },
     { 'nvim-telescope/telescope-fzf-native.nvim',                    build  = fzf_build    },
     { 'nvim-telescope/telescope.nvim',                               config = c.telescope  },
-    { 'junegunn/fzf', run = './install --bin'                                              },
+    { 'junegunn/fzf',                        build = './install --bin'                     },
     { 'ahmedkhalf/project.nvim',                                     config = c.project    },
 
     -- Language Server Protocol

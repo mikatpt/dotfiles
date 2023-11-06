@@ -22,11 +22,6 @@ nnoremap('Y',             'y$')
 nnoremap('Q',             '@@')
 nnoremap('<F1>',          '<nop>')
 
--- Magic search
-nnoremap('?',             '?\\m', nonsilent)
-nnoremap('/',             '/\\m', nonsilent)
-cnoremap('%s/',           '%sm/', nonsilent)
-
 -- terminal bindings for command line mode
 cnoremap('<C-A>',         '<Home>',  nonsilent)
 cnoremap('<C-E>',         '<End>',   nonsilent)
@@ -135,7 +130,10 @@ nnoremap('<leader>Q',          '<CMD>TroubleToggle workspace_diagnostics<CR>')
 
 -- Ripgrep for input or current word
 nnoremap('<leader>f',          function() require('telescope.builtin').live_grep({ prompt_title = 'Find Text', layout_strategy = 'vertical' }) end)
+vnoremap('<leader>f',          function() require('telescope.builtin').live_grep({ default_text = vim.fn.expand('<cword>'), layout_strategy = 'vertical' }) end)
 nnoremap('<leader>w',          '<CMD>TodoTelescope layout_strategy=vertical<CR>')
 
 -- DB
 nnoremap('<leader><S-D>',      '<CMD>DBUIToggle<CR>')
+
+vnoremap('<leader>l', function() require('core.utils').fn.get_vis_len() end)

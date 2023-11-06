@@ -59,7 +59,14 @@ return function()
             root_dir = get_root({ '.solargraph.yml', '.rubocop.yml' }),
             filetypes = { 'ruby' },
         },
-        lua_ls = {},
+        lua_ls = {
+            settings = {
+                Lua = {
+                    telemetry = { enable = false },
+                    workspace = { checkThirdParty = false },
+                },
+            },
+        },
         tsserver = {
             root_dir = get_root({ 'package.json', 'tsconfig.json', 'yarn.lock' }),
             init_options = require('nvim-lsp-ts-utils').init_options,

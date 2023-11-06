@@ -26,6 +26,7 @@ return function()
 
     require('luasnip.loaders.from_vscode').lazy_load({ paths = './snippets' })
 
+    ---@diagnostic disable: missing-fields
     cmp.setup({
         completion = { completeopt = 'menu,menuone,noinsert' },
         confirmation = {
@@ -85,6 +86,9 @@ return function()
             ['<C-Space>'] = cmp.mapping.complete({}),
             ['<C-e>'] = cmp.mapping.close(),
             ['<CR>'] = cmp.mapping.confirm({ select = true }),
+        },
+        window = {
+            border = 'single',
         },
         sources = {
             { name = 'nvim_lsp' },

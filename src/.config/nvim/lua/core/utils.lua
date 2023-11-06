@@ -1,3 +1,4 @@
+---@diagnostic disable: param-type-mismatch
 local M = {}
 
 M.fn = {}
@@ -77,6 +78,32 @@ M.fn.reload_config = function()
     end
 
     vim.cmd("execute 'source ' . stdpath('config') . '/init.lua'")
+end
+
+M.fn.get_vis_len = function()
+    -- Visual markers aren't saved until after selection ends, so we have to exit first and debounce.
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'n', false)
+
+    vim.defer_fn(function()
+        local _, start_row, start_col, _ = unpack(vim.fn.getpos("'<"))
+        local _, end_row, end_col, _ = unpack(vim.fn.getpos("'>"))
+
+        local lines = vim.fn.getline(start_row, end_row)
+        if #lines == 0 then
+            return 0
+        end
+
+        -- Slice off unselected text in first and last lines if only partially selected.
+        if start_row == end_row then
+            lines[1] = string.sub(lines[1], start_col, end_col)
+        else
+            lines[1] = string.sub(lines[1], start_col)
+            lines[#lines] = string.sub(lines[#lines], 1, end_col)
+        end
+
+        local text = table.concat(lines, '\n')
+        print(vim.fn.strlen(text))
+    end, 50)
 end
 
 M.fn.setup_lazy = function()
