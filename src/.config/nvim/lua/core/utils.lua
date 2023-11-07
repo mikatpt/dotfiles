@@ -26,6 +26,8 @@ M.keybinds.vnoremap = bind('v')
 M.keybinds.inoremap = bind('i')
 M.keybinds.cnoremap = bind('c')
 M.keybinds.icnoremap = bind('!')
+M.keybinds.noreabbrev = bind('na')
+M.keybinds.cnoreabbrev = bind('ca')
 M.keybinds.map_lsp = map_lsp
 
 -- TODO: change to use vim.fn.system

@@ -36,7 +36,7 @@ local function auto_close_tree()
         group = group_id,
         callback = function()
             local winnr = tonumber(vim.fn.expand('<amatch>'))
-            vim.schedule_wrap(close_tree(winnr))
+            vim.schedule_wrap(close_tree(winnr)) ---@diagnostic disable-line
         end,
         nested = true,
     })
@@ -99,13 +99,13 @@ function UpdateTodoKeywords(word_tbl)
 
     local keywords = vim.fn.join(word_tbl, ' ')
 
-    local syntax_list = vim.split(vim.fn.execute('syntax list'), '\n')
+    local syntax_list = vim.split(vim.fn.execute('syntax list'), '\n') ---@diagnostic disable-line
     local todo_lines = vim.tbl_filter(function(line)
         return string.find(line, '^%a*Todo') ~= nil
     end, syntax_list)
 
     local todo_groups = vim.tbl_map(function(line)
-        return string.gsub(line, ' .*$', '')
+        return string.gsub(line, ' .*$', '') ---@diagnostic disable-line
     end, todo_lines)
 
     for _, syntax_group in pairs(todo_groups) do
@@ -180,12 +180,32 @@ local function commands()
     vim.api.nvim_create_user_command('SynID', function()
         vim.cmd('echo synIDattr(synID(line("."), col("."), 1), "name")')
     end, {})
+
+    -- Clears Noice message history
+    vim.api.nvim_create_user_command('Clear', function()
+        local Manager = require('noice.message.manager')
+        local messages = Manager.get({ has = true }, { history = true })
+        for _, msg in ipairs(messages) do
+            Manager.remove(msg)
+        end
+    end, {})
 end
 
 function P(...)
-    for _, v in pairs({ ... }) do
-        print(vim.inspect(v))
+    local msgs = ''
+    for _, v in ipairs({ ... }) do
+        msgs = msgs .. vim.inspect(v) .. '\n'
     end
+    -- remove last newline
+    msgs = msgs:sub(1, -2)
+    vim.notify(msgs, vim.log.levels.INFO, {
+        title = 'Debug',
+        on_open = function(win)
+            vim.wo[win].conceallevel = 3
+            vim.wo[win].concealcursor = ''
+            vim.treesitter.start(vim.api.nvim_win_get_buf(win), 'lua')
+        end,
+    })
 end
 
 auto_close_tree()

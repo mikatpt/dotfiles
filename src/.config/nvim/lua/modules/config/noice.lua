@@ -1,19 +1,43 @@
 return function()
     ---@diagnostic disable: missing-fields
     require('notify').setup({
-        timeout = 3,
+        timeout = 4,
     })
     require('noice').setup({
+        commands = {
+            history = {
+                view = 'split',
+                opts = { enter = true, format = 'details' },
+                -- Exclude undo messages and search messages, include the rest.
+                filter = {
+                    any = {
+                        { event = 'notify' },
+                        { error = true },
+                        { warning = true },
+                        { event = 'msg_show', ['not'] = { find = '^[/?].*' } },
+                        { event = 'lsp', kind = 'message' },
+                    },
+                    ['not'] = {
+                        any = {
+                            { event = 'msg_show', kind = '', find = '%d+ more lines?;' },
+                            { event = 'msg_show', kind = '', find = '%d+ fewer' },
+                            { event = 'msg_show', kind = '', find = '%d+ line less;' },
+                            { event = 'msg_show', kind = '', find = '%d+ change' },
+                        },
+                    },
+                },
+            },
+        },
         lsp = {
             -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
             override = {
-                ['vim.lsp.util.convert_input_to_markdown_lines'] = false,
-                ['vim.lsp.util.stylize_markdown'] = false,
-                ['cmp.entry.get_documentation'] = false,
+                ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
+                ['vim.lsp.util.stylize_markdown'] = true,
+                ['cmp.entry.get_documentation'] = true,
             },
             progress = { enabled = false },
             signature = { enabled = false },
-            documentation = { enabled = false },
+            documentation = { enabled = true },
             hover = { enabled = false },
             message = { enabled = true, view = 'mini' },
         },
@@ -23,56 +47,42 @@ return function()
             view_error = 'notify', -- view for errors
             view_warn = 'notify', -- view for warnings
             view_history = 'messages', -- view for :messages
-            view_search = 'mini', -- view for search count messages. Set to `false` to disable
+            view_search = false, -- view for search count messages. Set to `false` to disable
         },
         presets = {
             long_message_to_split = true,
         },
         routes = { -- see :h noice and search FILTERS for more filtering options.
-            { -- show mode changes and @recording messages
-                filter = { event = 'msg_showmode' },
-                view = 'mini',
-            },
             {
-                filter = {
-                    event = 'notify',
-                    min_height = 10,
-                },
-                view = 'split',
-            },
-            {
-                filter = {
-                    event = 'msg_show',
-                    min_height = 10,
-                },
-                view = 'messages',
-            },
-            { -- filter out undo messages
                 filter = {
                     event = 'msg_show',
                     any = {
-                        { find = '; after #%d+' },
-                        { find = '; before #%d+' },
-                        { find = '%d fewer lines' },
-                        { find = '%d more lines' },
+                        { event = 'msg_show', kind = '', find = '%d+ more lines?;' },
+                        { event = 'msg_show', kind = '', find = '%d+ line less;' },
+                        { event = 'msg_show', kind = '', find = '%d+ change' },
                     },
                 },
                 opts = { skip = true },
             },
+            { filter = { min_height = 5 }, view = 'split' },
             {
-                filter = {
-                    kind = 'emsg',
-                    find = 'E486: Pattern not found',
+                filter = { -- route some obtrusive messages to the mini view
+                    any = {
+                        { kind = 'emsg', find = 'E486: Pattern not found' },
+                        { event = 'notify', kind = 'info', find = 'No information available' },
+                    },
                 },
                 view = 'mini',
             },
         },
         views = {
+            split = { enter = true },
             mini = {
                 position = {
-                    row = '1%',
-                    col = '60%',
+                    row = '98%',
+                    col = '20%',
                 },
+                border = { style = 'rounded' },
             },
             cmdline_popup = {
                 position = {

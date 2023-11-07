@@ -4,14 +4,13 @@ local isDarwin = vim.loop.os_uname().sysname == 'Darwin'
 local open_cmd = isDarwin and ':!open <cWORD> &<CR><CR>' or ':!xdg-open <cWORD> &<CR><CR>'
 
 -- :h map-listing
-local imap = utils.keybinds.imap
-local smap = utils.keybinds.smap
--- local xnoremap = utils.keybinds.xnoremap
 local nnoremap = utils.keybinds.nnoremap
 local vnoremap = utils.keybinds.vnoremap
 local inoremap = utils.keybinds.inoremap
 local cnoremap = utils.keybinds.cnoremap
 local icnoremap = utils.keybinds.icnoremap
+local cnoreabbrev = utils.keybinds.cnoreabbrev
+
 local map_lsp = utils.keybinds.map_lsp
 
 local nonsilent = { silent = false }
@@ -27,10 +26,16 @@ cnoremap('<C-A>',         '<Home>',  nonsilent)
 cnoremap('<C-E>',         '<End>',   nonsilent)
 cnoremap('<C-B>',         '<Left>',  nonsilent)
 cnoremap('<C-F>',         '<Right>', nonsilent)
-vim.cmd('set cedit=<C-G>')
+vim.api.nvim_set_option_value('cedit', '<C-G>', {})
 
+-- Command line reabbreviations
+cnoreabbrev('mes', 'Noice')
+
+for _, mes in ipairs({ 'Mes', 'MEs', 'MES' }) do
+    cnoreabbrev(mes, 'mes')
+end
 for wrong, right in pairs({ qq = 'q', QQ = 'q', Qq = 'q', Q = 'q', qqa = 'qa', QQa = 'qa', Qqa = 'qa', W = 'w', Wq = 'wq', Wqa = 'wqa' }) do
-    vim.cmd('cnoreabbrev ' .. wrong .. ' ' .. right)
+    cnoreabbrev(wrong, right)
 end
 
 -- Merge lines

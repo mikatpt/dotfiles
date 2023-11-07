@@ -49,7 +49,7 @@ return function()
                 opts = opts or {}
 
                 filepath = vim.fn.expand(filepath, nil, false)
-                vim.loop.fs_stat(filepath, function(_, stat)
+                vim.loop.fs_stat(filepath, function(_, stat) ---@diagnostic disable-line
                     if not stat then
                         return
                     end

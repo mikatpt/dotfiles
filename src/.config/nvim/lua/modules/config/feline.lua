@@ -1,5 +1,6 @@
 return function()
-    local lsp = require 'feline.providers.lsp'
+    local lsp = require('feline.providers.lsp')
+    local noice_status = require('noice').api.status
 
     local colors = {
         white = '#c0caf5',
@@ -267,20 +268,38 @@ return function()
         icon = '  ',
     })
 
+    local function get_noice_comp(component)
+        return function()
+            return component.has() and component.get() or ''
+        end
+    end
+
+    -- Display mode in statusline since we killed the command line
+    table.insert(components.active[1], {
+        left_sep = { str = ' ', hl = { bg = colors.statusline_bg, fg = colors.statusline_bg }},
+        provider = get_noice_comp(noice_status.mode),
+        hl = { fg = colors.white, bg = colors.statusline_bg },
+    })
+
+    -- Search info
+    table.insert(components.active[1], {
+        left_sep = { str = ' ', hl = { bg = colors.statusline_bg, fg = colors.statusline_bg }},
+        provider = get_noice_comp(noice_status.search),
+        hl = { fg = colors.white, bg = colors.statusline_bg },
+    })
+
     -- Padding
     table.insert(components.active[1], {
         provider = '',
         hl = { fg = colors.statusline_bg, bg = colors.statusline_bg },
     })
 
-    -- TODO: Now that LSP progress is in fidget, there's nothing in the middle of this status line.
-    -- Consider moving some stuff here?
-
-    table.insert(components.active[2], {
-        provider = '',
-        hl = { fg = colors.statusline_bg, bg = colors.statusline_bg },
+    -- Current key command
+    table.insert(components.active[3], {
+        left_sep = { str = ' ', hl = { bg = colors.statusline_bg, fg = colors.statusline_bg }},
+        provider = get_noice_comp(noice_status.command),
+        hl = { fg = colors.white, bg = colors.statusline_bg },
     })
-
     -- Line:cursor position
     table.insert(components.active[3], {
         provider = function() return string.format('%d:%d', unpack(vim.api.nvim_win_get_cursor(0))) end,
@@ -328,8 +347,8 @@ return function()
     -- LSP client name
     table.insert(components.active[3], {
         provider = function()
-            if next(vim.lsp.get_active_clients({ bufnr = 0 })) ~= nil then
-                local clients = vim.lsp.get_active_clients()
+            if next(vim.lsp.get_clients({ bufnr = 0 })) ~= nil then
+                local clients = vim.lsp.get_clients()
 
                 local name = 'lsp'
                 for _, client in ipairs(clients) do
@@ -337,8 +356,8 @@ return function()
                         goto continue
                     end
 
-                    local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
-                    local filetypes = client.config.filetypes
+                    local buf_ft = vim.api.nvim_get_option_value('filetype', { buf = 0 })
+                    local filetypes = client.config.filetypes ---@diagnostic disable-line
                     if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
                         name = type(client) == 'table' and client.name:lower() or name
                         break
@@ -358,7 +377,7 @@ return function()
             return ''
         end,
         short_provider = function()
-            if next(vim.lsp.get_active_clients({ bufnr = 0 })) ~= nil then
+            if next(vim.lsp.get_clients({ bufnr = 0 })) ~= nil then
                 return '    '
             end
             return ''
@@ -473,7 +492,7 @@ return function()
     }
 
     require('fidget').setup({
-        align = { bottom = false },
+        align = { bottom = true },
         sources = {
             ['null-ls'] = { ignore = true },
         }

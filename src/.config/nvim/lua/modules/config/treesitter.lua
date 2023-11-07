@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields
 -- This function will get called for every treesitter module.
 function __Disable_on_large_files(_, bufnr)
     local function notify_and_disable_ibl()

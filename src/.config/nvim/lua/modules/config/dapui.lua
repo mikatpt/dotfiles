@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields
 return function()
     if _G.__dapui__setup_called == true then
         return

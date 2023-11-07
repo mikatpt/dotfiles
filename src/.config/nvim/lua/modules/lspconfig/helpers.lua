@@ -137,8 +137,7 @@ end
 -- Telescope's lsp_implementations always brings up a preview menu, which can be annoying.
 -- If there's only one result, we'll just use the built-in lsp function.
 local custom_impl = function(err, result, ctx, config)
-    local bufnr = ctx.bufnr
-    local ft = vim.api.nvim_buf_get_option(bufnr, 'filetype')
+    local ft = vim.api.nvim_get_option_value('filetype', { buf = ctx.bufnr })
     local no_impls_err = 'ERROR: No implementations for this item!'
 
     if result == nil then
