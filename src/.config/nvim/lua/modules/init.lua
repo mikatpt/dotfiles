@@ -4,7 +4,6 @@ utils.fn.setup_lazy()
 
 local c = require('modules.config')
 local treesitter = 'nvim-treesitter/nvim-treesitter'
-local fzf_build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build'
 
 local plugins = {
     -- Colorscheme & Icons
@@ -25,19 +24,19 @@ local plugins = {
     { 'tpope/vim-fugitive',                                                                },
 
     -- Display
-    { treesitter,   run = ':TSUpdate',       event = 'BufRead',      config = c.treesitter },
+    { treesitter, build = ':TSUpdate',       event = 'BufRead',      config = c.treesitter },
     { treesitter .. '-refactor',             event = 'BufRead'                             },
     { treesitter .. '-textobjects',          event = 'BufRead'                             },
     { 'JoosepAlviste/nvim-ts-context-commentstring',                 event = 'BufRead'     },
     { 'nvim-treesitter/playground',          event = 'BufRead'                             },
     { 'windwp/nvim-ts-autotag',              event = 'BufRead'                             },
     { 'lewis6991/gitsigns.nvim',                                     config = c.gitsigns   },
+    { 'rcarriga/nvim-notify',                                        config = c.notify     },
     { 'feline-nvim/feline.nvim',             tag   = 'v1.1.3',       config = c.feline     },
     { 'j-hui/fidget.nvim',                   tag   = 'legacy'                              },
     { 'folke/trouble.nvim',                  event = 'BufRead',      config = c.trouble    },
     { 'folke/todo-comments.nvim',            event = 'BufRead',      config = c.todo       },
-    { 'folke/noice.nvim',  dependencies = { 'MunifTanjim/nui.nvim', 'rcarriga/nvim-notify' },
-                                                                     config = c.noice      },
+    { 'folke/noice.nvim',  dependencies = { 'MunifTanjim/nui.nvim'}, config = c.noice      },
     { 'lukas-reineke/indent-blankline.nvim', event = 'BufRead',      config = c.blankline  },
     { 'goolord/alpha-nvim',                                          config = c.dashboard  },
 
@@ -45,7 +44,7 @@ local plugins = {
     { 'ThePrimeagen/harpoon',                dev = true,                                   },
     { 'mikatpt/harpoon-finder',              dev = true,                                   },
     { 'kyazdani42/nvim-tree.lua',            commit = '086bf31',     config = c.nvim_tree  },
-    { 'nvim-telescope/telescope-fzf-native.nvim',                    build  = fzf_build    },
+    { 'nvim-telescope/telescope-fzf-native.nvim',                    build  = 'make'       },
     { 'nvim-telescope/telescope.nvim',                               config = c.telescope  },
     { 'junegunn/fzf',                        build = './install --bin'                     },
     { 'ahmedkhalf/project.nvim',                                     config = c.project    },

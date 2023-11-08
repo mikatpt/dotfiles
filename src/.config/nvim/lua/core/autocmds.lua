@@ -1,6 +1,7 @@
 -- use augroups to make this file idempotent!
 local ag = vim.api.nvim_create_augroup
 local au = vim.api.nvim_create_autocmd
+local cmd = vim.api.nvim_create_user_command
 
 local group_id = ag('mikatpt_autocmds', {})
 
@@ -121,7 +122,7 @@ local function update_keywords()
             UpdateTodoKeywords({ 'NOTE', 'FIX', 'FIXIT', 'ISSUE', 'FAIL', 'WARN', 'PERF', 'OPTIM', 'SAFETY', 'INFO' })
         end,
     })
-    vim.api.nvim_create_user_command('UpdateToDo', function()
+    cmd('UpdateToDo', function()
         UpdateTodoKeywords({ 'NOTE', 'FIX', 'FIXIT', 'ISSUE', 'FAIL', 'WARN', 'PERF', 'OPTIM', 'SAFETY', 'INFO' })
     end, {})
 end
@@ -172,17 +173,17 @@ local function hls()
 end
 
 local function commands()
-    vim.api.nvim_create_user_command('Format', function()
+    cmd('Format', function()
         vim.lsp.buf.formatting_sync(nil, 1000)
     end, {})
 
     -- check highlight group for current item under cursor
-    vim.api.nvim_create_user_command('SynID', function()
+    cmd('SynID', function()
         vim.cmd('echo synIDattr(synID(line("."), col("."), 1), "name")')
     end, {})
 
     -- Clears Noice message history
-    vim.api.nvim_create_user_command('Clear', function()
+    cmd('Clear', function()
         local Manager = require('noice.message.manager')
         local messages = Manager.get({ has = true }, { history = true })
         for _, msg in ipairs(messages) do

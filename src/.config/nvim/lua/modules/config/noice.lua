@@ -1,8 +1,4 @@
 return function()
-    ---@diagnostic disable: missing-fields
-    require('notify').setup({
-        timeout = 4,
-    })
     require('noice').setup({
         commands = {
             history = {
@@ -19,9 +15,9 @@ return function()
                     },
                     ['not'] = {
                         any = {
-                            { event = 'msg_show', kind = '', find = '%d+ more lines?;' },
-                            { event = 'msg_show', kind = '', find = '%d+ fewer' },
-                            { event = 'msg_show', kind = '', find = '%d+ line less;' },
+                            { event = 'msg_show', kind = '', find = '%d+ more lines?' },
+                            { event = 'msg_show', kind = '', find = '%d+ fewer lines' },
+                            { event = 'msg_show', kind = '', find = '%d+ line less' },
                             { event = 'msg_show', kind = '', find = '%d+ change' },
                         },
                     },
@@ -57,8 +53,9 @@ return function()
                 filter = {
                     event = 'msg_show',
                     any = {
-                        { event = 'msg_show', kind = '', find = '%d+ more lines?;' },
-                        { event = 'msg_show', kind = '', find = '%d+ line less;' },
+                        { event = 'msg_show', kind = '', find = '%d+ more lines?' },
+                        { event = 'msg_show', kind = '', find = '%d+ fewer lines' },
+                        { event = 'msg_show', kind = '', find = '%d+ line less' },
                         { event = 'msg_show', kind = '', find = '%d+ change' },
                     },
                 },

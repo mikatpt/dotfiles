@@ -92,6 +92,9 @@ nnoremap('<leader>cd',    ':cd %:p:h<CR>',        nonsilent)
 -- Toggle relative/absolute line numbers
 nnoremap('<leader>l',     ':set rnu!<CR>',        nonsilent)
 
+-- Get selection length
+vnoremap('<leader>l', function() require('core.utils').fn.get_vis_len() end)
+
 -- Yank to system clipboard
 nnoremap('<leader>y',     '"+y')
 vnoremap('<leader>y',     '"+y')
@@ -140,5 +143,3 @@ nnoremap('<leader>w',          '<CMD>TodoTelescope layout_strategy=vertical<CR>'
 
 -- DB
 nnoremap('<leader><S-D>',      '<CMD>DBUIToggle<CR>')
-
-vnoremap('<leader>l', function() require('core.utils').fn.get_vis_len() end)
