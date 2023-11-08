@@ -150,7 +150,7 @@ local custom_impl = function(err, result, ctx, config)
         -- We do two checks to make sure we don't open telescope if not necessary
         local new_result = vim.tbl_filter(function(v)
             local uri = ft == 'go' and v.uri or v.targetUri
-            return not string.find(uri, 'mock') and not string.find(uri, 'test')
+            return not string.find(uri, 'mock') and not string.find(uri, 'test') and not string.find(uri, 'circuits')
         end, result)
 
         if #new_result > 0 then

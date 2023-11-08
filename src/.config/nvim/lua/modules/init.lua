@@ -54,7 +54,7 @@ local plugins = {
     { 'williamboman/mason.nvim',                                                           },
     { 'williamboman/mason-lspconfig.nvim'                                                  },
     { 'jose-elias-alvarez/null-ls.nvim',                             config = c.null_ls    },
-    { 'glepnir/lspsaga.nvim',                   lazy = true,         commit = '41c8fcf'    },
+    { 'glepnir/lspsaga.nvim',                   lazy = true,         commit = '8b02796'    },
     { 'ray-x/lsp_signature.nvim',               lazy = true,                               },
     { 'mfussenegger/nvim-dap',                                       config = c.dap        },
     { 'rcarriga/nvim-dap-ui',                                        config = c.dapui      },
