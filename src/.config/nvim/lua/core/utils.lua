@@ -123,4 +123,40 @@ M.fn.setup_lazy = function()
     vim.opt.rtp:prepend(lazypath)
 end
 
+M.fn.handler = function(_, result, ctx)
+    local hov = require('rust-tools.hover_actions')
+
+    if result and result.contents then
+        local markdown_lines = vim.lsp.util.convert_input_to_markdown_lines(result.contents, {})
+        -- Trim out whitespace between "" and "```rust", as well as
+        -- between "```", ""
+        local final = {}
+        local len = #markdown_lines - 1
+        for i = 1, len do
+            local first, second = markdown_lines[i], markdown_lines[i + 1]
+            local found_whitespace = first == '' and second == '```rust'
+            local found_trailing = first == '```' and second == ''
+            if not (found_whitespace or found_trailing) then
+                table.insert(final, first)
+            elseif found_trailing then
+                final[#final] = final[#final] .. '```'
+                i = i + 1
+            end
+        end
+        -- Join markdown_lines by newline
+        result.contents = table.concat(final, '\n')
+    end
+    hov.handler(_, result, ctx)
+end
+
+-- This bit of hacky pre-processing removes the whitespace between markdown code blocks.
+-- It relies on some rust-tools internals, so it could break in the future—but rust-tools isn't
+-- being updated anyways.
+M.fn.rust_tools_hover = function()
+    local rt = require('rust-tools')
+
+    local params = vim.lsp.util.make_position_params(0, nil)
+    vim.lsp.buf_request(0, 'textDocument/hover', params, rt.utils.mk_handler(M.fn.handler))
+end
+
 return M

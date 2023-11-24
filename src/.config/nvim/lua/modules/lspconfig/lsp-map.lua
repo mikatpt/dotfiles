@@ -27,7 +27,7 @@ M.attach_mappings = function(client, bufnr)
 
     -- Diagnostics
     if type(client) == 'table' and client.name == 'rust_analyzer' then
-        nnoremap('m',       function() require('rust-tools').hover_actions.hover_actions() end)
+        nnoremap('m',       function() require('core.utils').fn.rust_tools_hover() end)
     elseif type(client) == 'table' and client.name == 'null-ls' then
         -- don't attach hover actions to null-ls
     else
