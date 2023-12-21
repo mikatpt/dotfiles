@@ -14,14 +14,12 @@ _install_fish() {
     popd
 }
 
-_install_node() {
-    nvm install node
-    npm install -g neovim eslint_d
-}
-
-_install_rust() {
+_install_languages() {
     rustup-init --default-toolchain nightly -y
-    cargo install ripgrep fd-find tealdeer eza stylua zoxide
+    cargo install ripgrep fd-find tealdeer eza stylua zoxide bat rtx
+    rtx install
+    rtx activate | source
+    npm install -g neovim eslint_d
 }
 
 _install_neovim() {
@@ -29,7 +27,7 @@ _install_neovim() {
     brew install --HEAD neovim
 
     # Initial setup
-    nvim --headless +PackerInstall +qall
+    nvim --headless +"Lazy restore" +qall
     nvim --headless +"LspInstall efm gopls bashls html jsonls sumneko_lua rust_analyzer tsserver
     yamlls vimls" +qall
 
@@ -51,6 +49,5 @@ _install_neovim() {
 }
 
 _install_fish
-_install_node
-_install_rust
+_install_languages
 _install_neovim

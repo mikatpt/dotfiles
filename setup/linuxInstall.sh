@@ -18,30 +18,16 @@ _install_fish() {
 
 _install_starship() { curl -fsSL https://starship.rs/install.sh | bash -s -- --yes; }
 
-_install_node() {
-    fish -c "fnm install v18.0.0"
-    fish -c "npm install -g neovim eslint_d"
-}
-
-_install_go() {
-    curl -L https://golang.org/dl/go1.16.6.linux-amd64.tar.gz --output ~/go1.16.6.tar.gz
-
-    tar -C /usr/local -xzf ~/go1.16.6.tar.gz
-    rm ~/go1.16.6.tar.gz
-}
-
-_install_python() {
-    yes | apt update
-    yes | apt install software-properties-common
-    yes | add-apt-repository ppa:deadsnakes/ppa
-    yes | apt install python3.9
-}
-
-_install_rust() {
+_install_languages() {
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
     # make sure we have cargo in path before continuing.
     . "$HOME/.cargo/env"
-    cargo install ripgrep fd-find tealdeer eza stylua zoxide bat
+    cargo install ripgrep fd-find tealdeer eza stylua zoxide bat rtx
+
+    # install all languages
+    rtx install
+    rtx activate | source
+    npm install -g neovim eslint_d
 }
 
 _install_neovim() {
@@ -51,7 +37,7 @@ _install_neovim() {
 
 
     # Initial setup
-    nvim --headless +PackerInstall +qall
+    nvim --headless +"Lazy restore" +qall
     nvim --headless +"MasonInstall bash-language-server golangci-lint-langserver gopls lua-language-server rust-analyzer yaml-language-server typescript-language-server vim-language-server" +qall
 
     # Debuggers
@@ -73,10 +59,12 @@ _install_neovim() {
 
 _install_essentials() {
     yes | apt install build-essential
+    # for python
+    yes | apt-get install libb2-dev liblzma-dev libsqlite3-dev
 }
 
 _install_essentials
-_install_rust
+_install_languages
 _install_fish
 _install_starship
 _install_node

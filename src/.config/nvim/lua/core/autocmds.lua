@@ -172,6 +172,16 @@ local function hls()
     })
 end
 
+local function copilot_disable()
+    au('BufRead', {
+        group = group_id,
+        pattern = { '**/coding/advent/**' },
+        callback = function()
+            vim.b.copilot_enabled = false
+        end,
+    })
+end
+
 local function commands()
     cmd('Format', function()
         vim.lsp.buf.formatting_sync(nil, 1000)
@@ -217,4 +227,5 @@ mouse_events()
 update_keywords()
 hl_yank()
 commands()
+copilot_disable()
 json_ft()

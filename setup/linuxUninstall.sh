@@ -8,7 +8,8 @@ rm -rf ~/.cargo ~/.npm ~/.nvm
 # Remove languages
 fish -c "yes | omf remove nvm"
 rustup self uninstall
-apt remove python3.9
+rm -rf ~/.local/share/rtx
+rm -rf ~/go
 rm -rf /usr/local/go
 
 # Remove shell stuff

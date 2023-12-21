@@ -10,6 +10,7 @@ brew uninstall rustup-init nvm pyenv golang fzf
 rm -rf ~/.cargo ~/.npm ~/.nvm
 rustup self uninstall
 rm -rf /usr/local/go
+rm -rf ~/.local/share/rtx
 
 # Remove shell stuff
 chsh -s /bin/bash
