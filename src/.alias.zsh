@@ -17,6 +17,14 @@ autoload colors; colors
 export EDITOR='nvim'
 set -o ignoreeof    # ignore C-D
 
+# Ignore duplicates
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_FIND_NO_DUPS
+setopt HIST_SAVE_NO_DUPS
+
 # Shortcuts to config editing
 alias ez='$EDITOR ~/.zshrc'
 alias ea='$EDITOR ~/config/src/.alias.zsh'
