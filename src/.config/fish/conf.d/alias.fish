@@ -5,7 +5,7 @@ abbr -ag sz 'exec fish'
 
 function notes; nvim ~/notes/notes.md; end;
 function repl; nvim ~/repl/src/main.rs; end;
-abbr -ag py 'ipython'
+abbr -ag py 'ptpython'
 
 # Navigation
 abbr -ag ls 'eza'

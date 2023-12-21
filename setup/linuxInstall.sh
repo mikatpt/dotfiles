@@ -28,6 +28,7 @@ _install_languages() {
     rtx install
     rtx activate | source
     npm install -g neovim eslint_d
+    pip install ptpython
 }
 
 _install_neovim() {
