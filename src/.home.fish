@@ -14,7 +14,7 @@ function _start_home_server
 
     echo "Initializing home server"
     tmux new-session -d -s home
-    tmux send-keys -t home.1 "cd /home/mikatpt/coding/home/backend/crates/api-gateway" ENTER
+    tmux send-keys -t home.1 "cd /home/mikatpt/coding/home/backend" ENTER
     tmux send-keys -t home.1 "cargo run --release" ENTER
 end
 
