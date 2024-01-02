@@ -7,5 +7,8 @@ d=$(dirname $(readlink -f $0))
 # will symlink all items in src/ exactly one directory up.
 
 echo "Stowing dotfiles..."
-cd $d
-stow src
+echo "$d"
+cd $d/src
+fd --max-depth 1 --exclude .config | xargs -I {} stow --target=~ {}
+cd .config
+fd --max-depth 1 | xargs -I {} stow --target =~/.config {}

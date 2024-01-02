@@ -11,7 +11,7 @@ fish_add_path $HOME/.deno/bin
 bass source $HOME/.cargo/env
 
 if type -q rtx 
-    rtx activate | source
+    rtx activate fish | source
 end
 
 # The next line updates PATH for the Google Cloud SDK.

@@ -8,15 +8,15 @@ install_stow() {
             echo "Error - please install apt and run this script again."
             exit
         fi
-        apt install build-essential gcc
-        apt-get install -y stow
+        sudo apt install build-essential gcc
+        sudo apt-get install -y stow
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         which -s brew
         if [[ $? != 0 ]] ; then
             echo "Error - please install brew and run this script again."
             exit
         fi
-        brew install stow
+        sudo brew install stow
     else
         echo "Error - this script only works on linux or macos."
         exit

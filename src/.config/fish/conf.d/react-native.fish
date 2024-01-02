@@ -1,11 +1,11 @@
 if ! test -d "$HOME/Android"
     echo "$HOME/Android doesn't exist, skipping react native setup."
-    exit
+    return
 end
 
 if ! test -d "$HOME/.sdkman"
     echo "$HOME/.sdkman does not exist, skipping react native setup"
-    exit
+    return
 end
 
 set -x ANDROID_HOME "$HOME/Android"
