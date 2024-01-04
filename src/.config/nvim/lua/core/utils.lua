@@ -128,22 +128,25 @@ M.fn.handler = function(_, result, ctx)
 
     if result and result.contents then
         local markdown_lines = vim.lsp.util.convert_input_to_markdown_lines(result.contents, {})
-        -- Trim out whitespace between "" and "```rust", as well as
-        -- between "```", ""
         local final = {}
-        local len = #markdown_lines - 1
-        for i = 1, len do
-            local first, second = markdown_lines[i], markdown_lines[i + 1]
-            local found_whitespace = first == '' and second == '```rust'
-            local found_trailing = first == '```' and second == ''
-            if not (found_whitespace or found_trailing) then
-                table.insert(final, first)
-            elseif found_trailing then
-                final[#final] = final[#final] .. '```'
-                i = i + 1
+        local in_code_block = false
+        local code_block_start_pattern = '^```%w+'
+
+        for _, line in ipairs(markdown_lines) do
+            if line:match(code_block_start_pattern) then
+                -- Start of a code block
+                in_code_block = true
+                final[#final + 1] = line
+            elseif line == '```' and in_code_block then
+                -- End of a code block, append to the previous line
+                final[#final] = final[#final] .. line
+                in_code_block = false
+            else
+                -- Regular line, just append
+                final[#final + 1] = line
             end
         end
-        -- Join markdown_lines by newline
+
         result.contents = table.concat(final, '\n')
     end
     hov.handler(_, result, ctx)
