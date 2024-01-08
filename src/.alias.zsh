@@ -30,6 +30,7 @@ alias ez='$EDITOR ~/.zshrc'
 alias ea='$EDITOR ~/config/src/.alias.zsh'
 alias el='$EDITOR ~/.local.zsh'
 alias sz='exec zsh'
+alias py='ptpython'
 
 cs() { cd "$1" && ls -AG; }
 sc() { cd .. && ls -AG; }
