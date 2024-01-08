@@ -40,6 +40,8 @@ end
 
 -- Merge lines
 nnoremap('<S-M>',         '<S-J>')
+-- we use m for hover now
+nnoremap('<S-L>',         'm')
 
 -- Use J and K to move lines up and down.
 nnoremap('<S-K>',         ':m .-2<CR>==')

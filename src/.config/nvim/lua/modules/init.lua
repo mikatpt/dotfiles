@@ -44,6 +44,7 @@ local plugins = {
     { 'ThePrimeagen/harpoon',                dev = true,                                   },
     { 'mikatpt/harpoon-finder',              dev = true,                                   },
     { 'kyazdani42/nvim-tree.lua',            commit = '4ee6366',     config = c.nvim_tree  },
+    { 'stevearc/oil.nvim',                                           config = c.oil        },
     { 'nvim-telescope/telescope-fzf-native.nvim',                    build  = 'make'       },
     { 'nvim-telescope/telescope.nvim',                               config = c.telescope  },
     { 'junegunn/fzf',                        build = './install --bin'                     },
