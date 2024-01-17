@@ -26,13 +26,14 @@ return function()
                 },
             },
         },
-        golangci_lint_ls = {
-            root_dir = get_root({ 'go.mod', '.golangci.yaml' }),
-            command = cmd_root .. '/golangci-lint-langserver',
-            init_options = {
-                command = { 'golangci-lint', 'run', '--out-format', 'json' }
-            },
-        },
+        -- Latency here is steadily rising unfortunately.
+        -- golangci_lint_ls = {
+        --     root_dir = get_root({ 'go.mod', '.golangci.yaml' }),
+        --     command = cmd_root .. '/golangci-lint-langserver',
+        --     init_options = {
+        --         command = { 'golangci-lint', 'run', '--out-format', 'json' }
+        --     },
+        -- },
         jsonls = {
             filetypes = { 'json', 'jsonc' },
             settings = {

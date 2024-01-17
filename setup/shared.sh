@@ -19,7 +19,7 @@ _install_languages() {
     # install all languages
     rtx install
     source <(rtx activate bash)
-    npm install -g neovim eslint_d gulp
+    npm install -g neovim eslint_d gulp prettier
     pip install ptpython
 }
 
