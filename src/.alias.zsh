@@ -105,6 +105,16 @@ pullup() {
     fi
 }
 
+# Dependencies: gifsicle, ffmpeg
+# Usage: gif video.mov # produces video.gif
+gif() {
+  out=$(basename -- "$1")
+  extension="${out##*.}"
+  out="${out%.*}"
+  dir=$(dirname "$1")
+  ffmpeg -i $1 -vf scale=800:-1 -hide_banner -loglevel error -r 24 -f gif - | gifsicle --optimize=3 --delay=4 > "$dir/$out.gif"
+}
+
 alias cat='bat'
 alias ls='ls -G'
 alias la='ls -AG'
