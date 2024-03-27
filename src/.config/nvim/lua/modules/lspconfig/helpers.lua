@@ -25,7 +25,7 @@ M.on_attach = function(client, bufnr)
             kind = {},
         },
         lightbulb = {
-            enable = true,
+            enable = false,
             enable_in_insert = false,
             sign = false,
             cache_code_action = true,
