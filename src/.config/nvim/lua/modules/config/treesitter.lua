@@ -145,9 +145,5 @@ return function()
                 show_help = '?',
             },
         },
-        context_commentstring = {
-            enable = true,
-            disable = __Disable_on_large_files,
-        },
     })
 end
