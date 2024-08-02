@@ -3,14 +3,14 @@
 function __Disable_on_large_files(_, bufnr)
     local function notify_and_disable_ibl()
         vim.defer_fn(function()
-            vim.notify('mikatpt: disabling Treesitter for files > 100KB', vim.log.levels.WARN)
+            vim.notify('mikatpt: disabling Treesitter for files > 1MB', vim.log.levels.WARN)
             if vim.fn.exists(':IBLDisable') > 0 then
                 vim.cmd(':IBLDisable')
             end
         end, 50)
     end
 
-    local max_size = 100 * 1024 -- 100KB
+    local max_size = 1000 * 1024 -- 1MB
     local file_size = vim.fn.getfsize(vim.api.nvim_buf_get_name(bufnr))
     if file_size > max_size then
         -- Only run notifications/IBL disable once per buffer

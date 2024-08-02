@@ -9,7 +9,7 @@ return function()
         root_dir = require('null-ls.utils').root_pattern('.git'),
         on_attach = helpers.on_attach,
         sources = {
-            null_ls.builtins.diagnostics.eslint_d.with({
+            require('none-ls.diagnostics.eslint_d').with({
                 condition = function(utils)
                     return utils.root_has_file({ '.eslintrc.js', '.eslintrc', '.eslintrc.json' })
                 end,
@@ -36,10 +36,10 @@ return function()
                 },
             }),
             null_ls.builtins.formatting.gofmt,
-            null_ls.builtins.formatting.rustfmt.with({
+            require('none-ls.formatting.rustfmt').with({
                 extra_args = { '--edition=2021' },
             }),
-            null_ls.builtins.formatting.autopep8.with({
+            require('none-ls.formatting.autopep8').with({
                 command = cmd_root .. '/autopep8',
             }),
         },

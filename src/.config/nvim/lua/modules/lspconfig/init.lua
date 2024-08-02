@@ -2,7 +2,7 @@ return function()
     local helpers = require('modules.lspconfig.helpers')
     local capabilities = helpers.set_capabilities()
     local get_root = helpers.get_root
-    local cmd_root = vim.fn.stdpath('data') .. '/mason/bin'
+    -- local cmd_root = vim.fn.stdpath('data') .. '/mason/bin'
 
     vim.lsp.set_log_level('error')
 
@@ -58,6 +58,7 @@ return function()
         },
         solargraph = {
             root_dir = get_root({ '.solargraph.yml', '.rubocop.yml' }),
+            cmd = { vim.loop.os_homedir() .. "/.rbenv/shims/solargraph", "stdio" },
             filetypes = { 'ruby' },
         },
         lua_ls = {
