@@ -5,11 +5,6 @@ nnoremap <silent> Y             y$
 nnoremap <silent> Q             @@
 nnoremap <silent> <F1>          <nop>
 
-" Magic search
-nnoremap ?             ?\\m
-nnoremap /             /\\m
-cnoremap %s/           %sm/
-
 " terminal bindings for command line mode
 cnoremap <C-A>         <Home>
 cnoremap <C-E>         <End>
