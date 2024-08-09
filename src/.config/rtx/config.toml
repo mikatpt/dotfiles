@@ -1,4 +1,4 @@
 [tools]
 node = ['19.0.0', '18.15.0']
-go = ['prefix:1.21']
 python = ['prefix:3.9']
+go = ['1.22']
