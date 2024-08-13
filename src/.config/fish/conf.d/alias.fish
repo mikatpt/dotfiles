@@ -12,6 +12,7 @@ abbr -ag ls 'eza'
 abbr -ag la 'eza -a'
 abbr -ag lah 'eza -la'
 abbr -ag lat 'eza -laT'
+abbr -ag wezterm 'wezterm.exe'
 function cs; cd $argv; eza -a; end
 function sc; cd ..; eza -a; end
 function csa; cd $argv; eza -al; end

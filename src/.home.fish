@@ -7,15 +7,9 @@ function _check_postgres
 end
 
 function _start_home_server
-    tmux has-session -t home 2>/dev/null
-    if test $status -eq 0
-        return 1
-    end
-
     echo "Initializing home server"
-    tmux new-session -d -s home
-    tmux send-keys -t home.1 "cd /home/mikatpt/coding/home/backend" ENTER
-    tmux send-keys -t home.1 "cargo run --release" ENTER
+    set paneID (wezterm.exe cli list --format json | jq '.[] | select(.workspace == "home") | .pane_id')
+    echo 'cargo run --release' | wezterm.exe cli send-text --pane-id $paneID --no-paste
 end
 
 function _apply_stats_hook
