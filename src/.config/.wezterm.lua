@@ -8,7 +8,7 @@ local is_windows = wezterm.target_triple == 'x86_64-pc-windows-msvc'
 local is_wsl = false
 local default_domain = 'local'
 local default_prog = nil
-local fonts = { 'SauceCodePro Nerd Font Mono', 'SauceCodePro NFM', 'Fira Code', 'Cascadia Code' }
+local fonts = { 'SauceCodePro NFM', 'Fira Code', 'Cascadia Code' }
 
 if is_windows then
     is_wsl, _, _ = wezterm.run_child_process({ 'where', 'wsl.exe' })
@@ -130,58 +130,28 @@ local hl = {
     golden = 'hsl:54 90 49',
 }
 
-local color_map = {
-    mac = {
-        ansi = {
-            hl.black,
-            hl.red,
-            hl.green,
-            hl.ivory,
-            hl.blue,
-            hl.purple,
-            hl.light_blue,
-            hl.silver,
-        },
-        brights = {
-            hl.grey,
-            hl.red,
-            hl.lime,
-            hl.ivory,
-            hl.light_blue_2,
-            hl.purple_2,
-            hl.turquoise,
-            hl.white,
-        },
-        foreground = 'hsl:0 0 85',
-    },
-    windows = {
-        ansi = {
-            hl.black,
-            hl.red_2,
-            hl.green_2,
-            hl.tan,
-            hl.blue,
-            hl.purple,
-            hl.light_blue,
-            hl.silver,
-        },
-        brights = {
-            hl.grey,
-            hl.red,
-            hl.lime,
-            hl.ivory,
-            hl.light_blue_2,
-            hl.purple_2,
-            hl.turquoise,
-            hl.white,
-        },
-        foreground = hl.white,
-    },
-}
-local colors = is_windows and color_map.windows or color_map.mac
-
 c.colors = {
-    foreground = colors.foreground,
+    ansi = {
+        hl.black,
+        is_windows and hl.red_2 or hl.red,
+        is_windows and hl.green_2 or hl.green,
+        is_windows and hl.tan or hl.ivory,
+        hl.blue,
+        hl.purple,
+        hl.light_blue,
+        hl.silver,
+    },
+    brights = {
+        hl.grey,
+        hl.red,
+        hl.lime,
+        hl.ivory,
+        hl.light_blue_2,
+        hl.purple_2,
+        hl.turquoise,
+        hl.white,
+    },
+    foreground = is_windows and hl.white or hl.silver,
     background = hl.bg_blue,
     cursor_bg = hl.light_violet,
     cursor_fg = hl.total_black,
@@ -190,8 +160,6 @@ c.colors = {
     selection_bg = hl.light_jade,
     scrollbar_thumb = hl.bg_blue_2,
     split = hl.bg_blue_3,
-    ansi = colors.ansi,
-    brights = colors.brights,
     compose_cursor = hl.jade, -- leader key on press
     copy_mode_active_highlight_fg = { Color = hl.total_black },
     copy_mode_active_highlight_bg = { Color = hl.jade },
