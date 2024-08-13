@@ -1,21 +1,34 @@
 local wezterm = require('wezterm')
+local c = {}
+
+---@type number | nil
+local dpi = 73
 
 local is_windows = wezterm.target_triple == 'x86_64-pc-windows-msvc'
 local is_wsl = false
+local default_domain = 'local'
+local default_prog = nil
+local fonts = { 'SauceCodePro Nerd Font Mono', 'SauceCodePro NFM', 'Fira Code', 'Cascadia Code' }
+
 if is_windows then
     is_wsl, _, _ = wezterm.run_child_process({ 'where', 'wsl.exe' })
 end
 
-local c = {}
-local tmux_bg = '#000A14'
-local tmux_blue = '#51afef'
-local tmux_grey = '#8c979a'
-local tmux_magenta = '#c678dd'
+if is_wsl then
+    default_domain = 'WSL:Ubuntu-20.04'
+    default_prog = { 'wsl.exe', '--distribution', 'Ubuntu-20.04' }
+    dpi = nil
+else
+    table.insert(fonts, 1, { family = 'SauceCodePro Nerd Font Mono', weight = 'Medium' })
+end
 
 c.audible_bell = 'Disabled'
-c.default_prog = { 'wsl.exe', '--distribution', 'Ubuntu-20.04' }
-c.default_domain = 'WSL:Ubuntu-20.04'
-c.font = wezterm.font_with_fallback({ 'SauceCodePro NFM', 'Fira Code', 'Cascadio Code' })
+c.default_prog = default_prog
+c.default_domain = default_domain
+c.dpi = dpi
+c.font = wezterm.font_with_fallback(fonts)
+c.freetype_load_flags = 'NO_HINTING'
+c.font_size = is_wsl and 12.0 or 15.0
 c.leader = { key = 's', mods = 'CTRL', timeout_milliseconds = 1000 }
 c.use_fancy_tab_bar = false
 c.tab_bar_at_bottom = false
@@ -34,35 +47,108 @@ c.default_workspace = 'default'
 --- Sessions ---
 ----------------
 
-wezterm.on('gui-startup', function(_)
-    local mux = wezterm.mux
-    -- Create main session
-    local tab, pane, window = mux.spawn_window({
+local mux = wezterm.mux
+
+local function home_startup(_)
+    local _, pane, window = mux.spawn_window({
         workspace = 'home',
         cwd = '/home/mikatpt/coding/home/backend',
     })
-    tab, pane, window = mux.spawn_window({
+    _, pane, window = mux.spawn_window({
         workspace = 'main',
         cwd = '~',
         args = { 'fish', '-l' },
     })
-    if not is_wsl then
-        tab:set_title('sts')
+
+    for _ = 1, 3 do
+        window:spawn_tab({ cwd = '~' })
     end
+    mux.set_active_workspace('main')
+    pane:activate()
+end
+
+local function work_startup(_)
+    local tab, pane, window = mux.spawn_window({
+        workspace = 'main',
+        cwd = '~',
+        args = { 'zsh', '-l' },
+    })
+    tab:set_title('sts')
 
     for i = 1, 3 do
         local t, _, _ = window:spawn_tab({ cwd = '~' })
-        if i == 1 and not is_wsl then
+        if i == 1 then
             t:set_title('sts')
         end
     end
     mux.set_active_workspace('main')
     pane:activate()
+end
+
+wezterm.on('gui-startup', function(cmd)
+    if is_wsl then
+        home_startup(cmd)
+    else
+        work_startup(cmd)
+    end
 end)
 
 -----------------
 ---- Styling ----
 -----------------
+
+local tmux_bg = '#000A14'
+local tmux_blue = '#51afef'
+local tmux_grey = '#8c979a'
+local tmux_magenta = '#c678dd'
+
+local color_map = {
+    mac = {
+        ansi = {
+            '#171421', -- 'black',
+            'red', -- 'maroon',
+            'hsl:146 93 39', -- 'green',
+            '#A2734C', -- 'olive',
+            'hsl:212 95 38', -- 'navy',
+            '#881798', -- 'purple',
+            '#3A96DD', -- 'teal',
+            '#CCCCCC', -- 'silver',
+        },
+        brights = {
+            'grey', -- grey
+            'red', -- red
+            'lime', -- lime
+            'hsl:47 96 81', -- ivory
+            'hsl:212 67 51', -- light blue
+            'hsl:275 100 64', -- fuchsia
+            'aqua', -- aqua
+            '#F2F2F2', -- white
+        },
+    },
+    windows = {
+        ansi = {
+            '#171421', -- 'black',
+            '#C21A23', -- 'maroon',
+            '#26A269', -- 'green',
+            '#A2734C', -- 'olive',
+            'hsl:212 95 38', -- 'navy',
+            '#881798', -- 'purple',
+            '#3A96DD', -- 'teal',
+            '#CCCCCC', -- 'silver',
+        },
+        brights = {
+            'grey', -- grey
+            'red', -- red
+            'lime', -- lime
+            'hsl:47 96 81', -- ivory
+            'hsl:212 67 51', -- light blue
+            'hsl:275 100 64', -- fuchsia
+            'aqua', -- aqua
+            '#F2F2F2', -- white
+        },
+    },
+}
+local colors = is_windows and color_map.windows or color_map.mac
 
 c.colors = {
     foreground = '#FFFFFF',
@@ -74,26 +160,8 @@ c.colors = {
     selection_bg = 'hsl:107 100 88',
     scrollbar_thumb = 'hsl:210 20 14',
     split = 'hsl:210 100 13',
-    ansi = {
-        '#171421', -- 'black',
-        '#C21A23', -- 'maroon',
-        '#26A269', -- 'green',
-        '#A2734C', -- 'olive',
-        'hsl:212 95 38', -- 'navy',
-        '#881798', -- 'purple',
-        '#3A96DD', -- 'teal',
-        '#CCCCCC', -- 'silver',
-    },
-    brights = {
-        'grey', -- grey
-        'red', -- red
-        'lime', -- lime
-        'hsl:47 96 81', -- ivory
-        'hsl:212 67 51', -- light blue
-        'hsl:275 100 64', -- fuchsia
-        'aqua', -- aqua
-        '#F2F2F2', -- white
-    },
+    ansi = colors.ansi,
+    brights = colors.brights,
     compose_cursor = 'hsl:158 56 52', -- leader key on press
     copy_mode_active_highlight_fg = { Color = 'hsl:0 0 0' },
     copy_mode_active_highlight_bg = { Color = 'hsl:100 90 49' },
@@ -150,7 +218,7 @@ wezterm.on('format-tab-title', function(tab, _, _, _, _, _)
     }
 end)
 
-wezterm.on('update-status', function(window, pane)
+wezterm.on('update-status', function(window, _)
     -- Display the session name on the left (simulating `status-left`)
     local session_name = '  ' .. wezterm.mux.get_active_workspace() .. ' '
 
