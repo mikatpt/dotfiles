@@ -2,7 +2,7 @@ local wezterm = require('wezterm')
 local c = {}
 
 ---@type number | nil
-local dpi = 73
+local dpi = 74
 
 local is_windows = wezterm.target_triple == 'x86_64-pc-windows-msvc'
 local is_wsl = false
@@ -22,6 +22,7 @@ else
     table.insert(fonts, 1, { family = 'SauceCodePro Nerd Font Mono', weight = 'Medium' })
 end
 
+c.scrollback_lines = 10000
 c.audible_bell = 'Disabled'
 c.default_prog = default_prog
 c.default_domain = default_domain
@@ -97,94 +98,123 @@ end)
 ---- Styling ----
 -----------------
 
-local tmux_bg = '#000A14'
-local tmux_blue = '#51afef'
-local tmux_grey = '#8c979a'
-local tmux_magenta = '#c678dd'
+local hl = {
+    bg_blue = 'hsl:210 100 4',
+    bg_blue_2 = 'hsl:210 20 14',
+    bg_blue_3 = 'hsl:210 100 13',
+    blue = 'hsl:212 95 38',
+    sky_blue = 'hsl:204 83 63',
+    light_blue = 'hsl:206 71 55',
+    light_blue_2 = 'hsl:212 67 51',
+    light_gray = 'hsl:193 6 58',
+    gray = 'hsl:261 8 33',
+    turquoise = 'hsl:180 100 48',
+    black = 'hsl:254 25 10',
+    total_black = 'hsl:0 0 0',
+    purple = 'hsl:293 74 34',
+    purple_2 = 'hsl:275 100 64',
+    pink = 'hsl:286 60 67',
+    red = 'hsl:0 100 48',
+    red_2 = 'hsl:357 76 43',
+    green = 'hsl:146 93 39',
+    green_2 = 'hsl:152 62 39',
+    light_jade = 'hsl:107 100 88',
+    jade = 'hsl:158 56 52',
+    lime = 'hsl:120 100 48',
+    tan = 'hsl:27 36 47',
+    silver = 'hsl:0 0 80',
+    grey = 'hsl:0 0 48',
+    ivory = 'hsl:47 96 81',
+    white = 'hsl:0 0 95',
+    light_violet = 'hsl:229 73 86',
+    golden = 'hsl:54 90 49',
+}
 
 local color_map = {
     mac = {
         ansi = {
-            '#171421', -- 'black',
-            'red', -- 'maroon',
-            'hsl:146 93 39', -- 'green',
-            '#A2734C', -- 'olive',
-            'hsl:212 95 38', -- 'navy',
-            '#881798', -- 'purple',
-            '#3A96DD', -- 'teal',
-            '#CCCCCC', -- 'silver',
+            hl.black,
+            hl.red,
+            hl.green,
+            hl.ivory,
+            hl.blue,
+            hl.purple,
+            hl.light_blue,
+            hl.silver,
         },
         brights = {
-            'grey', -- grey
-            'red', -- red
-            'lime', -- lime
-            'hsl:47 96 81', -- ivory
-            'hsl:212 67 51', -- light blue
-            'hsl:275 100 64', -- fuchsia
-            'aqua', -- aqua
-            '#F2F2F2', -- white
+            hl.grey,
+            hl.red,
+            hl.lime,
+            hl.ivory,
+            hl.light_blue_2,
+            hl.purple_2,
+            hl.turquoise,
+            hl.white,
         },
+        foreground = 'hsl:0 0 85',
     },
     windows = {
         ansi = {
-            '#171421', -- 'black',
-            '#C21A23', -- 'maroon',
-            '#26A269', -- 'green',
-            '#A2734C', -- 'olive',
-            'hsl:212 95 38', -- 'navy',
-            '#881798', -- 'purple',
-            '#3A96DD', -- 'teal',
-            '#CCCCCC', -- 'silver',
+            hl.black,
+            hl.red_2,
+            hl.green_2,
+            hl.tan,
+            hl.blue,
+            hl.purple,
+            hl.light_blue,
+            hl.silver,
         },
         brights = {
-            'grey', -- grey
-            'red', -- red
-            'lime', -- lime
-            'hsl:47 96 81', -- ivory
-            'hsl:212 67 51', -- light blue
-            'hsl:275 100 64', -- fuchsia
-            'aqua', -- aqua
-            '#F2F2F2', -- white
+            hl.grey,
+            hl.red,
+            hl.lime,
+            hl.ivory,
+            hl.light_blue_2,
+            hl.purple_2,
+            hl.turquoise,
+            hl.white,
         },
+        foreground = hl.white,
     },
 }
 local colors = is_windows and color_map.windows or color_map.mac
 
 c.colors = {
-    foreground = '#FFFFFF',
-    background = 'hsl:210 100 4',
-    cursor_bg = '#c0caf5',
-    cursor_fg = 'hsl:0 0 0',
-    cursor_border = '#52ad70', -- TODO
-    selection_fg = 'black',
-    selection_bg = 'hsl:107 100 88',
-    scrollbar_thumb = 'hsl:210 20 14',
-    split = 'hsl:210 100 13',
+    foreground = colors.foreground,
+    background = hl.bg_blue,
+    cursor_bg = hl.light_violet,
+    cursor_fg = hl.total_black,
+    cursor_border = hl.light_violet,
+    selection_fg = hl.total_black,
+    selection_bg = hl.light_jade,
+    scrollbar_thumb = hl.bg_blue_2,
+    split = hl.bg_blue_3,
     ansi = colors.ansi,
     brights = colors.brights,
-    compose_cursor = 'hsl:158 56 52', -- leader key on press
-    copy_mode_active_highlight_fg = { Color = 'hsl:0 0 0' },
-    copy_mode_active_highlight_bg = { Color = 'hsl:100 90 49' },
-    copy_mode_inactive_highlight_bg = { Color = 'hsl:54 90 49' },
-    copy_mode_inactive_highlight_fg = { Color = 'hsl:0 0 0' },
-    quick_select_label_bg = { Color = 'hsl:54 90 49' },
-    quick_select_label_fg = { Color = '#171421' },
-    quick_select_match_bg = { Color = 'hsl:107 100 88' },
-    quick_select_match_fg = { Color = 'hsl:0 0 0' },
+    compose_cursor = hl.jade, -- leader key on press
+    copy_mode_active_highlight_fg = { Color = hl.total_black },
+    copy_mode_active_highlight_bg = { Color = hl.jade },
+    copy_mode_inactive_highlight_bg = { Color = hl.golden },
+    copy_mode_inactive_highlight_fg = { Color = hl.total_black },
+    quick_select_label_bg = { Color = hl.golden },
+    quick_select_label_fg = { Color = hl.black },
+    quick_select_match_bg = { Color = hl.light_jade },
+    quick_select_match_fg = { Color = hl.total_black },
     tab_bar = {
-        background = tmux_bg,
+        background = hl.bg_blue,
         active_tab = {
-            bg_color = tmux_blue,
-            fg_color = tmux_bg,
+            bg_color = hl.sky_blue,
+            fg_color = hl.bg_blue,
             intensity = 'Bold',
         },
         inactive_tab = {
-            bg_color = tmux_bg,
-            fg_color = tmux_grey,
+            bg_color = hl.bg_blue,
+            fg_color = hl.light_gray,
         },
         new_tab = {
-            bg_color = 'hsl:261 8 33',
-            fg_color = tmux_bg,
+            bg_color = hl.gray,
+            fg_color = hl.bg_blue,
         },
     },
 }
@@ -195,7 +225,7 @@ end)
 
 -- tab, tabs, panes, config, hover, max_width
 wezterm.on('format-tab-title', function(tab, _, _, _, _, _)
-    local foreground = tab.is_active and tmux_blue or tmux_grey
+    local foreground = tab.is_active and hl.sky_blue or hl.light_gray
 
     local t = tab.tab_title
     -- use auto-gen tab title if not named
@@ -210,10 +240,10 @@ wezterm.on('format-tab-title', function(tab, _, _, _, _, _)
     local title = tab.tab_index + 1 .. ' ' .. t
 
     return {
-        { Background = { Color = tmux_bg } },
+        { Background = { Color = hl.bg_blue } },
         { Foreground = { Color = foreground } },
         { Text = title },
-        { Foreground = { Color = tmux_bg } },
+        { Foreground = { Color = hl.bg_blue } },
         { Text = ' ' },
     }
 end)
@@ -224,10 +254,10 @@ wezterm.on('update-status', function(window, _)
 
     window:set_left_status(wezterm.format({
         { Attribute = { Intensity = 'Bold' } },
-        { Background = { Color = tmux_blue } },
-        { Foreground = { Color = tmux_bg } },
+        { Background = { Color = hl.sky_blue } },
+        { Foreground = { Color = hl.bg_blue } },
         { Text = session_name .. '' },
-        { Background = { Color = tmux_bg } },
+        { Background = { Color = hl.bg_blue } },
         { Text = ' ' },
     }))
 
@@ -243,14 +273,29 @@ wezterm.on('update-status', function(window, _)
     date = wezterm.strftime('%a %m/%d %k:%M%P')
     local clock_display = ' ' .. date .. ' '
     local user_info = ' ' .. me .. ' '
+    local mode = window:active_key_table()
+    local mode_display = 'NORM'
+    local mode_fg = hl.white
+    if mode == 'copy_mode' then
+        mode_display = 'COPY'
+        mode_fg = hl.golden
+    elseif mode == 'search_mode' then
+        mode_display = 'SEARCH'
+        mode_fg = hl.red
+    elseif mode == 'quick_select' then
+        mode_display = 'SELECT'
+        mode_fg = hl.lime
+    end
 
     window:set_right_status(wezterm.format({
+        { Foreground = { Color = mode_fg } },
         { Attribute = { Intensity = 'Bold' } },
-        { Background = { Color = tmux_bg } },
-        { Foreground = { Color = tmux_magenta } },
+        { Text = mode_display },
+        { Background = { Color = hl.bg_blue } },
+        { Foreground = { Color = hl.pink } },
         { Text = clock_display },
-        { Background = { Color = tmux_bg } },
-        { Foreground = { Color = tmux_blue } },
+        { Background = { Color = hl.bg_blue } },
+        { Foreground = { Color = hl.sky_blue } },
         { Text = '' .. user_info },
     }))
 end)
@@ -294,8 +339,30 @@ local function ctrl_tmux(key, action)
     return ret
 end
 
+local function close_copy_mode()
+    return act.Multiple({
+        act.CopyMode('ClearSelectionMode'),
+        act.CopyMode('ClearPattern'),
+        act.CopyMode('Close'),
+    })
+end
+local function copy_to()
+    return act.Multiple({
+        act.CopyTo('Clipboard'),
+        act.CopyMode('ClearSelectionMode'),
+    })
+end
+local function next_match(int)
+    local m = act.CopyMode('NextMatch')
+    if int == -1 then
+        m = act.CopyMode('PriorMatch')
+    end
+    return act.Multiple({ m, act.CopyMode('ClearSelectionMode') })
+end
+
 c.keys = {
     ctrl_tmux('q', act.SwitchWorkspaceRelative(1)),
+    ctrl_tmux('o', act.RotatePanes('Clockwise')),
     ctrl_tmux('s', act.Multiple({ act.CopyMode('ClearSelectionMode'), act.ActivateCopyMode })),
     ctrl_tmux('[', act.SplitHorizontal({ domain = 'CurrentPaneDomain' })),
     ctrl_tmux(']', act.SplitVertical({ domain = 'CurrentPaneDomain' })),
@@ -337,13 +404,16 @@ c.keys = {
         'RightArrow',
         act.ActivateKeyTable({ name = 'resize_pane', one_shot = false, timeout_milliseconds = 400 })
     ),
+    tmux('LeftArrow', act.ActivateKeyTable({ name = 'resize_pane', one_shot = false, timeout_milliseconds = 400 })),
+    tmux('RightArrow', act.ActivateKeyTable({ name = 'resize_pane', one_shot = false, timeout_milliseconds = 400 })),
 }
 
 c.key_tables = {
     copy_mode = extend_keys(default_keys.copy_mode, {
-        { key = 'c', mods = 'CTRL', action = act.CopyMode('Close') },
-        { key = 'q', mods = 'NONE', action = act.CopyMode('Close') },
-        { key = 'Escape', mods = 'NONE', action = act.CopyMode('Close') },
+        { key = 'c', mods = 'CTRL', action = close_copy_mode() },
+        { key = 'q', mods = 'NONE', action = close_copy_mode() },
+        { key = 'y', mods = 'NONE', action = copy_to() },
+        { key = 'Escape', mods = 'NONE', action = close_copy_mode() },
 
         { key = 'h', mods = 'NONE', action = act.CopyMode('MoveLeft') },
         { key = 'j', mods = 'NONE', action = act.CopyMode('MoveDown') },
@@ -353,22 +423,24 @@ c.key_tables = {
             key = '/',
             mods = 'NONE',
             action = act.Multiple({
+                act.CopyMode('ClearPattern'),
+                act.EmitEvent('update-status'),
                 act.Search({ CaseInSensitiveString = '' }),
-                act.CopyMode('ClearSelectionMode'),
             }),
         },
-        { key = 'p', mods = 'CTRL', action = act.CopyMode('PriorMatch') },
-        { key = 'n', mods = 'CTRL', action = act.CopyMode('NextMatch') },
         {
-            key = 'n',
+            key = '?',
             mods = 'NONE',
-            action = act.Multiple({ act.CopyMode('NextMatch'), act.CopyMode('ClearSelectionMode') }),
+            action = act.Multiple({
+                act.CopyMode('ClearPattern'),
+                act.EmitEvent('update-status'),
+                act.Search({ CaseInSensitiveString = '' }),
+            }),
         },
-        {
-            key = 'N',
-            mods = 'NONE',
-            action = act.Multiple({ act.CopyMode('PriorMatch'), act.CopyMode('ClearSelectionMode') }),
-        },
+        { key = 'p', mods = 'CTRL', action = next_match(-1) },
+        { key = 'n', mods = 'CTRL', action = next_match(1) },
+        { key = 'n', mods = 'NONE', action = next_match(1) },
+        { key = 'N', mods = 'NONE', action = next_match(-1) },
     }),
     resize_pane = {
         { key = 'LeftArrow', mods = 'CTRL', action = act.AdjustPaneSize({ 'Left', 2 }) },
@@ -377,13 +449,18 @@ c.key_tables = {
         { key = 'RightArrow', mods = 'NONE', action = act.AdjustPaneSize({ 'Right', 2 }) },
     },
     search_mode = extend_keys(default_keys.search_mode, {
-        { key = 'Escape', mods = 'NONE', action = act.CopyMode('Close') },
+        {
+            key = 'Escape',
+            mods = 'NONE',
+            action = act.Multiple({ act.CopyMode('Close'), act.EmitEvent('update-status') }),
+        },
         {
             key = 'Enter',
             mods = 'NONE',
             action = act.Multiple({
                 act.ActivateCopyMode,
-                act.SendKey({ key = 'v', mods = 'NONE' }),
+                act.EmitEvent('update-status'),
+                -- act.SendKey({ key = 'v', mods = 'NONE' }), -- Currently doesn't work.
             }),
         },
     }),
