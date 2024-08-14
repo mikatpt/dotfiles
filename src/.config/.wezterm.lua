@@ -44,59 +44,9 @@ c.show_new_tab_button_in_tab_bar = false
 -- start with default session so main can be long-lived.
 c.default_workspace = 'default'
 
-----------------
---- Sessions ---
-----------------
-
-local mux = wezterm.mux
-
-local function home_startup(_)
-    local _, pane, window = mux.spawn_window({
-        workspace = 'home',
-        cwd = '/home/mikatpt/coding/home/backend',
-    })
-    _, pane, window = mux.spawn_window({
-        workspace = 'main',
-        cwd = '~',
-        args = { 'fish', '-l' },
-    })
-
-    for _ = 1, 3 do
-        window:spawn_tab({ cwd = '~' })
-    end
-    mux.set_active_workspace('main')
-    pane:activate()
-end
-
-local function work_startup(_)
-    local tab, pane, window = mux.spawn_window({
-        workspace = 'main',
-        cwd = '~',
-        args = { 'zsh', '-l' },
-    })
-    tab:set_title('sts')
-
-    for i = 1, 3 do
-        local t, _, _ = window:spawn_tab({ cwd = '~' })
-        if i == 1 then
-            t:set_title('sts')
-        end
-    end
-    mux.set_active_workspace('main')
-    pane:activate()
-end
-
-wezterm.on('gui-startup', function(cmd)
-    if is_wsl then
-        home_startup(cmd)
-    else
-        work_startup(cmd)
-    end
-end)
-
------------------
----- Styling ----
------------------
+------------------
+----- Colors -----
+------------------
 
 local hl = {
     bg_blue = 'hsl:210 100 4',
@@ -128,6 +78,7 @@ local hl = {
     white = 'hsl:0 0 95',
     light_violet = 'hsl:229 73 86',
     golden = 'hsl:54 90 49',
+    dark_gold = 'hsl:37 100 39',
 }
 
 c.colors = {
@@ -187,87 +138,6 @@ c.colors = {
     },
 }
 
-wezterm.on('format-window-title', function()
-    return 'Wezterm'
-end)
-
--- tab, tabs, panes, config, hover, max_width
-wezterm.on('format-tab-title', function(tab, _, _, _, _, _)
-    local foreground = tab.is_active and hl.sky_blue or hl.light_gray
-
-    local t = tab.tab_title
-    -- use auto-gen tab title if not named
-    if t == '' or not t then
-        t = tab.active_pane.title:match('^%s*(.*)'):match('^[^%s]*')
-    end
-    -- default to terminal if no program
-    if t == '~' then
-        t = is_wsl and 'fish' or 'zsh'
-    end
-
-    local title = tab.tab_index + 1 .. ' ' .. t
-
-    return {
-        { Background = { Color = hl.bg_blue } },
-        { Foreground = { Color = foreground } },
-        { Text = title },
-        { Foreground = { Color = hl.bg_blue } },
-        { Text = ' ' },
-    }
-end)
-
-wezterm.on('update-status', function(window, _)
-    -- Display the session name on the left (simulating `status-left`)
-    local session_name = '  ' .. wezterm.mux.get_active_workspace() .. ' '
-
-    window:set_left_status(wezterm.format({
-        { Attribute = { Intensity = 'Bold' } },
-        { Background = { Color = hl.sky_blue } },
-        { Foreground = { Color = hl.bg_blue } },
-        { Text = session_name .. '' },
-        { Background = { Color = hl.bg_blue } },
-        { Text = ' ' },
-    }))
-
-    local date_cmd = { 'date' }
-    local whoami = { 'whoami' }
-    if is_wsl then
-        table.insert(date_cmd, 1, 'wsl.exe')
-        table.insert(whoami, 1, 'wsl.exe')
-    end
-
-    local _, date, _ = wezterm.run_child_process(date_cmd)
-    local _, me, _ = wezterm.run_child_process(whoami)
-    date = wezterm.strftime('%a %m/%d %k:%M%P')
-    local clock_display = ' ' .. date .. ' '
-    local user_info = ' ' .. me .. ' '
-    local mode = window:active_key_table()
-    local mode_display = 'NORM'
-    local mode_fg = hl.white
-    if mode == 'copy_mode' then
-        mode_display = 'COPY'
-        mode_fg = hl.golden
-    elseif mode == 'search_mode' then
-        mode_display = 'SEARCH'
-        mode_fg = hl.red
-    elseif mode == 'quick_select' then
-        mode_display = 'SELECT'
-        mode_fg = hl.lime
-    end
-
-    window:set_right_status(wezterm.format({
-        { Foreground = { Color = mode_fg } },
-        { Attribute = { Intensity = 'Bold' } },
-        { Text = mode_display },
-        { Background = { Color = hl.bg_blue } },
-        { Foreground = { Color = hl.pink } },
-        { Text = clock_display },
-        { Background = { Color = hl.bg_blue } },
-        { Foreground = { Color = hl.sky_blue } },
-        { Text = '' .. user_info },
-    }))
-end)
-
 -----------------
 -- Keybindings --
 -----------------
@@ -309,6 +179,7 @@ end
 
 local function close_copy_mode()
     return act.Multiple({
+        act.EmitEvent('update-status'),
         act.CopyMode('ClearSelectionMode'),
         act.CopyMode('ClearPattern'),
         act.CopyMode('Close'),
@@ -327,6 +198,17 @@ local function next_match(int)
     end
     return act.Multiple({ m, act.CopyMode('ClearSelectionMode') })
 end
+local function tab_rename()
+    return act.PromptInputLine({
+        description = 'Enter new tab name',
+        action = wezterm.action_callback(function(window, _, line)
+            print(line)
+            if line then
+                window:active_tab():set_title(line)
+            end
+        end),
+    })
+end
 
 c.keys = {
     ctrl_tmux('q', act.SwitchWorkspaceRelative(1)),
@@ -335,18 +217,8 @@ c.keys = {
     ctrl_tmux('s', act.Multiple({ act.CopyMode('ClearSelectionMode'), act.ActivateCopyMode })),
     ctrl_tmux('[', act.SplitHorizontal({ domain = 'CurrentPaneDomain' })),
     ctrl_tmux(']', act.SplitVertical({ domain = 'CurrentPaneDomain' })),
-    ctrl_tmux(
-        ',',
-        act.PromptInputLine({
-            description = 'Enter new tab name',
-            action = wezterm.action_callback(function(window, _, line)
-                print(line)
-                if line then
-                    window:active_tab():set_title(line)
-                end
-            end),
-        })
-    ),
+    ctrl_tmux(',', tab_rename()),
+    tmux(',', tab_rename()),
     ctrl_tmux('l', act.ActivatePaneDirection('Right')),
     ctrl_tmux('h', act.ActivatePaneDirection('Left')),
     ctrl_tmux('k', act.ActivatePaneDirection('Next')),
@@ -434,5 +306,218 @@ c.key_tables = {
         },
     }),
 }
+
+-----------------
+---- Styling ----
+-----------------
+
+-- Helpers --
+
+local function update_dynamic_colors(window, _)
+    local overrides = {
+        colors = c.colors,
+    }
+    local mode = window:active_key_table()
+    if mode == 'copy_mode' then
+        overrides.colors.cursor_bg = hl.golden
+    else
+        overrides.colors.cursor_bg = hl.light_violet
+    end
+    window:set_config_overrides(overrides)
+end
+
+local function update_cpu()
+    if wezterm.GLOBAL.cpu_update_ticks % 8 ~= 0 then
+        wezterm.GLOBAL.cpu_update_ticks = wezterm.GLOBAL.cpu_update_ticks + 1
+        wezterm.GLOBAL.cpu_updating = false
+        return
+    end
+
+    local success, cpu, _ = wezterm.run_child_process({ 'top', '-l', '1' })
+    if not success then
+        return
+    end
+    local idle = cpu:match('CPU usage:.* (%d+%.%d+)%% idle \n')
+    wezterm.GLOBAL.cpu = 100 - tonumber(idle)
+    wezterm.GLOBAL.cpu_update_ticks = 0
+    wezterm.GLOBAL.cpu_updating = false
+end
+
+local function tick_cpu()
+    if wezterm.GLOBAL.cpu_updating then
+        return
+    end
+    wezterm.GLOBAL.cpu_updating = true
+    wezterm.time.call_after(10, update_cpu)
+end
+
+local function get_user_info()
+    local whoami = { 'whoami' }
+    if is_wsl then
+        table.insert(whoami, 1, 'wsl.exe')
+    end
+
+    local _, me, _ = wezterm.run_child_process(whoami)
+    return me and me:gsub('%s+$', ' | ') or 'me'
+end
+
+local function get_cwd(pane)
+    local home_dir = wezterm.home_dir
+    local cwd = nil
+    pcall(function()
+        cwd = pane:get_current_working_dir()
+    end)
+    cwd = cwd ~= nil and cwd.file_path or ''
+    return '  ' .. cwd:gsub(home_dir, '~') .. ' '
+end
+
+local function get_mode_and_hl(window)
+    local mode = window:active_key_table()
+    local mode_display = 'NORM'
+    local mode_fg = hl.white
+    if mode == 'copy_mode' then
+        mode_display = 'COPY'
+        mode_fg = hl.golden
+    elseif mode == 'search_mode' then
+        mode_display = 'SEARCH'
+        mode_fg = hl.red
+    elseif mode == 'quick_select' then
+        mode_display = 'SELECT'
+        mode_fg = hl.lime
+    end
+    return mode_display, mode_fg
+end
+
+local function insert_cpu_display(items)
+    local cpu = wezterm.GLOBAL.cpu
+    if cpu ~= 0 then
+        local display_color = cpu < 50 and hl.green_2 or hl.dark_gold
+        display_color = cpu > 75 and hl.red_2 or display_color
+        table.insert(items, { Foreground = { Color = display_color } })
+        table.insert(items, { Text = string.format(' CPU %05.2f%% ', cpu) })
+    end
+end
+
+-- Status --
+
+local function style_left_status(window, _)
+    local session_info = '  ' .. get_user_info() .. wezterm.mux.get_active_workspace() .. ' '
+
+    window:set_left_status(wezterm.format({
+        { Attribute = { Intensity = 'Bold' } },
+        { Background = { Color = hl.sky_blue } },
+        { Foreground = { Color = hl.bg_blue } },
+        { Text = session_info .. '' },
+        { Background = { Color = hl.bg_blue } },
+        { Text = ' ' },
+    }))
+end
+
+local function style_right_status(window, pane)
+    local cwd_display = get_cwd(pane)
+    local mode_display, mode_fg = get_mode_and_hl(window)
+
+    local items = {
+        { Foreground = { Color = hl.purple_2 } },
+        { Text = cwd_display },
+        { Foreground = { Color = mode_fg } },
+        { Attribute = { Intensity = 'Bold' } },
+        { Text = mode_display },
+    }
+    insert_cpu_display(items)
+
+    window:set_right_status(wezterm.format(items))
+end
+
+-- Initial CPU update
+wezterm.GLOBAL.cpu_updating = true
+update_cpu()
+
+wezterm.on('update-status', function(window, pane)
+    tick_cpu()
+    update_dynamic_colors(window, pane)
+    style_left_status(window, pane)
+    style_right_status(window, pane)
+end)
+
+wezterm.on('format-window-title', function()
+    return 'Wezterm'
+end)
+
+-- tab, tabs, panes, config, hover, max_width
+wezterm.on('format-tab-title', function(tab, _, _, _, _, _)
+    local foreground = tab.is_active and hl.sky_blue or hl.light_gray
+
+    local t = tab.tab_title
+    -- if we didn't manually rename title, use auto-gen tab title
+    if t == '' or not t then
+        -- trim leading whitespace and get first word (aka the binary)
+        t = tab.active_pane.title:match('^%s*(.*)'):match('^[^%s]*')
+    end
+    -- default to terminal if no program
+    if t == '~' then
+        t = is_wsl and 'fish' or 'zsh'
+    end
+
+    local title = tab.tab_index + 1 .. ' ' .. t .. ' '
+
+    return {
+        { Background = { Color = hl.bg_blue } },
+        { Foreground = { Color = foreground } },
+        { Text = title },
+        { Foreground = { Color = hl.bg_blue } },
+        { Text = ' ' },
+    }
+end)
+
+----------------
+--- Sessions ---
+----------------
+
+local mux = wezterm.mux
+
+local function home_startup(_)
+    local _, pane, window = mux.spawn_window({
+        workspace = 'home',
+        cwd = '/home/mikatpt/coding/home/backend',
+    })
+    _, pane, window = mux.spawn_window({
+        workspace = 'main',
+        cwd = '~',
+        args = { 'fish', '-l' },
+    })
+
+    for _ = 1, 3 do
+        window:spawn_tab({ cwd = '~' })
+    end
+    mux.set_active_workspace('main')
+    pane:activate()
+end
+
+local function work_startup(_)
+    local tab, pane, window = mux.spawn_window({
+        workspace = 'main',
+        cwd = '~',
+        args = { 'zsh', '-l' },
+    })
+    tab:set_title('sts')
+
+    for i = 1, 3 do
+        local t, _, _ = window:spawn_tab({ cwd = '~' })
+        if i == 1 then
+            t:set_title('sts')
+        end
+    end
+    mux.set_active_workspace('main')
+    pane:activate()
+end
+
+wezterm.on('gui-startup', function(cmd)
+    if is_wsl then
+        home_startup(cmd)
+    else
+        work_startup(cmd)
+    end
+end)
 
 return c
