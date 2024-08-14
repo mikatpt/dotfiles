@@ -135,7 +135,7 @@ c.colors = {
         hl.black,
         is_windows and hl.red_2 or hl.red,
         is_windows and hl.green_2 or hl.green,
-        is_windows and hl.tan or hl.ivory,
+        hl.ivory,
         hl.blue,
         hl.purple,
         hl.light_blue,
@@ -330,6 +330,7 @@ end
 
 c.keys = {
     ctrl_tmux('q', act.SwitchWorkspaceRelative(1)),
+    ctrl_tmux('r', act.ReloadConfiguration),
     ctrl_tmux('o', act.RotatePanes('Clockwise')),
     ctrl_tmux('s', act.Multiple({ act.CopyMode('ClearSelectionMode'), act.ActivateCopyMode })),
     ctrl_tmux('[', act.SplitHorizontal({ domain = 'CurrentPaneDomain' })),
