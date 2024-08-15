@@ -16,10 +16,10 @@ c.scrollback_lines = 10000
 c.audible_bell = 'Disabled'
 c.default_prog = is_wsl and { 'wsl.exe', '--distribution', 'Ubuntu-20.04' } or nil
 c.default_domain = is_wsl and 'WSL:Ubuntu-20.04' or 'local'
-c.dpi = is_wsl and 82 or 74
+c.dpi = is_wsl and 82 or nil
 c.font = wezterm.font_with_fallback(fonts)
 c.freetype_load_flags = 'NO_HINTING'
-c.font_size = is_wsl and 14.0 or 15.0
+c.font_size = is_wsl and 14.0 or 15.3
 c.leader = { key = 's', mods = 'CTRL', timeout_milliseconds = 1000 }
 c.use_fancy_tab_bar = false
 c.tab_bar_at_bottom = false
