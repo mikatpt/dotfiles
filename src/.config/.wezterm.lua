@@ -8,8 +8,7 @@ if is_windows then
 end
 
 local fonts = { 'SauceCodePro NFM', 'Fira Code', 'Cascadia Code' }
-if is_wsl then
-else
+if not is_wsl then
     table.insert(fonts, 1, { family = 'SauceCodePro Nerd Font Mono', weight = 'Medium' })
 end
 
@@ -17,10 +16,10 @@ c.scrollback_lines = 10000
 c.audible_bell = 'Disabled'
 c.default_prog = is_wsl and { 'wsl.exe', '--distribution', 'Ubuntu-20.04' } or nil
 c.default_domain = is_wsl and 'WSL:Ubuntu-20.04' or 'local'
-c.dpi = is_wsl and nil or 74
+c.dpi = is_wsl and 82 or 74
 c.font = wezterm.font_with_fallback(fonts)
 c.freetype_load_flags = 'NO_HINTING'
-c.font_size = is_wsl and 12.0 or 15.0
+c.font_size = is_wsl and 14.0 or 15.0
 c.leader = { key = 's', mods = 'CTRL', timeout_milliseconds = 1000 }
 c.use_fancy_tab_bar = false
 c.tab_bar_at_bottom = false
@@ -321,7 +320,7 @@ local function update_cpu()
         wezterm.log_error('could not get cpu %', err)
         return
     end
-    local res = tonumber(cpu:match(matcher))
+    local res = math.floor(tonumber(cpu:match(matcher)) + 0.5)
     wezterm.GLOBAL.cpu = is_windows and res or 100 - res
     wezterm.GLOBAL.cpu_update_ticks = 0
 end
@@ -376,7 +375,7 @@ local function get_cpu_display_and_hl()
     if cpu ~= 0 then
         display_color = cpu < 50 and hl.green_2 or hl.dark_gold
         display_color = cpu > 75 and hl.red_2 or display_color
-        display_cpu = string.format(' CPU %05.2f%% ', cpu)
+        display_cpu = string.format(' CPU %02d%% ', cpu)
     end
     return display_cpu, display_color
 end
