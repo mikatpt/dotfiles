@@ -16,10 +16,9 @@ c.scrollback_lines = 10000
 c.audible_bell = 'Disabled'
 c.default_prog = is_wsl and { 'wsl.exe', '--distribution', 'Ubuntu-20.04' } or nil
 c.default_domain = is_wsl and 'WSL:Ubuntu-20.04' or 'local'
-c.dpi = is_wsl and 82 or nil
 c.font = wezterm.font_with_fallback(fonts)
 c.freetype_load_flags = 'NO_HINTING'
-c.font_size = is_wsl and 14.0 or 15.3
+c.font_size = is_wsl and 12.6 or 15.3
 c.leader = { key = 's', mods = 'CTRL', timeout_milliseconds = 1000 }
 c.use_fancy_tab_bar = false
 c.tab_bar_at_bottom = false
@@ -253,7 +252,7 @@ c.key_tables = {
         },
         {
             key = '?',
-            mods = 'NONE',
+            mods = 'SHIFT',
             action = act.Multiple({
                 act.CopyMode('ClearPattern'),
                 act.EmitEvent('update-status'),
@@ -277,6 +276,7 @@ c.key_tables = {
             mods = 'NONE',
             action = act.Multiple({ act.CopyMode('Close'), act.EmitEvent('update-status') }),
         },
+        { key = 'r', mods = 'CTRL', action = act.CopyMode('CycleMatchType') },
         {
             key = 'Enter',
             mods = 'NONE',
@@ -303,6 +303,7 @@ local function update_dynamic_colors(window, _)
     window:set_config_overrides(overrides)
 end
 
+wezterm.GLOBAL.cpu = wezterm.GLOBAL.cpu or 0
 wezterm.GLOBAL.cpu_update_ticks = 0
 wezterm.GLOBAL.cpu_updating = false
 wezterm.GLOBAL.git_dirs = wezterm.GLOBAL.git_dirs or {}
@@ -344,10 +345,10 @@ local function get_user_info()
 end
 
 local function get_cwd(pane)
-    local _, cwd = pcall(function()
+    local success, cwd = pcall(function()
         return pane:get_current_working_dir()
     end)
-    return cwd ~= nil and cwd.file_path or ''
+    return (success and cwd ~= nil) and cwd.file_path or ''
 end
 
 local function get_mode_and_hl(window)
@@ -552,7 +553,11 @@ local function work_startup(_)
 end
 
 wezterm.on('gui-startup', function(cmd)
-    return is_wsl and home_startup(cmd) or work_startup(cmd)
+    if is_wsl then
+        home_startup(cmd)
+    else
+        work_startup(cmd)
+    end
 end)
 
 return c
