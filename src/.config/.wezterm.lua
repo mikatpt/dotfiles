@@ -1,32 +1,23 @@
 local wezterm = require('wezterm')
 local c = {}
 
----@type number | nil
-local dpi = 74
-
 local is_windows = wezterm.target_triple == 'x86_64-pc-windows-msvc'
 local is_wsl = false
-local default_domain = 'local'
-local default_prog = nil
-local fonts = { 'SauceCodePro NFM', 'Fira Code', 'Cascadia Code' }
-
 if is_windows then
     is_wsl, _, _ = wezterm.run_child_process({ 'where', 'wsl.exe' })
 end
 
+local fonts = { 'SauceCodePro NFM', 'Fira Code', 'Cascadia Code' }
 if is_wsl then
-    default_domain = 'WSL:Ubuntu-20.04'
-    default_prog = { 'wsl.exe', '--distribution', 'Ubuntu-20.04' }
-    dpi = nil
 else
     table.insert(fonts, 1, { family = 'SauceCodePro Nerd Font Mono', weight = 'Medium' })
 end
 
 c.scrollback_lines = 10000
 c.audible_bell = 'Disabled'
-c.default_prog = default_prog
-c.default_domain = default_domain
-c.dpi = dpi
+c.default_prog = is_wsl and { 'wsl.exe', '--distribution', 'Ubuntu-20.04' } or nil
+c.default_domain = is_wsl and 'WSL:Ubuntu-20.04' or 'local'
+c.dpi = is_wsl and nil or 74
 c.font = wezterm.font_with_fallback(fonts)
 c.freetype_load_flags = 'NO_HINTING'
 c.font_size = is_wsl and 12.0 or 15.0
@@ -164,11 +155,7 @@ local function extend_keys(target, source)
 end
 
 local function tmux(key, action)
-    return {
-        key = key,
-        mods = 'LEADER',
-        action = action,
-    }
+    return { key = key, mods = 'LEADER', action = action }
 end
 
 local function ctrl_tmux(key, action)
@@ -185,24 +172,20 @@ local function close_copy_mode()
         act.CopyMode('Close'),
     })
 end
+
 local function copy_to()
-    return act.Multiple({
-        act.CopyTo('Clipboard'),
-        act.CopyMode('ClearSelectionMode'),
-    })
+    return act.Multiple({ act.CopyTo('Clipboard'), act.CopyMode('ClearSelectionMode') })
 end
+
 local function next_match(int)
-    local m = act.CopyMode('NextMatch')
-    if int == -1 then
-        m = act.CopyMode('PriorMatch')
-    end
+    local m = act.CopyMode(int == -1 and 'PriorMatch' or 'NextMatch')
     return act.Multiple({ m, act.CopyMode('ClearSelectionMode') })
 end
+
 local function tab_rename()
     return act.PromptInputLine({
         description = 'Enter new tab name',
         action = wezterm.action_callback(function(window, _, line)
-            print(line)
             if line then
                 window:active_tab():set_title(line)
             end
@@ -314,42 +297,33 @@ c.key_tables = {
 -- Helpers --
 
 local function update_dynamic_colors(window, _)
-    local overrides = {
-        colors = c.colors,
-    }
+    local overrides = { colors = c.colors }
+
     local mode = window:active_key_table()
-    if mode == 'copy_mode' then
-        overrides.colors.cursor_bg = hl.golden
-    else
-        overrides.colors.cursor_bg = hl.light_violet
-    end
+    overrides.colors.cursor_bg = mode == 'copy_mode' and hl.golden or hl.light_violet
     window:set_config_overrides(overrides)
 end
+
+wezterm.GLOBAL.cpu_update_ticks = 0
+wezterm.GLOBAL.cpu_updating = false
 
 local function update_cpu()
     if wezterm.GLOBAL.cpu_update_ticks % 8 ~= 0 then
         wezterm.GLOBAL.cpu_update_ticks = wezterm.GLOBAL.cpu_update_ticks + 1
-        wezterm.GLOBAL.cpu_updating = false
         return
     end
 
-    local cmd = { 'top', '-l', '1' }
-    local matcher = 'CPU usage:.* (%d+%.%d+)%% idle \n'
-    if is_windows then
-        cmd = { 'wmic', 'cpu', 'get', 'loadpercentage' }
-        matcher = '%d+'
-    end
+    local cmd = is_windows and { 'wmic', 'cpu', 'get', 'loadpercentage' } or { 'top', '-l', '1' }
+    local matcher = is_windows and '%d+' or 'CPU usage:.* (%d+%.%d+)%% idle \n'
 
     local success, cpu, err = wezterm.run_child_process(cmd)
     if not success then
         wezterm.log_error('could not get cpu %', err)
-        wezterm.GLOBAL.cpu_updating = false
         return
     end
-    local idle = tonumber(cpu:match(matcher))
-    wezterm.GLOBAL.cpu = is_windows and idle or 100 - idle
+    local res = tonumber(cpu:match(matcher))
+    wezterm.GLOBAL.cpu = is_windows and res or 100 - res
     wezterm.GLOBAL.cpu_update_ticks = 0
-    wezterm.GLOBAL.cpu_updating = false
 end
 
 local function tick_cpu()
@@ -357,24 +331,22 @@ local function tick_cpu()
         return
     end
     wezterm.GLOBAL.cpu_updating = true
-    wezterm.time.call_after(10, update_cpu)
+    wezterm.time.call_after(10, function()
+        update_cpu()
+        wezterm.GLOBAL.cpu_updating = false
+    end)
 end
 
 local function get_user_info()
-    local whoami = { 'whoami' }
-    if is_wsl then
-        table.insert(whoami, 1, 'wsl.exe')
-    end
-
+    local whoami = is_wsl and { 'wsl.exe', 'whoami' } or { 'whoami' }
     local _, me, _ = wezterm.run_child_process(whoami)
     return me and me:gsub('%s+$', ' | ') or 'me'
 end
 
 local function get_cwd(pane)
     local home_dir = wezterm.home_dir
-    local cwd = nil
-    pcall(function()
-        cwd = pane:get_current_working_dir()
+    local _, cwd = pcall(function()
+        return pane:get_current_working_dir()
     end)
     cwd = cwd ~= nil and cwd.file_path or ''
     return '  ' .. cwd:gsub(home_dir, '~') .. ' '
@@ -397,14 +369,16 @@ local function get_mode_and_hl(window)
     return mode_display, mode_fg
 end
 
-local function insert_cpu_display(items)
+local function get_cpu_display_and_hl()
     local cpu = wezterm.GLOBAL.cpu
+    local display_cpu = ' CPU 00.00% '
+    local display_color = hl.green_2
     if cpu ~= 0 then
-        local display_color = cpu < 50 and hl.green_2 or hl.dark_gold
+        display_color = cpu < 50 and hl.green_2 or hl.dark_gold
         display_color = cpu > 75 and hl.red_2 or display_color
-        table.insert(items, { Foreground = { Color = display_color } })
-        table.insert(items, { Text = string.format(' CPU %05.2f%% ', cpu) })
+        display_cpu = string.format(' CPU %05.2f%% ', cpu)
     end
+    return display_cpu, display_color
 end
 
 -- Status --
@@ -424,16 +398,18 @@ end
 
 local function style_right_status(window, pane)
     local cwd_display = get_cwd(pane)
-    local mode_display, mode_fg = get_mode_and_hl(window)
+    local mode_display, mode_hl = get_mode_and_hl(window)
+    local cpu, cpu_hl = get_cpu_display_and_hl()
 
     local items = {
         { Foreground = { Color = hl.purple_2 } },
         { Text = cwd_display },
-        { Foreground = { Color = mode_fg } },
+        { Foreground = { Color = mode_hl } },
         { Attribute = { Intensity = 'Bold' } },
         { Text = mode_display },
+        { Foreground = { Color = cpu_hl } },
+        { Text = cpu },
     }
-    insert_cpu_display(items)
 
     window:set_right_status(wezterm.format(items))
 end
@@ -454,11 +430,12 @@ wezterm.on('format-tab-title', function(tab, _, _, _, _, _)
     local foreground = tab.is_active and hl.sky_blue or hl.light_gray
 
     local t = tab.tab_title
-    -- if we didn't manually rename title, use auto-gen tab title
+    -- if we didn't manually rename title, use auto-gen tab title,
+    -- trim leading whitespace and get first word (aka the binary)
     if t == '' or not t then
-        -- trim leading whitespace and get first word (aka the binary)
         t = tab.active_pane.title:match('^%s*(.*)'):match('^[^%s]*')
     end
+
     -- default to terminal if no program
     if t == '~' then
         t = is_wsl and 'fish' or 'zsh'
@@ -518,11 +495,7 @@ local function work_startup(_)
 end
 
 wezterm.on('gui-startup', function(cmd)
-    if is_wsl then
-        home_startup(cmd)
-    else
-        work_startup(cmd)
-    end
+    return is_wsl and home_startup(cmd) or work_startup(cmd)
 end)
 
 return c
