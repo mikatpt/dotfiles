@@ -333,12 +333,21 @@ local function update_cpu()
         return
     end
 
-    local success, cpu, _ = wezterm.run_child_process({ 'top', '-l', '1' })
+    local cmd = { 'top', '-l', '1' }
+    local matcher = 'CPU usage:.* (%d+%.%d+)%% idle \n'
+    if is_windows then
+        cmd = { 'wmic', 'cpu', 'get', 'loadpercentage' }
+        matcher = '%d+'
+    end
+
+    local success, cpu, err = wezterm.run_child_process(cmd)
     if not success then
+        wezterm.log_error('could not get cpu %', err)
+        wezterm.GLOBAL.cpu_updating = false
         return
     end
-    local idle = cpu:match('CPU usage:.* (%d+%.%d+)%% idle \n')
-    wezterm.GLOBAL.cpu = 100 - tonumber(idle)
+    local idle = tonumber(cpu:match(matcher))
+    wezterm.GLOBAL.cpu = is_windows and idle or 100 - idle
     wezterm.GLOBAL.cpu_update_ticks = 0
     wezterm.GLOBAL.cpu_updating = false
 end
@@ -428,10 +437,6 @@ local function style_right_status(window, pane)
 
     window:set_right_status(wezterm.format(items))
 end
-
--- Initial CPU update
-wezterm.GLOBAL.cpu_updating = true
-update_cpu()
 
 wezterm.on('update-status', function(window, pane)
     tick_cpu()
