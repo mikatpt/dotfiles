@@ -305,6 +305,7 @@ end
 
 wezterm.GLOBAL.cpu_update_ticks = 0
 wezterm.GLOBAL.cpu_updating = false
+wezterm.GLOBAL.git_dirs = wezterm.GLOBAL.git_dirs or {}
 
 local function update_cpu()
     if wezterm.GLOBAL.cpu_update_ticks % 8 ~= 0 then
@@ -343,12 +344,10 @@ local function get_user_info()
 end
 
 local function get_cwd(pane)
-    local home_dir = wezterm.home_dir
     local _, cwd = pcall(function()
         return pane:get_current_working_dir()
     end)
-    cwd = cwd ~= nil and cwd.file_path or ''
-    return '  ' .. cwd:gsub(home_dir, '~') .. ' '
+    return cwd ~= nil and cwd.file_path or ''
 end
 
 local function get_mode_and_hl(window)
@@ -380,6 +379,56 @@ local function get_cpu_display_and_hl()
     return display_cpu, display_color
 end
 
+local function update_git_dir(pane)
+    local id = tostring(pane:pane_id())
+    local info = wezterm.GLOBAL.git_dirs[id]
+    local cwd = info.curr_dir
+
+    if info.updating then
+        return
+    end
+    wezterm.GLOBAL.git_dirs[id].updating = true
+
+    local cmd = { 'git', '-C', cwd, 'rev-parse', '--show-toplevel' }
+    if is_wsl then
+        table.insert(cmd, 1, 'wsl.exe')
+    end
+    local success, dir, _ = wezterm.run_child_process(cmd)
+    dir = success and dir:gsub('%s+$', ''):match('[^/\\]+$') or nil
+
+    wezterm.GLOBAL.git_dirs[id].dir = success and dir or nil
+    wezterm.GLOBAL.git_dirs[id].prev_dir = cwd
+    wezterm.GLOBAL.git_dirs[id].updating = false
+end
+
+local function get_or_init_git_info(pane)
+    local id = tostring(pane:pane_id())
+    local info = wezterm.GLOBAL.git_dirs[id]
+    if info == nil then
+        info = {
+            dir = nil,
+            updating = false,
+            prev_dir = '',
+            curr_dir = get_cwd(pane),
+        }
+        wezterm.GLOBAL.git_dirs[id] = info
+    end
+    return info
+end
+
+local function tick_git(pane)
+    local inf = get_or_init_git_info(pane)
+
+    -- no need to update if already in same dir
+    if inf.updating or inf.curr_dir == inf.prev_dir then
+        return
+    end
+
+    wezterm.time.call_after(0, function()
+        update_git_dir(pane)
+    end)
+end
+
 -- Status --
 
 local function style_left_status(window, _)
@@ -396,7 +445,12 @@ local function style_left_status(window, _)
 end
 
 local function style_right_status(window, pane)
-    local cwd_display = get_cwd(pane)
+    local cwd = get_cwd(pane)
+    local id = tostring(pane:pane_id())
+    if wezterm.GLOBAL.git_dirs[id] ~= nil then
+        wezterm.GLOBAL.git_dirs[id].curr_dir = cwd
+    end
+    local cwd_display = '  ' .. cwd:gsub(wezterm.home_dir, '~') .. ' '
     local mode_display, mode_hl = get_mode_and_hl(window)
     local cpu, cpu_hl = get_cpu_display_and_hl()
 
@@ -414,6 +468,7 @@ local function style_right_status(window, pane)
 end
 
 wezterm.on('update-status', function(window, pane)
+    tick_git(pane)
     tick_cpu()
     update_dynamic_colors(window, pane)
     style_left_status(window, pane)
@@ -424,6 +479,11 @@ wezterm.on('format-window-title', function()
     return 'Wezterm'
 end)
 
+local pane_subs = {
+    ['simple-trade'] = 'sts',
+    ['~'] = is_wsl and 'fish' or 'zsh',
+}
+
 -- tab, tabs, panes, config, hover, max_width
 wezterm.on('format-tab-title', function(tab, _, _, _, _, _)
     local foreground = tab.is_active and hl.sky_blue or hl.light_gray
@@ -432,13 +492,11 @@ wezterm.on('format-tab-title', function(tab, _, _, _, _, _)
     -- if we didn't manually rename title, use auto-gen tab title,
     -- trim leading whitespace and get first word (aka the binary)
     if t == '' or not t then
-        t = tab.active_pane.title:match('^%s*(.*)'):match('^[^%s]*')
+        local info = wezterm.GLOBAL.git_dirs[tostring(tab.active_pane.pane_id)]
+        t = info and info.dir or tab.active_pane.title:match('^%s*(.*)'):match('^[^%s]*')
     end
 
-    -- default to terminal if no program
-    if t == '~' then
-        t = is_wsl and 'fish' or 'zsh'
-    end
+    t = pane_subs[t] or t
 
     local title = tab.tab_index + 1 .. ' ' .. t .. ' '
 
