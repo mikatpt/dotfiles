@@ -30,8 +30,6 @@ c.inactive_pane_hsb = {
     brightness = 0.9,
 }
 c.show_new_tab_button_in_tab_bar = false
--- start with default session so main can be long-lived.
-c.default_workspace = 'default'
 
 ------------------
 ----- Colors -----
@@ -126,6 +124,202 @@ c.colors = {
         },
     },
 }
+
+-----------------
+---- Styling ----
+-----------------
+
+local CPU_UPDATE_SECS = 5
+
+wezterm.GLOBAL.git_dirs = wezterm.GLOBAL.git_dirs or {}
+
+-- Sometimes reloads can cause bad state with our shitty sync mutexes.
+wezterm.GLOBAL.cpu_locked = false
+for _, dir in pairs(wezterm.GLOBAL.git_dirs) do
+    dir.locked = false
+end
+
+-- Shell helpers --
+
+local function update_cpu()
+    local cmd = is_windows and { 'wmic', 'cpu', 'get', 'loadpercentage' } or { 'top', '-l', '1' }
+    local matcher = is_windows and '%d+' or 'CPU usage:.* (%d+%.%d+)%% idle \n'
+
+    local success, cpu, err = wezterm.run_child_process(cmd)
+    if not success then
+        wezterm.log_error('could not get cpu %', err)
+        return 0
+    end
+    local res = math.floor(tonumber(cpu:match(matcher)) + 0.5)
+    return is_windows and res or 100 - res
+end
+
+local function get_user_info()
+    local whoami = is_wsl and { 'wsl.exe', 'whoami' } or { 'whoami' }
+    local _, me, _ = wezterm.run_child_process(whoami)
+    return me and me:gsub('%s+$', ' | ') or 'me'
+end
+
+local function update_git_dir(cwd)
+    local cmd = { 'git', '-C', cwd, 'rev-parse', '--show-toplevel' }
+    if is_wsl then
+        table.insert(cmd, 1, 'wsl.exe')
+    end
+    local success, dir, _ = wezterm.run_child_process(cmd)
+    dir = success and dir:gsub('%s+$', ''):match('[^/\\]+$') or nil
+
+    return success and dir or nil
+end
+
+local function get_cwd(pane)
+    local success, cwd = pcall(function()
+        return pane:get_current_working_dir()
+    end)
+    return (success and cwd ~= nil) and cwd.file_path or ''
+end
+
+-- Async Update Handlers --
+
+local function tick_cpu()
+    if wezterm.GLOBAL.cpu_locked then
+        return
+    end
+    wezterm.GLOBAL.cpu_locked = true
+    wezterm.time.call_after(CPU_UPDATE_SECS, function()
+        wezterm.GLOBAL.cpu = update_cpu()
+        wezterm.GLOBAL.cpu_locked = false
+    end)
+end
+
+local function tick_git(pane, cwd)
+    local id = tostring(pane:pane_id())
+    wezterm.GLOBAL.git_dirs[id] = wezterm.GLOBAL.git_dirs[id] or {}
+    local info = wezterm.GLOBAL.git_dirs[id]
+
+    -- skip update if updating or if same dir
+    if info.locked or cwd == info.prev_cwd then
+        return
+    end
+
+    wezterm.GLOBAL.git_dirs[id].locked = true
+    wezterm.time.call_after(0, function()
+        wezterm.GLOBAL.git_dirs[id] = {
+            dir = update_git_dir(cwd),
+            prev_cwd = cwd,
+        }
+    end)
+end
+
+local function run_async_updates(pane, cwd)
+    tick_cpu()
+    tick_git(pane, cwd)
+end
+
+-- Display Helpers --
+
+local mode_map = {
+    copy_mode = { text = 'COPY', hl = hl.golden },
+    search_mode = { text = 'SEARCH', hl = hl.red },
+    quick_select = { text = 'SELECT', hl = hl.lime },
+    [''] = { text = 'NORM', hl = hl.light_violet },
+}
+
+local function update_dynamic_colors(window, _)
+    local overrides = { colors = c.colors }
+
+    overrides.colors.cursor_bg = mode_map[window:active_key_table() or ''].hl
+    window:set_config_overrides(overrides)
+end
+
+local function get_cpu_display_and_hl()
+    local cpu = wezterm.GLOBAL.cpu or 0
+    local display_cpu = ' CPU 00.00% '
+    local display_color = hl.green_2
+    if cpu ~= 0 then
+        display_color = cpu < 50 and hl.green_2 or hl.dark_gold
+        display_color = cpu > 75 and hl.red_2 or display_color
+        display_cpu = string.format(' CPU %02d%% ', cpu)
+    end
+    return display_cpu, display_color
+end
+
+-- Status Formatters --
+
+local function format_left()
+    local session_info = '  ' .. get_user_info() .. wezterm.mux.get_active_workspace() .. ' '
+
+    return wezterm.format({
+        { Attribute = { Intensity = 'Bold' } },
+        { Background = { Color = hl.sky_blue } },
+        { Foreground = { Color = hl.bg_blue } },
+        { Text = session_info .. '' },
+        { Background = { Color = hl.bg_blue } },
+        { Text = ' ' },
+    })
+end
+
+local function format_right(window, cwd)
+    local cwd_display = '  ' .. cwd:gsub(wezterm.home_dir, '~') .. ' '
+    local mode = mode_map[window:active_key_table() or '']
+    local cpu, cpu_hl = get_cpu_display_and_hl()
+
+    local items = {
+        { Foreground = { Color = hl.purple_2 } },
+        { Text = cwd_display },
+        { Foreground = { Color = mode.hl } },
+        { Attribute = { Intensity = 'Bold' } },
+        { Text = mode.text },
+        { Foreground = { Color = cpu_hl } },
+        { Text = cpu },
+    }
+
+    return wezterm.format(items)
+end
+
+local pane_subs = {
+    ['simple-trade'] = 'sts',
+    ['~'] = is_wsl and 'fish' or 'zsh',
+}
+
+-- This function is latency sensitive. Prefer retrieving state from 'update-status'.
+-- tab, tabs, panes, config, hover, max_width
+local function format_tab_title(tab, _, _, _, _, _)
+    local info = wezterm.GLOBAL.git_dirs[tostring(tab.active_pane.pane_id)]
+    local foreground = tab.is_active and hl.sky_blue or hl.light_gray
+
+    -- Use user-define title, git dir, or 1st word of dyn title.
+    local t = tab.tab_title
+    t = t ~= '' and t or ((info and info.dir) and info.dir or nil)
+    t = t and t or tab.active_pane.title:match('^[^%s]*')
+
+    t = pane_subs[t] or t
+
+    return {
+        { Background = { Color = hl.bg_blue } },
+        { Foreground = { Color = foreground } },
+        { Text = tab.tab_index + 1 .. ' ' .. t .. ' ' },
+        { Foreground = { Color = hl.bg_blue } },
+        { Text = ' ' },
+    }
+end
+
+-- Event handlers --
+
+wezterm.on('update-status', function(window, pane)
+    local cwd = get_cwd(pane)
+
+    run_async_updates(pane, cwd)
+    update_dynamic_colors(window, pane)
+
+    window:set_left_status(format_left())
+    window:set_right_status(format_right(window, cwd))
+end)
+
+wezterm.on('format-window-title', function()
+    return 'Wezterm'
+end)
+
+wezterm.on('format-tab-title', format_tab_title)
 
 -----------------
 -- Keybindings --
@@ -289,227 +483,6 @@ c.key_tables = {
     }),
 }
 
------------------
----- Styling ----
------------------
-
--- Helpers --
-
-local function update_dynamic_colors(window, _)
-    local overrides = { colors = c.colors }
-
-    local mode = window:active_key_table()
-    overrides.colors.cursor_bg = mode == 'copy_mode' and hl.golden or hl.light_violet
-    window:set_config_overrides(overrides)
-end
-
-wezterm.GLOBAL.cpu = wezterm.GLOBAL.cpu or 0
-wezterm.GLOBAL.cpu_update_ticks = 0
-wezterm.GLOBAL.cpu_updating = false
-wezterm.GLOBAL.git_dirs = wezterm.GLOBAL.git_dirs or {}
-
-local function update_cpu()
-    if wezterm.GLOBAL.cpu_update_ticks % 8 ~= 0 then
-        wezterm.GLOBAL.cpu_update_ticks = wezterm.GLOBAL.cpu_update_ticks + 1
-        return
-    end
-
-    local cmd = is_windows and { 'wmic', 'cpu', 'get', 'loadpercentage' } or { 'top', '-l', '1' }
-    local matcher = is_windows and '%d+' or 'CPU usage:.* (%d+%.%d+)%% idle \n'
-
-    local success, cpu, err = wezterm.run_child_process(cmd)
-    if not success then
-        wezterm.log_error('could not get cpu %', err)
-        return
-    end
-    local res = math.floor(tonumber(cpu:match(matcher)) + 0.5)
-    wezterm.GLOBAL.cpu = is_windows and res or 100 - res
-    wezterm.GLOBAL.cpu_update_ticks = 0
-end
-
-local function tick_cpu()
-    if wezterm.GLOBAL.cpu_updating then
-        return
-    end
-    wezterm.GLOBAL.cpu_updating = true
-    wezterm.time.call_after(10, function()
-        update_cpu()
-        wezterm.GLOBAL.cpu_updating = false
-    end)
-end
-
-local function get_user_info()
-    local whoami = is_wsl and { 'wsl.exe', 'whoami' } or { 'whoami' }
-    local _, me, _ = wezterm.run_child_process(whoami)
-    return me and me:gsub('%s+$', ' | ') or 'me'
-end
-
-local function get_cwd(pane)
-    local success, cwd = pcall(function()
-        return pane:get_current_working_dir()
-    end)
-    return (success and cwd ~= nil) and cwd.file_path or ''
-end
-
-local function get_mode_and_hl(window)
-    local mode = window:active_key_table()
-    local mode_display = 'NORM'
-    local mode_fg = hl.white
-    if mode == 'copy_mode' then
-        mode_display = 'COPY'
-        mode_fg = hl.golden
-    elseif mode == 'search_mode' then
-        mode_display = 'SEARCH'
-        mode_fg = hl.red
-    elseif mode == 'quick_select' then
-        mode_display = 'SELECT'
-        mode_fg = hl.lime
-    end
-    return mode_display, mode_fg
-end
-
-local function get_cpu_display_and_hl()
-    local cpu = wezterm.GLOBAL.cpu
-    local display_cpu = ' CPU 00.00% '
-    local display_color = hl.green_2
-    if cpu ~= 0 then
-        display_color = cpu < 50 and hl.green_2 or hl.dark_gold
-        display_color = cpu > 75 and hl.red_2 or display_color
-        display_cpu = string.format(' CPU %02d%% ', cpu)
-    end
-    return display_cpu, display_color
-end
-
-local function update_git_dir(pane)
-    local id = tostring(pane:pane_id())
-    local info = wezterm.GLOBAL.git_dirs[id]
-    local cwd = info.curr_dir
-
-    if info.updating then
-        return
-    end
-    wezterm.GLOBAL.git_dirs[id].updating = true
-
-    local cmd = { 'git', '-C', cwd, 'rev-parse', '--show-toplevel' }
-    if is_wsl then
-        table.insert(cmd, 1, 'wsl.exe')
-    end
-    local success, dir, _ = wezterm.run_child_process(cmd)
-    dir = success and dir:gsub('%s+$', ''):match('[^/\\]+$') or nil
-
-    wezterm.GLOBAL.git_dirs[id].dir = success and dir or nil
-    wezterm.GLOBAL.git_dirs[id].prev_dir = cwd
-    wezterm.GLOBAL.git_dirs[id].updating = false
-end
-
-local function get_or_init_git_info(pane)
-    local id = tostring(pane:pane_id())
-    local info = wezterm.GLOBAL.git_dirs[id]
-    if info == nil then
-        info = {
-            dir = nil,
-            updating = false,
-            prev_dir = '',
-            curr_dir = get_cwd(pane),
-        }
-        wezterm.GLOBAL.git_dirs[id] = info
-    end
-    return info
-end
-
-local function tick_git(pane)
-    local inf = get_or_init_git_info(pane)
-
-    -- no need to update if already in same dir
-    if inf.updating or inf.curr_dir == inf.prev_dir then
-        return
-    end
-
-    wezterm.time.call_after(0, function()
-        update_git_dir(pane)
-    end)
-end
-
--- Status --
-
-local function style_left_status(window, _)
-    local session_info = '  ' .. get_user_info() .. wezterm.mux.get_active_workspace() .. ' '
-
-    window:set_left_status(wezterm.format({
-        { Attribute = { Intensity = 'Bold' } },
-        { Background = { Color = hl.sky_blue } },
-        { Foreground = { Color = hl.bg_blue } },
-        { Text = session_info .. '' },
-        { Background = { Color = hl.bg_blue } },
-        { Text = ' ' },
-    }))
-end
-
-local function style_right_status(window, pane)
-    local cwd = get_cwd(pane)
-    local id = tostring(pane:pane_id())
-    if wezterm.GLOBAL.git_dirs[id] ~= nil then
-        wezterm.GLOBAL.git_dirs[id].curr_dir = cwd
-    end
-    local cwd_display = '  ' .. cwd:gsub(wezterm.home_dir, '~') .. ' '
-    local mode_display, mode_hl = get_mode_and_hl(window)
-    local cpu, cpu_hl = get_cpu_display_and_hl()
-
-    local items = {
-        { Foreground = { Color = hl.purple_2 } },
-        { Text = cwd_display },
-        { Foreground = { Color = mode_hl } },
-        { Attribute = { Intensity = 'Bold' } },
-        { Text = mode_display },
-        { Foreground = { Color = cpu_hl } },
-        { Text = cpu },
-    }
-
-    window:set_right_status(wezterm.format(items))
-end
-
-wezterm.on('update-status', function(window, pane)
-    tick_git(pane)
-    tick_cpu()
-    update_dynamic_colors(window, pane)
-    style_left_status(window, pane)
-    style_right_status(window, pane)
-end)
-
-wezterm.on('format-window-title', function()
-    return 'Wezterm'
-end)
-
-local pane_subs = {
-    ['simple-trade'] = 'sts',
-    ['~'] = is_wsl and 'fish' or 'zsh',
-}
-
--- tab, tabs, panes, config, hover, max_width
-wezterm.on('format-tab-title', function(tab, _, _, _, _, _)
-    local foreground = tab.is_active and hl.sky_blue or hl.light_gray
-
-    local t = tab.tab_title
-    -- if we didn't manually rename title, use auto-gen tab title,
-    -- trim leading whitespace and get first word (aka the binary)
-    if t == '' or not t then
-        local info = wezterm.GLOBAL.git_dirs[tostring(tab.active_pane.pane_id)]
-        t = info and info.dir or tab.active_pane.title:match('^%s*(.*)'):match('^[^%s]*')
-    end
-
-    t = pane_subs[t] or t
-
-    local title = tab.tab_index + 1 .. ' ' .. t .. ' '
-
-    return {
-        { Background = { Color = hl.bg_blue } },
-        { Foreground = { Color = foreground } },
-        { Text = title },
-        { Foreground = { Color = hl.bg_blue } },
-        { Text = ' ' },
-    }
-end)
-
 ----------------
 --- Sessions ---
 ----------------
@@ -521,6 +494,8 @@ local function home_startup(_)
         workspace = 'home',
         cwd = '/home/mikatpt/coding/home/backend',
     })
+    pane:send_text('keychain --eval $SSH_KEYS_TO_AUTOLOAD | source\n')
+    pane:send_text('cargo run --release\n')
     _, pane, window = mux.spawn_window({
         workspace = 'main',
         cwd = '~',
