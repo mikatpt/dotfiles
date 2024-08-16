@@ -385,6 +385,17 @@ local function tab_rename()
     })
 end
 
+local function new_workspace()
+    return act.PromptInputLine({
+        description = 'Enter workspace name',
+        action = wezterm.action_callback(function(window, pane, name)
+            name = name or ''
+            name = name ~= '' and name or 'default'
+            window:perform_action(act.SwitchToWorkspace({ name = name }), pane)
+        end),
+    })
+end
+
 c.keys = {
     ctrl_tmux('q', act.SwitchWorkspaceRelative(1)),
     ctrl_tmux('r', act.ReloadConfiguration),
@@ -402,6 +413,7 @@ c.keys = {
     tmux('k', act.ActivatePaneDirection('Up')),
     ctrl_tmux('t', act.SpawnTab('CurrentPaneDomain')),
     ctrl_tmux('p', act.ActivateTabRelative(-1)),
+    ctrl_tmux('m', new_workspace()),
     ctrl_tmux('n', act.ActivateTabRelative(1)),
     ctrl_tmux('1', act.ActivateTab(1)),
     ctrl_tmux('2', act.ActivateTab(2)),
