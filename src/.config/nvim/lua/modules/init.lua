@@ -24,11 +24,11 @@ local plugins = {
     { 'tpope/vim-fugitive',                                                                },
 
     -- Display
-    { treesitter, build = ':TSUpdate',       event = 'BufRead',      config = c.treesitter },
-    { treesitter .. '-refactor',             event = 'BufRead'                             },
-    { treesitter .. '-textobjects',          event = 'BufRead'                             },
-    { 'JoosepAlviste/nvim-ts-context-commentstring', event = 'BufRead', config = c.ctxcmt  },
-    { 'nvim-treesitter/playground',          event = 'BufRead'                             },
+    { treesitter, build = ':TSUpdate',                               config = c.treesitter },
+    { treesitter .. '-refactor',                                                           },
+    { treesitter .. '-textobjects',                                                        },
+    { 'JoosepAlviste/nvim-ts-context-commentstring',                    config = c.ctxcmt  },
+    { 'nvim-treesitter/playground',                                                        },
     { 'windwp/nvim-ts-autotag',              event = 'BufRead'                             },
     { 'lewis6991/gitsigns.nvim',                                     config = c.gitsigns   },
     { 'rcarriga/nvim-notify',                                        config = c.notify     },
@@ -43,7 +43,7 @@ local plugins = {
     -- Navigation
     { 'ThePrimeagen/harpoon',                dev = true,                                   },
     { 'mikatpt/harpoon-finder',              dev = true,                                   },
-    { 'kyazdani42/nvim-tree.lua',            commit = '4ee6366',     config = c.nvim_tree  },
+    { 'kyazdani42/nvim-tree.lua',                                    config = c.nvim_tree  },
     { 'stevearc/oil.nvim',                                           config = c.oil        },
     { 'nvim-telescope/telescope-fzf-native.nvim',                    build  = 'make'       },
     { 'nvim-telescope/telescope.nvim',                               config = c.telescope  },

@@ -76,6 +76,7 @@ return function()
                 },
                 git_placement = 'before',
                 modified_placement = 'after',
+                hidden_placement = 'after',
                 diagnostics_placement = 'signcolumn',
                 bookmarks_placement = 'signcolumn',
                 padding = ' ',
@@ -86,6 +87,7 @@ return function()
                     folder_arrow = true,
                     git = true,
                     modified = true,
+                    hidden = false,
                     diagnostics = true,
                     bookmarks = true,
                 },
@@ -94,6 +96,7 @@ return function()
                     symlink = '',
                     bookmark = '󰆤',
                     modified = '●',
+                    hidden = '󰜌',
                     folder = {
                         arrow_closed = '',
                         arrow_open = '',
@@ -121,8 +124,10 @@ return function()
             group_empty = false,
             root_folder_label = ':~:s?$?/..?',
             indent_width = 2,
+            hidden_display = 'none',
             highlight_diagnostics = false,
             highlight_modified = 'none',
+            highlight_hidden = 'none',
             highlight_bookmarks = 'none',
             highlight_clipboard = 'name',
             indent_markers = {
@@ -143,8 +148,11 @@ return function()
         },
         update_focused_file = {
             enable = true,
-            update_root = true,
-            ignore_list = { 'toggleterm', 'term' },
+            update_root = {
+                enable = true,
+                ignore_list = { 'toggleterm', 'term' },
+            },
+            exclude = false,
         },
         system_open = {
             cmd = '',
@@ -152,7 +160,6 @@ return function()
         },
         git = {
             enable = not_darwin,
-            ignore = true,
             show_on_dirs = true,
             timeout = 500,
             show_on_open_dirs = true,
@@ -187,6 +194,8 @@ return function()
             git_ignored = true,
             git_clean = false,
             no_buffer = false,
+            enable = true,
+            no_bookmark = false,
         },
         live_filter = {
             prefix = '[FILTER]: ',
@@ -237,7 +246,6 @@ return function()
         },
         trash = {
             cmd = 'gio trash',
-            require_confirm = true,
         },
         tab = {
             sync = {
@@ -260,7 +268,13 @@ return function()
                 default_yes = false,
             },
         },
-        experimental = {},
+        experimental = {
+            actions = {
+                open_file = {
+                    relative_path = false,
+                },
+            },
+        },
         log = {
             enable = false,
             truncate = false,
@@ -275,8 +289,5 @@ return function()
                 watcher = false,
             },
         },
-
-        ignore_buf_on_tab_change = {},
-        sort_by = 'name',
     })
 end
