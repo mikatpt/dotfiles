@@ -492,10 +492,9 @@ return function()
     }
 
     require('fidget').setup({
-        align = { bottom = true },
-        sources = {
-            ['null-ls'] = { ignore = true },
-        }
+        progress = {
+            ignore = { 'null-ls' }
+        },
     })
     require('feline').setup(config)
 end

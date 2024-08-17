@@ -33,7 +33,7 @@ local plugins = {
     { 'lewis6991/gitsigns.nvim',                                     config = c.gitsigns   },
     { 'rcarriga/nvim-notify',                                        config = c.notify     },
     { 'feline-nvim/feline.nvim',             tag   = 'v1.1.3',       config = c.feline     },
-    { 'j-hui/fidget.nvim',                   tag   = 'legacy'                              },
+    { 'j-hui/fidget.nvim',                                                                 },
     { 'folke/trouble.nvim',                  event = 'BufRead',      config = c.trouble    },
     { 'folke/todo-comments.nvim',            event = 'BufRead',      config = c.todo       },
     { 'folke/noice.nvim',  dependencies = { 'MunifTanjim/nui.nvim'}, config = c.noice      },
@@ -56,7 +56,7 @@ local plugins = {
     { 'williamboman/mason-lspconfig.nvim'                                                  },
     { 'nvimtools/none-ls.nvim',                                      config = c.null_ls    },
     { 'nvimtools/none-ls-extras.nvim',                                                     },
-    { 'glepnir/lspsaga.nvim',                   lazy = true,         commit = '8b02796'    },
+    { 'glepnir/lspsaga.nvim',                   lazy = true,                               },
     { 'ray-x/lsp_signature.nvim',               lazy = true,                               },
     { 'mfussenegger/nvim-dap',                                       config = c.dap        },
     { 'nvim-neotest/nvim-nio',                                                             },
@@ -84,7 +84,7 @@ local plugins = {
     { 'hrsh7th/cmp-nvim-lsp',               module = 'cmp_nvim_lsp', event  = 'BufRead'    },
     { 'hrsh7th/cmp-buffer',                 event  = 'BufRead'                             },
     { 'saadparwaiz1/cmp_luasnip',           event  = 'BufRead'                             },
-    { 'L3MON4D3/LuaSnip',   tag = 'v1.1.0', event  = 'BufRead'                             },
+    { 'L3MON4D3/LuaSnip',                   event  = 'BufRead'                             },
 }
 
 local opts = {

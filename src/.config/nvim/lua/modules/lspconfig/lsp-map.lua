@@ -18,7 +18,7 @@ M.attach_mappings = function(client, bufnr)
     nnoremap('gd', function() require('telescope.builtin').lsp_definitions() end)
     nnoremap('gr', function() require('telescope.builtin').lsp_references() end)
     nnoremap('gD', function() vim.lsp.buf.declaration() end)
-    nnoremap('gp', function() require('lspsaga.definition'):init(2, 1) end)
+    nnoremap('gp', function() require('lspsaga.definition'):init(1, 1) end)
 
     -- Actions
     nnoremap('<leader>rn', function() require('lspsaga.rename'):lsp_rename() end)
@@ -39,17 +39,9 @@ M.attach_mappings = function(client, bufnr)
     nnoremap(
         '<leader>e',
         function()
-            local display = require('lspsaga.diagnostic')
-            local incursor = display:get_diagnostic({ line = true})
-            local entry
-            if next(incursor) ~= nil and not (display.winid and vim.api.nvim_win_is_valid(display.winid)) then
-                entry = incursor[1]
-            end
-            if not entry then
-                require('lspsaga.diagnostic'):goto_next()
-                return
-            end
-            require('lspsaga.diagnostic'):render_diagnostic_window(entry)
+            require('lspsaga.diagnostic'):goto_next()
+            -- not sure if we want this one
+            -- require('lspsaga.diagnostic.show'):show_diagnostics({ line = true, args = {'++unfocus'}})
         end
     )
     nnoremap('[d',          function() require('lspsaga.diagnostic'):goto_prev() end)

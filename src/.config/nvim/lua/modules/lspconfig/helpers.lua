@@ -7,6 +7,11 @@ local format_group = vim.api.nvim_create_augroup('mikatpt_Format', { clear = tru
 M.on_attach = function(client, bufnr)
     -- Nicer hover menus for builtin lsp methods
     require('lspsaga').setup({
+        diagnostic = {
+            show_code_action = true,
+            jump_num_shortcut = true,
+            extend_relatedInformation = true,
+        },
         ui = {
             theme = 'round',
             border = 'rounded',
@@ -34,8 +39,10 @@ M.on_attach = function(client, bufnr)
             virtual_text = true,
         },
         rename = {
-            quit = '<ESC>',
-            exec = '<CR>',
+            keys = {
+                quit = 'q',
+                exec = '<CR>',
+            },
             in_select = false,
         },
         symbol_in_winbar = {
