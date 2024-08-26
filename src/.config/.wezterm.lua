@@ -434,6 +434,8 @@ c.keys = {
     ),
     tmux('LeftArrow', act.ActivateKeyTable({ name = 'resize_pane', one_shot = false, timeout_milliseconds = 400 })),
     tmux('RightArrow', act.ActivateKeyTable({ name = 'resize_pane', one_shot = false, timeout_milliseconds = 400 })),
+    { key = 'LeftArrow', mods = 'CTRL|SHIFT', action = act.MoveTabRelative(-1) },
+    { key = 'RightArrow', mods = 'CTRL|SHIFT', action = act.MoveTabRelative(1) },
 }
 
 c.key_tables = {
