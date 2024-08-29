@@ -226,8 +226,9 @@ local mode_map = {
 
 local function update_dynamic_colors(window, _)
     local overrides = { colors = c.colors }
+    local mode = mode_map[window:active_key_table()] or mode_map['']
 
-    overrides.colors.cursor_bg = mode_map[window:active_key_table() or ''].hl
+    overrides.colors.cursor_bg = mode.hl
     window:set_config_overrides(overrides)
 end
 
