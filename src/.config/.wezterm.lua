@@ -65,6 +65,7 @@ local hl = {
     white = 'hsl:0 0 95',
     light_violet = 'hsl:229 73 86',
     golden = 'hsl:54 90 49',
+    light_gold = 'hsl:54 50 49',
     dark_gold = 'hsl:37 100 39',
 }
 
@@ -101,7 +102,7 @@ c.colors = {
     compose_cursor = hl.jade, -- leader key on press
     copy_mode_active_highlight_fg = { Color = hl.total_black },
     copy_mode_active_highlight_bg = { Color = hl.jade },
-    copy_mode_inactive_highlight_bg = { Color = hl.golden },
+    copy_mode_inactive_highlight_bg = { Color = hl.light_gold },
     copy_mode_inactive_highlight_fg = { Color = hl.total_black },
     quick_select_label_bg = { Color = hl.golden },
     quick_select_label_fg = { Color = hl.black },
@@ -304,7 +305,9 @@ local function format_tab_title(tab, _, _, _, _, _)
     }
 end
 
--- Event handlers --
+----------------------
+--- Event handlers ---
+----------------------
 
 wezterm.on('update-status', function(window, pane)
     local cwd = get_cwd(pane)
@@ -357,45 +360,67 @@ local function ctrl_tmux(key, action)
     return ret
 end
 
-local function close_copy_mode()
-    return act.Multiple({
-        act.EmitEvent('update-status'),
-        act.CopyMode('ClearSelectionMode'),
-        act.CopyMode('ClearPattern'),
-        act.CopyMode('Close'),
-    })
-end
-
-local function copy_to()
-    return act.Multiple({ act.CopyTo('Clipboard'), act.CopyMode('ClearSelectionMode') })
-end
-
 local function next_match(int)
     local m = act.CopyMode(int == -1 and 'PriorMatch' or 'NextMatch')
     return act.Multiple({ m, act.CopyMode('ClearSelectionMode') })
 end
 
-local function tab_rename()
-    return act.PromptInputLine({
-        description = 'Enter new tab name',
-        action = wezterm.action_callback(function(window, _, line)
-            if line then
-                window:active_tab():set_title(line)
-            end
-        end),
-    })
+local close_copy_mode = act.Multiple({
+    act.EmitEvent('update-status'),
+    act.CopyMode('ClearSelectionMode'),
+    act.CopyMode('ClearPattern'),
+    act.CopyMode('Close'),
+})
+
+local copy_to = act.Multiple({ act.CopyTo('Clipboard'), act.CopyMode('ClearSelectionMode') })
+
+local tab_rename = act.PromptInputLine({
+    description = 'Enter new tab name',
+    action = wezterm.action_callback(function(window, _, line)
+        if line then
+            window:active_tab():set_title(line)
+        end
+    end),
+})
+
+local new_workspace = act.PromptInputLine({
+    description = 'Enter workspace name',
+    action = wezterm.action_callback(function(window, pane, name)
+        name = name or ''
+        name = name ~= '' and name or 'default'
+        window:perform_action(act.SwitchToWorkspace({ name = name }), pane)
+    end),
+})
+
+local function complete_search(should_clear)
+    return wezterm.action_callback(function(window, pane, _)
+        if should_clear then
+            window:perform_action(act.CopyMode('ClearPattern'), pane)
+        end
+        window:perform_action(act.CopyMode('AcceptPattern'), pane)
+        window:perform_action(act.EmitEvent('update-status'), pane)
+
+        -- For some reason this just does not work unless we retry a few times.
+        -- Probably something to do with state management between Search/Copy mode.
+        for _ = 1, 3, 1 do
+            wezterm.sleep_ms(100)
+            window:perform_action(act.CopyMode('ClearSelectionMode'), pane)
+        end
+    end)
 end
 
-local function new_workspace()
-    return act.PromptInputLine({
-        description = 'Enter workspace name',
-        action = wezterm.action_callback(function(window, pane, name)
-            name = name or ''
-            name = name ~= '' and name or 'default'
-            window:perform_action(act.SwitchToWorkspace({ name = name }), pane)
-        end),
-    })
+local function clear_and_move(dir)
+    local cmd = type(dir) == 'number' and act.ActivateTabRelative or act.ActivatePaneDirection
+    return act.Multiple({ act.CopyMode('ClearPattern'), cmd(dir) })
 end
+
+local resize = { name = 'resize_pane', one_shot = false, timeout_milliseconds = 400 }
+
+local search = act.Multiple({
+    act.CopyMode('ClearPattern'),
+    act.EmitEvent('update-status'),
+    act.Search({ CaseSensitiveString = '' }),
+})
 
 c.keys = {
     ctrl_tmux('q', act.SwitchWorkspaceRelative(1)),
@@ -404,70 +429,42 @@ c.keys = {
     ctrl_tmux('s', act.Multiple({ act.CopyMode('ClearSelectionMode'), act.ActivateCopyMode })),
     ctrl_tmux('[', act.SplitHorizontal({ domain = 'CurrentPaneDomain' })),
     ctrl_tmux(']', act.SplitVertical({ domain = 'CurrentPaneDomain' })),
-    ctrl_tmux(',', tab_rename()),
-    tmux(',', tab_rename()),
-    ctrl_tmux('l', act.ActivatePaneDirection('Right')),
-    ctrl_tmux('h', act.ActivatePaneDirection('Left')),
-    ctrl_tmux('k', act.ActivatePaneDirection('Next')),
-    ctrl_tmux('j', act.ActivatePaneDirection('Prev')),
-    tmux('j', act.ActivatePaneDirection('Down')),
-    tmux('k', act.ActivatePaneDirection('Up')),
+    ctrl_tmux(',', tab_rename),
+    ctrl_tmux('LeftArrow', act.ActivateKeyTable(resize)),
+    ctrl_tmux('RightArrow', act.ActivateKeyTable(resize)),
+    tmux('LeftArrow', act.ActivateKeyTable(resize)),
+    tmux('RightArrow', act.ActivateKeyTable(resize)),
+    tmux(',', tab_rename),
+    tmux('j', clear_and_move('Down')),
+    tmux('k', clear_and_move('Up')),
     ctrl_tmux('t', act.SpawnTab('CurrentPaneDomain')),
-    ctrl_tmux('p', act.ActivateTabRelative(-1)),
-    ctrl_tmux('m', new_workspace()),
-    ctrl_tmux('n', act.ActivateTabRelative(1)),
-    ctrl_tmux('1', act.ActivateTab(1)),
-    ctrl_tmux('2', act.ActivateTab(2)),
-    ctrl_tmux('3', act.ActivateTab(3)),
-    ctrl_tmux('4', act.ActivateTab(4)),
-    ctrl_tmux('5', act.ActivateTab(5)),
-    ctrl_tmux('6', act.ActivateTab(6)),
-    ctrl_tmux('7', act.ActivateTab(7)),
-    ctrl_tmux('8', act.ActivateTab(8)),
-    ctrl_tmux('9', act.ActivateTab(9)),
-    ctrl_tmux(
-        'LeftArrow',
-        act.ActivateKeyTable({ name = 'resize_pane', one_shot = false, timeout_milliseconds = 400 })
-    ),
-    ctrl_tmux(
-        'RightArrow',
-        act.ActivateKeyTable({ name = 'resize_pane', one_shot = false, timeout_milliseconds = 400 })
-    ),
-    tmux('LeftArrow', act.ActivateKeyTable({ name = 'resize_pane', one_shot = false, timeout_milliseconds = 400 })),
-    tmux('RightArrow', act.ActivateKeyTable({ name = 'resize_pane', one_shot = false, timeout_milliseconds = 400 })),
+    ctrl_tmux('m', new_workspace),
     { key = 'LeftArrow', mods = 'CTRL|SHIFT', action = act.MoveTabRelative(-1) },
     { key = 'RightArrow', mods = 'CTRL|SHIFT', action = act.MoveTabRelative(1) },
 }
 
+for i = 0, 8, 1 do -- <C-S>1-9 switches to tab
+    table.insert(c.keys, ctrl_tmux(tostring(i + 1), act.ActivateTab(i)))
+end
+
+for key, dir in pairs({ l = 'Right', h = 'Left', k = 'Next', j = 'Prev', p = -1, n = 1 }) do
+    table.insert(c.keys, ctrl_tmux(key, clear_and_move(dir))) -- swap tab or pane
+end
+
 c.key_tables = {
     copy_mode = extend_keys(default_keys.copy_mode, {
-        { key = 'c', mods = 'CTRL', action = close_copy_mode() },
-        { key = 'q', mods = 'NONE', action = close_copy_mode() },
-        { key = 'y', mods = 'NONE', action = copy_to() },
-        { key = 'Escape', mods = 'NONE', action = close_copy_mode() },
+        { key = 'c', mods = 'CTRL', action = close_copy_mode },
+        { key = 'q', mods = 'NONE', action = close_copy_mode },
+        { key = 'Escape', mods = 'NONE', action = close_copy_mode },
+        { key = 'Space', mods = 'CTRL', action = act.CopyMode('ClearPattern') },
+        { key = 'y', mods = 'NONE', action = copy_to },
 
         { key = 'h', mods = 'NONE', action = act.CopyMode('MoveLeft') },
         { key = 'j', mods = 'NONE', action = act.CopyMode('MoveDown') },
         { key = 'k', mods = 'NONE', action = act.CopyMode('MoveUp') },
         { key = 'l', mods = 'NONE', action = act.CopyMode('MoveRight') },
-        {
-            key = '/',
-            mods = 'NONE',
-            action = act.Multiple({
-                act.CopyMode('ClearPattern'),
-                act.EmitEvent('update-status'),
-                act.Search({ CaseInSensitiveString = '' }),
-            }),
-        },
-        {
-            key = '?',
-            mods = 'SHIFT',
-            action = act.Multiple({
-                act.CopyMode('ClearPattern'),
-                act.EmitEvent('update-status'),
-                act.Search({ CaseInSensitiveString = '' }),
-            }),
-        },
+        { key = '/', mods = 'NONE', action = search },
+        { key = '?', mods = 'SHIFT', action = search },
         { key = 'p', mods = 'CTRL', action = next_match(-1) },
         { key = 'n', mods = 'CTRL', action = next_match(1) },
         { key = 'n', mods = 'NONE', action = next_match(1) },
@@ -480,21 +477,9 @@ c.key_tables = {
         { key = 'RightArrow', mods = 'NONE', action = act.AdjustPaneSize({ 'Right', 2 }) },
     },
     search_mode = extend_keys(default_keys.search_mode, {
-        {
-            key = 'Escape',
-            mods = 'NONE',
-            action = act.Multiple({ act.CopyMode('Close'), act.EmitEvent('update-status') }),
-        },
+        { key = 'Escape', mods = 'NONE', action = complete_search(true) },
+        { key = 'Enter', mods = 'NONE', action = complete_search(false) },
         { key = 'r', mods = 'CTRL', action = act.CopyMode('CycleMatchType') },
-        {
-            key = 'Enter',
-            mods = 'NONE',
-            action = act.Multiple({
-                act.ActivateCopyMode,
-                act.EmitEvent('update-status'),
-                -- act.SendKey({ key = 'v', mods = 'NONE' }), -- Currently doesn't work.
-            }),
-        },
     }),
 }
 
