@@ -120,7 +120,7 @@ M.set_capabilities = function()
     -- Don't update diagnostics while typing
     vim.diagnostic.config({
         underline = true,
-        virtual_text = { severity_limit = 'Warning' },
+        virtual_text = { min = 'Warning' },
         signs = true,
         update_in_insert = false,
         severity_sort = true,
