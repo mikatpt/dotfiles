@@ -515,13 +515,10 @@ local function work_startup(_)
         cwd = '~',
         args = { 'zsh', '-l' },
     })
-    tab:set_title('sts')
+    _ = tab
 
-    for i = 1, 3 do
-        local t, _, _ = window:spawn_tab({ cwd = '~' })
-        if i == 1 then
-            t:set_title('sts')
-        end
+    for _ = 1, 3 do
+        local _, _, _ = window:spawn_tab({ cwd = '~' })
     end
     mux.set_active_workspace('main')
     pane:activate()
