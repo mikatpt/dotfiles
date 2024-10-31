@@ -106,7 +106,11 @@ nnoremap('<leader><S-Y>', '<CMD>%y+<CR>')
 nnoremap('gx',            open_cmd,               nonsilent)
 
 -- Open in Github
-nnoremap('<leader>go',    '<CMD>GBrowse<CR>')
+nnoremap('<leader>go',         '<CMD>GBrowse<CR>')
+nnoremap('<leader><S-G><S-O>', function() require('core.utils').fn.gbrowse({ target_upstream = true }) end)
+vnoremap('<leader>go',         function() require('core.utils').fn.gbrowse({ is_visual = true }) end)
+vnoremap('<leader><S-G><S-O>', function() require('core.utils').fn.gbrowse({ is_visual = true, target_upstream = true }) end)
+
 -- Git merge
 nnoremap('<leader>hj',    '<CMD>diffget //2<CR>' )
 nnoremap('<leader>hk',    '<CMD>diffget //3<CR>' )

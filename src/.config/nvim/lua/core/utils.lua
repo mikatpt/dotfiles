@@ -83,29 +83,28 @@ M.fn.reload_config = function()
 end
 
 M.fn.get_vis_len = function()
-    -- Visual markers aren't saved until after selection ends, so we have to exit first and debounce.
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'n', false)
+    local _, start_row, start_col, _ = unpack(vim.fn.getpos('v'))
+    local _, end_row, end_col, _ = unpack(vim.fn.getpos('.'))
 
-    vim.defer_fn(function()
-        local _, start_row, start_col, _ = unpack(vim.fn.getpos("'<"))
-        local _, end_row, end_col, _ = unpack(vim.fn.getpos("'>"))
+    if start_row > end_row then
+        start_row, start_col, end_row, end_col = end_row, end_col, start_row, start_col
+    end
 
-        local lines = vim.fn.getline(start_row, end_row)
-        if #lines == 0 then
-            return 0
-        end
+    local lines = vim.fn.getline(start_row, end_row)
+    if #lines == 0 then
+        return 0
+    end
 
-        -- Slice off unselected text in first and last lines if only partially selected.
-        if start_row == end_row then
-            lines[1] = string.sub(lines[1], start_col, end_col)
-        else
-            lines[1] = string.sub(lines[1], start_col)
-            lines[#lines] = string.sub(lines[#lines], 1, end_col)
-        end
+    -- Slice off unselected text in first and last lines if only partially selected.
+    if start_row == end_row then
+        lines[1] = string.sub(lines[1], start_col, end_col)
+    else
+        lines[1] = string.sub(lines[1], start_col)
+        lines[#lines] = string.sub(lines[#lines], 1, end_col)
+    end
 
-        local text = table.concat(lines, '\n')
-        print(vim.fn.strlen(text))
-    end, 50)
+    local text = table.concat(lines, '\n')
+    print(vim.fn.strlen(text))
 end
 
 M.fn.setup_lazy = function()
@@ -160,6 +159,40 @@ M.fn.rust_tools_hover = function()
 
     local params = vim.lsp.util.make_position_params(0, nil)
     vim.lsp.buf_request(0, 'textDocument/hover', params, rt.utils.mk_handler(M.fn.handler))
+end
+
+-- @param opts table
+-- @param opts.target_upstream boolean
+-- @param opts.is_visual boolean
+-- @param opts.end_line number
+M.fn.gbrowse = function(opts)
+    local target_upstream = opts.target_upstream
+    local remotes = vim.fn.systemlist('git remote')
+    local has_origin = false
+    local has_upstream = false
+    local remote = 'origin'
+
+    for _, r in ipairs(remotes) do
+        if r == 'origin' then
+            has_origin = true
+        elseif r == 'upstream' then
+            has_upstream = true
+        end
+    end
+
+    if has_upstream and target_upstream then
+        remote = 'upstream'
+    elseif not has_upstream and has_origin then
+        remote = 'origin'
+    else
+        remote = remotes[1]
+    end
+
+    local master_ref = vim.fn.system('git symbolic-ref refs/remotes/origin/HEAD')
+    local main_branch = master_ref:gsub('refs/remotes/origin/', ''):gsub('\n', '')
+    local range = opts.is_visual and vim.fn.getpos('v')[2] .. ',' .. vim.fn.getpos('.')[2] or ''
+    local cmd = range .. 'GBrowse ' .. main_branch .. ':%' .. '@' .. remote
+    vim.cmd(cmd)
 end
 
 return M
