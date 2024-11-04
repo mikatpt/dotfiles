@@ -21,9 +21,6 @@ return function()
             root_dir = get_root({ 'go.mod' }),
             filetypes = { 'go', 'gomod' },
             settings = {
-                gopls = {
-                    ['build.allowModfileModifications'] = true,
-                },
             },
         },
         -- Latency here is steadily rising unfortunately.
