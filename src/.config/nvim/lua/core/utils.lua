@@ -193,7 +193,11 @@ M.fn.gbrowse = function(opts)
         main_branch = 'main'
     end
     local range = opts.is_visual and vim.fn.getpos('v')[2] .. ',' .. vim.fn.getpos('.')[2] or ''
-    local cmd = range .. 'GBrowse ' .. main_branch .. ':%' .. '@' .. remote
+
+    local cmd = range .. 'GBrowse '
+    if not opts.target_upstream then
+        cmd = cmd .. main_branch .. ':%' .. '@' .. remote
+    end
     vim.cmd(cmd)
 end
 
