@@ -188,8 +188,10 @@ M.fn.gbrowse = function(opts)
         remote = remotes[1]
     end
 
-    local master_ref = vim.fn.system('git symbolic-ref refs/remotes/origin/HEAD')
-    local main_branch = master_ref:gsub('refs/remotes/origin/', ''):gsub('\n', '')
+    local main_branch = 'master'
+    if vim.fn.system('git branch --list ' .. 'main') == 0 then
+        main_branch = 'main'
+    end
     local range = opts.is_visual and vim.fn.getpos('v')[2] .. ',' .. vim.fn.getpos('.')[2] or ''
     local cmd = range .. 'GBrowse ' .. main_branch .. ':%' .. '@' .. remote
     vim.cmd(cmd)
