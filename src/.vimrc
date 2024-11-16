@@ -1,3 +1,4 @@
+let mapleader =" "
 inoremap <silent> jk <ESC>
 
 inoremap <silent> jk            <ESC>
