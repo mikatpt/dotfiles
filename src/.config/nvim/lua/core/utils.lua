@@ -192,10 +192,16 @@ M.fn.gbrowse = function(opts)
     if vim.fn.system('git branch --list ' .. 'main') == 0 then
         main_branch = 'main'
     end
-    local range = opts.is_visual and vim.fn.getpos('v')[2] .. ',' .. vim.fn.getpos('.')[2] or ''
+
+    local start_l, end_l = vim.fn.getpos('v')[2], vim.fn.getpos('.')[2]
+    if start_l > end_l then
+        start_l, end_l = end_l, start_l
+    end
+
+    local range = opts.is_visual and start_l .. ',' .. vim.fn.getpos('.')[2] or ''
 
     local cmd = range .. 'GBrowse '
-    if not opts.target_upstream then
+    if target_upstream then
         cmd = cmd .. main_branch .. ':%' .. '@' .. remote
     end
     vim.cmd(cmd)
