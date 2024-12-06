@@ -1,3 +1,4 @@
+print('running')
 local wezterm = require('wezterm')
 local c = {}
 
@@ -14,8 +15,8 @@ end
 
 c.scrollback_lines = 10000
 c.audible_bell = 'Disabled'
-c.default_prog = is_wsl and { 'wsl.exe', '--distribution', 'Ubuntu-20.04' } or nil
-c.default_domain = is_wsl and 'WSL:Ubuntu-20.04' or 'local'
+c.default_prog = is_wsl and { 'wsl.exe', '--distribution', 'Ubuntu-24.04' } or nil
+c.default_domain = is_wsl and 'WSL:Ubuntu-24.04' or 'local'
 c.font = wezterm.font_with_fallback(fonts)
 c.freetype_load_flags = 'NO_HINTING'
 c.font_size = is_wsl and 12.6 or 15.3

@@ -1,5 +1,6 @@
 #!/usr/bin/bash
 
+d=$(dirname $(readlink -f $0))
 source $d/shared.sh
 
 _install_fish() {

@@ -16,7 +16,7 @@ return function()
                 diagnostic_config = { virtual_text = false },
             }),
             null_ls.builtins.formatting.stylua.with({
-                command = 'stylua',
+                command = cmd_root .. '/stylua',
                 args = { '-s', '-' },
             }),
             null_ls.builtins.formatting.prettier.with({

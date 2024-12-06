@@ -11,7 +11,7 @@ fish_add_path $HOME/.local/share/nvim/lsp_servers/rust
 fish_add_path $HOME/.deno/bin
 bass source $HOME/.cargo/env
 
-if type -q rtx 
+if type -q mise 
     mise activate fish | source
 end
 

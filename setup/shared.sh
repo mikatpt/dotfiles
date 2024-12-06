@@ -14,10 +14,10 @@ _install_languages() {
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
     # make sure we have cargo in path before continuing.
     . "$HOME/.cargo/env"
-    cargo install ripgrep fd-find tealdeer eza stylua zoxide bat rtx-cli bacon just genact
+    cargo install ripgrep fd-find tealdeer eza stylua zoxide bat mise bacon just genact
 
     # install all languages
-    rtx install
+    mise install
     source <(rtx activate bash)
     npm install -g neovim eslint_d gulp prettier
     pip install ptpython
