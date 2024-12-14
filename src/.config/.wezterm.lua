@@ -144,7 +144,7 @@ end
 -- Shell helpers --
 
 local function update_cpu()
-    local cmd = is_windows and { 'wmic', 'cpu', 'get', 'loadpercentage' } or { 'top', '-l', '1' }
+    local cmd = is_windows and { 'wmic.exe', 'cpu', 'get', 'loadpercentage' } or { 'top', '-l', '1' }
     local matcher = is_windows and '%d+' or 'CPU usage:.* (%d+%.%d+)%% idle \n'
 
     local success, cpu, err = wezterm.run_child_process(cmd)

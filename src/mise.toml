@@ -1,3 +1,4 @@
 [tools]
 go = "latest"
 node = "19.0.0"
+python = "3.9.21"
