@@ -20,8 +20,7 @@ return function()
         gopls = {
             root_dir = get_root({ 'go.mod' }),
             filetypes = { 'go', 'gomod' },
-            settings = {
-            },
+            settings = {},
         },
         -- Latency here is steadily rising unfortunately.
         -- golangci_lint_ls = {
@@ -55,7 +54,7 @@ return function()
         },
         solargraph = {
             root_dir = get_root({ '.solargraph.yml', '.rubocop.yml' }),
-            cmd = { vim.loop.os_homedir() .. "/.rbenv/shims/solargraph", "stdio" },
+            cmd = { vim.loop.os_homedir() .. '/.rbenv/shims/solargraph', 'stdio' },
             filetypes = { 'ruby' },
         },
         lua_ls = {
@@ -66,7 +65,7 @@ return function()
                 },
             },
         },
-        tsserver = {
+        ts_ls = {
             root_dir = get_root({ 'package.json', 'tsconfig.json', 'yarn.lock' }),
             init_options = require('nvim-lsp-ts-utils').init_options,
         },
@@ -110,7 +109,9 @@ return function()
         local installed = mason_lspconfig.get_installed_servers()
 
         for _, server in pairs(installed) do
-            if server == 'rust_analyzer' then goto CONTINUE end
+            if server == 'rust_analyzer' then
+                goto CONTINUE
+            end
             local config = servers[server] or { root_dir = get_root({ '.git' }) }
 
             config.capabilities = capabilities
@@ -119,6 +120,16 @@ return function()
             lspconfig[server].setup(config)
 
             ::CONTINUE::
+        end
+
+        for _, method in ipairs({ 'textDocument/diagnostic', 'workspace/diagnostic' }) do
+            local default_handler = vim.lsp.handlers[method]
+            vim.lsp.handlers[method] = function(err, result, context, config)
+                if err ~= nil and err.code == -32802 then
+                    return
+                end
+                return default_handler(err, result, context, config)
+            end
         end
     end
 
