@@ -91,6 +91,8 @@ M.on_attach = function(client, bufnr)
         --     command = 'TSLspOrganizeSync',
         --     desc = 'Organizes imports on save',
         -- })
+    elseif client.name == 'rust_analyzer' then
+        vim.diagnostic.config({ virtual_text = { min = 'Error' } }, bufnr)
     end
 end
 
@@ -105,42 +107,38 @@ M.set_capabilities = function()
     }
 
     -- Set default column signs
-    local signs = {
+    local sn = {
         Error = { ' ', vim.diagnostic.severity.ERROR },
         Warn = { ' ', vim.diagnostic.severity.WARN },
         Info = { ' ', vim.diagnostic.severity.INFO },
         Hint = { '', vim.diagnostic.severity.HINT },
     }
 
-    local s = {
+    local signs = {
         text = {},
         linehl = {},
         numhl = {},
     }
 
-    for type, metadata in pairs(signs) do
+    for type, metadata in pairs(sn) do
         local symbol = metadata[1]
         local id = metadata[2]
         local hl = 'DiagnosticSign' .. type
 
-        s.text[id] = symbol
-        s.linehl[id] = hl
-        s.numhl[id] = hl
+        signs.text[id] = symbol
+        signs.numhl[id] = hl
     end
 
     -- Don't update diagnostics while typing
     vim.diagnostic.config({
         underline = true,
         virtual_text = { min = 'Warning' },
-        signs = s,
+        signs = signs,
         update_in_insert = false,
         severity_sort = true,
+        float = { border = 'single' },
     })
 
-    vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'single' })
-
-    vim.lsp.handlers['textDocument/signatureHelp'] =
-        vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'single' })
     return capabilities
 end
 
@@ -148,13 +146,15 @@ end
 M.get_root = function(root_files)
     local util = require('lspconfig').util
     return function(fname)
-        return util.root_pattern(unpack(root_files))(fname) or util.find_git_ancestor(fname) or util.path.dirname(fname)
+        return util.root_pattern(unpack(root_files))(fname)
+            or vim.fs.dirname(vim.fs.find('.git', { path = fname, upward = true })[1])
+            or vim.fs.dirname(fname)
     end
 end
 
 -- Telescope's lsp_implementations always brings up a preview menu, which can be annoying.
 -- If there's only one result, we'll just use the built-in lsp function.
-local custom_impl = function(err, result, ctx, config)
+local custom_impl = function(err, result, ctx)
     local ft = vim.api.nvim_get_option_value('filetype', { buf = ctx.bufnr })
     local no_impls_err = 'ERROR: No implementations for this item!'
 
@@ -193,7 +193,7 @@ local custom_impl = function(err, result, ctx, config)
         err = no_impls_err
     end
 
-    vim.lsp.handlers['textDocument/implementation'](err, result, ctx, config)
+    vim.lsp.handlers['textDocument/implementation'](err, result, ctx)
     vim.cmd([[normal! zz]])
 end
 

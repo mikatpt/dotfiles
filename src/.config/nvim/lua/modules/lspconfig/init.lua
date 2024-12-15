@@ -124,11 +124,11 @@ return function()
 
         for _, method in ipairs({ 'textDocument/diagnostic', 'workspace/diagnostic' }) do
             local default_handler = vim.lsp.handlers[method]
-            vim.lsp.handlers[method] = function(err, result, context, config)
+            vim.lsp.handlers[method] = function(err, result, context)
                 if err ~= nil and err.code == -32802 then
                     return
                 end
-                return default_handler(err, result, context, config)
+                return default_handler(err, result, context)
             end
         end
     end

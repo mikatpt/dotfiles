@@ -46,15 +46,6 @@ return function()
                     },
                 },
             },
-            handlers = {
-                ['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-                    underline = true,
-                    virtual_text = { min = 'Error' },
-                    signs = true,
-                    update_in_insert = false,
-                    severity_sort = true,
-                }),
-            },
         },
         dap = {
             adapter = require('rust-tools.dap').get_codelldb_adapter(codelldb, liblldb),

@@ -1,4 +1,4 @@
----@diagnostic disable: missing-parameter
+---@diagnostic disable: missing-parameter, unused-local
 -- stylua: ignore start
 local M = {}
 

@@ -45,8 +45,8 @@ end
 
 M.fn.redraw_lsp = function()
     for _, id in pairs(vim.tbl_keys(vim.lsp.get_clients())) do
-        vim.diagnostic.disable(0, id)
-        vim.diagnostic.enable(0, id)
+        vim.diagnostic.enable(false, id)
+        vim.diagnostic.enable(true, id)
     end
 end
 
