@@ -4,7 +4,7 @@ return function()
             history = {
                 view = 'split',
                 opts = { enter = true, format = 'details' },
-                -- Exclude undo messages and search messages, include the rest.
+                -- Exclude undo messages and search messages from history, include the rest.
                 filter = {
                     any = {
                         { event = 'notify' },
@@ -19,6 +19,7 @@ return function()
                             { event = 'msg_show', kind = '', find = '%d+ fewer lines' },
                             { event = 'msg_show', kind = '', find = '%d+ line less' },
                             { event = 'msg_show', kind = '', find = '%d+ change' },
+                            { event = 'msg_show', kind = 'bufwrite', ['not'] = { find = '%[w%]' } }, -- exclude weird dupe write events.
                         },
                     },
                 },
@@ -50,22 +51,15 @@ return function()
         },
         routes = { -- see :h noice and search FILTERS for more filtering options.
             {
+                -- Exclude from notifying.
                 filter = {
-                    event = 'msg_show',
                     any = {
                         { event = 'msg_show', kind = '', find = '%d+ more lines?' },
                         { event = 'msg_show', kind = '', find = '%d+ fewer lines' },
                         { event = 'msg_show', kind = '', find = '%d+ line less' },
                         { event = 'msg_show', kind = '', find = '%d+ change' },
+                        { event = 'notify', kind = 'warn', find = 'position_encoding' },
                     },
-                },
-                opts = { skip = true },
-            },
-            {
-                filter = { -- i don't want this warning at all
-                    event = 'notify',
-                    kind = 'warn',
-                    find = 'position_encoding',
                 },
                 opts = { skip = true },
             },
@@ -75,6 +69,7 @@ return function()
                     any = {
                         { kind = 'emsg', find = 'E486: Pattern not found' },
                         { event = 'notify', kind = 'info', find = 'No information available' },
+                        { event = 'msg_show', kind = 'bufwrite' },
                     },
                 },
                 view = 'mini',
