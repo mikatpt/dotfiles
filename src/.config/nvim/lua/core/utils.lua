@@ -157,7 +157,7 @@ end
 M.fn.rust_tools_hover = function()
     local rt = require('rust-tools')
 
-    local params = vim.lsp.util.make_position_params(0, nil)
+    local params = vim.lsp.util.make_position_params(0, 'utf-8')
     vim.lsp.buf_request(0, 'textDocument/hover', params, rt.utils.mk_handler(M.fn.handler))
 end
 

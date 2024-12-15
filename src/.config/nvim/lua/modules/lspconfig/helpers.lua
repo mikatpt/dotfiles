@@ -106,22 +106,33 @@ M.set_capabilities = function()
 
     -- Set default column signs
     local signs = {
-        Error = ' ',
-        Warn = ' ',
-        Info = ' ',
-        Hint = '',
+        Error = { ' ', vim.diagnostic.severity.ERROR },
+        Warn = { ' ', vim.diagnostic.severity.WARN },
+        Info = { ' ', vim.diagnostic.severity.INFO },
+        Hint = { '', vim.diagnostic.severity.HINT },
     }
 
-    for type, icon in pairs(signs) do
+    local s = {
+        text = {},
+        linehl = {},
+        numhl = {},
+    }
+
+    for type, metadata in pairs(signs) do
+        local symbol = metadata[1]
+        local id = metadata[2]
         local hl = 'DiagnosticSign' .. type
-        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+
+        s.text[id] = symbol
+        s.linehl[id] = hl
+        s.numhl[id] = hl
     end
 
     -- Don't update diagnostics while typing
     vim.diagnostic.config({
         underline = true,
         virtual_text = { min = 'Warning' },
-        signs = true,
+        signs = s,
         update_in_insert = false,
         severity_sort = true,
     })
@@ -187,7 +198,7 @@ local custom_impl = function(err, result, ctx, config)
 end
 
 M.implementation = function()
-    local params = vim.lsp.util.make_position_params(0, nil)
+    local params = vim.lsp.util.make_position_params(0, 'utf-8')
 
     vim.lsp.buf_request(0, 'textDocument/implementation', params, custom_impl)
 end

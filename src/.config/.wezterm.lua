@@ -1,4 +1,3 @@
-print('running')
 local wezterm = require('wezterm')
 local c = {}
 
@@ -236,7 +235,7 @@ end
 
 local function get_cpu_display_and_hl()
     local cpu = wezterm.GLOBAL.cpu or 0
-    local display_cpu = ' CPU 00.00% '
+    local display_cpu = ' CPU 00% '
     local display_color = hl.green_2
     if cpu ~= 0 then
         display_color = cpu < 50 and hl.green_2 or hl.dark_gold

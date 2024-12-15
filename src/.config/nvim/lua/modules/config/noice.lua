@@ -61,6 +61,14 @@ return function()
                 },
                 opts = { skip = true },
             },
+            {
+                filter = { -- i don't want this warning at all
+                    event = 'notify',
+                    kind = 'warn',
+                    find = 'position_encoding',
+                },
+                opts = { skip = true },
+            },
             { filter = { min_height = 5 }, view = 'split' },
             {
                 filter = { -- route some obtrusive messages to the mini view
