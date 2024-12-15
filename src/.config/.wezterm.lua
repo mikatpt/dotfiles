@@ -13,6 +13,7 @@ if not is_wsl then
 end
 
 c.scrollback_lines = 10000
+c.max_fps = 240
 c.audible_bell = 'Disabled'
 c.default_prog = is_wsl and { 'wsl.exe', '--distribution', 'Ubuntu-24.04' } or nil
 c.default_domain = is_wsl and 'WSL:Ubuntu-24.04' or 'local'

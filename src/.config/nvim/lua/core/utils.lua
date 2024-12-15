@@ -44,10 +44,8 @@ M.fn.is_git_dir = function()
 end
 
 M.fn.redraw_lsp = function()
-    for _, id in pairs(vim.tbl_keys(vim.lsp.get_clients())) do
-        vim.diagnostic.enable(false, id)
-        vim.diagnostic.enable(true, id)
-    end
+    vim.diagnostic.enable(false)
+    vim.diagnostic.enable(true)
 end
 
 M.fn.reload_lsp = function()
