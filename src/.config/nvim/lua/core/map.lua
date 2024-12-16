@@ -9,7 +9,7 @@ local vnoremap = utils.keybinds.vnoremap
 local inoremap = utils.keybinds.inoremap
 local cnoremap = utils.keybinds.cnoremap
 local icnoremap = utils.keybinds.icnoremap
-local cnoreabbrev = utils.keybinds.cnoreabbrev
+-- local cnoreabbrev = utils.keybinds.cnoreabbrev
 
 local map_lsp = utils.keybinds.map_lsp
 
@@ -27,16 +27,6 @@ cnoremap('<C-E>',         '<End>',   nonsilent)
 cnoremap('<C-B>',         '<Left>',  nonsilent)
 cnoremap('<C-F>',         '<Right>', nonsilent)
 vim.api.nvim_set_option_value('cedit', '<C-G>', {})
-
--- Command line reabbreviations
-cnoreabbrev('mes', 'Noice')
-
-for _, mes in ipairs({ 'Mes', 'MEs', 'MES' }) do
-    cnoreabbrev(mes, 'mes')
-end
-for wrong, right in pairs({ qq = 'q', QQ = 'q', Qq = 'q', Q = 'q', qqa = 'qa', QQa = 'qa', Qqa = 'qa', W = 'w', Wq = 'wq', Wqa = 'wqa' }) do
-    cnoreabbrev(wrong, right)
-end
 
 -- Merge lines
 nnoremap('<S-M>',         '<S-J>')

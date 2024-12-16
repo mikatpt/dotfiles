@@ -1,4 +1,20 @@
 return function()
+    -- Having some frustrating issues. Revisit in a year.
+    if true then
+        return
+    end
+    local cnoreabbrev = require('core.utils').keybinds.cnoreabbrev
+
+    cnoreabbrev('mes', 'Noice')
+    -- stylua: ignore start
+    for _, mes in ipairs({ 'Mes', 'MEs', 'MES' }) do
+        cnoreabbrev(mes, 'mes')
+    end
+    for wrong, right in pairs({ qq = 'q', QQ = 'q', Qq = 'q', Q = 'q', qqa = 'qa', QQa = 'qa', Qqa = 'qa', W = 'w', Wq = 'wq', Wqa = 'wqa' }) do
+        cnoreabbrev(wrong, right)
+    end
+    -- stylua: ignore end
+
     require('noice').setup({
         commands = {
             history = {

@@ -1,6 +1,6 @@
 return function()
     local lsp = require('feline.providers.lsp')
-    local noice_status = require('noice').api.status
+    -- local noice_status = require('noice').api.status
 
     local colors = {
         white = '#c0caf5',
@@ -268,25 +268,25 @@ return function()
         icon = '  ',
     })
 
-    local function get_noice_comp(component)
-        return function()
-            return component.has() and component.get() or ''
-        end
-    end
-
-    -- Display mode in statusline since we killed the command line
-    table.insert(components.active[1], {
-        left_sep = { str = ' ', hl = { bg = colors.statusline_bg, fg = colors.statusline_bg }},
-        provider = get_noice_comp(noice_status.mode),
-        hl = { fg = colors.white, bg = colors.statusline_bg },
-    })
-
-    -- Search info
-    table.insert(components.active[1], {
-        left_sep = { str = ' ', hl = { bg = colors.statusline_bg, fg = colors.statusline_bg }},
-        provider = get_noice_comp(noice_status.search),
-        hl = { fg = colors.white, bg = colors.statusline_bg },
-    })
+    -- local function get_noice_comp(component)
+    --     return function()
+    --         return component.has() and component.get() or ''
+    --     end
+    -- end
+    --
+    -- -- Display mode in statusline since we killed the command line
+    -- table.insert(components.active[1], {
+    --     left_sep = { str = ' ', hl = { bg = colors.statusline_bg, fg = colors.statusline_bg }},
+    --     provider = get_noice_comp(noice_status.mode),
+    --     hl = { fg = colors.white, bg = colors.statusline_bg },
+    -- })
+    --
+    -- -- Search info
+    -- table.insert(components.active[1], {
+    --     left_sep = { str = ' ', hl = { bg = colors.statusline_bg, fg = colors.statusline_bg }},
+    --     provider = get_noice_comp(noice_status.search),
+    --     hl = { fg = colors.white, bg = colors.statusline_bg },
+    -- })
 
     -- Padding
     table.insert(components.active[1], {
@@ -294,12 +294,12 @@ return function()
         hl = { fg = colors.statusline_bg, bg = colors.statusline_bg },
     })
 
-    -- Current key command
-    table.insert(components.active[3], {
-        left_sep = { str = ' ', hl = { bg = colors.statusline_bg, fg = colors.statusline_bg }},
-        provider = get_noice_comp(noice_status.command),
-        hl = { fg = colors.white, bg = colors.statusline_bg },
-    })
+    -- -- Current key command
+    -- table.insert(components.active[3], {
+    --     left_sep = { str = ' ', hl = { bg = colors.statusline_bg, fg = colors.statusline_bg }},
+    --     provider = get_noice_comp(noice_status.command),
+    --     hl = { fg = colors.white, bg = colors.statusline_bg },
+    -- })
     -- Line:cursor position
     table.insert(components.active[3], {
         provider = function() return string.format('%d:%d', unpack(vim.api.nvim_win_get_cursor(0))) end,
