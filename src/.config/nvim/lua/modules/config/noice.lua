@@ -1,8 +1,4 @@
 return function()
-    -- Having some frustrating issues. Revisit in a year.
-    if true then
-        return
-    end
     local cnoreabbrev = require('core.utils').keybinds.cnoreabbrev
 
     cnoreabbrev('mes', 'Noice')

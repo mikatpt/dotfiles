@@ -1,6 +1,10 @@
 return function()
     local lsp = require('feline.providers.lsp')
-    -- local noice_status = require('noice').api.status
+    local disable_noice = false
+    local noice_status = nil
+    if not disable_noice then
+        noice_status = require('noice').api.status
+    end
 
     local colors = {
         white = '#c0caf5',
@@ -105,8 +109,12 @@ return function()
 
     -- Initialize components
     local components = { active = {}, inactive = {} }
-    for _ = 1, 3 do table.insert(components.active, {}) end
-    for _ = 1, 2 do table.insert(components.inactive, {}) end
+    for _ = 1, 3 do
+        table.insert(components.active, {})
+    end
+    for _ = 1, 2 do
+        table.insert(components.inactive, {})
+    end
 
     --[[
         Component format:
@@ -144,16 +152,20 @@ return function()
         hl = { gf = colors.dark_purple, bg = colors.statusline_bg },
         left_sep = function()
             local background = colors.light_grey2
-            if vim.b.gitsigns_status_dict then background = colors.statusline_bg end
+            if vim.b.gitsigns_status_dict then
+                background = colors.statusline_bg
+            end
 
             return {
                 str = statusline_style.right,
-                hl = { fg = mode_colors[vim.fn.mode()][2], bg = background }
+                hl = { fg = mode_colors[vim.fn.mode()][2], bg = background },
             }
         end,
         right_sep = function()
             local s = ''
-            if vim.b.gitsigns_status_dict then s = '  ' end
+            if vim.b.gitsigns_status_dict then
+                s = '  '
+            end
             return { str = s, hl = { fg = colors.statusline_bg, bg = colors.statusline_bg } }
         end,
     })
@@ -184,7 +196,9 @@ return function()
 
     local function filename_component(status)
         local background = colors.statusline_bg
-        if status == 'active' then background = colors.light_grey2 end
+        if status == 'active' then
+            background = colors.light_grey2
+        end
         return {
             left_sep = function()
                 if status ~= 'active' then
@@ -192,10 +206,14 @@ return function()
                 end
 
                 local icon = statusline_style.right .. ' '
-                if not vim.b.gitsigns_status_dict then icon = ' ' end
+                if not vim.b.gitsigns_status_dict then
+                    icon = ' '
+                end
 
                 local colo = colors.statusline_bg
-                if not vim.b.gitsigns_status_dict then colo = colors.light_grey2 end
+                if not vim.b.gitsigns_status_dict then
+                    colo = colors.light_grey2
+                end
 
                 return { str = icon, hl = { fg = colo, bg = colors.light_grey2 } }
             end,
@@ -213,7 +231,7 @@ return function()
                 return icon .. ' ' .. filename .. ' ' .. info_icon .. ' '
             end,
             right_sep = function()
-                return { str = '', hl = { fg = background, bg = background }}
+                return { str = '', hl = { fg = background, bg = background } }
             end,
             hl = {
                 fg = colors.white,
@@ -235,7 +253,7 @@ return function()
     table.insert(components.active[1], {
         provider = 'diagnostic_errors',
         enabled = function()
-            return lsp.diagnostics_exist 'Error'
+            return lsp.diagnostics_exist('Error')
         end,
         hl = { fg = colors.red, bg = colors.statusline_bg },
         icon = '  ',
@@ -244,7 +262,7 @@ return function()
     table.insert(components.active[1], {
         provider = 'diagnostic_warnings',
         enabled = function()
-            return lsp.diagnostics_exist 'Warn'
+            return lsp.diagnostics_exist('Warn')
         end,
         hl = { fg = colors.yellow, bg = colors.statusline_bg },
         icon = '  ',
@@ -253,7 +271,7 @@ return function()
     table.insert(components.active[1], {
         provider = 'diagnostic_hints',
         enabled = function()
-            return lsp.diagnostics_exist 'Hint'
+            return lsp.diagnostics_exist('Hint')
         end,
         hl = { fg = colors.nord_blue, bg = colors.statusline_bg },
         icon = '  ',
@@ -262,49 +280,53 @@ return function()
     table.insert(components.active[1], {
         provider = 'diagnostic_info',
         enabled = function()
-            return lsp.diagnostics_exist 'Info'
+            return lsp.diagnostics_exist('Info')
         end,
         hl = { fg = colors.green, bg = colors.statusline_bg },
         icon = '  ',
     })
 
-    -- local function get_noice_comp(component)
-    --     return function()
-    --         return component.has() and component.get() or ''
-    --     end
-    -- end
-    --
-    -- -- Display mode in statusline since we killed the command line
-    -- table.insert(components.active[1], {
-    --     left_sep = { str = ' ', hl = { bg = colors.statusline_bg, fg = colors.statusline_bg }},
-    --     provider = get_noice_comp(noice_status.mode),
-    --     hl = { fg = colors.white, bg = colors.statusline_bg },
-    -- })
-    --
-    -- -- Search info
-    -- table.insert(components.active[1], {
-    --     left_sep = { str = ' ', hl = { bg = colors.statusline_bg, fg = colors.statusline_bg }},
-    --     provider = get_noice_comp(noice_status.search),
-    --     hl = { fg = colors.white, bg = colors.statusline_bg },
-    -- })
+    local function get_noice_comp(component)
+        return function()
+            return component.has() and component.get() or ''
+        end
+    end
 
-    -- Padding
-    table.insert(components.active[1], {
-        provider = '',
-        hl = { fg = colors.statusline_bg, bg = colors.statusline_bg },
-    })
+    if not disable_noice then
+        -- Display mode in statusline since we killed the command line
+        table.insert(components.active[1], {
+            left_sep = { str = ' ', hl = { bg = colors.statusline_bg, fg = colors.statusline_bg } },
+            provider = get_noice_comp(noice_status.mode),
+            hl = { fg = colors.white, bg = colors.statusline_bg },
+        })
 
-    -- -- Current key command
-    -- table.insert(components.active[3], {
-    --     left_sep = { str = ' ', hl = { bg = colors.statusline_bg, fg = colors.statusline_bg }},
-    --     provider = get_noice_comp(noice_status.command),
-    --     hl = { fg = colors.white, bg = colors.statusline_bg },
-    -- })
+        -- Search info
+        table.insert(components.active[1], {
+            left_sep = { str = ' ', hl = { bg = colors.statusline_bg, fg = colors.statusline_bg } },
+            provider = get_noice_comp(noice_status.search),
+            hl = { fg = colors.white, bg = colors.statusline_bg },
+        })
+        -- Padding
+        table.insert(components.active[1], {
+            provider = '',
+            hl = { fg = colors.statusline_bg, bg = colors.statusline_bg },
+        })
+
+        -- Current key command
+        table.insert(components.active[3], {
+            left_sep = { str = ' ', hl = { bg = colors.statusline_bg, fg = colors.statusline_bg } },
+            provider = get_noice_comp(noice_status.command),
+            hl = { fg = colors.white, bg = colors.statusline_bg },
+        })
+    end
+
     -- Line:cursor position
     table.insert(components.active[3], {
-        provider = function() return string.format('%d:%d', unpack(vim.api.nvim_win_get_cursor(0))) end,
+        provider = function()
+            return string.format('%d:%d', unpack(vim.api.nvim_win_get_cursor(0)))
+        end,
         hl = { fg = colors.white, bg = colors.statusline_bg },
-        left_sep = { str = ' ', hl = { bg = colors.statusline_bg, fg = colors.statusline_bg }}
+        left_sep = { str = ' ', hl = { bg = colors.statusline_bg, fg = colors.statusline_bg } },
     })
 
     table.insert(components.active[3], {
@@ -352,7 +374,9 @@ return function()
 
                 local name = 'lsp'
                 for _, client in ipairs(clients) do
-                    if type(client) == 'table' and (client.name:lower() == 'efm' or client.name:lower() == 'eslint') then
+                    if
+                        type(client) == 'table' and (client.name:lower() == 'efm' or client.name:lower() == 'eslint')
+                    then
                         goto continue
                     end
 
@@ -422,12 +446,12 @@ return function()
 
     table.insert(components.active[3], {
         provider = function()
-            local current_line = vim.fn.line '.'
-            local total_line = vim.fn.line '$'
+            local current_line = vim.fn.line('.')
+            local total_line = vim.fn.line('$')
 
             if current_line == 1 then
                 return ' TOP '
-            elseif current_line == vim.fn.line '$' then
+            elseif current_line == vim.fn.line('$') then
                 return ' BOT '
             end
             local result, _ = math.modf((current_line / total_line) * 100)
@@ -450,7 +474,7 @@ return function()
             hl = {
                 fg = colors.dark_purple,
                 bg = colors.statusline_bg,
-            }
+            },
         },
     })
 
@@ -487,13 +511,13 @@ return function()
                 'dapui_breakpoints',
                 'dapui_stacks',
                 'dapui_watches',
-            }
-        }
+            },
+        },
     }
 
     require('fidget').setup({
         progress = {
-            ignore = { 'null-ls' }
+            ignore = { 'null-ls' },
         },
     })
     require('feline').setup(config)
