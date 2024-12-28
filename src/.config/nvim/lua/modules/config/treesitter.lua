@@ -40,7 +40,7 @@ return function()
             disable = __Disable_on_large_files,
             -- Using this option may slow down your editor, and you may see some duplicate highlights.
             -- Instead of true it can also be a list of languages
-            additional_vim_regex_highlighting = false,
+            additional_vim_regex_highlighting = { 'python' },
         },
         refactor = {
             highlight_definitions = {

@@ -70,7 +70,7 @@ local plugins = {
     { 'jose-elias-alvarez/nvim-lsp-ts-utils',   lazy   = true,                             },
     { 'MaxMEllon/vim-jsx-pretty',               event  = 'BufRead'                         },
     { 'leafgarland/typescript-vim',             event  = 'BufRead'                         },
-    { 'Vimjas/vim-python-pep8-indent',          event  = 'BufRead'                         },
+    { 'Vimjas/vim-python-pep8-indent',                                                     },
     { 'b0o/schemastore.nvim',                                                              },
 
     -- Databases
