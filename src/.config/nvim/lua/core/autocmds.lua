@@ -202,6 +202,17 @@ local function commands()
     end, {})
 end
 
+local function quit_saga_rename()
+    -- while in filetype sagarename, q should close the window in normal mode.
+    au('FileType', {
+        group = group_id,
+        pattern = { 'sagarename' },
+        callback = function()
+            vim.api.nvim_buf_set_keymap(0, 'n', 'q', ':q<CR>', { silent = true, noremap = true })
+        end,
+    })
+end
+
 function P(...)
     local msgs = ''
     for _, v in ipairs({ ... }) do
@@ -229,3 +240,4 @@ hl_yank()
 commands()
 copilot_disable()
 json_ft()
+quit_saga_rename()

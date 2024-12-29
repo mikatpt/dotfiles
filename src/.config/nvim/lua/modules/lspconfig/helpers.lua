@@ -40,7 +40,6 @@ M.on_attach = function(client, bufnr)
         },
         rename = {
             keys = {
-                quit = 'q',
                 exec = '<CR>',
             },
             in_select = false,
