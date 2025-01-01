@@ -62,6 +62,9 @@ return function()
                 Lua = {
                     telemetry = { enable = false },
                     workspace = { checkThirdParty = false },
+                    diagnostics = {
+                        disable = { 'unused-function' },
+                    },
                 },
             },
         },

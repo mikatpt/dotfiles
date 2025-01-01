@@ -13,7 +13,8 @@ return function()
         },
         level = 2,
         minimum_width = 50,
-        render = 'default',
+        max_width = 50,
+        render = 'wrapped-default',
         stages = 'fade_in_slide_out',
         top_down = true,
     })

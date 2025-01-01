@@ -3,7 +3,6 @@ set GOPATH "$HOME/go"
 # from jonhoo - one dir for all rust builds
 setenv CARGO_TARGET_DIR ~/.cargo-target
 setenv DENO_INSTALL $HOME/.deno/bin/deno
-setenv SSH_KEYS_TO_AUTOLOAD "$HOME/.ssh/github_personal"
 fish_add_path $HOME/.local/bin
 fish_add_path $GOPATH
 fish_add_path $GOPATH/bin
@@ -14,6 +13,9 @@ bass source $HOME/.cargo/env
 if type -q mise 
     mise activate fish | source
 end
+
+# Make sure cargo bin is in path first for fd
+set -x SSH_KEYS_TO_AUTOLOAD (fd -t f 'id_*' ~/.ssh -E '*.pub')
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/home/mikatpt/google-cloud-sdk/path.fish.inc' ]; . '/home/mikatpt/google-cloud-sdk/path.fish.inc'; end

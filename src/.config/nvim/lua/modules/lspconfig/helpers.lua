@@ -11,6 +11,7 @@ M.on_attach = function(client, bufnr)
             show_code_action = true,
             jump_num_shortcut = true,
             extend_relatedInformation = true,
+            text_hl_follow = true,
         },
         ui = {
             theme = 'round',
@@ -91,7 +92,8 @@ M.on_attach = function(client, bufnr)
         --     desc = 'Organizes imports on save',
         -- })
     elseif client.name == 'rust_analyzer' then
-        vim.diagnostic.config({ virtual_text = { min = 'Error' } }, bufnr)
+        local ns = vim.api.nvim_create_namespace('rust_analyzer')
+        vim.diagnostic.config({ virtual_text = { min = 'Error' } }, ns)
     end
 end
 
