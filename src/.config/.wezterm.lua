@@ -131,7 +131,7 @@ c.colors = {
 ---- Styling ----
 -----------------
 
-local CPU_UPDATE_SECS = 5
+local CPU_UPDATE_SECS = 2
 
 wezterm.GLOBAL.git_dirs = wezterm.GLOBAL.git_dirs or {}
 
@@ -144,8 +144,13 @@ end
 -- Shell helpers --
 
 local function update_cpu()
-    local cmd = is_windows and { 'wmic.exe', 'cpu', 'get', 'loadpercentage' } or { 'top', '-l', '1' }
-    local matcher = is_windows and '%d+' or 'CPU usage:.* (%d+%.%d+)%% idle \n'
+    local pshell = {
+        'powershell.exe',
+        '-Command',
+        "(Get-Counter '\\Processor(_Total)\\% Processor Time').CounterSamples[0].CookedValue",
+    }
+    local cmd = is_windows and pshell or { 'top', '-l', '1' }
+    local matcher = is_windows and '%d+.?%d+' or 'CPU usage:.* (%d+%.%d+)%% idle \n'
 
     local success, cpu, err = wezterm.run_child_process(cmd)
     if not success then
@@ -504,7 +509,7 @@ local function home_startup(_)
         cwd = '/home/mikatpt/coding/home/backend',
     })
     pane:send_text('keychain --eval $SSH_KEYS_TO_AUTOLOAD | source\n')
-    pane:send_text('cargo run --release\n')
+    pane:send_text('cargo run -r --bin listener\n')
     _, pane, window = mux.spawn_window({
         workspace = 'main',
         cwd = '~',

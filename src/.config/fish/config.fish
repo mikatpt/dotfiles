@@ -21,9 +21,8 @@ set -x SSH_KEYS_TO_AUTOLOAD (fd -t f 'id_*' ~/.ssh -E '*.pub')
 if [ -f '/home/mikatpt/google-cloud-sdk/path.fish.inc' ]; . '/home/mikatpt/google-cloud-sdk/path.fish.inc'; end
 
 if status is-interactive
-    # Start our home server
-    source ~/.home.fish
-    _apply_stats_hook
+    echo "Applying stats hook"
+    source ~/.config/fish/personal/stats_hook.fish
 
     # Source local bashrc
     bass source ~/.bashrc
