@@ -430,6 +430,7 @@ local search = act.Multiple({
 
 c.keys = {
     ctrl_tmux('q', act.SwitchWorkspaceRelative(1)),
+    ctrl_tmux('w', act.CloseCurrentPane({ confirm = true })),
     ctrl_tmux('r', act.ReloadConfiguration),
     ctrl_tmux('o', act.RotatePanes('Clockwise')),
     ctrl_tmux('s', act.Multiple({ act.CopyMode('ClearSelectionMode'), act.ActivateCopyMode })),
@@ -506,7 +507,7 @@ local mux = wezterm.mux
 local function home_startup(_)
     local _, pane, window = mux.spawn_window({
         workspace = 'home',
-        cwd = '/home/mikatpt/coding/home/backend',
+        cwd = '/home/mikatpt/coding/homeserver',
     })
     pane:send_text('keychain --eval $SSH_KEYS_TO_AUTOLOAD | source\n')
     pane:send_text('cargo run -r --bin listener\n')
