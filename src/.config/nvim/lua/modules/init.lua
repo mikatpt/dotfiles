@@ -87,6 +87,13 @@ local plugins = {
     { 'L3MON4D3/LuaSnip',                   event  = 'BufRead'                             },
 }
 
+if vim.g.vscode then
+    plugins = {
+        { 'numToStr/Comment.nvim',               event = 'BufRead',      config = c.comment    },
+        { 'machakann/vim-sandwich',                                                            },
+    }
+end
+
 local opts = {
     dev = {
         path = "~/foss",

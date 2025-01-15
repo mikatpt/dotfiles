@@ -56,6 +56,44 @@ map_lsp('i', '<C-G>',     '<Esc>A;')
 -- From vim-commentary:
 -- gc to comment out lines
 
+if vim.g.vscode then
+    nnoremap('<S-LEFT>',  ':call VSCodeNotify("workbench.action.decreaseViewSize")<CR>')
+    nnoremap('<S-RIGHT>', ':call VSCodeNotify("workbench.action.increaseViewSize")<CR>')
+    nnoremap('<S-UP>',    ':call VSCodeNotify("workbench.action.increaseViewSize")<CR>')
+    nnoremap('<S-DOWN>',  ':call VSCodeNotify("workbench.action.decreaseViewSize")<CR>')
+
+    nnoremap('<leader>j', ':call VSCodeNotify("workbench.action.splitEditorDown")<CR>', nonsilent)
+    nnoremap('<leader>k', ':call VSCodeNotify("workbench.action.splitEditor")<CR>',     nonsilent)
+    nnoremap('<leader>u', ':call VSCodeNotify("workbench.action.splitEditorUp")<CR>', nonsilent)
+    nnoremap('<leader><S-J>', ':call VSCodeNotify("workbench.action.splitEditorDown")<CR>:call VSCodeNotify("workbench.action.focusFirstEditorGroup")<CR>', nonsilent)
+    nnoremap('<leader><S-K>', ':call VSCodeNotify("workbench.action.splitEditor")<CR>:call VSCodeNotify("workbench.action.focusFirstEditorGroup")<CR>', nonsilent)
+    nnoremap('<C-J>', ':call VSCodeNotify("workbench.action.focusNextGroup")<CR>')
+    nnoremap('<C-K>', ':call VSCodeNotify("workbench.action.focusPreviousGroup")<CR>')
+    nnoremap('<C-H>', ':call VSCodeNotify("workbench.action.focusLeftGroup")<CR>')
+    nnoremap('<C-L>', ':call VSCodeNotify("workbench.action.focusRightGroup")<CR>')
+
+    nnoremap('<leader>y', ':call VSCodeNotify("editor.action.clipboardCopyWithSyntaxHighlightingAction")<CR>')
+    vnoremap('<leader>y', ':call VSCodeNotify("editor.action.clipboardCopyWithSyntaxHighlightingAction")<CR>')
+    nnoremap('<leader><S-Y>', ':call VSCodeNotify("editor.action.clipboardCopyWithSyntaxHighlightingAction")<CR>')
+    nnoremap('<leader><S-Y>', ':call VSCodeNotify("editor.action.selectAll")<CR>:call VSCodeNotify("editor.action.clipboardCopyAction")<CR>')
+    nnoremap('<C-P>', ':call VSCodeNotify("workbench.action.quickOpen")<CR>')
+    nnoremap('<leader>f', ':call VSCodeNotify("workbench.action.findInFiles")<CR>')
+    nnoremap(']c', ':call VSCodeNotify("workbench.action.editor.nextChange")<CR>')
+    nnoremap('[c', ':call VSCodeNotify("workbench.action.editor.previousChange")<CR>')
+    nnoremap(']d', ':call VSCodeNotify("editor.action.marker.next")<CR>')
+    nnoremap('[d', ':call VSCodeNotify("editor.action.marker.prev")<CR>')
+    nnoremap('<leader>hs', ':call VSCodeNotify("git.stageSelectedRanges")<CR>')
+    nnoremap('<leader>hr', ':call VSCodeNotify("git.revertSelectedRanges")<CR>')
+    nnoremap('<leader>hu', ':call VSCodeNotify("git.unstageSelectedRanges")<CR>')
+    vnoremap('<leader>hs', ':call VSCodeNotify("git.stageSelectedRanges")<CR>')
+    vnoremap('<leader>hr', ':call VSCodeNotify("git.revertSelectedRanges")<CR>')
+    vnoremap('<leader>hu', ':call VSCodeNotify("git.unstageSelectedRanges")<CR>')
+    nnoremap('<leader>HS', ':call VSCodeNotify("git.stage")<CR>')
+    nnoremap('<leader>HR', ':call VSCodeNotify("git.clean")<CR>')
+    nnoremap('<leader>HU', ':call VSCodeNotify("git.unstage")<CR>')
+    return
+end
+
 -- Resize splits
 nnoremap('<S-LEFT>',      ':vert res -5<CR>')
 nnoremap('<S-RIGHT>',     ':vert res +5<CR>')
