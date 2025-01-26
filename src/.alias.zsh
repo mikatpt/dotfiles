@@ -3,6 +3,8 @@ export EDITOR='nvim'
 set -o ignoreeof    # ignore C-D
 
 # Ignore duplicates
+export HISTSIZE=100000
+export SAVEHIST=$HISTSIZE
 setopt HIST_EXPIRE_DUPS_FIRST
 setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_ALL_DUPS

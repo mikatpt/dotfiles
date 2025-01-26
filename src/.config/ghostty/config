@@ -1,0 +1,26 @@
+background = #000A14
+foreground = #F2F2F2
+
+clipboard-trim-trailing-spaces
+
+keybind = ctrl+s>ctrl+r=reload_config
+
+# Splits
+keybind = ctrl+s>ctrl+[=new_split:right
+keybind = ctrl+s>ctrl+]=new_split:down
+keybind = ctrl+s>ctrl+j=goto_split:next
+keybind = ctrl+s>ctrl+k=goto_split:previous
+keybind = ctrl+s>ctrl+h=goto_split:left
+keybind = ctrl+s>ctrl+l=goto_split:right
+keybind = ctrl+s>left=resize_split:left,11
+keybind = ctrl+s>ctrl+left=resize_split:left,10
+keybind = ctrl+s>ctrl+s=write_screen_file:open
+
+# Tabs
+keybind = ctrl+s>ctrl+p=previous_tab
+keybind = ctrl+s>ctrl+n=next_tab
+keybind = ctrl+s>ctrl+t=new_tab
+
+# example
+# ignore, unbind, text:text (send literal)
+# keybind = performable:ctrl+c=copy_to_clipboard

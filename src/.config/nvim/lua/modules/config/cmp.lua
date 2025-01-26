@@ -11,6 +11,9 @@ return function()
         local a, b = entry1:get_kind(), entry2:get_kind()
 
         if a ~= b then
+            if a == kind.Variable then return true end
+            if b == kind.Variable then return false end
+
             if a == kind.Field then return true end
             if b == kind.Field then return false end
 
@@ -46,6 +49,7 @@ return function()
         -- Use lspkind icons for completion menu.
         formatting = {
             format = function(_, vim_item)
+                if not vim_item.kind then return vim_item end
                 vim_item.kind = (lspkind.presets.default[vim_item.kind] or '') .. '  ' .. vim_item.kind
                 return vim_item
             end,
