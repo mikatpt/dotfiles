@@ -5,6 +5,19 @@ utils.fn.setup_lazy()
 local c = require('modules.config')
 local treesitter = 'nvim-treesitter/nvim-treesitter'
 
+local env = os.getenv("NVIM_ENVIRONMENT")
+
+local function concat(t1, t2)
+    local res = {}
+    for _, v in ipairs(t1) do
+        table.insert(res, v)
+    end
+    for _, v in ipairs(t2) do
+        table.insert(res, v)
+    end
+    return res
+end
+
 local plugins = {
     -- Colorscheme & Icons
     { 'kyazdani42/nvim-web-devicons',                                                      },
@@ -27,7 +40,7 @@ local plugins = {
     { treesitter, build = ':TSUpdate',                               config = c.treesitter },
     { treesitter .. '-refactor',                                                           },
     { treesitter .. '-textobjects',                                                        },
-    { 'JoosepAlviste/nvim-ts-context-commentstring',                    config = c.ctxcmt  },
+    { 'JoosepAlviste/nvim-ts-context-commentstring',                 config = c.ctxcmt     },
     { 'nvim-treesitter/playground',                                                        },
     { 'windwp/nvim-ts-autotag',              event = 'BufRead'                             },
     { 'lewis6991/gitsigns.nvim',                                     config = c.gitsigns   },
@@ -50,6 +63,17 @@ local plugins = {
     { 'junegunn/fzf',                        build = './install --bin'                     },
     { 'ahmedkhalf/project.nvim',                                     config = c.project    },
 
+
+    -- Completion
+    { 'hrsh7th/nvim-cmp',    lazy = true,   event  = 'InsertEnter',  config = c.cmp        },
+    { 'windwp/nvim-autopairs',              event  = 'InsertEnter',  config = c.autopairs  },
+    { 'hrsh7th/cmp-nvim-lsp',               module = 'cmp_nvim_lsp', event  = 'BufRead'    },
+    { 'hrsh7th/cmp-buffer',                 event  = 'BufRead'                             },
+    { 'saadparwaiz1/cmp_luasnip',           event  = 'BufRead'                             },
+    { 'L3MON4D3/LuaSnip',                   event  = 'BufRead'                             },
+}
+
+local lsp = {
     -- Language Server Protocol
     { 'neovim/nvim-lspconfig',                                       config = c.lsp        },
     { 'williamboman/mason.nvim',                                                           },
@@ -77,15 +101,11 @@ local plugins = {
     { 'tpope/vim-dadbod'                                                                   },
     { 'kristijanhusak/vim-dadbod-ui',           config = c.dadbod                          },
     { 'kristijanhusak/vim-dadbod-completion',   event  = 'BufRead'                         },
-
-    -- Completion
-    { 'hrsh7th/nvim-cmp',    lazy = true,   event  = 'InsertEnter',  config = c.cmp        },
-    { 'windwp/nvim-autopairs',              event  = 'InsertEnter',  config = c.autopairs  },
-    { 'hrsh7th/cmp-nvim-lsp',               module = 'cmp_nvim_lsp', event  = 'BufRead'    },
-    { 'hrsh7th/cmp-buffer',                 event  = 'BufRead'                             },
-    { 'saadparwaiz1/cmp_luasnip',           event  = 'BufRead'                             },
-    { 'L3MON4D3/LuaSnip',                   event  = 'BufRead'                             },
 }
+
+if env ~= 'rpi' then
+    plugins = concat(plugins, lsp)
+end
 
 if vim.g.vscode then
     plugins = {

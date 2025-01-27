@@ -26,8 +26,8 @@ end
 return function()
     require('nvim-treesitter.configs').setup({
         sync_install = false,
-        auto_install = false,
-        ensure_installed = 'all',
+        auto_install = true,
+        ensure_installed = {},
         ignore_install = { 'tlaplus', 'norg' },
         autotag = { enable = true },
         autopairs = { enable = true },
