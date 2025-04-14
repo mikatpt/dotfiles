@@ -19,7 +19,7 @@ c.default_prog = is_wsl and { 'wsl.exe', '--distribution', 'Ubuntu-24.04' } or n
 c.default_domain = is_wsl and 'WSL:Ubuntu-24.04' or 'local'
 c.font = wezterm.font_with_fallback(fonts)
 c.freetype_load_flags = 'NO_HINTING'
-c.font_size = is_wsl and 12.6 or 15.3
+c.font_size = is_wsl and 12.6 or 19
 c.leader = { key = 's', mods = 'CTRL', timeout_milliseconds = 1000 }
 c.use_fancy_tab_bar = false
 c.tab_bar_at_bottom = false
