@@ -79,12 +79,9 @@ local plugins = {
     { 'kristijanhusak/vim-dadbod-completion',   event  = 'BufRead'                         },
 
     -- Completion
-    { 'hrsh7th/nvim-cmp',    lazy = true,   event  = 'InsertEnter',  config = c.cmp        },
+    { 'saghen/blink.cmp', version = '1.*',  event = 'InsertEnter',   opts = c.blink()      },
     { 'windwp/nvim-autopairs',              event  = 'InsertEnter',  config = c.autopairs  },
-    { 'hrsh7th/cmp-nvim-lsp',               module = 'cmp_nvim_lsp', event  = 'BufRead'    },
-    { 'hrsh7th/cmp-buffer',                 event  = 'BufRead'                             },
-    { 'saadparwaiz1/cmp_luasnip',           event  = 'BufRead'                             },
-    { 'L3MON4D3/LuaSnip',                   event  = 'BufRead'                             },
+    { 'L3MON4D3/LuaSnip', version = 'v2.*', config = c.snip, build = 'make install_jsregexp' },
 }
 
 if vim.g.vscode then
