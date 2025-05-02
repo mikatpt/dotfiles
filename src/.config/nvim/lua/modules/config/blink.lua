@@ -11,7 +11,7 @@ return function()
     return {
         enabled = function()
             return not vim.tbl_contains(
-                { 'TelescopePrompt', 'NvimTree', 'help', 'lazy', 'mason', 'Trouble', 'notify', 'sagarename' },
+                { 'TelescopePrompt', 'NvimTree', 'help', 'lazy', 'mason', 'Trouble', 'notify' },
                 vim.bo.filetype
             )
         end,
@@ -22,7 +22,7 @@ return function()
                     if cmp.is_active() then
                         return cmp.accept()
                     else
-                        return cmp.close()
+                        return cmp.cancel()
                     end
                 end,
                 'accept',
@@ -62,7 +62,18 @@ return function()
                     end,
                 },
                 buffer = {
-                    enabled = true,
+                    enabled = function()
+                        return not vim.tbl_contains({
+                            'TelescopePrompt',
+                            'NvimTree',
+                            'help',
+                            'lazy',
+                            'mason',
+                            'Trouble',
+                            'notify',
+                            'sagarename',
+                        }, vim.bo.filetype)
+                    end,
                     min_keyword_length = 7,
                 },
             },

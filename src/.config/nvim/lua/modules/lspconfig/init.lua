@@ -54,7 +54,7 @@ return function()
         },
         solargraph = {
             root_dir = get_root({ '.solargraph.yml', '.rubocop.yml' }),
-            cmd = { vim.loop.os_homedir() .. '/.rbenv/shims/solargraph', 'stdio' },
+            cmd = { vim.loop.os_homedir() .. '/.local/share/mise/shims/solargraph', 'stdio' },
             filetypes = { 'ruby' },
         },
         lua_ls = {

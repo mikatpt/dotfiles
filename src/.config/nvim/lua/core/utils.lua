@@ -196,7 +196,7 @@ M.fn.gbrowse = function(opts)
         start_l, end_l = end_l, start_l
     end
 
-    local range = opts.is_visual and start_l .. ',' .. vim.fn.getpos('.')[2] or ''
+    local range = opts.is_visual and start_l .. ',' .. end_l or ''
 
     local cmd = range .. 'GBrowse '
     if target_upstream then
