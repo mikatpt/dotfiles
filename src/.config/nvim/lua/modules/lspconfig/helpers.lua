@@ -158,43 +158,45 @@ local custom_impl = function(err, result, ctx)
     local ft = vim.api.nvim_get_option_value('filetype', { buf = ctx.bufnr })
     local no_impls_err = 'ERROR: No implementations for this item!'
 
-    if result == nil then
-        result = {}
+    result = result or {}
+    if vim.tbl_isempty(result) then
         err = no_impls_err
     end
 
+    -- Filter out mocks/tests for Go & Rust
     if ft == 'go' or ft == 'rust' then
-        -- Do not include implementations from mocks or test files in go and rust.
-        -- We do two checks to make sure we don't open telescope if not necessary
-        local new_result = vim.tbl_filter(function(v)
+        result = vim.tbl_filter(function(v)
             local uri = ft == 'go' and v.uri or v.targetUri
-            return not string.find(uri, 'mock') and not string.find(uri, 'test') and not string.find(uri, 'circuits')
+            return not uri:find('mock') and not uri:find('test') and not uri:find('circuits')
         end, result)
-
-        if #new_result > 0 then
-            result = new_result
-        end
-
-        if #new_result > 1 then
-            require('telescope.builtin').lsp_implementations({
-                layout_strategy = 'vertical',
-                file_ignore_patterns = { '*mock*/*', '**/*mock*', '*test*/*', '**/*test*' },
-            })
-            return
-        end
-    else
-        if type(result) == 'table' and #result > 1 then
-            require('telescope.builtin').lsp_implementations({ layout_strategy = 'vertical' })
-            return
-        end
     end
 
-    if result == nil or (type(result) == 'table' and #result == 0) then
-        err = no_impls_err
+    -- More than one match ⇒ use Telescope as before
+    if #result > 1 then
+        require('telescope.builtin').lsp_implementations({
+            layout_strategy = 'vertical',
+            file_ignore_patterns = { '*mock*/*', '**/*mock*', '*test*/*', '**/*test*' },
+        })
+        return
     end
 
-    vim.lsp.handlers['textDocument/implementation'](err, result, ctx)
-    vim.cmd([[normal! zz]])
+    -- One (or zero) match ⇒ fall back to the proper built‑in handler
+    local handler = vim.lsp.handlers.implementation -- 0.11+
+        or vim.lsp.handlers['textDocument/implementation'] -- ≤ 0.10
+        or function(e, r, c) -- last‑ditch
+            if e then
+                vim.notify(e, vim.log.levels.ERROR)
+                return
+            end
+            if vim.tbl_isempty(r) then
+                vim.notify(no_impls_err, vim.log.levels.WARN)
+                return
+            end
+            vim.lsp.util.show_document(r[1], c.offset_encoding or 'utf-8')
+        end
+
+    handler(err, result, ctx)
+    vim.cmd('normal! zz')
 end
 
 M.implementation = function()
