@@ -159,10 +159,12 @@ M.fn.rust_tools_hover = function()
     vim.lsp.buf_request(0, 'textDocument/hover', params, rt.utils.mk_handler(M.fn.handler))
 end
 
--- @param opts table
--- @param opts.target_upstream boolean
--- @param opts.is_visual boolean
--- @param opts.end_line number
+--- @class GbrowseOpts
+--- @field target_upstream boolean Target master branch of upstream remote (for better sharing).
+--- @field is_visual boolean       Look up cursor position and use visual selection.
+--- @field yank boolean            Yank the URL to the clipboard instead of opening it.
+---
+--- @param opts GbrowseOpts
 M.fn.gbrowse = function(opts)
     local target_upstream = opts.target_upstream
     local remotes = vim.fn.systemlist('git remote')
@@ -187,7 +189,9 @@ M.fn.gbrowse = function(opts)
     end
 
     local main_branch = 'master'
-    if vim.fn.system('git branch --list ' .. 'main') == 0 then
+    if target_upstream then
+        main_branch = ''
+    elseif vim.fn.system('git branch --list ' .. 'master') == '' then
         main_branch = 'main'
     end
 
@@ -197,6 +201,15 @@ M.fn.gbrowse = function(opts)
     end
 
     local range = opts.is_visual and start_l .. ',' .. end_l or ''
+    end_l = opts.is_visual and end_l or -1
+
+    if opts.yank then
+        local result = vim.fn['fugitive#BrowseCommand'](start_l, end_l, -1, true, '', main_branch .. ':%@' .. remote)
+        result = result:gsub('^echo ', ''):gsub("^'", ''):gsub("'$", '')
+        vim.fn.setreg('+', result)
+        print('+ <' .. result)
+        return
+    end
 
     local cmd = range .. 'GBrowse '
     if target_upstream then

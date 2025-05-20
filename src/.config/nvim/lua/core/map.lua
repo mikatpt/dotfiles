@@ -139,6 +139,12 @@ nnoremap('<leader><S-G><S-O>', function() require('core.utils').fn.gbrowse({ tar
 vnoremap('<leader>go',         function() require('core.utils').fn.gbrowse({ is_visual = true }) end)
 vnoremap('<leader><S-G><S-O>', function() require('core.utils').fn.gbrowse({ is_visual = true, target_upstream = true }) end)
 
+-- Yank in github
+nnoremap('<leader>gy',         function() require('core.utils').fn.gbrowse({ yank = true }) end)
+nnoremap('<leader><S-G><S-Y>', function() require('core.utils').fn.gbrowse({ yank = true, target_upstream = true }) end)
+vnoremap('<leader>gy',         function() require('core.utils').fn.gbrowse({ yank = true, is_visual = true }) end)
+vnoremap('<leader><S-G><S-Y>', function() require('core.utils').fn.gbrowse({ yank = true, is_visual = true, target_upstream = true }) end)
+
 -- Git merge
 nnoremap('<leader>hj',    '<CMD>diffget //2<CR>' )
 nnoremap('<leader>hk',    '<CMD>diffget //3<CR>' )
