@@ -548,3 +548,7 @@ wezterm.on('gui-startup', function(cmd)
 end)
 
 return c
+
+config.keys = {
+  {key="Enter", mods="SHIFT", action=wezterm.action{SendString="\x1b\r"}},
+}

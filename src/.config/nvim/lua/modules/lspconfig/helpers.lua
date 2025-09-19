@@ -105,6 +105,15 @@ M.set_capabilities = function()
     capabilities.textDocument.completion.completionItem.resolveSupport = {
         properties = { 'documentation', 'detail', 'additionalTextEdits' },
     }
+    capabilities.textDocument.semanticTokens = {
+        dynamicRegistration = false,
+        requests = {
+            range = true,
+            full = true,
+        },
+        multilineTokenSupport = true,
+        format = { 'relative' },
+    }
 
     -- Set default column signs
     local sn = {
@@ -132,7 +141,7 @@ M.set_capabilities = function()
     -- Don't update diagnostics while typing
     vim.diagnostic.config({
         underline = true,
-        virtual_text = { min = 'Warning' },
+        virtual_text = { min = 'Info' },
         signs = signs,
         update_in_insert = false,
         severity_sort = true,

@@ -20,7 +20,15 @@ return function()
         gopls = {
             root_dir = get_root({ 'go.mod' }),
             filetypes = { 'go', 'gomod' },
-            settings = {},
+            settings = {
+                gopls = {
+                    semanticTokens = true,
+                    analyses = {
+                        deprecated = true,
+                    },
+                    staticcheck = true,
+                },
+            },
         },
         -- Latency here is steadily rising unfortunately.
         -- golangci_lint_ls = {

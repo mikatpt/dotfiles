@@ -189,9 +189,7 @@ M.fn.gbrowse = function(opts)
     end
 
     local main_branch = 'master'
-    if target_upstream then
-        main_branch = ''
-    elseif vim.fn.system('git branch --list ' .. 'master') == '' then
+    if vim.fn.system('git branch --list ' .. 'master') == '' then
         main_branch = 'main'
     end
 
