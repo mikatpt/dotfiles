@@ -22,6 +22,8 @@ return function()
             filetypes = { 'go', 'gomod' },
             settings = {
                 gopls = {
+                    buildFlags = { '-tags=all_tests,integration' },
+                    completeUnimported = true,
                     semanticTokens = true,
                     analyses = {
                         deprecated = true,

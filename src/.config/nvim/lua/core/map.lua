@@ -16,6 +16,7 @@ local map_lsp = utils.keybinds.map_lsp
 local nonsilent = { silent = false }
 
 vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 inoremap('jk',            '<ESC>')
 nnoremap('Y',             'y$')
 nnoremap('Q',             '@@')

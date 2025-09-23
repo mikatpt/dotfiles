@@ -63,6 +63,7 @@ local plugins = {
     { 'rcarriga/nvim-dap-ui',                                        config = c.dapui      },
     { 'mikatpt/roadrunner',                     dev = true,          config = c.roadrunner },
     { 'github/copilot.vim',                                          config = c.copilot    },
+    { 'pwntester/octo.nvim',                                         config = c.octo       },
 
     -- Languages
     { 'simrat39/rust-tools.nvim',               ft     = 'rust',     config = c.rust_tools },

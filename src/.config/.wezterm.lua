@@ -452,6 +452,7 @@ c.keys = {
     ctrl_tmux('m', new_workspace),
     { key = 'LeftArrow', mods = 'CTRL|SHIFT', action = act.MoveTabRelative(-1) },
     { key = 'RightArrow', mods = 'CTRL|SHIFT', action = act.MoveTabRelative(1) },
+    { key = 'Enter', mods = 'SHIFT', action = wezterm.action({ SendString = '\x1b\r' }) },
 }
 
 for i = 0, 8, 1 do -- <C-S>1-9 switches to tab
@@ -548,7 +549,3 @@ wezterm.on('gui-startup', function(cmd)
 end)
 
 return c
-
-config.keys = {
-  {key="Enter", mods="SHIFT", action=wezterm.action{SendString="\x1b\r"}},
-}
