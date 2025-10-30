@@ -184,7 +184,7 @@ end
 
 local function commands()
     cmd('Format', function()
-        vim.lsp.buf.formatting_sync(nil, 1000)
+        vim.lsp.buf.format({ async = false, timeout_ms = 1000 })
     end, {})
 
     -- check highlight group for current item under cursor

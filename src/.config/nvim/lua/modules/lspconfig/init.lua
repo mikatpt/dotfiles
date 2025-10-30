@@ -27,6 +27,13 @@ return function()
                     semanticTokens = true,
                     analyses = {
                         deprecated = true,
+                        ST1000 = false,
+                        ST1003 = false,
+                        ST1020 = false,
+                        ST1021 = false,
+                        ST1022 = false,
+                        comment = false,
+                        package = false,
                     },
                     staticcheck = true,
                 },
