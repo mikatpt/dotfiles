@@ -1,26 +1,50 @@
+# Start or attach to main tmux session
+command = ~/.config/ghostty/tmux-session.sh
+
+# Scrollback (~10k lines in bytes)
+scrollback-limit = 10000000
+
+# Bell
+bell-features = no-audio
+
+# Display
+link-url = true
+
+# Font
+font-family = SauceCodePro Nerd Font Mono
+font-style = Medium
+font-family = Fira Code
+font-family = Cascadia Code
+font-size = 19
+adjust-cell-width = -10%
+alpha-blending = linear-corrected
+window-colorspace = display-p3
+
+# Colors
 background = #000A14
-foreground = #F2F2F2
+foreground = #CCCCCC
+cursor-color = #C1CBF5
+cursor-text = #000000
+selection-background = #CFFFC2
+selection-foreground = #000000
 
-clipboard-trim-trailing-spaces
+# ANSI palette — mirrors wezterm ansi (0-7) + brights (8-15)
+# macOS variant: red=hl.red (#F50000), green=hl.green (#07C057)
+palette = 0=#0C0033
+palette = 1=#F50000
+palette = 2=#07C057
+palette = 3=#FDE9A0
+palette = 4=#055BBD
+palette = 5=#881797
+palette = 6=#2FFCF6
+palette = 7=#CCCCCC
+palette = 8=#7A7A7A
+palette = 9=#F50000
+palette = 10=#00F500
+palette = 11=#FDE9A0
+palette = 12=#2E7CD6
+palette = 13=#B347FF
+palette = 14=#00F5F5
+palette = 15=#F2F2F2
 
-keybind = ctrl+s>ctrl+r=reload_config
-
-# Splits
-keybind = ctrl+s>ctrl+[=new_split:right
-keybind = ctrl+s>ctrl+]=new_split:down
-keybind = ctrl+s>ctrl+j=goto_split:next
-keybind = ctrl+s>ctrl+k=goto_split:previous
-keybind = ctrl+s>ctrl+h=goto_split:left
-keybind = ctrl+s>ctrl+l=goto_split:right
-keybind = ctrl+s>left=resize_split:left,11
-keybind = ctrl+s>ctrl+left=resize_split:left,10
-keybind = ctrl+s>ctrl+s=write_screen_file:open
-
-# Tabs
-keybind = ctrl+s>ctrl+p=previous_tab
-keybind = ctrl+s>ctrl+n=next_tab
-keybind = ctrl+s>ctrl+t=new_tab
-
-# example
-# ignore, unbind, text:text (send literal)
-# keybind = performable:ctrl+c=copy_to_clipboard
+clipboard-trim-trailing-spaces = true

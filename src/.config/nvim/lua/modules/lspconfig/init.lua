@@ -8,6 +8,13 @@ return function()
 
     local pyroots = { 'pyproject.toml', 'setup.py', 'setup.cfg', 'requirements.txt', 'Pipfile', 'pyrightconfig.json' }
 
+    local schemas = require('schemastore').json.schemas()
+    -- ledger schema
+    table.insert(schemas, {
+        -- fileMatch = { '**/postingrules/definitions/**/*.json' },
+        -- url = 'file://' .. (vim.loop.os_homedir() .. '/src/ledger/pkg/postingrules/postingrules_schema.json'),
+    })
+
     require('neodev').setup({})
     local servers = {
         bashls = {
@@ -51,7 +58,7 @@ return function()
             filetypes = { 'json', 'jsonc' },
             settings = {
                 json = {
-                    schemas = require('schemastore').json.schemas(),
+                    schemas = schemas,
                     validate = { enable = true },
                 },
             },
