@@ -18,7 +18,7 @@ vim.g.vim_markdown_fenced_languages = {
     'rust=rs',
 }
 vim.g.vim_markdown_folding_disabled = 1
-vim.g.fugitive_github_domains = { 'github.com', 'github.cbhq.net' }
+vim.g.fugitive_github_domains = { 'github.com', 'coinbase.ghe.com', 'github.cbhq.net' }
 
 local o = vim.opt
 -- This is to fix a neovim render bug in indent-blankline.

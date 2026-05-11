@@ -8,7 +8,6 @@ fi
 
 $TMUX new-session -d -s "$SESSION"
 $TMUX new-window -t "$SESSION"
-$TMUX new-window -t "$SESSION"
-$TMUX new-window -t "$SESSION"
 $TMUX select-window -t "$SESSION:1"
-exec $TMUX attach-session -t "$SESSION"
+$TMUX attach-session -t "$SESSION"
+exec zsh -l

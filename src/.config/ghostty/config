@@ -9,6 +9,7 @@ bell-features = no-audio
 
 # Display
 link-url = true
+window-padding-y = 10
 
 # Font
 font-family = SauceCodePro Nerd Font Mono
