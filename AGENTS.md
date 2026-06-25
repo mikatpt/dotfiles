@@ -13,11 +13,15 @@ Stop when confused. Name what's unclear.
 Minimum code that solves the problem. Nothing speculative.
 No features beyond what was asked. No abstractions for single-use code.
 Test: would a senior engineer say this is overcomplicated? If yes, simplify.
+Code comments should explain why, not what.
+Interface and struct comments are great, but if they only restate their names, they are useless. Only comment when the WHY is non-obvious
+Never write defensive prose addressed to a hypothetical reviewer ("no need to do X because Y", "we considered Z but chose W"). Applies to comments and docs/TDDs alike — the reader didn't propose the alternative, don't argue against it. If a decision needs context, put it in the commit message, not the code.
 
 ## Rule 3 — Surgical Changes
 Touch only what you must. Clean up only your own mess.
 Don't "improve" adjacent code, comments, or formatting.
 Don't refactor what isn't broken. Match existing style.
+Prefer using the Edit tool on user-authored/modified code to prevent overwriting others' work.
 
 ## Rule 4 — Goal-Driven Execution
 Define success criteria. Loop until verified.
@@ -60,3 +64,6 @@ If you genuinely think a convention is harmful, surface it. Don't fork silently.
 "Completed" is wrong if anything was skipped silently.
 "Tests pass" is wrong if any were skipped.
 Default to surfacing uncertainty, not hiding it.
+
+## Rule 13 — Don't punt real bugs
+A correctness bug found during other work belongs in the current PR or surfaced immediately. Do not propose deferring it to "its own work item" or "another iteration" unless the user explicitly asks. Working code is not optional context.
