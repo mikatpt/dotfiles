@@ -78,20 +78,22 @@ M.on_attach = function(client, bufnr)
         })
     end
 
-    if client.name == 'tsserver' then
-        local ts_utils = require('nvim-lsp-ts-utils')
-        ts_utils.setup({
-            auto_inlay_hints = false,
+    -- Same-symbol highlighting (replaces nvim-treesitter-refactor, broken on nvim 0.12).
+    if client.server_capabilities.documentHighlightProvider then
+        local hl_group = vim.api.nvim_create_augroup('mikatpt_LspHighlight_' .. bufnr, { clear = true })
+        vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+            group = hl_group,
+            buffer = bufnr,
+            callback = vim.lsp.buf.document_highlight,
         })
-        ts_utils.setup_client(client)
-        -- This is behaving weird and I don't like it.
-        -- vim.api.nvim_create_autocmd('BufWritePre', {
-        --     group = format_group,
-        --     buffer = bufnr,
-        --     command = 'TSLspOrganizeSync',
-        --     desc = 'Organizes imports on save',
-        -- })
-    elseif client.name == 'rust_analyzer' then
+        vim.api.nvim_create_autocmd('CursorMoved', {
+            group = hl_group,
+            buffer = bufnr,
+            callback = vim.lsp.buf.clear_references,
+        })
+    end
+
+    if client.name == 'rust_analyzer' then
         local ns = vim.api.nvim_create_namespace('rust_analyzer')
         vim.diagnostic.config({ virtual_text = { min = 'Error' } }, ns)
     end
@@ -153,10 +155,9 @@ end
 
 -- Order of priority: Defined root patterns, then git root, then cwd.
 M.get_root = function(root_files)
-    local util = require('lspconfig').util
     return function(fname)
-        return util.root_pattern(unpack(root_files))(fname)
-            or vim.fs.dirname(vim.fs.find('.git', { path = fname, upward = true })[1])
+        return vim.fs.root(fname, root_files)
+            or vim.fs.root(fname, '.git')
             or vim.fs.dirname(fname)
     end
 end

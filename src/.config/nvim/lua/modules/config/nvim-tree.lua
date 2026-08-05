@@ -154,10 +154,6 @@ return function()
             },
             exclude = false,
         },
-        system_open = {
-            cmd = '',
-            args = {},
-        },
         git = {
             enable = not_darwin,
             show_on_dirs = true,
@@ -266,13 +262,6 @@ return function()
                 remove = true,
                 trash = true,
                 default_yes = false,
-            },
-        },
-        experimental = {
-            actions = {
-                open_file = {
-                    relative_path = false,
-                },
             },
         },
         log = {

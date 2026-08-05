@@ -49,7 +49,7 @@ M.fn.redraw_lsp = function()
 end
 
 M.fn.reload_lsp = function()
-    local active = require('lspconfig').util.get_active_clients_list_by_ft(vim.bo.filetype)
+    local active = vim.lsp.get_clients({ bufnr = 0 })
     if #active > 0 then
         vim.cmd('LspRestart')
     end

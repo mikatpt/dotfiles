@@ -13,9 +13,11 @@ Stop when confused. Name what's unclear.
 Minimum code that solves the problem. Nothing speculative.
 No features beyond what was asked. No abstractions for single-use code.
 Test: would a senior engineer say this is overcomplicated? If yes, simplify.
-Code comments should explain why, not what.
-Interface and struct comments are great, but if they only restate their names, they are useless. Only comment when the WHY is non-obvious
-Never write defensive prose addressed to a hypothetical reviewer ("no need to do X because Y", "we considered Z but chose W"). Applies to comments and docs/TDDs alike — the reader didn't propose the alternative, don't argue against it. If a decision needs context, put it in the commit message, not the code.
+
+## COMMENT RULES.
+- Code comments should explain why, not what, and be as succinct as possible.
+Interface and struct comments are forbidden if they only restate names. Only comment when the WHY is non-obvious.
+- Code comments and doc writing must be declarative, not defensive. (Bad: "no need to do X because Y", "we considered Z but chose W"). 
 
 ## Rule 3 — Surgical Changes
 Touch only what you must. Clean up only your own mess.

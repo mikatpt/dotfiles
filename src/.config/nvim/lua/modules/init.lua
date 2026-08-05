@@ -24,12 +24,10 @@ local plugins = {
     { 'tpope/vim-fugitive',                                                                },
 
     -- Display
-    { treesitter, build = ':TSUpdate',                               config = c.treesitter },
-    { treesitter .. '-refactor',                                                           },
-    { treesitter .. '-textobjects',                                                        },
-    { 'JoosepAlviste/nvim-ts-context-commentstring',                    config = c.ctxcmt  },
-    { 'nvim-treesitter/playground',                                                        },
-    { 'windwp/nvim-ts-autotag',              event = 'BufRead'                             },
+    { treesitter,               branch = 'main', lazy = false, build = ':TSUpdate', config = c.treesitter  },
+    { treesitter .. '-textobjects', branch = 'main',                                config = c.textobjects },
+    { 'JoosepAlviste/nvim-ts-context-commentstring',                                config = c.ctxcmt      },
+    { 'windwp/nvim-ts-autotag',              event = 'BufRead',                     config = c.autotag     },
     { 'lewis6991/gitsigns.nvim',                                     config = c.gitsigns   },
     { 'rcarriga/nvim-notify',                                        config = c.notify     },
     { 'feline-nvim/feline.nvim',             tag   = 'v1.1.3',       config = c.feline     },
@@ -67,8 +65,7 @@ local plugins = {
 
     -- Languages
     { 'simrat39/rust-tools.nvim',               ft     = 'rust',     config = c.rust_tools },
-    { 'folke/neodev.nvim',                      event  = 'BufRead',  lazy = true,          },
-    { 'jose-elias-alvarez/nvim-lsp-ts-utils',   lazy   = true,                             },
+    { 'folke/lazydev.nvim',                     ft     = 'lua',      opts = {}             },
     { 'MaxMEllon/vim-jsx-pretty',               event  = 'BufRead'                         },
     { 'leafgarland/typescript-vim',             event  = 'BufRead'                         },
     { 'Vimjas/vim-python-pep8-indent',                                                     },

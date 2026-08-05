@@ -1,10 +1,8 @@
 return function()
     local helpers = require('modules.lspconfig.helpers')
     local capabilities = helpers.set_capabilities()
-    local get_root = helpers.get_root
-    -- local cmd_root = vim.fn.stdpath('data') .. '/mason/bin'
 
-    vim.lsp.set_log_level('error')
+    vim.lsp.log.set_level('error')
 
     local pyroots = { 'pyproject.toml', 'setup.py', 'setup.cfg', 'requirements.txt', 'Pipfile', 'pyrightconfig.json' }
 
@@ -15,17 +13,22 @@ return function()
         -- url = 'file://' .. (vim.loop.os_homedir() .. '/src/ledger/pkg/postingrules/postingrules_schema.json'),
     })
 
-    require('neodev').setup({})
+    -- Defaults applied to every server via `vim.lsp.enable`.
+    vim.lsp.config('*', {
+        capabilities = capabilities,
+        on_attach = helpers.on_attach,
+    })
+
     local servers = {
         bashls = {
-            root_dir = get_root({ '.git' }),
+            root_markers = { '.git' },
             filetypes = { 'sh', 'zsh', 'bash' },
         },
         cssls = {
-            root_dir = get_root({ 'package.json' }),
+            root_markers = { 'package.json', '.git' },
         },
         gopls = {
-            root_dir = get_root({ 'go.mod' }),
+            root_markers = { 'go.mod', 'go.work', '.git' },
             filetypes = { 'go', 'gomod' },
             settings = {
                 gopls = {
@@ -46,14 +49,6 @@ return function()
                 },
             },
         },
-        -- Latency here is steadily rising unfortunately.
-        -- golangci_lint_ls = {
-        --     root_dir = get_root({ 'go.mod', '.golangci.yaml' }),
-        --     command = cmd_root .. '/golangci-lint-langserver',
-        --     init_options = {
-        --         command = { 'golangci-lint', 'run', '--out-format', 'json' }
-        --     },
-        -- },
         jsonls = {
             filetypes = { 'json', 'jsonc' },
             settings = {
@@ -65,7 +60,7 @@ return function()
         },
         pyright = {
             filetypes = { 'python' },
-            root_dir = get_root(pyroots),
+            root_markers = vim.list_extend(vim.deepcopy(pyroots), { '.git' }),
             settings = {
                 python = {
                     analysis = {
@@ -77,7 +72,7 @@ return function()
             },
         },
         solargraph = {
-            root_dir = get_root({ '.solargraph.yml', '.rubocop.yml' }),
+            root_markers = { '.solargraph.yml', '.rubocop.yml', '.git' },
             cmd = { vim.loop.os_homedir() .. '/.local/share/mise/shims/solargraph', 'stdio' },
             filetypes = { 'ruby' },
         },
@@ -85,6 +80,7 @@ return function()
             settings = {
                 Lua = {
                     telemetry = { enable = false },
+                    runtime = { version = 'LuaJIT' },
                     workspace = { checkThirdParty = false },
                     diagnostics = {
                         disable = { 'unused-function' },
@@ -93,11 +89,10 @@ return function()
             },
         },
         ts_ls = {
-            root_dir = get_root({ 'package.json', 'tsconfig.json', 'yarn.lock' }),
-            init_options = require('nvim-lsp-ts-utils').init_options,
+            root_markers = { 'package.json', 'tsconfig.json', 'yarn.lock', '.git' },
         },
         yamlls = {
-            root_dir = get_root({ '.git' }),
+            root_markers = { '.git' },
             settings = {
                 yaml = {
                     customTags = {
@@ -125,40 +120,24 @@ return function()
         },
     }
 
-    local function setup_servers()
-        require('modules.config').mason()
-        local lspconfig = require('lspconfig')
-        local mason_lspconfig = require('mason-lspconfig')
-        mason_lspconfig.setup({
-            ensure_installed = vim.list_extend(vim.tbl_keys(servers), { 'html', 'rust_analyzer', 'bashls' }),
-            automatic_installation = true,
-        })
-        local installed = mason_lspconfig.get_installed_servers()
-
-        for _, server in pairs(installed) do
-            if server == 'rust_analyzer' then
-                goto CONTINUE
-            end
-            local config = servers[server] or { root_dir = get_root({ '.git' }) }
-
-            config.capabilities = capabilities
-            config.on_attach = helpers.on_attach
-
-            lspconfig[server].setup(config)
-
-            ::CONTINUE::
-        end
-
-        for _, method in ipairs({ 'textDocument/diagnostic', 'workspace/diagnostic' }) do
-            local default_handler = vim.lsp.handlers[method]
-            vim.lsp.handlers[method] = function(err, result, context)
-                if err ~= nil and err.code == -32802 then
-                    return
-                end
-                return default_handler(err, result, context)
-            end
-        end
+    for name, cfg in pairs(servers) do
+        vim.lsp.config(name, cfg)
     end
 
-    setup_servers()
+    require('modules.config').mason()
+    require('mason-lspconfig').setup({
+        ensure_installed = vim.list_extend(vim.tbl_keys(servers), { 'html', 'rust_analyzer', 'bashls' }),
+        -- rust_analyzer is driven by rust-tools.nvim, not vim.lsp.enable.
+        automatic_enable = { exclude = { 'rust_analyzer' } },
+    })
+
+    for _, method in ipairs({ 'textDocument/diagnostic', 'workspace/diagnostic' }) do
+        local default_handler = vim.lsp.handlers[method]
+        vim.lsp.handlers[method] = function(err, result, context)
+            if err ~= nil and err.code == -32802 then
+                return
+            end
+            return default_handler(err, result, context)
+        end
+    end
 end

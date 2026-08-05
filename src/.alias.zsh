@@ -74,21 +74,34 @@ __err() {
 }
 
 pullup() {
-    MAIN=$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)
+    local REMOTE MAIN BRANCH
+    if git remote | grep -qx upstream; then
+        REMOTE=upstream
+    else
+        REMOTE=origin
+    fi
+    MAIN=$(git remote show $REMOTE | grep 'HEAD branch' | cut -d' ' -f5)
     BRANCH=$(git rev-parse --abbrev-ref HEAD)
-    __info "Updating $MAIN"
+    __info "Updating $MAIN from $REMOTE"
 
     if [ "$BRANCH" = "$MAIN" ]; then
-        git pull --rebase upstream $MAIN && git push origin $MAIN
+        git pull --rebase $REMOTE $MAIN || return
+        [ "$REMOTE" = upstream ] && git push origin $MAIN
     else
         (
             set -e
-            git fetch upstream $MAIN:$MAIN
-            git push origin $MAIN:$MAIN
-            __info "Rebasing $BRANCH"
-            git rebase $MAIN
+            # Fast-forward local $MAIN when possible; if it's checked out in another
+            # worktree, git refuses — fall back to a plain fetch and rebase onto the
+            # remote-tracking ref.
+            if git fetch $REMOTE $MAIN:$MAIN 2>/dev/null; then
+                [ "$REMOTE" = upstream ] && git push origin $MAIN:$MAIN
+            else
+                __warn "Local $MAIN checked out in another worktree; fetching without updating local ref"
+                git fetch $REMOTE $MAIN
+            fi
+            __info "Rebasing $BRANCH onto $REMOTE/$MAIN"
+            git rebase $REMOTE/$MAIN
         )
-
     fi
 }
 
