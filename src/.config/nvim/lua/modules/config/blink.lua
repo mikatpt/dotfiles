@@ -18,13 +18,9 @@ return function()
         keymap = {
             preset = 'enter',
             ['<Enter>'] = {
-                function(cmp)
-                    if cmp.is_active() then
-                        return cmp.accept()
-                    else
-                        return cmp.cancel()
-                    end
-                end,
+                'fallback',
+            },
+            ['<C-y>'] = {
                 'accept',
                 'fallback',
             },
