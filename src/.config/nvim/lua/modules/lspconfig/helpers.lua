@@ -79,19 +79,21 @@ M.on_attach = function(client, bufnr)
     end
 
     -- Same-symbol highlighting (replaces nvim-treesitter-refactor, broken on nvim 0.12).
-    if client.server_capabilities.documentHighlightProvider then
-        local hl_group = vim.api.nvim_create_augroup('mikatpt_LspHighlight_' .. bufnr, { clear = true })
-        vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-            group = hl_group,
-            buffer = bufnr,
-            callback = vim.lsp.buf.document_highlight,
-        })
-        vim.api.nvim_create_autocmd('CursorMoved', {
-            group = hl_group,
-            buffer = bufnr,
-            callback = vim.lsp.buf.clear_references,
-        })
-    end
+    -- Disabled: some LSP servers (e.g. gopls) highlight full function blocks in
+    -- LspReferenceText, which is loud with the current colorscheme.
+    -- if client.server_capabilities.documentHighlightProvider then
+    --     local hl_group = vim.api.nvim_create_augroup('mikatpt_LspHighlight_' .. bufnr, { clear = true })
+    --     vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+    --         group = hl_group,
+    --         buffer = bufnr,
+    --         callback = vim.lsp.buf.document_highlight,
+    --     })
+    --     vim.api.nvim_create_autocmd('CursorMoved', {
+    --         group = hl_group,
+    --         buffer = bufnr,
+    --         callback = vim.lsp.buf.clear_references,
+    --     })
+    -- end
 
     if client.name == 'rust_analyzer' then
         local ns = vim.api.nvim_create_namespace('rust_analyzer')

@@ -200,6 +200,16 @@ local function commands()
             Manager.remove(msg)
         end
     end, {})
+
+    cmd('LspStop', function(opts)
+        local id = tonumber(opts.args)
+        local clients = id and { vim.lsp.get_client_by_id(id) } or vim.lsp.get_clients()
+        for _, c in ipairs(clients) do
+            if c then
+                c:stop()
+            end
+        end
+    end, { nargs = '?' })
 end
 
 local function quit_saga_rename()
