@@ -1,0 +1,69 @@
+onboarding = false
+
+# Translated from .tmux.conf. See PR/commit notes for items with no herdr
+# equivalent — not everything below carries over 1:1.
+
+[keys]
+prefix = "ctrl+s"
+
+# Pane focus — tmux: C-h/C-l select-pane -L/-R, C-k/C-j previous/next by
+# index, plain j/k select-pane -D/-U
+cycle_pane_previous = ["prefix+ctrl+k","prefix+ctrl+h"]
+cycle_pane_next = ["prefix+ctrl+j","prefix+ctrl+l"]
+
+# Splits — tmux: C-[ split -h, C-] split -v
+split_horizontal = "prefix+ctrl+]"
+split_vertical = "prefix+ctrl+["
+
+# Resize — tmux: repeatable arrow / C-arrow at 2-cell steps
+resize_pane_up = ["prefix+up", "prefix+ctrl+up"]
+resize_pane_down = ["prefix+down", "prefix+ctrl+down"]
+resize_pane_left = ["prefix+left", "prefix+ctrl+left"]
+resize_pane_right = ["prefix+right", "prefix+ctrl+right"]
+
+close_pane = "prefix+ctrl+w"          # tmux: C-w confirm-before kill-pane
+                                        # (ui.confirm_close below covers the prompt)
+
+# Tabs (tmux windows)
+new_tab = ["prefix+t", "prefix+ctrl+t"]
+previous_tab = "prefix+ctrl+p"
+next_tab = "prefix+ctrl+n"
+rename_tab = ["prefix+comma", "prefix+ctrl+comma"]
+switch_tab = "prefix+1..9"             # tmux bound these as prefix+C-1..9;
+                                        # dropping the redundant ctrl modifier
+move_tab_previous = "ctrl+shift+left"  # tmux: -n C-S-Left swap+select
+move_tab_next = "ctrl+shift+right"
+
+# Workspaces (tmux sessions)
+new_workspace = ["prefix+m", "prefix+ctrl+m"]
+detach = "prefix+ctrl+d"
+
+# Worktrees — new_worktree defaults to prefix+shift+g; open/remove ship unbound
+open_worktree = "prefix+shift+o"
+
+copy_mode = "prefix+ctrl+a"            # same key as prefix, pressed twice (tmux: C-s C-s)
+toggle_sidebar = ["prefix+b", "prefix+ctrl+b"]
+settings = "prefix+ctrl+."
+reload_config = ["prefix+r", "prefix+ctrl+r"]
+
+[ui]
+confirm_close = true                   # backs close_pane's confirm prompt
+prompt_new_workspace_name = true       # tmux: C-m command-prompt "new-session -s '%%'"
+prompt_new_tab_name = false            # stop asking for a name on every new tab
+mouse_scroll_lines = 3                 # already matches tmux's -N 3 scroll binds
+pane_gaps = false                      # share dividers instead of gapping panes
+pane_borders = "off"                   # removes divider lines entirely (gaps=false alone still draws them)
+
+pane_outer_borders = false
+[theme]
+name = "terminal"
+
+[theme.custom]
+panel_bg = "#000A14"
+sidebar_bg = "#000A14"
+accent = "#00aceb"
+mauve = "#9E30C0"
+blue = "#00aceb"
+green = "#98be65"
+red = "#ae403f"
+yellow = "#f09f17"

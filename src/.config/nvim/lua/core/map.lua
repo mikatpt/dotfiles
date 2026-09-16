@@ -49,7 +49,6 @@ icnoremap('<C-BS>',       '<C-W>')
 icnoremap('<C-H>',        '<C-W>')
 
 -- misc convenience stuff.
-map_lsp('i', '<C-J>',     '<Esc>o')
 map_lsp('i', '<C-CR>',    '<Esc><S-O>')
 map_lsp('n', '<C-G>',     'A;<Esc>') -- C-G is equivalent to <C-'>
 map_lsp('i', '<C-G>',     '<Esc>A;')
