@@ -167,7 +167,7 @@ end
 
 -- Telescope
 local cfg_path = vim.fn.stdpath('config')
-nnoremap('<C-P>',              function() require('telescope.builtin').git_files({}) end)
+nnoremap('<C-P>',              function() utils.fn.project_files({}) end)
 
 nnoremap('<leader>o',          '<CMD>Telescope oldfiles file_ignore_patterns={}<CR>')
 nnoremap('<leader>z',          function() require('telescope.builtin').git_files({ prompt_title = 'Dotfiles', cwd = cfg_path, file_ignore_patterns = {} }) end)
@@ -177,8 +177,8 @@ nnoremap('<leader>q',          '<CMD>TroubleToggle document_diagnostics<CR>')
 nnoremap('<leader>Q',          '<CMD>TroubleToggle workspace_diagnostics<CR>')
 
 -- Ripgrep for input or current word
-nnoremap('<leader>f',          function() require('telescope.builtin').live_grep({ prompt_title = 'Find Text', layout_strategy = 'vertical' }) end)
-vnoremap('<leader>f',          function() require('telescope.builtin').live_grep({ default_text = vim.fn.expand('<cword>'), layout_strategy = 'vertical' }) end)
+nnoremap('<leader>f',          function() require('telescope.builtin').live_grep({ prompt_title = 'Find Text', layout_strategy = 'vertical', cwd = utils.fn.project_root() }) end)
+vnoremap('<leader>f',          function() require('telescope.builtin').live_grep({ default_text = vim.fn.expand('<cword>'), layout_strategy = 'vertical', cwd = utils.fn.project_root() }) end)
 nnoremap('<leader>w',          '<CMD>TodoTelescope layout_strategy=vertical<CR>')
 
 -- DB

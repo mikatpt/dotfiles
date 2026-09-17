@@ -43,6 +43,90 @@ M.fn.is_git_dir = function()
     return os.execute('git rev-parse --is-inside-work-tree >> /dev/null 2>&1') == 0
 end
 
+local root_markers = {
+    '.git',
+    '.hg',
+    '.svn',
+    'go.mod',
+    'go.work',
+    'Cargo.toml',
+    'package.json',
+    'pyproject.toml',
+    'setup.py',
+    'setup.cfg',
+    'pom.xml',
+    'build.gradle',
+    'composer.json',
+    'Gemfile',
+    'mix.exs',
+}
+
+-- Outermost directory still joined to `file` by a chain of `marker` files. Used
+-- for ecosystems whose libraries carry no manifest (e.g. the Python stdlib),
+-- where the package boundary is the only signal of where the unit begins.
+local outermost_with = function(file, marker)
+    local uv = vim.uv or vim.loop
+    local dir = vim.fs.dirname(file)
+    if not uv.fs_stat(dir .. '/' .. marker) then
+        return nil
+    end
+    while true do
+        local parent = vim.fs.dirname(dir)
+        if parent == dir or not uv.fs_stat(parent .. '/' .. marker) then
+            return dir
+        end
+        dir = parent
+    end
+end
+
+-- Root of the CURRENT buffer, resolved so pickers follow you when you jump into
+-- another project or a read-only dependency tree.
+M.fn.project_root = function()
+    local buf = vim.api.nvim_get_current_buf()
+    local fname = vim.api.nvim_buf_get_name(buf)
+    if fname == '' then
+        return vim.fn.getcwd()
+    end
+
+    -- Nearest VCS/manifest marker. `stop` at $HOME keeps a dotfiles repo rooted at
+    -- $HOME from swallowing every dependency under it (~/go, ~/.cargo, ...).
+    local hit = vim.fs.find(root_markers, { upward = true, path = fname, stop = vim.env.HOME })[1]
+    if hit then
+        return vim.fs.dirname(hit)
+    end
+
+    -- Manifest-less language units. One entry per ecosystem that needs it.
+    if fname:match('%.py$') then
+        local pkg = outermost_with(fname, '__init__.py')
+        if pkg then
+            return pkg
+        end
+    end
+
+    -- An attached LSP client whose root actually contains this file, then cwd.
+    for _, c in pairs(vim.lsp.get_clients({ bufnr = buf })) do
+        local rd = c.config.root_dir
+        if rd and fname:sub(1, #rd) == rd then
+            return rd
+        end
+    end
+    return vim.fn.getcwd()
+end
+
+-- Find files in the current buffer's project or library: git_files inside a repo,
+-- find_files in a plain directory (dependency trees aren't git repos).
+M.fn.project_files = function(opts)
+    opts = opts or {}
+    opts.cwd = M.fn.project_root()
+    local uv = vim.uv or vim.loop
+    local builtin = require('telescope.builtin')
+    if uv.fs_stat(opts.cwd .. '/.git') then
+        builtin.git_files(opts)
+    else
+        builtin.find_files(opts)
+    end
+end
+
 M.fn.redraw_lsp = function()
     vim.diagnostic.enable(false)
     vim.diagnostic.enable(true)

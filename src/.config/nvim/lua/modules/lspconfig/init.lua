@@ -4,6 +4,17 @@ return function()
 
     vim.lsp.log.set_level('error')
 
+    -- Several servers (pyright, ts_ls, jsonls, yamlls, ...) are Node-based. mise only
+    -- puts `node` on PATH inside directories where it's pinned, so launching nvim
+    -- outside that tree makes those servers die silently with exit code 127.
+    if vim.fn.executable('node') == 0 then
+        vim.notify(
+            "nvim's PATH has no `node` — Node-based LSP servers (pyright, ts_ls, jsonls, ...) will fail to start. "
+                .. 'Check `mise current` in the directory nvim was launched from.',
+            vim.log.levels.ERROR
+        )
+    end
+
     local pyroots = { 'pyproject.toml', 'setup.py', 'setup.cfg', 'requirements.txt', 'Pipfile', 'pyrightconfig.json' }
 
     local schemas = require('schemastore').json.schemas()
@@ -121,6 +132,16 @@ return function()
     }
 
     for name, cfg in pairs(servers) do
+        -- Packaged configs (nvim-lspconfig's lsp/*.lua) can ship their own on_attach
+        -- (e.g. pyright's). vim.lsp.config merges with tbl_deep_extend, which doesn't
+        -- chain functions, so that on_attach would otherwise silently replace ours.
+        local packaged_on_attach = vim.lsp.config[name] and vim.lsp.config[name].on_attach
+        if packaged_on_attach then
+            cfg.on_attach = function(client, bufnr)
+                helpers.on_attach(client, bufnr)
+                packaged_on_attach(client, bufnr)
+            end
+        end
         vim.lsp.config(name, cfg)
     end
 
@@ -139,5 +160,17 @@ return function()
             end
             return default_handler(err, result, context)
         end
+    end
+
+    -- Treesitter already conceals markdown entity_reference nodes (&nbsp; etc.) as
+    -- real characters, but open_floating_preview hardcodes concealcursor = '', which
+    -- reveals the raw entity on whichever line the cursor sits on. Keep concealing.
+    local default_open_float = vim.lsp.util.open_floating_preview
+    vim.lsp.util.open_floating_preview = function(contents, syntax, opts)
+        local floating_bufnr, winid = default_open_float(contents, syntax, opts)
+        if winid and vim.api.nvim_win_is_valid(winid) then
+            vim.wo[winid].concealcursor = 'n'
+        end
+        return floating_bufnr, winid
     end
 end

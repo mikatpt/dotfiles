@@ -10,6 +10,8 @@ prefix = "ctrl+s"
 # index, plain j/k select-pane -D/-U
 cycle_pane_previous = ["prefix+ctrl+k","prefix+ctrl+h"]
 cycle_pane_next = ["prefix+ctrl+j","prefix+ctrl+l"]
+navigate_pane_left = "h"
+navigate_pane_right = "l"
 
 # Splits — tmux: C-[ split -h, C-] split -v
 split_horizontal = "prefix+ctrl+]"
@@ -36,10 +38,13 @@ move_tab_next = "ctrl+shift+right"
 
 # Workspaces (tmux sessions)
 new_workspace = ["prefix+m", "prefix+ctrl+m"]
+workspace_picker = ["prefix+w"]
+next_workspace = "prefix+ctrl+shift+n"
+previous_workspace = "prefix+ctrl+shift+p"
 detach = "prefix+ctrl+d"
 
-# Worktrees — new_worktree defaults to prefix+shift+g; open/remove ship unbound
-open_worktree = "prefix+shift+o"
+open_worktree = "prefix+ctrl+o"
+new_worktree = "prefix+ctrl+shift+o"
 
 copy_mode = "prefix+ctrl+a"            # same key as prefix, pressed twice (tmux: C-s C-s)
 toggle_sidebar = ["prefix+b", "prefix+ctrl+b"]
@@ -52,18 +57,24 @@ prompt_new_workspace_name = true       # tmux: C-m command-prompt "new-session -
 prompt_new_tab_name = false            # stop asking for a name on every new tab
 mouse_scroll_lines = 3                 # already matches tmux's -N 3 scroll binds
 pane_gaps = false                      # share dividers instead of gapping panes
-pane_borders = "off"                   # removes divider lines entirely (gaps=false alone still draws them)
+pane_borders = "auto"                   # removes divider lines entirely (gaps=false alone still draws them)
 
 pane_outer_borders = false
+sound.done_path = "/Users/mikatpt/config/src/sounds/purr.mp3"
+sound.request_path = "/Users/mikatpt/config/src/sounds/morse.mp3"
+sidebar_collapsed_mode = "hidden"      # toggle_sidebar fully hides instead of leaving a compact strip
+sidebar_start_collapsed = true         # takes effect on next full launch, not config reload
+
 [theme]
 name = "terminal"
 
 [theme.custom]
-panel_bg = "#000A14"
-sidebar_bg = "#000A14"
-accent = "#00aceb"
+# panel_bg = "#000A14"
+# sidebar_bg = "#000A14"
+selection_bg = "#fde7a0"
+accent = "#1c6e53"
 mauve = "#9E30C0"
 blue = "#00aceb"
-green = "#98be65"
+# green = "#98be65"
 red = "#ae403f"
-yellow = "#f09f17"
+yellow = "#fde7a0"
