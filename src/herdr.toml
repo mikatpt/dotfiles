@@ -62,6 +62,7 @@ pane_borders = "auto"                   # removes divider lines entirely (gaps=f
 pane_outer_borders = false
 sound.done_path = "/Users/mikatpt/config/src/sounds/purr.mp3"
 sound.request_path = "/Users/mikatpt/config/src/sounds/morse.mp3"
+sound.path = "/Users/mikatpt/config/src/sounds/ping.mp3"      # fallback for any state not done/request (e.g. error/stop)
 sidebar_collapsed_mode = "hidden"      # toggle_sidebar fully hides instead of leaving a compact strip
 sidebar_start_collapsed = true         # takes effect on next full launch, not config reload
 

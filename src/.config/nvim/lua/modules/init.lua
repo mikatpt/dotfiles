@@ -22,6 +22,7 @@ local plugins = {
     { 'nvim-lua/plenary.nvim',                                                             },
     { 'tpope/vim-rhubarb',                                                                 },
     { 'tpope/vim-fugitive',                                                                },
+    { 'sindrets/diffview.nvim'          },
 
     -- Display
     { treesitter,               branch = 'main', lazy = false, build = ':TSUpdate', config = c.treesitter  },

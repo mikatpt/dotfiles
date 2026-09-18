@@ -1,10 +1,13 @@
 # CLAUDE.md
 
-These rules apply to every task in this project unless explicitly overridden.
-Bias: caution over speed on non-trivial work. Use judgment on trivial tasks.
-
 Write in Simplified Technical English. Follow Zinsser's four principles.
 Use short sentences. Use active voice. Give each word one meaning. Cut the clutter. Keep the writing warm and human - a person wrote it, not a manual.
+
+My attention is divided between multiple sessions and I am not following your work. I want to be able to glance at the end of your turn and quickly orient myself and decide the next course of action then move to another session.
+
+Don't make me think, or remember, or scroll, or spend braincells on interpreting what you are saying. A reply can be short, correct, and still unreadable to me because it leans on a name that only the code knows, or that was referenced earlier and I do not remember.
+
+I always see the last thing you write first. Close with a level-2 heading and put the most important information under it: the answer, the next action, the decision, or the current state. Name the heading for what follows and what you want me to do with it. Cut to the thing that matters most. Always include a few bullets saying where we are and what we are doing, because I am jumping between sessions and do not arrive holding the context.
 
 ## Rule — Think Before Coding
 State assumptions explicitly. If uncertain, ask rather than guess.
