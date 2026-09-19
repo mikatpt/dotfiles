@@ -22,7 +22,7 @@ local plugins = {
     { 'nvim-lua/plenary.nvim',                                                             },
     { 'tpope/vim-rhubarb',                                                                 },
     { 'tpope/vim-fugitive',                                                                },
-    { 'sindrets/diffview.nvim'          },
+    { 'sindrets/diffview.nvim',                              config = c.diffview   },
 
     -- Display
     { treesitter,               branch = 'main', lazy = false, build = ':TSUpdate', config = c.treesitter  },
@@ -71,6 +71,12 @@ local plugins = {
     { 'leafgarland/typescript-vim',             event  = 'BufRead'                         },
     { 'Vimjas/vim-python-pep8-indent',                                                     },
     { 'b0o/schemastore.nvim',                                                              },
+
+    -- Jupyter / Notebooks
+    { 'benlubas/molten-nvim',      version = '^1', build = ':UpdateRemotePlugins', ft = { 'ipynb', 'markdown', 'quarto', 'python' }, config = c.molten },
+    { '3rd/image.nvim',                            ft     = { 'ipynb', 'markdown', 'quarto' },                                       config = c.image  },
+    { 'GCBallesteros/jupytext.nvim',                lazy   = false,                                                                  config = c.jupytext },
+    { 'quarto-dev/quarto-nvim',                     lazy   = false,                                                                    dependencies = { 'jmbuhr/otter.nvim' },        config = c.quarto },
 
     -- Databases
     { 'tpope/vim-dadbod'                                                                   },

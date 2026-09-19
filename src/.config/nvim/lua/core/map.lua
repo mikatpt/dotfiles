@@ -150,8 +150,8 @@ nnoremap('<leader>hj',    '<CMD>diffget //2<CR>' )
 nnoremap('<leader>hk',    '<CMD>diffget //3<CR>' )
 
 -- Reload neovim configuration and LSP
-nnoremap('<leader>rl',         function() require('core.utils').fn.reload_lsp() end)
-nnoremap('<leader>rr',         function() require('core.utils').fn.reload_config() end, nonsilent)
+nnoremap('<leader><S-R><S-L>',         function() require('core.utils').fn.reload_lsp() end)
+nnoremap('<leader><S-R><S-R>',         function() require('core.utils').fn.reload_config() end, nonsilent)
 
 -- Harpoon
 nnoremap('<leader><S-P><S-M>', function() require('harpoon-finder.mark').toggle_dir() end)
@@ -183,3 +183,13 @@ nnoremap('<leader>w',          '<CMD>TodoTelescope layout_strategy=vertical<CR>'
 
 -- DB
 nnoremap('<leader><S-D>',      '<CMD>DBUIToggle<CR>')
+
+-- Jupyter / Molten
+nnoremap('<leader>ri',         '<CMD>MoltenInit<CR>')
+nnoremap('<leader>re',         '<CMD>MoltenEvaluateOperator<CR>')
+vnoremap('<leader>re',         ':<C-u>MoltenEvaluateVisual<CR>gv', nonsilent)
+nnoremap('<leader>rl',         '<CMD>MoltenEvaluateLine<CR>')
+nnoremap('<leader>re',         '<CMD>MoltenReevaluateCell<CR>')
+nnoremap('<leader>rd',         '<CMD>MoltenDelete<CR>')
+nnoremap('<leader>ros',        ':noautocmd MoltenEnterOutput<CR>', nonsilent)
+nnoremap('<leader>roh',        '<CMD>MoltenHideOutput<CR>')

@@ -1,6 +1,8 @@
 -- For some reason, all vim.o options are typed as tables.
 ---@diagnostic disable assign-type-mismatch
 -- Global variables
+-- Pinned so molten-nvim's remote-plugin host doesn't depend on mise's per-directory python3 shim.
+vim.g.python3_host_prog = vim.fn.expand('~/.local/share/mise/installs/python/3.12.0/bin/python3')
 vim.g.netrw_browse_split = 0
 vim.g.netrw_liststyle = 4
 vim.g.netrw_banner = 0
