@@ -20,7 +20,7 @@ c.default_domain = is_wsl and 'WSL:Ubuntu-24.04' or 'local'
 c.font = wezterm.font_with_fallback(fonts)
 c.freetype_load_flags = 'NO_HINTING'
 c.font_size = is_wsl and 12.6 or 19
-c.leader = { key = 's', mods = 'CTRL', timeout_milliseconds = 1000 }
+c.leader = { key = '0', mods = 'CTRL', timeout_milliseconds = 1000 }
 c.use_fancy_tab_bar = false
 c.tab_bar_at_bottom = false
 c.tab_max_width = 50
@@ -505,22 +505,14 @@ c.key_tables = {
 
 local mux = wezterm.mux
 
+-- Herdr owns workspaces/tabs/panes from here; run `home_start` (fish) once
+-- per herdr session to bring up the homeserver listener.
 local function home_startup(_)
-    local _, pane, window = mux.spawn_window({
-        workspace = 'home',
-        cwd = '/home/mikatpt/coding/homeserver',
-    })
-    pane:send_text('keychain --eval $SSH_KEYS_TO_AUTOLOAD | source\n')
-    pane:send_text('cargo run -r --bin listener\n')
-    _, pane, window = mux.spawn_window({
+    local _, pane, _ = mux.spawn_window({
         workspace = 'main',
         cwd = '~',
-        args = { 'fish', '-l' },
+        args = { 'fish', '-l', '-c', 'exec herdr' },
     })
-
-    for _ = 1, 3 do
-        window:spawn_tab({ cwd = '~' })
-    end
     mux.set_active_workspace('main')
     pane:activate()
 end

@@ -15,7 +15,7 @@ navigate_pane_right = "l"
 
 # Splits — tmux: C-[ split -h, C-] split -v
 split_horizontal = "prefix+ctrl+]"
-split_vertical = "prefix+ctrl+["
+split_vertical = ["prefix+ctrl+[", "prefix+ctrl+\\"] # ctrl+[ doesn't work in wezterm for some reason
 
 # Resize — tmux: repeatable arrow / C-arrow at 2-cell steps
 resize_pane_up = ["prefix+up", "prefix+ctrl+up"]
@@ -61,9 +61,9 @@ pane_borders = "auto"                   # removes divider lines entirely (gaps=f
 
 pane_outer_borders = false
 pane_scrollbars = false                # only on/off toggle available; off avoids the double-border look
-sound.done_path = "/Users/mikatpt/config/src/sounds/purr.mp3"
-sound.request_path = "/Users/mikatpt/config/src/sounds/morse.mp3"
-sound.path = "/Users/mikatpt/config/src/sounds/ping.mp3"      # fallback for any state not done/request (e.g. error/stop)
+sound.done_path = "../../config/src/sounds/purr.mp3"
+sound.request_path = "../../config/src/sounds/morse.mp3"
+sound.path = "../../config/src/sounds/ping.mp3"      # fallback for any state not done/request (e.g. error/stop)
 sidebar_collapsed_mode = "hidden"      # toggle_sidebar fully hides instead of leaving a compact strip
 sidebar_start_collapsed = true         # takes effect on next full launch, not config reload
 

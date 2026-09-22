@@ -24,10 +24,10 @@ function fda
     cd $dir
 end
 
-# Tmux
-function t --wraps=tmux; tmux; end
-abbr -ag ta 'tmux attach'
-abbr -ag tn 'tmux new-session'
+# Herdr
+function t --wraps=herdr; herdr; end
+abbr -ag ta 'herdr session attach'
+abbr -ag tn 'herdr --session'
 
 abbr -ag .. 'cd ..'
 abbr -ag ... 'cd ../..'
