@@ -1,7 +1,3 @@
--- Keep notebook fences visible so their code and boundaries remain editable.
-vim.opt_local.conceallevel = 0
-vim.opt_local.concealcursor = ''
-
 require('quarto').activate()
 
 local runner = require('quarto.runner')

@@ -168,7 +168,8 @@ return function()
     local default_open_float = vim.lsp.util.open_floating_preview
     vim.lsp.util.open_floating_preview = function(contents, syntax, opts)
         local floating_bufnr, winid = default_open_float(contents, syntax, opts)
-        if winid and vim.api.nvim_win_is_valid(winid) then
+        if winid and vim.api.nvim_win_is_valid(winid) and opts and opts.focus_id == 'textDocument/hover' then
+            vim.wo[winid].conceallevel = 2
             vim.wo[winid].concealcursor = 'n'
         end
         return floating_bufnr, winid

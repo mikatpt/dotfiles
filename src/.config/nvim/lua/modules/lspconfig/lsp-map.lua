@@ -21,7 +21,7 @@ M.attach_mappings = function(client, bufnr)
     nnoremap('gp', function() require('lspsaga.definition'):init(1, 1) end)
 
     -- Actions
-    nnoremap('<leader>rn', function() require('lspsaga.rename'):lsp_rename() end)
+    nnoremap('<leader>rn', function() vim.lsp.buf.rename() end)
     nnoremap('<space>ca',  function() require('lspsaga.codeaction'):code_action() end)
     vnoremap('<space>ca',  function() require('lspsaga.codeaction'):code_action() end)
 
