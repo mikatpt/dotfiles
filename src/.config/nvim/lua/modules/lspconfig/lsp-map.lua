@@ -53,8 +53,6 @@ M.attach_mappings = function(client, bufnr)
     nnoremap('<F11>',       function() require('dap').step_into() end)
     nnoremap('<F12>',       function() require('dap').step_out() end)
     nnoremap('<C-Y>',       function() require('dapui').toggle({}) end)
-    nnoremap('<leader>d',   function() require('dapui').eval() end)
-    vnoremap('<leader>d',   function() require('dapui').eval() end)
     nnoremap('<C-B>',       function() require('dap').toggle_breakpoint() end)
 end
 

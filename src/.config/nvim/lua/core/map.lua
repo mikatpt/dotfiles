@@ -181,15 +181,15 @@ nnoremap('<leader>f',          function() require('telescope.builtin').live_grep
 vnoremap('<leader>f',          function() require('telescope.builtin').live_grep({ default_text = vim.fn.expand('<cword>'), layout_strategy = 'vertical', cwd = utils.fn.project_root() }) end)
 nnoremap('<leader>w',          '<CMD>TodoTelescope layout_strategy=vertical<CR>')
 
--- DB
-nnoremap('<leader><S-D>',      '<CMD>DBUIToggle<CR>')
+-- Diffview toggle.
+nnoremap('<leader><S-D>',      function()
+    if require('diffview.lib').get_current_view() then
+        vim.cmd('DiffviewClose')
+    else
+        vim.cmd('DiffviewOpen')
+    end
+end)
 
--- Jupyter / Molten
-nnoremap('<leader>ri',         '<CMD>MoltenInit<CR>')
-nnoremap('<leader>re',         '<CMD>MoltenEvaluateOperator<CR>')
-vnoremap('<leader>re',         ':<C-u>MoltenEvaluateVisual<CR>gv', nonsilent)
-nnoremap('<leader>rl',         '<CMD>MoltenEvaluateLine<CR>')
-nnoremap('<leader>re',         '<CMD>MoltenReevaluateCell<CR>')
-nnoremap('<leader>rd',         '<CMD>MoltenDelete<CR>')
-nnoremap('<leader>ros',        ':noautocmd MoltenEnterOutput<CR>', nonsilent)
-nnoremap('<leader>roh',        '<CMD>MoltenHideOutput<CR>')
+-- buffer-local <leader>d overrides this to toggle_files
+-- once inside Diffview view, so this only fires outside of it.
+nnoremap('<leader>d',          '<CMD>DiffviewOpen<CR>')
