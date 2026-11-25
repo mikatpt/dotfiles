@@ -46,6 +46,7 @@ local plugins = {
     { 'stevearc/oil.nvim',                                           config = c.oil        },
     { 'nvim-telescope/telescope-fzf-native.nvim',                    build  = 'make'       },
     { 'nvim-telescope/telescope.nvim',                               config = c.telescope  },
+    { 'folke/snacks.nvim', priority = 1000, lazy = false, opts = { picker = { enabled = true, ui_select = true } } },
     { 'junegunn/fzf',                        build = './install --bin'                     },
     { 'ahmedkhalf/project.nvim',                                     config = c.project    },
 
@@ -88,6 +89,14 @@ local plugins = {
     { 'windwp/nvim-autopairs',              event  = 'InsertEnter',  config = c.autopairs  },
     { 'L3MON4D3/LuaSnip', version = 'v2.*', config = c.snip, build = 'make install_jsregexp' },
 }
+
+-- Machine-local plugins (e.g. work-only) live outside this repo.
+local local_specs = vim.fn.expand('~/.config/nvim-local/plugins.lua')
+if vim.fn.filereadable(local_specs) == 1 then
+    local ok, specs = pcall(dofile, local_specs)
+    if ok then vim.list_extend(plugins, specs)
+    else vim.notify('nvim-local: ' .. specs, vim.log.levels.WARN) end
+end
 
 if vim.g.vscode then
     plugins = {

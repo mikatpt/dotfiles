@@ -9,6 +9,12 @@ Don't make me think, or remember, or scroll, or spend braincells on interpreting
 
 I always see the last thing you write first. Close with a level-2 heading and put the most important information under it: the answer, the next action, the decision, or the current state. Name the heading for what follows and what you want me to do with it. Cut to the thing that matters most. Always include a few bullets saying where we are and what we are doing, because I am jumping between sessions and do not arrive holding the context.
 
+## Code search
+- Exact identifier or string known → Grep / `rg`.
+- Only the behavior or concept known → `sgrep "<plain-English question>" <dir> -n 10`.
+- Too many `rg` hits → rank them: `rg --json -C 3 '<pattern>' <dir> | sgrep "<question>" --stdin`.
+- Add `--json` when you will parse the output.
+
 ## Rule — Think Before Coding
 State assumptions explicitly. If uncertain, ask rather than guess.
 Present multiple interpretations when ambiguity exists.

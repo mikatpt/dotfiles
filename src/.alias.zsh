@@ -149,6 +149,7 @@ alias merge='git merge'
 alias gmt='git mergetool'
 alias mergetool='git mergetool'
 alias rebase='git rebase'
+alias uuid="uuidgen | tr -d '\n' | tr A-Z a-z | pbcopy"
 
 alias pingg='ping www.google.com'    # See network speed against google.com
 alias myip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'"
